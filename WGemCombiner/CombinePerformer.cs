@@ -401,14 +401,14 @@ namespace WGemCombiner
         { mouse_event(2, 0, 0, 0, UIntPtr.Zero); }
         private void ReleaseMouse()
         { mouse_event(4, 0, 0, 0, UIntPtr.Zero); }
-        [DllImport("user32.dll")]
-        static extern void keybd_event(uint bvK, uint bScan, uint dwFlags, UIntPtr dwExtraInfo);
-        private void PressKey(uint K)
-        {
-            keybd_event(K, 0, 4, UIntPtr.Zero);
-            Thread.Sleep(3);
-            keybd_event(K, 0, 2, UIntPtr.Zero);
-        }
+        //[DllImport("user32.dll")]
+        //static extern void keybd_event(uint bvK, uint bScan, uint dwFlags, UIntPtr dwExtraInfo);
+        //private void PressKey(uint K)
+        //{
+        //    keybd_event(K, 0, 4, UIntPtr.Zero);
+        //    Thread.Sleep(3);
+        //    keybd_event(K, 0, 2, UIntPtr.Zero);
+        //}
         const int SLOT_SIZE = 28;
         public delegate void DEL_STEPC(int stepID);
         public event DEL_STEPC StepComplete;
@@ -424,9 +424,9 @@ namespace WGemCombiner
                 MoveCursor(sA1.X - (sPos.X * SLOT_SIZE), sA1.Y - (sPos.Y * SLOT_SIZE));
                 //Thread.Sleep(sleep_time);
                 if (inst[i].Y == INST_DUPE)
-                    PressKey((uint)Keys.D);
+                    SendKeys.SendWait("d");
                 else if (inst[i].Y == INST_UPGR)
-                    PressKey((uint)Keys.U);
+                    SendKeys.SendWait("u");
                 else if (inst[i].Y < 0) // Move gem (only used when slots are compressed)
                 {
                     PressMouse();

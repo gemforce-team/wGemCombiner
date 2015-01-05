@@ -60,8 +60,8 @@ namespace WGemCombiner
                 "(valid) color's letter. Be sure you have your two gems in the proper slots, though!");
 
             addHelpMessage("Input Format", "\nExample of combining equations:\n(val = 1)\t0 = g1 orange\n(val = 2)\t1 = 0 + 0\n(val = 3)\t2 = 1 + 0" +
-                        "\nWorks if you have first gem as '1' and second as '2', etc, as well." +
-                        "\n\nExample of parenthesis formula:\n(2+1)+1\nor\n(1+0)+0\nor\n(2m+m)+m\nIf zeros are present they are treated as 1s and 1s as 2s.");
+                "\nWorks if you have first gem as '1' and second as '2', etc, as well." +
+                "\n\nExample of parenthesis formula:\n(2+1)+1\nor\n(1+0)+0\nor\n(2m+m)+m\nIf zeros are present they are treated as 1s and 1s as 2s.");
 
             addHelpMessage("Presets", "\nPreset schemes are now supported. To use one, first select a color + combine/spec from the top drop-down list.\n" +
                 "After selecting a color + combine/spec, the second drop-down list will display the preset options. First number is number of base gems, " +
@@ -72,8 +72,14 @@ namespace WGemCombiner
                 "These are not the best combines by themselves." +
                 "\n\nSorry, but not all presets are added in yet! Be patient.");
 
-
+            addHelpMessage("Credits", credits + "\n\nTo report a problem, go to github.com/gemforce-team/wGemCombiner/issues");
         }
+        public static string credits = "Gem Combiner was made by Suuper.\n" +
+                "Testing help: Hellrage, 12345ieee" +
+                "\nProgramming help: \n" +
+                "-12345ieee (some spec parsing, preset recipies) \n" +
+                "-Hellrage (some GUI tweaks, skin, small bugfixes)" +
+                "\n\nRelease version: 1.0.3";
 
         private void addHelpMessage(string title, string message)
         {

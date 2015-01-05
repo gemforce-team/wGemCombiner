@@ -306,11 +306,7 @@ namespace WGemCombiner
         // Credits
         private void creditsLabel_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Gem Combiner was made by Suuper.\n" +
-                "Testing help: Hellrage, 12345ieee" +
-                "\nProgramming help: \n" +
-                "-12345ieee (some spec parsing, recipes help) \n" +
-                "-Hellrage (some GUI tweaks, skin, small bugfixes)");
+            MessageBox.Show(HelpForm.credits);
         }
 
         //[HR] from here down
