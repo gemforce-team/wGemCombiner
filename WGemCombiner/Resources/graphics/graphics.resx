@@ -124,9 +124,6 @@
   <data name="Form1BG_Framed" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Form1BG_Framed.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="GCIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>GCIcon.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="HelpFormBG_Framed" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>HelpFormBG_Framed.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
