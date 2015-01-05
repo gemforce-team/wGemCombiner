@@ -29,7 +29,7 @@ namespace WGemCombiner
         {
             if (controlToSkin is Form)
             {
-                ResourceManager resManager = WGemCombiner.Resources.Graphics.Graphics.ResourceManager;//new ResourceManager("WGemCombiner.Resources.Graphics", Assembly.GetExecutingAssembly());
+                ResourceManager resManager = WGemCombiner.Resources.Graphics.Graphics.ResourceManager;
                 controlToSkin.BackgroundImage = (Image)resManager.GetObject(controlToSkin.Name + "BG_Framed");
                 controlToSkin.BackgroundImageLayout = ImageLayout.Stretch;
             }

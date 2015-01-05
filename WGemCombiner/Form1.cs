@@ -73,71 +73,26 @@ namespace WGemCombiner
         }
         private void AddOrange()
         {
-            addPresetGroup("WGemCombiner.Resources.leech.leechPresets.resources"); //Link to the resource file with all the schemes
-            colorComboBox.Items.Add("Orange Combine"); //Title of the relevant combobox item
+            addPresetGroup("WGemCombiner.Resources.leech.leechPresets.resources"); // Link to the resource file with all the schemes
+            colorComboBox.Items.Add("Orange Combine"); // Title of the relevant combobox item
             presetColors.Add(new char[] { 'o' });
-            #region oldcode
-
-            //presets.Add(new List<byte[]>()); // ORANGE
-            //presetNames.Add(new List<string>());
-
-            //presets[2].Add(WGemCombiner.Resources.leech.leechPresets.leech13C);
-            //presets[2].Add(WGemCombiner.Resources.leech.leechPresets.leech16C);
-            //presets[2].Add(WGemCombiner.Resources.leech.leechPresets.leech32C);
-            //presets[2].Add(WGemCombiner.Resources.leech.leechPresets.leech36C);
-            //presets[2].Add(WGemCombiner.Resources.leech.leechPresets.leech64C);
-            //presets[2].Add(WGemCombiner.Resources.leech.leechPresets.leech72C);
-            //presets[2].Add(WGemCombiner.Resources.leech.leechPresets.leech88C);
-            //presets[2].Add(WGemCombiner.Resources.leech.leechPresets.leech128C);
-            //presets[2].Add(WGemCombiner.Resources.leech.leechPresets.leech188C);
-            //presets[2].Add(WGemCombiner.Resources.leech.leechPresets.leech256C);
-            //presets[2].Add(WGemCombiner.Resources.leech.leechPresets.leech383C);
-            //presets[2].Add(WGemCombiner.Resources.leech.leechPresets.leech512C);
-            //presets[2].Add(WGemCombiner.Resources.leech.leechPresets.leech816C);
-            //presets[2].Add(WGemCombiner.Resources.leech.leechPresets.leech990C);
-            //presets[2].Add(WGemCombiner.Resources.leech.leechPresets.leech1024C);
-            //presets[2].Add(WGemCombiner.Resources.leech.leechPresets.leech1697C);
-            //presets[2].Add(WGemCombiner.Resources.leech.leechPresets.leech2048C);
-            //presets[2].Add(WGemCombiner.Resources.leech.leechPresets.leech4096C);
-            //presets[2].Add(WGemCombiner.Resources.leech.leechPresets.leech4279C);
-            //presets[2].Add(WGemCombiner.Resources.leech.leechPresets.leech8192C);
-            //presets[2].Add(WGemCombiner.Resources.leech.leechPresets.leech8883C);
-            //presets[2].Add(WGemCombiner.Resources.leech.leechPresets.leech16384C);
-            //presets[2].Add(WGemCombiner.Resources.leech.leechPresets.leech18396C);
-            //presets[2].Add(WGemCombiner.Resources.leech.leechPresets.leech32768C);
-            //presets[2].Add(WGemCombiner.Resources.leech.leechPresets.leech38433C);
-            //presets[2].Add(WGemCombiner.Resources.leech.leechPresets.leech65536C);
-            //presets[2].Add(WGemCombiner.Resources.leech.leechPresets.leech78879C);
-            //presets[2].Add(WGemCombiner.Resources.leech.leechPresets.leech165219C);
-            //presets[2].Add(WGemCombiner.Resources.leech.leechPresets.leech342122C);
-
-            //presetNames.Add(new List<string>());
-            //presetNames[2].AddRange(new string[] { "000013 (0.49108)", "000016 (0.49108)-", "000032 (0.49346)-"
-            //    , "000036 (0.49437)", "000064 (0.49585)-", "000072 (0.49631)", "000088 (0.49641)"
-            //    , "000128 (0.49649)-", "000188 (0.49798)", "000256 (0.49755)-", "000383 (0.49910)"
-            //    , "000512 (0.49882)-", "000816 (0.49999)", "000990 (0.50007)", "001024 (0.49999)-"
-            //    , "001697 (0.50085)", "002048 (0.50083)-", "004096 (0.50145)-", "004279 (0.50451)"
-            //    , "008192 (0.50205)-", "008831 (0.50214)", "016384 (0.50249)-", "018396 (0.50259)"
-            //    , "032768 (0.50295)-", "038433 (0.50308)", "065536 (0.50337)-", "078879 (0.50346)"
-            //    , "165219 (0.50383)", "342122 (0.50418)" });
-            #endregion
         }
         private void AddYellow()
         {
-            addPresetGroup("WGemCombiner.Resources.yellow.yellowPresets.resources"); //Link to the resource file with all the schemes
-            colorComboBox.Items.Add("Yellow Combine"); //Title of the relevant combobox item
+            addPresetGroup("WGemCombiner.Resources.yellow.yellowPresets.resources"); // Link to the resource file with all the schemes
+            colorComboBox.Items.Add("Yellow Combine"); // Title of the relevant combobox item
             presetColors.Add(new char[] { 'y' });
         }
         private void AddManaComb()
         {
-            addPresetGroup("WGemCombiner.Resources.mgComb.mgCombinePresets.resources");
-            colorComboBox.Items.Add("Managem Combine");
+            addPresetGroup("WGemCombiner.Resources.mgComb.mgCombinePresets.resources"); // Link to the resource file with all the schemes
+            colorComboBox.Items.Add("Managem Combine"); // Title of the relevant combobox item
             presetColors.Add(new char[] { 'm' });
         }
         private void AddKillSpec()
         {
-            addPresetGroup("WGemCombiner.Resources.kgSpec.kgSpecPresets.resources"); //Link to the resource file with all the schemes
-            colorComboBox.Items.Add("Killgem Spec"); //Title of the relevant combobox item
+            addPresetGroup("WGemCombiner.Resources.kgSpec.kgSpecPresets.resources"); // Link to the resource file with all the schemes
+            colorComboBox.Items.Add("Killgem Spec"); // Title of the relevant combobox item
             presetColors.Add(new char[] { 'y', 'b', 'r' });
         }
         private void AddManaSpec()
@@ -146,27 +101,11 @@ namespace WGemCombiner
             addPresetGroup("WGemCombiner.Resources.mgSpec.mgSpecPresets.resources");
             colorComboBox.Items.Add("Managem Spec");
             presetColors.Add(new char[] { 'o', 'b', 'r' });
-
-            #region oldcode
-            //presets.Add(new List<byte[]>()); // MANA SPEC
-
-            //presets[5].Add(WGemCombiner.Resources.mgSpec.mgSpecPresets.mg16);
-            //presets[5].Add(WGemCombiner.Resources.mgSpec.mgSpecPresets.mg32);
-            //presets[5].Add(WGemCombiner.Resources.mgSpec.mgSpecPresets.mg64);
-            //presets[5].Add(WGemCombiner.Resources.mgSpec.mgSpecPresets.mg128);
-            //presets[5].Add(WGemCombiner.Resources.mgSpec.mgSpecPresets.mg256);
-            //presets[5].Add(WGemCombiner.Resources.mgSpec.mgSpecPresets.mg512);
-            //presets[5].Add(WGemCombiner.Resources.mgSpec.mgSpecPresets.mg1024);
-
-            //presetNames.Add(new List<string>());
-            //presetNames[5].AddRange(new string[] { "0016 (0.43408)", "0032 (0.48957)", "0064 (0.52273)"
-            //    , "0128 (0.54648)", "0256 (0.56334)", "0512 (0.57508)", "1024 (0.58553)"});
-            #endregion
         }
         private void AddKillComb()
         {
-            addPresetGroup("WGemCombiner.Resources.kgComb.kgCombinePresets.resources"); //Link to the resource file with all the schemes
-            colorComboBox.Items.Add("Killgem Combine"); //Title of the relevant combobox item
+            addPresetGroup("WGemCombiner.Resources.kgComb.kgCombinePresets.resources"); // Link to the resource file with all the schemes
+            colorComboBox.Items.Add("Killgem Combine"); // Title of the relevant combobox item
             presetColors.Add(new char[] { 'k' });
         }
 
@@ -189,7 +128,7 @@ namespace WGemCombiner
                 presetsToAdd.Add((byte[])resourceEnumerator.Value);
             }
 
-            //Inject the newly formed lists into the master lists
+            // Inject the newly formed lists into the master lists
             presets.Add(new List<byte[]>(presetsToAdd));
             presetNames.Add(new List<string>(presetNamesToAdd));
             resourceReader.Close();
@@ -229,13 +168,11 @@ namespace WGemCombiner
             if (colorComboBox.SelectedIndex > 0)
             {
                 combineComboBox.Items.AddRange(presetNames[colorComboBox.SelectedIndex - 1].ToArray());
-                //formulaInputTextBox.ReadOnly = true; //[ieee] Please don't do that, I want to manually change things.
                 parenthesisRadioButton.Checked = true;
                 equationsRadioButton.Enabled = false;
             }
             else
             {
-                //formulaInputTextBox.ReadOnly = false;
                 equationsRadioButton.Enabled = true;
             }
         }
@@ -448,7 +385,7 @@ namespace WGemCombiner
             }
         }
 
-        // function used to save recipes, normally disabled
+        // Function used to save recipes, normally disabled
         string path = "";
         private void SaveGem()
         {

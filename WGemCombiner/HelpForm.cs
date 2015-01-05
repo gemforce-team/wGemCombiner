@@ -36,7 +36,7 @@ namespace WGemCombiner
             setBorder(hasBorder);
         }
 
-        //This is the only function you need to make changes to when adding new help pages
+        // This is the only function you need to make changes to when adding new help pages
         private void fillHelpMessages()
         {
             addHelpMessage("Working with the combiner", "\nPaste gem combining equations or a parenthesis formula into the textbox, then click 'Get Instructions'.\n" +
