@@ -29,7 +29,7 @@ namespace WGemCombiner
         {
             if (controlToSkin is Form)
             {
-                ResourceManager resManager = WGemCombiner.Resources.Graphics.Graphics.ResourceManager;
+                ResourceManager resManager = WGemCombiner.Resources.graphics.graphics.ResourceManager;
                 controlToSkin.BackgroundImage = (Image)resManager.GetObject(controlToSkin.Name + "BG_Framed");
                 controlToSkin.BackgroundImageLayout = ImageLayout.Stretch;
             }
@@ -40,7 +40,7 @@ namespace WGemCombiner
                 button.ForeColor = Color.DarkOrange;
                 button.BackgroundImageLayout = ImageLayout.Stretch;
                 button.FlatStyle = FlatStyle.Popup;
-                button.BackgroundImage = WGemCombiner.Resources.Graphics.Graphics.ButtonsDark2;
+                button.BackgroundImage = WGemCombiner.Resources.graphics.graphics.ButtonsDark2;
                 button.Cursor = Cursors.Hand;
             }
 

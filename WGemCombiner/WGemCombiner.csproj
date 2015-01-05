@@ -137,10 +137,10 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Resources\Graphics\Graphics.Designer.cs">
+    <Compile Include="Resources\graphics\graphics1.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>Graphics.resx</DependentUpon>
+      <DependentUpon>graphics.resx</DependentUpon>
     </Compile>
     <Compile Include="Resources\kgComb\kgCombinePresets.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -187,9 +187,9 @@
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Graphics\Graphics.resx">
+    <EmbeddedResource Include="Resources\graphics\graphics.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Graphics.Designer.cs</LastGenOutput>
+      <LastGenOutput>graphics1.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\kgComb\kgCombinePresets.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -373,11 +373,11 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="GCIcon.ico" />
-    <Content Include="Resources\Graphics\GCIcon.ico" />
-    <None Include="Resources\Graphics\OptionsBG_Framed.jpg" />
-    <None Include="Resources\Graphics\HelpFormBG_Framed.jpg" />
-    <None Include="Resources\Graphics\Form1BG_Framed.jpg" />
-    <None Include="Resources\Graphics\ButtonsDark2.jpg" />
+    <Content Include="Resources\graphics\GCIcon.ico" />
+    <None Include="Resources\graphics\OptionsBG_Framed.jpg" />
+    <None Include="Resources\graphics\HelpFormBG_Framed.jpg" />
+    <None Include="Resources\graphics\Form1BG_Framed.jpg" />
+    <None Include="Resources\graphics\ButtonsDark2.jpg" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace WGemCombiner.Resources.Graphics {
+namespace WGemCombiner.Resources.graphics {
     using System;
     
     
@@ -22,14 +22,14 @@ namespace WGemCombiner.Resources.Graphics {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Graphics {
+    internal class graphics {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal Graphics() {
+        internal graphics() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace WGemCombiner.Resources.Graphics {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("WGemCombiner.Resources.Graphics.Graphics", typeof(Graphics).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("WGemCombiner.Resources.graphics.graphics", typeof(graphics).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
