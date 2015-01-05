@@ -152,10 +152,10 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>kgSpecPresets.resx</DependentUpon>
     </Compile>
-    <Compile Include="Resources\leech\leechPresets1.Designer.cs">
-      <DependentUpon>leechPresets.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
+    <Compile Include="Resources\leech\leechPresets.Designer.cs">
       <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>leechPresets.resx</DependentUpon>
     </Compile>
     <Compile Include="Resources\mgComb\mgCombinePresets.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -201,7 +201,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\leech\leechPresets.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>leechPresets1.Designer.cs</LastGenOutput>
+      <LastGenOutput>leechPresets.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\mgComb\mgCombinePresets.resx">
       <Generator>ResXFileCodeGenerator</Generator>
