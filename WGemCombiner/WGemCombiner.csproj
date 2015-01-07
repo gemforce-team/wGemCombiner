@@ -143,10 +143,10 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>graphics.resx</DependentUpon>
     </Compile>
-    <Compile Include="Resources\kgComb\kgCombinePresets.Designer.cs">
+    <Compile Include="Resources\kgComb\kgCombPresets.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>kgCombinePresets.resx</DependentUpon>
+      <DependentUpon>kgCombPresets.resx</DependentUpon>
     </Compile>
     <Compile Include="Resources\kgSpec\kgSpecPresets.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -158,10 +158,10 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>leechPresets.resx</DependentUpon>
     </Compile>
-    <Compile Include="Resources\mgComb\mgCombinePresets.Designer.cs">
+    <Compile Include="Resources\mgComb\mgCombPresets.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>mgCombinePresets.resx</DependentUpon>
+      <DependentUpon>mgCombPresets.resx</DependentUpon>
     </Compile>
     <Compile Include="Resources\mgSpec\mgSpecPresets.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -192,9 +192,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>graphics.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\kgComb\kgCombinePresets.resx">
+    <EmbeddedResource Include="Resources\kgComb\kgCombPresets.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>kgCombinePresets.Designer.cs</LastGenOutput>
+      <LastGenOutput>kgCombPresets.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\kgSpec\kgSpecPresets.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -204,9 +204,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>leechPresets.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\mgComb\mgCombinePresets.resx">
+    <EmbeddedResource Include="Resources\mgComb\mgCombPresets.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>mgCombinePresets.Designer.cs</LastGenOutput>
+      <LastGenOutput>mgCombPresets.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\mgSpec\mgSpecPresets.resx">
       <Generator>ResXFileCodeGenerator</Generator>

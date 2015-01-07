@@ -89,7 +89,7 @@ namespace WGemCombiner
         }
         private void AddManaComb()
         {
-            addPresetGroup("WGemCombiner.Resources.mgComb.mgCombinePresets.resources"); // Link to the resource file with all the schemes
+            addPresetGroup("WGemCombiner.Resources.mgComb.mgCombPresets.resources"); // Link to the resource file with all the schemes
             colorComboBox.Items.Add("Managem Combine"); // Title of the relevant combobox item
             presetColors.Add(new char[] { 'm' });
         }
@@ -108,7 +108,7 @@ namespace WGemCombiner
         }
         private void AddKillComb()
         {
-            addPresetGroup("WGemCombiner.Resources.kgComb.kgCombinePresets.resources"); // Link to the resource file with all the schemes
+            addPresetGroup("WGemCombiner.Resources.kgComb.kgCombPresets.resources"); // Link to the resource file with all the schemes
             colorComboBox.Items.Add("Killgem Combine"); // Title of the relevant combobox item
             presetColors.Add(new char[] { 'k' });
         }
