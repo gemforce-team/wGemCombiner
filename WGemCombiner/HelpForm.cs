@@ -71,14 +71,20 @@ namespace WGemCombiner
                 "\n\nKg/Yellow and Mg/Orange combines are set to both use the same number of base gems, so that they can be used easily in amps. " + 
                 "These are not the best combines by themselves." +
                 "\n\nSorry, but not all presets are added in yet! Be patient.");
+#if DEBUG
+            addHelpMessage("Importing new presets","\n In debug mode you can import new presets from a .txt file with recipes.\n"+
+                "Your txt must contain one recipe per line."+
+                "The recipes have to be valid formulas (not equations). The parser is somewhat robust but i wouldn't test it too hard :)\n"+
+                "To start importing, choose \"Import...\" option from the Preset drop-down, then choose the .txt file with recipes");
+#endif
 
-            addHelpMessage("Credits", credits + "\n\nTo report a problem, go to github.com/gemforce-team/wGemCombiner/issues");
+            addHelpMessage("Credits", credits + "\n\nTo report a problem, go to \ngithub.com/gemforce-team/wGemCombiner/issues");
         }
         public static string credits = "Gem Combiner was made by Suuper.\n" +
                 "Testing help: Hellrage, 12345ieee" +
                 "\nProgramming help: \n" +
                 "-12345ieee (some spec parsing, preset recipes) \n" +
-                "-Hellrage (some GUI tweaks, skin, small bugfixes)" +
+                "-Hellrage (some GUI tweaks, skin, small bugfixes, preset and resource management)" +
                 "\n\nRelease version: "+ System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString(); // change it via assembly properties
 
         private void addHelpMessage(string title, string message)

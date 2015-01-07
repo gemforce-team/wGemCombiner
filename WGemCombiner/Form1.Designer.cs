@@ -44,7 +44,6 @@
             this.copyListButton = new System.Windows.Forms.Button();
             this.helpButton = new System.Windows.Forms.Button();
             this.formulaInputTextBox = new System.Windows.Forms.RichTextBox();
-            this.creditsLabel = new System.Windows.Forms.Label();
             this.exitButton = new System.Windows.Forms.Button();
             this.optionsButton = new System.Windows.Forms.Button();
             this.combineComboBox = new System.Windows.Forms.ComboBox();
@@ -228,18 +227,6 @@
             this.formulaInputTextBox.TabIndex = 29;
             this.formulaInputTextBox.Text = "";
             // 
-            // creditsLabel
-            // 
-            this.creditsLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.creditsLabel.AutoSize = true;
-            this.creditsLabel.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.creditsLabel.Location = new System.Drawing.Point(314, 336);
-            this.creditsLabel.Name = "creditsLabel";
-            this.creditsLabel.Size = new System.Drawing.Size(39, 13);
-            this.creditsLabel.TabIndex = 30;
-            this.creditsLabel.Text = "Credits";
-            this.creditsLabel.Click += new System.EventHandler(this.creditsLabel_Click);
-            // 
             // exitButton
             // 
             this.exitButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
@@ -315,7 +302,6 @@
             this.Controls.Add(this.getInstructionsButton);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.copyListButton);
-            this.Controls.Add(this.creditsLabel);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimumSize = new System.Drawing.Size(383, 349);
@@ -349,7 +335,6 @@
         private System.Windows.Forms.Button copyListButton;
         private System.Windows.Forms.Button helpButton;
         private System.Windows.Forms.RichTextBox formulaInputTextBox;
-        private System.Windows.Forms.Label creditsLabel;
         private System.Windows.Forms.Button exitButton;
         private System.Windows.Forms.Button optionsButton;
         private System.Windows.Forms.ComboBox combineComboBox;
