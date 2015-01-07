@@ -9,20 +9,26 @@ namespace WGemCombiner
     static class RecipeConverter
     {
         static CombinePerformer CP = new CombinePerformer();
-        static string importListing = "";
+        static StreamWriter logger;
 
         static public void convertFromFile(string importFilePath)
         {
             int recipeNumber = 0;
             string currentRecipe = "";
             StreamReader recipeReader = new StreamReader(importFilePath);
+            logger = new StreamWriter(@"..\..\..\Resources\importLog.txt");
+            logger.AutoFlush = true;
+
             while((currentRecipe = recipeReader.ReadLine())!=null)
             {
-                importListing += "Converting Recipe # " + ++recipeNumber + ":\t";
+                logger.Write( "Converting Recipe # " + ++recipeNumber + ":\t");
                 convertRecipe(currentRecipe);
             }
+
             recipeReader.Close();
-            System.Windows.Forms.MessageBox.Show(importListing);
+            logger.WriteLine("\nFinished importing!");
+            logger.Close();
+            System.Windows.Forms.MessageBox.Show("Done, check the log in /Resources");
         }
 
         static public void convertRecipe(string recipe)
@@ -43,7 +49,6 @@ namespace WGemCombiner
                     }
                     else
                         outputPath += @"\mgSpec\";
-                    outputPath += "mg";
                     break;
                 case gemType.kg:
                     if (recipe.Contains('k'))
@@ -53,22 +58,24 @@ namespace WGemCombiner
                     }
                     else
                         outputPath += @"\kgSpec\";
-                    outputPath += "kg";
                     break;
                 default:
                     {
-                        outputPath += @"\" + type.ToString() + @"\" + type.ToString();
+                        outputPath += @"\" + type.ToString() + @"\";
                         isCombine=true;
                     }
                     break;
             }
+            outputPath += type.ToString(); // Adding the beginning of the preset's filename
             writePreset(outputPath,isCombine);
         }
 
         static private void writePreset(string path, bool isCombine)
         {
-            System.IO.File.WriteAllBytes(path + CP.resultGem.Cost + (isCombine?"C":""), CP.GetSave());
-            importListing += "Written recipe to " + path + CP.resultGem.Cost + (isCombine ? "C" : "") + "\n";
+            string writtenFilePath = path + CP.resultGem.Cost + (isCombine ? "C" : "");
+
+            System.IO.File.WriteAllBytes(writtenFilePath, CP.GetSave());
+            logger.Write( "Written recipe to " + writtenFilePath + "\n");
         }
     }
 
