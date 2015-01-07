@@ -65,6 +65,10 @@ namespace WGemCombiner
             AddKillSpec();
             AddKillComb();
 
+#if DEBUG
+            colorComboBox.Items.Add("Import...");
+#endif
+
             //System.Diagnostics.Stopwatch t = new System.Diagnostics.Stopwatch();
             //t.Start();
             SortPresets();
@@ -164,6 +168,14 @@ namespace WGemCombiner
         {
             if (!loaded)
                 return;
+
+            if (colorComboBox.SelectedItem.ToString() == "Import...")
+            {
+                importFileDialog.ShowDialog();
+                RecipeConverter.convertFromFile(importFileDialog.FileName);
+                return;
+            }
+
             combineComboBox.Items.Clear();
             if (colorComboBox.SelectedIndex > 0)
             {

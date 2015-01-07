@@ -65,6 +65,7 @@ namespace WGemCombiner
                 return COLOR_RED;
             else return COLOR_NULL;
         }
+
         public static int Clr(char c)
         {
             if (c == 'o')

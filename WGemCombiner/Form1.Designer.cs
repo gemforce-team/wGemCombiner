@@ -49,6 +49,7 @@
             this.optionsButton = new System.Windows.Forms.Button();
             this.combineComboBox = new System.Windows.Forms.ComboBox();
             this.colorComboBox = new System.Windows.Forms.ComboBox();
+            this.importFileDialog = new System.Windows.Forms.OpenFileDialog();
             ((System.ComponentModel.ISupportInitialize)(this.delayNumeric)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.stepNumeric)).BeginInit();
             this.SuspendLayout();
@@ -286,6 +287,11 @@
             this.colorComboBox.TabIndex = 34;
             this.colorComboBox.SelectedIndexChanged += new System.EventHandler(this.colorComboBox_SelectedIndexChanged);
             // 
+            // importFileDialog
+            // 
+            this.importFileDialog.Filter = "Text files|*.txt";
+            this.importFileDialog.InitialDirectory = "N:\\Каталоги\\Git\\wGemCombiner\\WGemCombiner\\Resources";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -349,6 +355,7 @@
         private System.Windows.Forms.Button optionsButton;
         private System.Windows.Forms.ComboBox combineComboBox;
         private System.Windows.Forms.ComboBox colorComboBox;
+        private System.Windows.Forms.OpenFileDialog importFileDialog;
     }
 }
 

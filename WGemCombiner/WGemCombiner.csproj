@@ -137,6 +137,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="RecipeConverter.cs" />
     <Compile Include="Resources\graphics\graphics.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
