@@ -133,6 +133,9 @@
   <data name="yellow128C" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>yellow128C;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="yellow12C" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>yellow12C;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="yellow131072C" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>yellow131072C;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -150,6 +153,9 @@
   </data>
   <data name="yellow218226C" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>yellow218226C;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="yellow23C" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>yellow23C;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="yellow24053C" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>yellow24053C;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -190,6 +196,9 @@
   <data name="yellow5374C" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>yellow5374C;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="yellow53C" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>yellow53C;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="yellow56C" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>yellow56C;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -204,6 +213,9 @@
   </data>
   <data name="yellow65536C" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>yellow65536C;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="yellow6C" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>yellow6C;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="yellow7C" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>yellow7C;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>

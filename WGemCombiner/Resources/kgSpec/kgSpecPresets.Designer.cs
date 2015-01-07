@@ -73,6 +73,16 @@ namespace WGemCombiner.Resources.kgSpec {
         /// <summary>
         ///   Cerca una risorsa localizzata di tipo System.Byte[].
         /// </summary>
+        internal static byte[] kg105 {
+            get {
+                object obj = ResourceManager.GetObject("kg105", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una risorsa localizzata di tipo System.Byte[].
+        /// </summary>
         internal static byte[] kg128 {
             get {
                 object obj = ResourceManager.GetObject("kg128", resourceCulture);
@@ -83,9 +93,39 @@ namespace WGemCombiner.Resources.kgSpec {
         /// <summary>
         ///   Cerca una risorsa localizzata di tipo System.Byte[].
         /// </summary>
+        internal static byte[] kg15 {
+            get {
+                object obj = ResourceManager.GetObject("kg15", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una risorsa localizzata di tipo System.Byte[].
+        /// </summary>
         internal static byte[] kg16 {
             get {
                 object obj = ResourceManager.GetObject("kg16", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una risorsa localizzata di tipo System.Byte[].
+        /// </summary>
+        internal static byte[] kg21 {
+            get {
+                object obj = ResourceManager.GetObject("kg21", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una risorsa localizzata di tipo System.Byte[].
+        /// </summary>
+        internal static byte[] kg244 {
+            get {
+                object obj = ResourceManager.GetObject("kg244", resourceCulture);
                 return ((byte[])(obj));
             }
         }
@@ -106,6 +146,16 @@ namespace WGemCombiner.Resources.kgSpec {
         internal static byte[] kg32 {
             get {
                 object obj = ResourceManager.GetObject("kg32", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una risorsa localizzata di tipo System.Byte[].
+        /// </summary>
+        internal static byte[] kg394 {
+            get {
+                object obj = ResourceManager.GetObject("kg394", resourceCulture);
                 return ((byte[])(obj));
             }
         }
@@ -136,6 +186,16 @@ namespace WGemCombiner.Resources.kgSpec {
         internal static byte[] kg8 {
             get {
                 object obj = ResourceManager.GetObject("kg8", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una risorsa localizzata di tipo System.Byte[].
+        /// </summary>
+        internal static byte[] kg987 {
+            get {
+                object obj = ResourceManager.GetObject("kg987", resourceCulture);
                 return ((byte[])(obj));
             }
         }

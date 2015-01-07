@@ -79,7 +79,7 @@ namespace WGemCombiner
                 "\nProgramming help: \n" +
                 "-12345ieee (some spec parsing, preset recipes) \n" +
                 "-Hellrage (some GUI tweaks, skin, small bugfixes)" +
-                "\n\nRelease version: 1.0.3";
+                "\n\nRelease version: "+ System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString(); // change it via assembly properties
 
         private void addHelpMessage(string title, string message)
         {

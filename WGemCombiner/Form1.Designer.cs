@@ -271,9 +271,8 @@
             this.combineComboBox.Items.AddRange(new object[] {
             "Paste"});
             this.combineComboBox.Location = new System.Drawing.Point(18, 55);
-            this.combineComboBox.MaxDropDownItems = 100;
             this.combineComboBox.Name = "combineComboBox";
-            this.combineComboBox.Size = new System.Drawing.Size(138, 23);
+            this.combineComboBox.Size = new System.Drawing.Size(142, 23);
             this.combineComboBox.TabIndex = 33;
             this.combineComboBox.SelectedIndexChanged += new System.EventHandler(this.combineComboBox_SelectedIndexChanged);
             // 
@@ -283,7 +282,7 @@
             this.colorComboBox.FormattingEnabled = true;
             this.colorComboBox.Location = new System.Drawing.Point(18, 31);
             this.colorComboBox.Name = "colorComboBox";
-            this.colorComboBox.Size = new System.Drawing.Size(138, 21);
+            this.colorComboBox.Size = new System.Drawing.Size(142, 21);
             this.colorComboBox.TabIndex = 34;
             this.colorComboBox.SelectedIndexChanged += new System.EventHandler(this.colorComboBox_SelectedIndexChanged);
             // 

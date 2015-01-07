@@ -24,8 +24,8 @@
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>false</MapFileExtensions>
     <OpenBrowserOnPublish>false</OpenBrowserOnPublish>
-    <ApplicationRevision>1</ApplicationRevision>
-    <ApplicationVersion>1.0.1.%2a</ApplicationVersion>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.4.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <ExcludeDeploymentUrl>true</ExcludeDeploymentUrl>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -254,17 +254,24 @@
     <None Include="Resources\kgComb\kg8192C" />
     <None Include="Resources\kgComb\kg8C" />
     <None Include="Resources\kgSpec\kg1024" />
+    <None Include="Resources\kgSpec\kg105" />
     <None Include="Resources\kgSpec\kg128" />
+    <None Include="Resources\kgSpec\kg15" />
     <None Include="Resources\kgSpec\kg16" />
+    <None Include="Resources\kgSpec\kg21" />
+    <None Include="Resources\kgSpec\kg244" />
     <None Include="Resources\kgSpec\kg256" />
     <None Include="Resources\kgSpec\kg32" />
+    <None Include="Resources\kgSpec\kg394" />
     <None Include="Resources\kgSpec\kg512" />
     <None Include="Resources\kgSpec\kg64" />
     <None Include="Resources\kgSpec\kg8" />
+    <None Include="Resources\kgSpec\kg987" />
     <None Include="Resources\leech\leech1024C" />
     <None Include="Resources\leech\leech128C" />
     <None Include="Resources\leech\leech131072C" />
     <None Include="Resources\leech\leech149C" />
+    <None Include="Resources\leech\leech156C" />
     <None Include="Resources\leech\leech15C" />
     <None Include="Resources\leech\leech16384C" />
     <None Include="Resources\leech\leech16C" />
@@ -323,12 +330,14 @@
     <None Include="Resources\yellow\yellow11C" />
     <None Include="Resources\yellow\yellow12504C" />
     <None Include="Resources\yellow\yellow128C" />
+    <None Include="Resources\yellow\yellow12C" />
     <None Include="Resources\yellow\yellow131072C" />
     <None Include="Resources\yellow\yellow14C" />
     <None Include="Resources\yellow\yellow16384C" />
     <None Include="Resources\yellow\yellow16C" />
     <None Include="Resources\yellow\yellow2048C" />
     <None Include="Resources\yellow\yellow218226C" />
+    <None Include="Resources\yellow\yellow23C" />
     <None Include="Resources\yellow\yellow24053C" />
     <None Include="Resources\yellow\yellow252C" />
     <None Include="Resources\yellow\yellow256C" />
@@ -342,11 +351,13 @@
     <None Include="Resources\yellow\yellow512C" />
     <None Include="Resources\yellow\yellow53239C" />
     <None Include="Resources\yellow\yellow5374C" />
+    <None Include="Resources\yellow\yellow53C" />
     <None Include="Resources\yellow\yellow56C" />
     <None Include="Resources\yellow\yellow57C" />
     <None Include="Resources\yellow\yellow5C" />
     <None Include="Resources\yellow\yellow64C" />
     <None Include="Resources\yellow\yellow65536C" />
+    <None Include="Resources\yellow\yellow6C" />
     <None Include="Resources\yellow\yellow7C" />
     <None Include="Resources\yellow\yellow8192C" />
     <None Include="Resources\yellow\yellow8C" />
@@ -358,7 +369,7 @@
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5">
       <Visible>False</Visible>
-      <ProductName>Microsoft .NET Framework 4.5 %28x86 and x64%29</ProductName>
+      <ProductName>Microsoft .NET Framework 4.5 %28x86 e x64%29</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
