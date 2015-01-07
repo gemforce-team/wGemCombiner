@@ -22,6 +22,11 @@ namespace WGemCombiner
             while((currentRecipe = recipeReader.ReadLine())!=null)
             {
                 logger.Write( "Converting Recipe # " + ++recipeNumber + ":\t");
+                if(!CP.schemeIsValid(currentRecipe))
+                {
+                    logger.Write("Scheme is not valid, skipping...\n");
+                    continue;
+                }
                 convertRecipe(currentRecipe);
             }
 

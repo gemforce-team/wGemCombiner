@@ -73,6 +73,7 @@ namespace WGemCombiner
         {
             baseGems = new List<Gem>();
 
+            if (!schemeIsValid(str)) return "";
             // Is it from gemforce? (Letters)
             if (str.Contains('+') == true)
             {
@@ -141,6 +142,29 @@ namespace WGemCombiner
                 }
             }
             return recipe;
+        }
+        public bool schemeIsValid(string scheme)
+        {
+            if (scheme.Length < 2) return false;
+            if (!evenBrackets(scheme)) return false;// Mismatched brackets
+            if (scheme.Count(char.IsLetter) > 0 && !scheme.Contains('+') && scheme.Count(char.IsDigit) == 0) return false;// Only letters
+            if (scheme.Count(char.IsDigit) > 0 && !scheme.Contains('+') && scheme.Count(char.IsLetter) == 0) return false;// Only digits
+            if (scheme.Count(char.IsLetter) >= 2 && !scheme.Contains('+')) return false;
+
+            return true;
+        }
+
+        private bool evenBrackets(string scheme)
+        {
+            int openingBrackets = 0;
+            int closingBrackets = 0;
+            foreach (char character in scheme)
+            {
+                if (character == '(') openingBrackets++;
+                if (character == ')') closingBrackets++;
+            }
+            if (openingBrackets != closingBrackets) return false;
+            return true;
         }
 
 
