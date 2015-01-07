@@ -191,6 +191,7 @@
             this.stepNumeric.Name = "stepNumeric";
             this.stepNumeric.Size = new System.Drawing.Size(57, 20);
             this.stepNumeric.TabIndex = 26;
+            this.stepNumeric.ValueChanged += new System.EventHandler(this.stepNumeric_ValueChanged);
             // 
             // copyListButton
             // 

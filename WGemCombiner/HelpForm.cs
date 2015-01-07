@@ -78,14 +78,14 @@ namespace WGemCombiner
                 "To start importing, choose \"Import...\" option from the Preset drop-down, then choose the .txt file with recipes");
 #endif
 
-            addHelpMessage("Credits", credits + "\n\nTo report a problem, go to \ngithub.com/gemforce-team/wGemCombiner/issues");
+            addHelpMessage("Credits", credits + "\n\nTo report a problem, go to \nhttps://github.com/gemforce-team/wGemCombiner/issues");
         }
         public static string credits = "Gem Combiner was made by Suuper.\n" +
                 "Testing help: Hellrage, 12345ieee" +
                 "\nProgramming help: \n" +
                 "-12345ieee (some spec parsing, preset recipes) \n" +
                 "-Hellrage (some GUI tweaks, skin, small bugfixes, preset and resource management)" +
-                "\n\nRelease version: "+ System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString(); // change it via assembly properties
+                "\n\nRelease version: "+ System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
         private void addHelpMessage(string title, string message)
         {

@@ -360,6 +360,20 @@ namespace WGemCombiner
             optionsForm.Show();
         }
 
+        private void stepNumeric_ValueChanged(object sender, EventArgs e)
+        {
+            if (stepNumeric.Value != 0)
+            {
+                stepNumeric.Font = new Font(stepNumeric.Font, FontStyle.Bold);
+                stepLabel.Font = new Font(stepNumeric.Font, FontStyle.Bold);
+            }
+            else
+            {
+                stepNumeric.Font = new Font(stepNumeric.Font, FontStyle.Regular);
+                stepLabel.Font = new Font(stepNumeric.Font, FontStyle.Regular);
+            }
+        }
+
         public void changeSkin(Skin newSkin)
         {
             currentSkin = newSkin;
@@ -399,6 +413,5 @@ namespace WGemCombiner
         {
             System.IO.File.WriteAllBytes(path + CP.resultGem.GetColor().ToString() + "col" + CP.resultGem.Cost + "C", CP.GetSave());
         }
-
     }
 }
