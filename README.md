@@ -15,5 +15,5 @@ There is an extensive help inside the program.
 
 W Gem Combiner was developed by Suuper of AG forum.  
 Other contributors:  
-Hellrage: GUI, buxfixes, testing  
-12345ieee: Reciper, bugfixes, testing
+Hellrage: GUI, bugfixes, testing  
+12345ieee: Recipes, bugfixes, testing

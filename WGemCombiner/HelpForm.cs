@@ -77,7 +77,7 @@ namespace WGemCombiner
         public static string credits = "Gem Combiner was made by Suuper.\n" +
                 "Testing help: Hellrage, 12345ieee" +
                 "\nProgramming help: \n" +
-                "-12345ieee (some spec parsing, preset recipies) \n" +
+                "-12345ieee (some spec parsing, preset recipes) \n" +
                 "-Hellrage (some GUI tweaks, skin, small bugfixes)" +
                 "\n\nRelease version: 1.0.3";
 
