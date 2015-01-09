@@ -23,7 +23,7 @@ namespace WGemCombiner
         public const int INST_UPGR = -98;
         const int SLOT_SIZE = 28;
         public const double NATIVE_SCREEN_HEIGHT = 600;
-        double resolutionRatio = 1;
+        public double resolutionRatio = 1;
 
         public int Slots_Required;
         public bool limitSlots = true;
