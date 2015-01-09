@@ -16,11 +16,6 @@ namespace WGemCombiner
 {
     public partial class Form1 : Form
     {
-        public Form1()
-        {
-            InitializeComponent();
-            optionsForm = new Options(this, helpForm);
-        }
 
         private bool loaded = false;
 
@@ -33,8 +28,15 @@ namespace WGemCombiner
 
         private static Assembly assembly = Assembly.GetExecutingAssembly();
 
-        HelpForm helpForm = new HelpForm(); //[HR]
+        HelpForm helpForm; //[HR]
         Options optionsForm; //[HR]
+
+        public Form1()
+        {
+            InitializeComponent();
+            helpForm = new HelpForm();
+            optionsForm = new Options(this, helpForm,CP);
+        }
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -356,7 +358,7 @@ namespace WGemCombiner
         private void optionsButton_Click(object sender, EventArgs e)
         {
             if (!optionsForm.Visible)
-                optionsForm = new Options(this, helpForm);
+                optionsForm = new Options(this, helpForm, CP);
             optionsForm.Show();
         }
 

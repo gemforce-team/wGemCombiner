@@ -37,6 +37,7 @@
             this.closeButton = new System.Windows.Forms.Button();
             this.toggleBorderLabel = new System.Windows.Forms.Label();
             this.alwaysOnTopCheckBox = new System.Windows.Forms.CheckBox();
+            this.fullscreenCheckBox = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // winFormsSkinButton
@@ -94,7 +95,7 @@
             // 
             // closeButton
             // 
-            this.closeButton.Location = new System.Drawing.Point(257, 95);
+            this.closeButton.Location = new System.Drawing.Point(262, 116);
             this.closeButton.Name = "closeButton";
             this.closeButton.Size = new System.Drawing.Size(44, 23);
             this.closeButton.TabIndex = 6;
@@ -124,11 +125,23 @@
             this.alwaysOnTopCheckBox.UseVisualStyleBackColor = true;
             this.alwaysOnTopCheckBox.CheckedChanged += new System.EventHandler(this.alwaysOnTopCheckBox_CheckedChanged);
             // 
+            // fullscreenCheckBox
+            // 
+            this.fullscreenCheckBox.AutoSize = true;
+            this.fullscreenCheckBox.Location = new System.Drawing.Point(138, 122);
+            this.fullscreenCheckBox.Name = "fullscreenCheckBox";
+            this.fullscreenCheckBox.Size = new System.Drawing.Size(112, 17);
+            this.fullscreenCheckBox.TabIndex = 9;
+            this.fullscreenCheckBox.Text = "Game is fullscreen";
+            this.fullscreenCheckBox.UseVisualStyleBackColor = true;
+            this.fullscreenCheckBox.CheckedChanged += new System.EventHandler(this.fullscreenCheckBox_CheckedChanged);
+            // 
             // Options
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(313, 131);
+            this.ClientSize = new System.Drawing.Size(313, 146);
+            this.Controls.Add(this.fullscreenCheckBox);
             this.Controls.Add(this.alwaysOnTopCheckBox);
             this.Controls.Add(this.toggleBorderLabel);
             this.Controls.Add(this.closeButton);
@@ -140,7 +153,6 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(329, 169);
             this.MinimizeBox = false;
             this.Name = "Options";
             this.Text = "Options";
@@ -161,5 +173,6 @@
         private System.Windows.Forms.Button closeButton;
         private System.Windows.Forms.Label toggleBorderLabel;
         private System.Windows.Forms.CheckBox alwaysOnTopCheckBox;
+        private System.Windows.Forms.CheckBox fullscreenCheckBox;
     }
 }

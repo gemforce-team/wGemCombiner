@@ -12,6 +12,7 @@ namespace WGemCombiner
 {
     class CombinePerformer
     {
+
         /// <summary>
         /// List of instructions:
         /// X is gem to U/D/C
@@ -20,6 +21,9 @@ namespace WGemCombiner
         public List<Point> inst = new List<Point>();
         public const int INST_DUPE = -99;
         public const int INST_UPGR = -98;
+        const int SLOT_SIZE = 28;
+        public const double NATIVE_SCREEN_HEIGHT = 600;
+        double resolutionRatio = 1;
 
         public int Slots_Required;
         public bool limitSlots = true;
@@ -166,7 +170,6 @@ namespace WGemCombiner
             if (openingBrackets != closingBrackets) return false;
             return true;
         }
-
 
         public Gem resultGem;
         List<Gem> combined = new List<Gem>();
@@ -417,6 +420,11 @@ namespace WGemCombiner
 
 
         // Bot code
+        public void setScreenRatio(double screenHeight)
+        {
+            resolutionRatio = screenHeight / NATIVE_SCREEN_HEIGHT;
+        }
+
         [DllImport("user32.dll")]
         static extern void mouse_event(uint dwFlags, uint dx, uint dy, uint cButtons, UIntPtr dwExtraInfo);
         private void MoveCursor(int X, int Y)
@@ -436,7 +444,6 @@ namespace WGemCombiner
             keybd_event(keyCode, 0, KEYEVENTF_KEYUP, UIntPtr.Zero);
         }
 
-        const int SLOT_SIZE = 28;
         public delegate void DEL_STEPC(int stepID);
         public event DEL_STEPC StepComplete;
         public bool cancel_Combine = false;
@@ -451,7 +458,7 @@ namespace WGemCombiner
             for (int i = mSteps; i < inst.Count; i++)
             {
                 Point sPos = GetSlotPos(inst[i].X);
-                MoveCursor(sA1.X - (sPos.X * SLOT_SIZE), sA1.Y - (sPos.Y * SLOT_SIZE));
+                MoveCursor(sA1.X - (int)(sPos.X * SLOT_SIZE * resolutionRatio), sA1.Y - (int)(sPos.Y * SLOT_SIZE * resolutionRatio));
                 //Thread.Sleep(sleep_time);
                 if (inst[i].Y == INST_DUPE)
                     PressKey(KEY_D);
@@ -462,17 +469,17 @@ namespace WGemCombiner
                     PressMouse();
                     Thread.Sleep(sleep_time);
                     sPos = GetSlotPos(-(inst[i].Y + 1));
-                    MoveCursor(sA1.X - (sPos.X * SLOT_SIZE), sA1.Y - (sPos.Y * SLOT_SIZE));
+                    MoveCursor(sA1.X - (int)(sPos.X * SLOT_SIZE * resolutionRatio), sA1.Y - (int)(sPos.Y * SLOT_SIZE * resolutionRatio));
                     ReleaseMouse();
                 }
                 else
                 { // Try the button. Works wonders!
-                    MoveCursor(sA1.X - (int)(-0.5 * SLOT_SIZE), sA1.Y - (int)(12.8 * SLOT_SIZE));
+                    MoveCursor(sA1.X - (int)(-0.5 * SLOT_SIZE*resolutionRatio), sA1.Y - (int)(12.8 * SLOT_SIZE*resolutionRatio));
                     PressMouse(); ReleaseMouse();
-                    MoveCursor(sA1.X - (sPos.X * SLOT_SIZE), sA1.Y - (sPos.Y * SLOT_SIZE));
+                    MoveCursor(sA1.X - (int)(sPos.X * SLOT_SIZE * resolutionRatio), sA1.Y - (int)(sPos.Y * SLOT_SIZE * resolutionRatio));
                     PressMouse();
                     sPos = GetSlotPos(inst[i].Y);
-                    MoveCursor(sA1.X - (sPos.X * SLOT_SIZE), sA1.Y - (sPos.Y * SLOT_SIZE));
+                    MoveCursor(sA1.X - (int)(sPos.X * SLOT_SIZE * resolutionRatio), sA1.Y - (int)(sPos.Y * SLOT_SIZE * resolutionRatio));
                     ReleaseMouse();
                 }
 

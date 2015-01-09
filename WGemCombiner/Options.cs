@@ -16,16 +16,18 @@ namespace WGemCombiner
         
         Form1 parentForm1;
         HelpForm parentHelpForm;
+        CombinePerformer CP;
 
         //Static properties allow to keep border\skin settings when closing and reopening windows
         static Skin currentSkin = Skin.WindowsForms;
         static bool hasBorder = true;
 
         //Passing main and help form links so that i know whose functions to call
-        public Options(Form1 parentForm1,HelpForm parentHelpForm)
+        internal Options(Form1 parentForm1,HelpForm parentHelpForm,CombinePerformer CP)
         {
             this.parentForm1 = parentForm1;
             this.parentHelpForm = parentHelpForm;
+            this.CP = CP;
             InitializeComponent();
         }
 
@@ -140,6 +142,14 @@ namespace WGemCombiner
         private void alwaysOnTopCheckBox_CheckedChanged(object sender, EventArgs e) //[ieee]
         {
             parentForm1.TopMost = alwaysOnTopCheckBox.Checked;
+        }
+
+        private void fullscreenCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (fullscreenCheckBox.Checked)
+                CP.setScreenRatio(Screen.PrimaryScreen.Bounds.Height);
+            else
+                CP.setScreenRatio(CombinePerformer.NATIVE_SCREEN_HEIGHT);
         }
     }
 }
