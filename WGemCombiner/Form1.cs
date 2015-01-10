@@ -265,23 +265,30 @@ namespace WGemCombiner
 
         [DllImport("user32.dll")]
         static extern ushort GetAsyncKeyState(int vKey);
+        static bool asyncWaiting = false;
         private void combineButton_Click(object sender, EventArgs e)
         {
+            if (asyncWaiting) return; // there was already a thread waiting for '9'
             if (GetAsyncKeyState((int)Keys.D9) != 0)
-            { MessageBox.Show("Key detection failed, or you were already holding 9. Try again."); return; }
+            {
+                MessageBox.Show("Key detection failed, or you were already holding 9. Try again.");
+                return;
+            }
             combineButton.Text = "Press 9";
             CP.sleep_time = (int)delayNumeric.Value;
-            do
-            {
+            asyncWaiting = true;
+            do {
                 Application.DoEvents();
                 System.Threading.Thread.Sleep(10);
-                if (GetAsyncKeyState((int)Keys.Escape) != 0)//[HR] Cancel before starting
+                if (GetAsyncKeyState((int)Keys.Escape) != 0) //[HR] Cancel before starting
                 {
                     combineButton.Text = "Combine";
                     return;
                 }
-            } while (GetAsyncKeyState((int)Keys.D9) == 0);
-
+            }
+            while (GetAsyncKeyState((int)Keys.D9) == 0);
+            // point in which "the user presses 9"
+            asyncWaiting = false;
             combineButton.Text = "Working...";
             CP.PerformCombine((int)stepNumeric.Value);
 
