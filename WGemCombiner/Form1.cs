@@ -11,6 +11,7 @@ using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using System.Reflection;
 using System.Resources;
+using System.IO;
 
 namespace WGemCombiner
 {
@@ -21,6 +22,7 @@ namespace WGemCombiner
 
         static Skin currentSkin = Skin.WindowsForms;//[HR]
         static bool hasBorder = true;//[HR]
+        internal static StreamWriter logger;
 
         List<List<byte[]>> presets;
         List<List<string>> presetNames;
@@ -42,6 +44,10 @@ namespace WGemCombiner
         {
             CP.StepComplete += CStepC;
             FormSkinner.changeSkin(currentSkin, this);
+            if (logger == null)
+                logger = new StreamWriter("Log.txt");
+            logger.WriteLine(DateTime.Now.ToLocalTime().ToString());
+            logger.AutoFlush = true;
 
             SetPresets();
             colorComboBox.SelectedIndex = 0;
@@ -337,6 +343,7 @@ namespace WGemCombiner
                 helpForm.Close();
             if (optionsForm.Visible)
                 optionsForm.Close();
+            logger.Close();
         }
 
         private void exitButton_Click(object sender, EventArgs e)

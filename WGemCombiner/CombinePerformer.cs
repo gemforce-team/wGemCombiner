@@ -452,18 +452,25 @@ namespace WGemCombiner
         {
             const byte KEY_D = 0x44;
             const byte KEY_U = 0x55;
-
+            Form1.logger.WriteLine("Performing a combine:");
             cancel_Combine = false;
             Point sA1 = Cursor.Position;
             for (int i = mSteps; i < inst.Count; i++)
             {
                 Point sPos = GetSlotPos(inst[i].X);
                 MoveCursor(sA1.X - (int)(sPos.X * SLOT_SIZE * resolutionRatio), sA1.Y - (int)(sPos.Y * SLOT_SIZE * resolutionRatio));
+                Form1.logger.WriteLine("Moved cursor to \t" + inst[i].X + "\t\t" + Cursor.Position.ToString());
                 //Thread.Sleep(sleep_time);
                 if (inst[i].Y == INST_DUPE)
+                {
                     PressKey(KEY_D);
+                    Form1.logger.WriteLine("Duped gem in slot \t" + inst[i].X);
+                }
                 else if (inst[i].Y == INST_UPGR)
+                {
                     PressKey(KEY_U);
+                    Form1.logger.WriteLine("Upgrd gem in slot \t" + inst[i].X);
+                }
                 else if (inst[i].Y < 0) // Move gem (only used when slots are compressed)
                 {
                     PressMouse();
@@ -474,7 +481,8 @@ namespace WGemCombiner
                 }
                 else
                 { // Try the button. Works wonders!
-                    MoveCursor(sA1.X - (int)(-0.5 * SLOT_SIZE*resolutionRatio), sA1.Y - (int)(12.8 * SLOT_SIZE*resolutionRatio));
+                    Form1.logger.WriteLine("Combining gems \t\t" + inst[i].X + " and " + inst[i].Y);
+                    MoveCursor(sA1.X - (int)(-0.5 * SLOT_SIZE * resolutionRatio), sA1.Y - (int)(12.8 * SLOT_SIZE * resolutionRatio));
                     PressMouse(); ReleaseMouse();
                     MoveCursor(sA1.X - (int)(sPos.X * SLOT_SIZE * resolutionRatio), sA1.Y - (int)(sPos.Y * SLOT_SIZE * resolutionRatio));
                     PressMouse();
