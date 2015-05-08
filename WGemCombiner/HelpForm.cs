@@ -49,13 +49,11 @@ namespace WGemCombiner
                 "\nYou can cancel the combine by pressing the 'Escape' key. (You may have to hold it for a second with lag?) " +
                 "Using a delay lower than GC2's frame time will cause input to be ahead of what you see happening, and so canceling may appear to not work. " +
                 "If your cursor has stopped moving, the program has stopped.\n\n" +
-                "To have the program combine a managem with Black/Orange gems (or other), place your Black/Orange gem in the base gem's slot, and a gem " +
-                "that is the Black/Orange gem combined with the base gem. Then set 'Start at step' to 2. (First two steps are always duplicate and upgrade base gem.)\n\n" +
-                "You can do any number of steps manually to get whatever mix you want, or to use several hitfarmed gems in the combine.\n\n" +
                 "The displayed list of instructions should be pretty self-explanatory. 1A is bottom-right, 1C is bottom-left, 12C is top-left.");
 
-            addHelpMessage("Speccing", "\nGem Combiner now supports speccing. To spec, place base gems of different color in 1A, 1B, etc, as many colors as needed.\n" +
-                "Order of colors should be, starting at 1A: Orange, Yellow, Black, Red. (Then killgem and managem.)\n" +
+            addHelpMessage("Speccing", "\nGem Combiner now supports speccing.\n" +
+                "To spec, place base gems of different color in 1A, 1B, etc, as many colors as needed.\n\n" +
+                "Order of colors should be, starting at 1A: Orange, Yellow, Black, Red. (Then killgem and managem.)\n\n" +
                 "Speccing provides another way of squeezing red out of a gem. Simply select your managem/killgem combine and replace one of the 'k' or 'm' with another " +
                 "(valid) color's letter. Be sure you have your two gems in the proper slots, though!");
 
@@ -69,8 +67,7 @@ namespace WGemCombiner
                 "(Only included for convenience if you want easily comparable gem costs.)" +
                 "Selecting a preset will change the textbox's text. This text is used to combine, not the preset. Any changes to the text displayed will affect the combine." +
                 "\n\nKg/Yellow and Mg/Orange combines are set to both use the same number of base gems, so that they can be used easily in amps. " + 
-                "These are not the best combines by themselves." +
-                "\n\nSorry, but not all presets are added in yet! Be patient.");
+                "These are not the best combines by themselves.");
 #if DEBUG
             addHelpMessage("Importing new presets","\n In debug mode you can import new presets from a .txt file with recipes.\n"+
                 "Your txt must contain one recipe per line."+
@@ -85,7 +82,7 @@ namespace WGemCombiner
                 "\nProgramming help: \n" +
                 "-12345ieee (some spec parsing, preset recipes) \n" +
                 "-Hellrage (some GUI tweaks, skin, small bugfixes, preset and resource management)" +
-                "\n\nRelease version: "+ System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
+                "\n\nRelease version: "+ "1.0.6b";
 
         private void addHelpMessage(string title, string message)
         {
