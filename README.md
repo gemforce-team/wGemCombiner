@@ -4,6 +4,12 @@ WGemCombiner
 Script to combine gems automatically - Written in Visual C#.
 
 
+### Get WGemCombiner
+
+Head to the [Release page](https://github.com/gemforce-team/wGemCombiner/releases) to download the last version of the program.  
+At the moment we only have a working Windows version.
+
+
 ### How To
 
 You give a gem recipe (or use one of the preset ones), put base gems on the correct starting slots
