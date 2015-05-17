@@ -464,11 +464,17 @@ namespace WGemCombiner
                 if (inst[i].Y == INST_DUPE)
                 {
                     PressKey(KEY_D);
+                    //SendKeys.Send("d");
+                    //SendKeys.SendWait("d");
+                    //Thread.Sleep(sleep_time);
                     Form1.logger.WriteLine("Duped gem in slot\t\t" + inst[i].X + "\t\t" + Cursor.Position.ToString());
                 }
                 else if (inst[i].Y == INST_UPGR)
                 {
                     PressKey(KEY_U);
+                    //SendKeys.Send("u");
+                    //SendKeys.SendWait("u");
+                    //Thread.Sleep(sleep_time);
                     Form1.logger.WriteLine("Upgrd gem in slot\t\t" + inst[i].X + "\t\t" + Cursor.Position.ToString());
                 }
                 else if (inst[i].Y < 0) // Move gem (only used when slots are compressed)
