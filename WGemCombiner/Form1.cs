@@ -22,7 +22,7 @@ namespace WGemCombiner
 
         static Skin currentSkin = Skin.WindowsForms;//[HR]
         static bool hasBorder = true;//[HR]
-        internal static StreamWriter logger;
+        internal static StreamWriter logger = StreamWriter.Null;
 
         List<List<byte[]>> presets;
         List<List<string>> presetNames;
@@ -44,10 +44,11 @@ namespace WGemCombiner
         {
             CP.StepComplete += CStepC;
             FormSkinner.changeSkin(currentSkin, this);
-            if (logger == null)
-                logger = new StreamWriter("Log.txt");
+#if DEBUG
+            logger = new StreamWriter("log.txt");
             logger.WriteLine(DateTime.Now.ToLocalTime().ToString());
             logger.AutoFlush = true;
+#endif
 
             SetPresets();
             colorComboBox.SelectedIndex = 0;

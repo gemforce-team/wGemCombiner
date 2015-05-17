@@ -459,17 +459,17 @@ namespace WGemCombiner
             {
                 Point sPos = GetSlotPos(inst[i].X);
                 MoveCursor(sA1.X - (int)(sPos.X * SLOT_SIZE * resolutionRatio), sA1.Y - (int)(sPos.Y * SLOT_SIZE * resolutionRatio));
-                Form1.logger.WriteLine("Moved cursor to \t" + inst[i].X + "\t\t" + Cursor.Position.ToString());
+                Form1.logger.WriteLine("Moved cursor to\t\t" + inst[i].X + "\t\t" + Cursor.Position.ToString());
                 //Thread.Sleep(sleep_time);
                 if (inst[i].Y == INST_DUPE)
                 {
                     PressKey(KEY_D);
-                    Form1.logger.WriteLine("Duped gem in slot \t" + inst[i].X);
+                    Form1.logger.WriteLine("Duped gem in slot\t\t" + inst[i].X + "\t\t" + Cursor.Position.ToString());
                 }
                 else if (inst[i].Y == INST_UPGR)
                 {
                     PressKey(KEY_U);
-                    Form1.logger.WriteLine("Upgrd gem in slot \t" + inst[i].X);
+                    Form1.logger.WriteLine("Upgrd gem in slot\t\t" + inst[i].X + "\t\t" + Cursor.Position.ToString());
                 }
                 else if (inst[i].Y < 0) // Move gem (only used when slots are compressed)
                 {
