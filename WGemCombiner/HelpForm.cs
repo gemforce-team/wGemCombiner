@@ -55,7 +55,15 @@ namespace WGemCombiner
                 "To spec, place base gems of different color in 1A, 1B, etc, as many colors as needed.\n\n" +
                 "Order of colors should be, starting at 1A: Orange, Yellow, Black, Red. (Then killgem and managem.)\n\n" +
                 "Speccing provides another way of squeezing red out of a gem. Simply select your managem/killgem combine and replace one of the 'k' or 'm' with another " +
-                "(valid) color's letter. Be sure you have your two gems in the proper slots, though!");
+                "(valid) color's letter. Be sure you have your two gems in the proper slots, though!\n\n" +
+                "EXAMPLE: \n" +
+                "Pick Managem Spec\n" +
+                "Choose the default 8 pattern\n" +
+                "Put Orange g1 in 1A(bottom right slot)\n" +
+                "Put Black or White gem g1 in 1B (bottom middle slot)\n" +
+                "Put Red gem g1 in 1C (bottom left slot)\n" +
+                "Press 9 with your cursor over the Orange gem in 1A\n" +
+                "Enjoy!");
 
             addHelpMessage("Input Format", "\nExample of combining equations:\n(val = 1)\t0 = g1 orange\n(val = 2)\t1 = 0 + 0\n(val = 3)\t2 = 1 + 0" +
                 "\nWorks if you have first gem as '1' and second as '2', etc, as well." +
