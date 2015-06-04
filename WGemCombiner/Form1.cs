@@ -196,6 +196,7 @@ namespace WGemCombiner
         {
             if (colorComboBox.SelectedIndex > 0)
             {
+                asyncWaiting = false;
                 int cID = colorComboBox.SelectedIndex - 1;
                 Gem g = CombinePerformer.LoadGem(presets[cID][combineComboBox.SelectedIndex], presetColors[cID]);
                 formulaInputTextBox.Text = g.GetFullCombine();
@@ -430,6 +431,11 @@ namespace WGemCombiner
         private void SaveGem()
         {
             System.IO.File.WriteAllBytes(path + CP.resultGem.GetColor().ToString() + "col" + CP.resultGem.Cost + "C", CP.GetSave());
+        }
+
+        private void delayNumeric_ValueChanged(object sender, EventArgs e)
+        {
+            CP.sleep_time = (int)delayNumeric.Value;
         }
     }
 }
