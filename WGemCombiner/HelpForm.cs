@@ -42,10 +42,10 @@ namespace WGemCombiner
             addHelpMessage("Working with the combiner", "\nPaste gem combining equations or a parenthesis formula into the textbox, then click 'Get Instructions'.\n" +
                 "Set the 'delay' to at LEAST as many miliseconds as a frame on GC2 is taking. I recommend at least 45-50 for no lag. " +
                 "(It will usually work with much lower, but going any lower than the frame time will not actually speed up the process, " +
-                "as the game will only do one step per frame.)\nTo further reduce lag disable the gem info tooltips (\".\")\n\n" +
+                "as the game will only do one step per frame.)\nGame gem info tooltips will be hidden and reshown after the combne (\".\")\n\n" +
                 "To have the program perform the combining method:\n" +
                 "-Place the base gem in the bottom-right inventory slot. Empty inventory up to as many slots as the combine requires.\n" +
-                "-Click 'Combine'\n-Hover your cursor over the base gem.\n-Press the '9' key.\n" +
+                "-Hover your cursor over the base gem.\n-Press the '9' key.\n" +
                 "\nYou can cancel the combine by pressing the 'Escape' key. (You may have to hold it for a second with lag?) " +
                 "Using a delay lower than GC2's frame time will cause input to be ahead of what you see happening, and so canceling may appear to not work. " +
                 "If your cursor has stopped moving, the program has stopped.\n\n" +
@@ -85,12 +85,13 @@ namespace WGemCombiner
 
             addHelpMessage("Credits", credits + "\n\nTo report a problem, go to \nhttps://github.com/gemforce-team/wGemCombiner/issues");
         }
-        public static string credits = "Gem Combiner was made by Suuper.\n" +
-                "Testing help: Hellrage, 12345ieee" +
-                "\nProgramming help: \n" +
+        public static string credits = "Gem Combiner was made by Suuper.\n\n" +
+                "Testing help: Hellrage, 12345ieee\n\n" +
+                "Programming help: \n" +
                 "-12345ieee (some spec parsing, preset recipes) \n" +
-                "-Hellrage (some GUI tweaks, skin, small bugfixes, preset and resource management)" +
-                "\n\nRelease version: "+ "1.0.6b";
+                "-Hellrage (some GUI tweaks, skin, small bugfixes, preset and resource management)\n" +
+                "-CooLTanG (Automate the 'Get Instructions' & 'Combine' steps, fix window size/resolution issues)"+
+                "\n\nRelease version: "+ "1.0.7b";
 
         private void addHelpMessage(string title, string message)
         {

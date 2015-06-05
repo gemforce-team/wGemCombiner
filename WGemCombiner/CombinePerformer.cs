@@ -23,8 +23,8 @@ namespace WGemCombiner
         public const int INST_UPGR = -98;
         public const int SLOT_SIZE = 28;
 
-        public const double NATIVE_SCREEN_HEIGHT = 612; //1088 x 612 says spy++, not 600
-        public const double NATIVE_SCREEN_WIDTH = 1088; //1088 x 612 says spy++, not 600
+        public const double NATIVE_SCREEN_HEIGHT = 612; //1088 x 612 says spy++, 600 flash version
+        public const double NATIVE_SCREEN_WIDTH = 1088;
         
         public double resolutionRatio = 1;
         public int Slots_Required;
@@ -424,8 +424,10 @@ namespace WGemCombiner
         [DllImport("USER32.DLL", CharSet = CharSet.Unicode)]
         public static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
         [DllImport("user32.dll")]
-        private static extern bool GetClientRect(IntPtr hWnd, out Rectangle lpRect);
+        public static extern bool GetClientRect(IntPtr hWnd, out Rectangle lpRect);
 
+        [DllImport("USER32.DLL")]
+        public static extern bool SetForegroundWindow(IntPtr hWnd);
 
         [DllImport("user32.dll")]
         static extern void mouse_event(uint dwFlags, uint dx, uint dy, uint cButtons, UIntPtr dwExtraInfo);
@@ -463,27 +465,40 @@ namespace WGemCombiner
             // Verify that Gemcraft is a running process. 
             if (gemcraftHandle == IntPtr.Zero)
             {
-                MessageBox.Show("GemCraft Chasing Shadows is not running.");
-                cancel_Combine = true;
-                return;
+               //Gemcraft Steam verison not running, defaulting back to flash version
+                resolutionRatio = 1;
+                PressMouse(); ReleaseMouse(); //Just to give focus to the window 
+                //MessageBox.Show("GemCraft Chasing Shadows is not running.");
+                //cancel_Combine = true;
+                //return;
+                
             }
-            GetClientRect(gemcraftHandle, out clientRect);
+            else
+            {
+                //set gemcraft window focus
+                SetForegroundWindow(gemcraftHandle);
 
-            double ratio = NATIVE_SCREEN_WIDTH / NATIVE_SCREEN_HEIGHT; //1.7777
+                GetClientRect(gemcraftHandle, out clientRect);
 
-            double width = clientRect.Width;
-            double height = clientRect.Height;
-            double minwidth = width - NATIVE_SCREEN_WIDTH;
-            double minheight = height - NATIVE_SCREEN_HEIGHT;
+                double ratio = NATIVE_SCREEN_WIDTH / NATIVE_SCREEN_HEIGHT; //1.7777
 
-            if (minwidth < minheight)//normalize the demensions
-                height = width / ratio;
-            //else
+                double width = clientRect.Width;
+                double height = clientRect.Height;
+                double minwidth = width - NATIVE_SCREEN_WIDTH;
+                double minheight = height - NATIVE_SCREEN_HEIGHT;
+
+                //not sure if this is the proper way of doing it, 
+                //but from what I've tested, I can't seem to break it
+                //Please modify if there is a better way.
+
+                if (minwidth < minheight)//normalize the demensions
+                    height = width / ratio;
+                //else
                 //width = height * ratio;  
 
-            resolutionRatio = height / NATIVE_SCREEN_HEIGHT;
-
-
+                resolutionRatio = height / NATIVE_SCREEN_HEIGHT;
+            }
+            
             cancel_Combine = false;
             Point sA1 = Cursor.Position;
             PressKey(KEY_DOT);//hide info box
@@ -505,26 +520,29 @@ namespace WGemCombiner
                     ReleaseMouse();
                 }
                 else
-                {//why try the button, when 'G' is there!
-                    PressKey(KEY_G);
-                    MoveCursor(sA1.X - (int)(sPos.X * SLOT_SIZE * resolutionRatio), sA1.Y - (int)(sPos.Y * SLOT_SIZE * resolutionRatio));
-                    PressMouse();
-                    sPos = GetSlotPos(inst[i].Y);
-                    MoveCursor(sA1.X - (int)(sPos.X * SLOT_SIZE * resolutionRatio), sA1.Y - (int)(sPos.Y * SLOT_SIZE * resolutionRatio));
-                    ReleaseMouse();
+                {
+                    if (gemcraftHandle == IntPtr.Zero)// kept the original flash version
+                    {
+                        // Try the button. Works wonders!
+                        MoveCursor(sA1.X - (int)(-0.5 * SLOT_SIZE * resolutionRatio), sA1.Y - (int)(12.8 * SLOT_SIZE * resolutionRatio));
+                        PressMouse(); ReleaseMouse();
+                        MoveCursor(sA1.X - (int)(sPos.X * SLOT_SIZE * resolutionRatio), sA1.Y - (int)(sPos.Y * SLOT_SIZE * resolutionRatio));
+                        PressMouse();
+                        sPos = GetSlotPos(inst[i].Y);
+                        MoveCursor(sA1.X - (int)(sPos.X * SLOT_SIZE * resolutionRatio), sA1.Y - (int)(sPos.Y * SLOT_SIZE * resolutionRatio));
+                        ReleaseMouse();
+                    }
+                    else 
+                    {
+                        //why try the button, when 'G' is there!
+                        PressKey(KEY_G);
+                        MoveCursor(sA1.X - (int)(sPos.X * SLOT_SIZE * resolutionRatio), sA1.Y - (int)(sPos.Y * SLOT_SIZE * resolutionRatio));
+                        PressMouse();
+                        sPos = GetSlotPos(inst[i].Y);
+                        MoveCursor(sA1.X - (int)(sPos.X * SLOT_SIZE * resolutionRatio), sA1.Y - (int)(sPos.Y * SLOT_SIZE * resolutionRatio));
+                        ReleaseMouse();
+                    }
                 }
-                /*
-                else
-                { // Try the button. Works wonders!
-                    MoveCursor(sA1.X - (int)(-0.5 * SLOT_SIZE * resolutionRatio), sA1.Y - (int)(12.8 * SLOT_SIZE*resolutionRatio));
-                    PressMouse(); ReleaseMouse();
-                    MoveCursor(sA1.X - (int)(sPos.X * SLOT_SIZE * resolutionRatio), sA1.Y - (int)(sPos.Y * SLOT_SIZE * resolutionRatio));
-                    PressMouse();
-                    sPos = GetSlotPos(inst[i].Y);
-                    MoveCursor(sA1.X - (int)(sPos.X * SLOT_SIZE * resolutionRatio), sA1.Y - (int)(sPos.Y * SLOT_SIZE * resolutionRatio));
-                    ReleaseMouse();
-                }
-                */
 
                 if (StepComplete != null)
                     StepComplete.Invoke(i);
