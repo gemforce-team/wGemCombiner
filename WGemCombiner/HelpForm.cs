@@ -40,12 +40,12 @@ namespace WGemCombiner
         private void fillHelpMessages()
         {
             addHelpMessage("Working with the combiner", "\nPaste gem combining equations or a parenthesis formula into the textbox, then click 'Get Instructions'.\n" +
-                "Set the 'delay' to at LEAST as many miliseconds as a frame on GC2 is taking. I recommend at least 45-50 for no lag. " +
+                "Set the 'delay' to at LEAST as many miliseconds as a frame on GC2 is taking. I recommend at least 50 or higher for no lag.  The bigger the window you may need to raise the delay." +
                 "(It will usually work with much lower, but going any lower than the frame time will not actually speed up the process, " +
-                "as the game will only do one step per frame.)\nTo further reduce lag disable the gem info tooltips (\".\")\n\n" +
+                "as the game will only do one step per frame.)\nGame gem info tooltips will be hidden and reshown after the combne (\".\")\n\n" +
                 "To have the program perform the combining method:\n" +
                 "-Place the base gem in the bottom-right inventory slot. Empty inventory up to as many slots as the combine requires.\n" +
-                "-Click 'Combine'\n-Hover your cursor over the base gem.\n-Press the '9' key.\n" +
+                "-Hover your cursor over the base gem.\n-Press the '9' key.\n" +
                 "\nYou can cancel the combine by pressing the 'Escape' key. (You may have to hold it for a second with lag?) " +
                 "Using a delay lower than GC2's frame time will cause input to be ahead of what you see happening, and so canceling may appear to not work. " +
                 "If your cursor has stopped moving, the program has stopped.\n\n" +
@@ -55,7 +55,15 @@ namespace WGemCombiner
                 "To spec, place base gems of different color in 1A, 1B, etc, as many colors as needed.\n\n" +
                 "Order of colors should be, starting at 1A: Orange, Yellow, Black, Red. (Then killgem and managem.)\n\n" +
                 "Speccing provides another way of squeezing red out of a gem. Simply select your managem/killgem combine and replace one of the 'k' or 'm' with another " +
-                "(valid) color's letter. Be sure you have your two gems in the proper slots, though!");
+                "(valid) color's letter. Be sure you have your two gems in the proper slots, though!\n\n" +
+                "EXAMPLE: \n" +
+                "Pick Managem Spec\n" +
+                "Choose the default 8 pattern\n" +
+                "Put Orange g1 in 1A(bottom right slot)\n" +
+                "Put Black or White gem g1 in 1B (bottom middle slot)\n" +
+                "Put Red gem g1 in 1C (bottom left slot)\n" +
+                "Press 9 with your cursor over the Orange gem in 1A\n" +
+                "Enjoy!");
 
             addHelpMessage("Input Format", "\nExample of combining equations:\n(val = 1)\t0 = g1 orange\n(val = 2)\t1 = 0 + 0\n(val = 3)\t2 = 1 + 0" +
                 "\nWorks if you have first gem as '1' and second as '2', etc, as well." +
@@ -77,12 +85,13 @@ namespace WGemCombiner
 
             addHelpMessage("Credits", credits + "\n\nTo report a problem, go to \nhttps://github.com/gemforce-team/wGemCombiner/issues");
         }
-        public static string credits = "Gem Combiner was made by Suuper.\n" +
-                "Testing help: Hellrage, 12345ieee" +
-                "\nProgramming help: \n" +
+        public static string credits = "Gem Combiner was made by Suuper.\n\n" +
+                "Testing help: Hellrage, 12345ieee\n\n" +
+                "Programming help: \n" +
                 "-12345ieee (some spec parsing, preset recipes) \n" +
-                "-Hellrage (some GUI tweaks, skin, small bugfixes, preset and resource management)" +
-                "\n\nRelease version: "+ "1.0.6b";
+                "-Hellrage (some GUI tweaks, skin, small bugfixes, preset and resource management)\n" +
+                "-CooLTanG (Automate the 'Get Instructions' & 'Combine' steps, fix window size/resolution issues)"+
+                "\n\nRelease version: "+ "1.0.7b";
 
         private void addHelpMessage(string title, string message)
         {

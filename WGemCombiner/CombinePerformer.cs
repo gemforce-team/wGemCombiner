@@ -21,10 +21,12 @@ namespace WGemCombiner
         public List<Point> inst = new List<Point>();
         public const int INST_DUPE = -99;
         public const int INST_UPGR = -98;
-        const int SLOT_SIZE = 28;
-        public const double NATIVE_SCREEN_HEIGHT = 600;
-        public double resolutionRatio = 1;
+        public const int SLOT_SIZE = 28;
 
+        public const double NATIVE_SCREEN_HEIGHT = 612; //1088 x 612 says spy++, 600 flash version
+        public const double NATIVE_SCREEN_WIDTH = 1088;
+        
+        public double resolutionRatio = 1;
         public int Slots_Required;
         public bool limitSlots = true;
 
@@ -418,12 +420,14 @@ namespace WGemCombiner
                 Slots_Required = s + 1;
         }
 
+        // Get a handle to an application window.
+        [DllImport("USER32.DLL", CharSet = CharSet.Unicode)]
+        public static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
+        [DllImport("user32.dll")]
+        public static extern bool GetClientRect(IntPtr hWnd, out Rectangle lpRect);
 
-        // Bot code
-        public void setScreenRatio(double screenHeight)
-        {
-            resolutionRatio = screenHeight / NATIVE_SCREEN_HEIGHT;
-        }
+        [DllImport("USER32.DLL")]
+        public static extern bool SetForegroundWindow(IntPtr hWnd);
 
         [DllImport("user32.dll")]
         static extern void mouse_event(uint dwFlags, uint dx, uint dy, uint cButtons, UIntPtr dwExtraInfo);
@@ -452,9 +456,50 @@ namespace WGemCombiner
         {
             const byte KEY_D = 0x44;
             const byte KEY_U = 0x55;
+            const byte KEY_DOT = 0xBE;//hide info box
+            Rectangle clientRect;
+            resolutionRatio = 1;
+            
+            IntPtr gemcraftHandle = FindWindow("ApolloRuntimeContentWindow", "GemCraft Chasing Shadows");
+            // Verify that Gemcraft is a running process. 
+            if (gemcraftHandle == IntPtr.Zero)
+            {
+                //Gemcraft Steam verison not running, defaulting back to flash version
+                PressMouse(); ReleaseMouse(); //Just to give focus to the window 
+            }
+            else
+            {
+                //set gemcraft window focus
+                SetForegroundWindow(gemcraftHandle);
+                //grab window size
+                GetClientRect(gemcraftHandle, out clientRect);
 
+                double width = clientRect.Width;
+                double height = clientRect.Height;
+                double ratio = NATIVE_SCREEN_WIDTH / NATIVE_SCREEN_HEIGHT; //1088x612//1.7777
+                double newHeight = width / ratio;
+                double newWidth = height * ratio;
+
+                //Please modify if there is a better way.
+                if (newHeight <= height)
+                    resolutionRatio = width / NATIVE_SCREEN_WIDTH;
+                else
+                    if (newWidth <= width)
+                        resolutionRatio = height / NATIVE_SCREEN_HEIGHT;
+               /* 
+                MessageBox.Show("newheight="+newheight.ToString("0.#####")+
+                                " newwidth="+newwidth.ToString("0.#####")+
+                                " height="+height.ToString("0.#####")+
+                                " width="+width.ToString("0.#####")+
+                                " ratio="+ratio.ToString("0.#####")+
+                                " resolutionRatio="+resolutionRatio.ToString("0.#####"));
+                return;
+                */  
+            }
+            
             cancel_Combine = false;
             Point sA1 = Cursor.Position;
+            PressKey(KEY_DOT);//hide info box
             for (int i = mSteps; i < inst.Count; i++)
             {
                 Point sPos = GetSlotPos(inst[i].X);
@@ -473,9 +518,11 @@ namespace WGemCombiner
                     ReleaseMouse();
                 }
                 else
-                { // Try the button. Works wonders!
-                    MoveCursor(sA1.X - (int)(-0.5 * SLOT_SIZE*resolutionRatio), sA1.Y - (int)(12.8 * SLOT_SIZE*resolutionRatio));
+                {
+                    // Try the button. Works wonders!
+                    MoveCursor(sA1.X - (int)(-0.5 * SLOT_SIZE * resolutionRatio), sA1.Y - (int)(12.8 * SLOT_SIZE * resolutionRatio));
                     PressMouse(); ReleaseMouse();
+                    Thread.Sleep(sleep_time);
                     MoveCursor(sA1.X - (int)(sPos.X * SLOT_SIZE * resolutionRatio), sA1.Y - (int)(sPos.Y * SLOT_SIZE * resolutionRatio));
                     PressMouse();
                     sPos = GetSlotPos(inst[i].Y);
@@ -489,6 +536,11 @@ namespace WGemCombiner
                     break;
                 Thread.Sleep(sleep_time);
             }
+            //Move the gem back to default spot
+            PressMouse();
+            MoveCursor(sA1.X, sA1.Y);
+            ReleaseMouse();
+            PressKey(KEY_DOT);//show info box
         }
         private Point GetSlotPos(int s)
         {

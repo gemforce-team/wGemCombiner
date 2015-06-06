@@ -36,7 +36,6 @@ namespace WGemCombiner
             changeSkin(currentSkin);
             setBorder(hasBorder);
             alwaysOnTopCheckBox.Checked = parentForm1.TopMost;
-            if (CP.resolutionRatio != 1) fullscreenCheckBox.Checked = true;
         }
 
         //When the help form is closed it's link points to a disposed object, we have to update our options form with a new one
@@ -143,14 +142,6 @@ namespace WGemCombiner
         private void alwaysOnTopCheckBox_CheckedChanged(object sender, EventArgs e) //[ieee]
         {
             parentForm1.TopMost = alwaysOnTopCheckBox.Checked;
-        }
-
-        private void fullscreenCheckBox_CheckedChanged(object sender, EventArgs e)
-        {
-            if (fullscreenCheckBox.Checked)
-                CP.setScreenRatio(Screen.PrimaryScreen.Bounds.Height);
-            else
-                CP.setScreenRatio(CombinePerformer.NATIVE_SCREEN_HEIGHT);
         }
     }
 }
