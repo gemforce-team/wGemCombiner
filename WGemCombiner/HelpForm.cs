@@ -40,7 +40,7 @@ namespace WGemCombiner
         private void fillHelpMessages()
         {
             addHelpMessage("Working with the combiner", "\nPaste gem combining equations or a parenthesis formula into the textbox, then click 'Get Instructions'.\n" +
-                "Set the 'delay' to at LEAST as many miliseconds as a frame on GC2 is taking. I recommend at least 45-50 for no lag. " +
+                "Set the 'delay' to at LEAST as many miliseconds as a frame on GC2 is taking. I recommend at least 50 or higher for no lag.  The bigger the window you may need to raise the delay." +
                 "(It will usually work with much lower, but going any lower than the frame time will not actually speed up the process, " +
                 "as the game will only do one step per frame.)\nGame gem info tooltips will be hidden and reshown after the combne (\".\")\n\n" +
                 "To have the program perform the combining method:\n" +
