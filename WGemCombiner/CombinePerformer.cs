@@ -22,7 +22,8 @@ namespace WGemCombiner
         public const int INST_DUPE = -99;
         public const int INST_UPGR = -98;
         const int SLOT_SIZE = 28;
-        public const double NATIVE_SCREEN_HEIGHT = 600;
+        public const double NATIVE_SCREEN_HEIGHT = 612;//1088 x 612 says spy++, 600 flash version
+        public const double NATIVE_SCREEN_WIDTH = 1088;//
         public double resolutionRatio = 1;
 
         public int Slots_Required;
@@ -416,13 +417,6 @@ namespace WGemCombiner
         {
             if (s + 1 > Slots_Required)
                 Slots_Required = s + 1;
-        }
-
-
-        // Bot code
-        public void setScreenRatio(double screenHeight)
-        {
-            resolutionRatio = screenHeight / NATIVE_SCREEN_HEIGHT;
         }
 
         [DllImport("user32.dll")]
