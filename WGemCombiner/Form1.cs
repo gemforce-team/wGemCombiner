@@ -19,6 +19,7 @@ namespace WGemCombiner
     {
 
         private bool loaded = false;
+        private bool isFormClosing = false;//have to check if form is closing
 
         static Skin currentSkin = Skin.WindowsForms;//[HR]
         static bool hasBorder = true;//[HR]
@@ -287,9 +288,10 @@ namespace WGemCombiner
             do {
                 Application.DoEvents();
                 System.Threading.Thread.Sleep(10);
-                if (GetAsyncKeyState((int)Keys.Escape) != 0) //[HR] Cancel before starting
+                if (GetAsyncKeyState((int)Keys.Escape) != 0 || isFormClosing) //[HR] Cancel before starting or if form is closing
                 {
                     combineButton.Text = "Combine";
+                    asyncWaiting = false; 
                     return;
                 }
             }
@@ -340,6 +342,7 @@ namespace WGemCombiner
         //[HR] from here down
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
+            isFormClosing = true;
             if (helpForm.Visible)
                 helpForm.Close();
             if (optionsForm.Visible)
