@@ -441,5 +441,11 @@ namespace WGemCombiner
         {
             System.IO.File.WriteAllBytes(path + CP.resultGem.GetColor().ToString() + "col" + CP.resultGem.Cost + "C", CP.GetSave());
         }
+
+        private void delayNumeric_ValueChanged(object sender, EventArgs e)
+        {
+            //quick fix to make sure its use even if combine is already pressed
+            CP.sleep_time = (int)delayNumeric.Value;
+        }
     }
 }
