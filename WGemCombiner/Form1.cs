@@ -282,7 +282,8 @@ namespace WGemCombiner
             if (asyncWaiting) return; // there was already a thread waiting for '9'
             if (GetAsyncKeyState((int)Keys.D9) != 0)
             {
-                MessageBox.Show("Key detection failed, or you were already holding 9. Try again.");
+                //MessageBox.Show("Key detection failed, or you were already holding 9. Try again.");
+                combineButton.PerformClick();//ignore holding "9" key error and try again.
                 return;
             }
             combineButton.Text = "Press 9";
@@ -305,7 +306,11 @@ namespace WGemCombiner
             CP.PerformCombine((int)stepNumeric.Value);
 
             if (!CP.cancel_Combine)
+            {
                 combineButton.Text = "Combine";
+                System.Threading.Thread.Sleep(500);//guess give it 0.5sec before going again
+                combineButton.PerformClick();//guess its finished, click the "combine" again
+            }
         }
         private void CStepC(int stepID)
         {
