@@ -446,9 +446,13 @@ namespace WGemCombiner
         {
             const byte KEY_D = 0x44;
             const byte KEY_U = 0x55;
+            const byte KEY_DOT = 0xBE;//hide info box
             Form1.logger.WriteLine("Performing a combine:");
+            
             cancel_Combine = false;
             Point sA1 = Cursor.Position;
+            PressKey(KEY_DOT);//hide info box
+            Thread.Sleep(sleep_time);
             for (int i = mSteps; i < inst.Count; i++)
             {
                 Point sPos = GetSlotPos(inst[i].X);
@@ -497,6 +501,12 @@ namespace WGemCombiner
                     break;
                 Thread.Sleep(sleep_time);
             }
+            //Move the gem back to default spot
+            PressMouse();
+            MoveCursor(sA1.X, sA1.Y);
+            ReleaseMouse();
+            Thread.Sleep(sleep_time);
+            PressKey(KEY_DOT);//show info box
         }
         private Point GetSlotPos(int s)
         {
