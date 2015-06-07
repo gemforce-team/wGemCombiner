@@ -192,6 +192,7 @@ namespace WGemCombiner
                 combineComboBox.Items.AddRange(presetNames[colorComboBox.SelectedIndex - 1].ToArray());
                 parenthesisRadioButton.Checked = true;
                 equationsRadioButton.Enabled = false;
+                combineComboBox.SelectedIndex = 0;//Preselect the first in the box
             }
             else
             {
@@ -205,6 +206,8 @@ namespace WGemCombiner
                 int cID = colorComboBox.SelectedIndex - 1;
                 Gem g = CombinePerformer.LoadGem(presets[cID][combineComboBox.SelectedIndex], presetColors[cID]);
                 formulaInputTextBox.Text = g.GetFullCombine();
+                getInstructionsButton.PerformClick(); //Auto-load instructions, so u don't have to even press that button 
+                combineButton.PerformClick(); //Auto-load the combine button so all u have to press is "9" over the gem
             }
         }
 
