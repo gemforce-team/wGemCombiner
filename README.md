@@ -36,7 +36,6 @@ Other contributors:
 
 * AG user 'Hellrage': GUI, bugfixes, testing  
 * AG and Steam user '12345ieee': Recipes, bugfixes, testing
-* AG/Steam user 'CooLTanG': Automate more processes, fix resolution issues
 
 Current mantainer:
 
