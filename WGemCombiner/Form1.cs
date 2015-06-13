@@ -215,6 +215,12 @@ namespace WGemCombiner
             CP.SetMethod(formulaInputTextBox.Text, equationsRadioButton.Checked);
             resultInfoLabel.Text = GetGemInfo(CP.resultGem) + "\nSlots: " + CP.Slots_Required;
 
+            baseGemsListBox.Items.Clear();
+            foreach (var baseGemSlot in CP.baseGemSlots)
+            {
+                baseGemsListBox.Items.Add(baseGemSlot);
+            }
+
             instructionsListBox.Items.Clear();
             for (int i = 0; i < CP.inst.Count; i++)
             {
