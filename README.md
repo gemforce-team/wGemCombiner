@@ -36,11 +36,11 @@ Other contributors:
 
 * AG user 'Hellrage': GUI, bugfixes, testing  
 * AG and Steam user '12345ieee': Recipes, bugfixes, testing
-* AG/Steam user 'CooLTanG': Automate tasks, fix resolution issues
+* AG and Steam user 'CooLTanG': Automate tasks, fix resolution issues
 
 Current mantainer:
 
-* AG and Steam user '12345ieee'
+* AG and Steam user 'CooLTanG'
 
 If this project helped you and you wish to help by contributing, please contact us, leaving a
 [new issue](https://github.com/gemforce-team/wGemCombiner/issues/new) or opening a new pull request.
