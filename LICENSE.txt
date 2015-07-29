@@ -1,4 +1,4 @@
-Copyright (c) 2014 Suuper, Hellrage and 12345ieee
+Copyright (c) 2014 Suuper, Hellrage, 12345ieee and CooLTanG
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
