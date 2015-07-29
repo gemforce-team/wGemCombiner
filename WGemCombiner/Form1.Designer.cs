@@ -168,6 +168,7 @@
             0,
             0,
             0});
+            this.delayNumeric.ValueChanged += new System.EventHandler(this.delayNumeric_ValueChanged);
             // 
             // stepLabel
             // 
