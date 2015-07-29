@@ -9,30 +9,26 @@ namespace WGemCombiner
     static class RecipeConverter
     {
         static CombinePerformer CP = new CombinePerformer();
-        static StreamWriter logger;
 
         static public void convertFromFile(string importFilePath)
         {
             int recipeNumber = 0;
             string currentRecipe = "";
             StreamReader recipeReader = new StreamReader(importFilePath);
-            logger = new StreamWriter(@"..\..\..\Resources\importLog.txt");
-            logger.AutoFlush = true;
 
             while((currentRecipe = recipeReader.ReadLine())!=null)
             {
-                logger.Write( "Converting Recipe # " + ++recipeNumber + ":\t");
+                Form1.logger.Write( "Converting Recipe # " + ++recipeNumber + ":\t");
                 if(!CP.schemeIsValid(currentRecipe))
                 {
-                    logger.Write("Scheme is not valid, skipping...\n");
+                    Form1.logger.Write("Scheme is not valid, skipping...\n");
                     continue;
                 }
                 convertRecipe(currentRecipe);
             }
 
             recipeReader.Close();
-            logger.WriteLine("\nFinished importing!");
-            logger.Close();
+            Form1.logger.WriteLine("\nFinished importing!");
             System.Windows.Forms.MessageBox.Show("Done, check the log in /Resources");
         }
 
@@ -80,7 +76,7 @@ namespace WGemCombiner
             string writtenFilePath = path + CP.resultGem.Cost + (isCombine ? "C" : "");
 
             System.IO.File.WriteAllBytes(writtenFilePath, CP.GetSave());
-            logger.Write( "Written recipe to " + writtenFilePath + "\n");
+            Form1.logger.Write( "Written recipe to " + writtenFilePath + "\n");
         }
     }
 

@@ -11,6 +11,7 @@ using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using System.Reflection;
 using System.Resources;
+using System.IO;
 
 namespace WGemCombiner
 {
@@ -18,9 +19,11 @@ namespace WGemCombiner
     {
 
         private bool loaded = false;
+        private bool isFormClosing = false;//have to check if form is closing
 
         static Skin currentSkin = Skin.WindowsForms;//[HR]
         static bool hasBorder = true;//[HR]
+        internal static StreamWriter logger = StreamWriter.Null;
 
         List<List<byte[]>> presets;
         List<List<string>> presetNames;
@@ -42,6 +45,11 @@ namespace WGemCombiner
         {
             CP.StepComplete += CStepC;
             FormSkinner.changeSkin(currentSkin, this);
+#if DEBUG
+            logger = new StreamWriter("log.txt");
+            logger.WriteLine(DateTime.Now.ToLocalTime().ToString());
+            logger.AutoFlush = true;
+#endif
 
             SetPresets();
             colorComboBox.SelectedIndex = 0;
@@ -184,6 +192,7 @@ namespace WGemCombiner
                 combineComboBox.Items.AddRange(presetNames[colorComboBox.SelectedIndex - 1].ToArray());
                 parenthesisRadioButton.Checked = true;
                 equationsRadioButton.Enabled = false;
+                combineComboBox.SelectedIndex = 0;//Preselect the first in the box
             }
             else
             {
@@ -197,6 +206,8 @@ namespace WGemCombiner
                 int cID = colorComboBox.SelectedIndex - 1;
                 Gem g = CombinePerformer.LoadGem(presets[cID][combineComboBox.SelectedIndex], presetColors[cID]);
                 formulaInputTextBox.Text = g.GetFullCombine();
+                getInstructionsButton.PerformClick(); //Auto-load instructions, so u don't have to even press that button 
+                combineButton.PerformClick(); //Auto-load the combine button so all u have to press is "9" over the gem
             }
         }
 
@@ -271,7 +282,8 @@ namespace WGemCombiner
             if (asyncWaiting) return; // there was already a thread waiting for '9'
             if (GetAsyncKeyState((int)Keys.D9) != 0)
             {
-                MessageBox.Show("Key detection failed, or you were already holding 9. Try again.");
+                //MessageBox.Show("Key detection failed, or you were already holding 9. Try again.");
+                combineButton.PerformClick();//ignore holding "9" key error and try again.
                 return;
             }
             combineButton.Text = "Press 9";
@@ -280,9 +292,10 @@ namespace WGemCombiner
             do {
                 Application.DoEvents();
                 System.Threading.Thread.Sleep(10);
-                if (GetAsyncKeyState((int)Keys.Escape) != 0) //[HR] Cancel before starting
+                if (GetAsyncKeyState((int)Keys.Escape) != 0 || isFormClosing) //[HR] Cancel before starting or if form is closing
                 {
                     combineButton.Text = "Combine";
+                    asyncWaiting = false; 
                     return;
                 }
             }
@@ -293,7 +306,11 @@ namespace WGemCombiner
             CP.PerformCombine((int)stepNumeric.Value);
 
             if (!CP.cancel_Combine)
+            {
                 combineButton.Text = "Combine";
+                System.Threading.Thread.Sleep(500);//guess give it 0.5sec before going again
+                combineButton.PerformClick();//guess its finished, click the "combine" again
+            }
         }
         private void CStepC(int stepID)
         {
@@ -333,10 +350,12 @@ namespace WGemCombiner
         //[HR] from here down
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
+            isFormClosing = true;
             if (helpForm.Visible)
                 helpForm.Close();
             if (optionsForm.Visible)
                 optionsForm.Close();
+            logger.Close();
         }
 
         private void exitButton_Click(object sender, EventArgs e)
@@ -421,6 +440,12 @@ namespace WGemCombiner
         private void SaveGem()
         {
             System.IO.File.WriteAllBytes(path + CP.resultGem.GetColor().ToString() + "col" + CP.resultGem.Cost + "C", CP.GetSave());
+        }
+
+        private void delayNumeric_ValueChanged(object sender, EventArgs e)
+        {
+            //quick fix to make sure its use even if combine is already pressed
+            CP.sleep_time = (int)delayNumeric.Value;
         }
     }
 }
