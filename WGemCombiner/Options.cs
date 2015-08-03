@@ -36,6 +36,8 @@ namespace WGemCombiner
             changeSkin(currentSkin);
             setBorder(hasBorder);
             alwaysOnTopCheckBox.Checked = parentForm1.TopMost;
+            if (!hasBorder)
+                toggleBorderLabel.Text = "Off";
         }
 
         //When the help form is closed it's link points to a disposed object, we have to update our options form with a new one
