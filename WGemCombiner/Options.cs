@@ -36,8 +36,9 @@ namespace WGemCombiner
             changeSkin(currentSkin);
             setBorder(hasBorder);
             alwaysOnTopCheckBox.Checked = parentForm1.TopMost;
-            if (!hasBorder)
-                toggleBorderLabel.Text = "Off";
+            bordersCheckBox.Checked = hasBorder;
+            if (currentSkin == Skin.Hellrages)
+                recommendedLabel.Visible = hasBorder;
         }
 
         //When the help form is closed it's link points to a disposed object, we have to update our options form with a new one
@@ -54,8 +55,7 @@ namespace WGemCombiner
             parentForm1.changeSkin(Skin.Hellrages);
             parentHelpForm.changeSkin(Skin.Hellrages);
             this.changeSkin(Skin.Hellrages);
-            if (hasBorder)
-                recommendedLabel.Visible = true;
+            recommendedLabel.Visible = hasBorder;
         }
 
         private void winFormsSkinButton_Click(object sender, EventArgs e)
@@ -84,25 +84,6 @@ namespace WGemCombiner
         }
         #endregion
 
-        private void toggleBorderButton_Click(object sender, EventArgs e)
-        {
-            parentForm1.toggleBorder();
-            parentHelpForm.toggleBorder();
-            this.toggleBorder();
-
-            //Check whether to show the "Recommended: "Off"!" Label
-            if (hasBorder)
-            {
-                toggleBorderLabel.Text = "On";
-                if (currentSkin == Skin.Hellrages)
-                    recommendedLabel.Visible = true;
-            }
-            else
-            {
-                toggleBorderLabel.Text = "Off";
-                recommendedLabel.Visible = false;
-            }
-        }
 
         public void changeSkin(Skin newSkin)
         {
@@ -144,6 +125,22 @@ namespace WGemCombiner
         private void alwaysOnTopCheckBox_CheckedChanged(object sender, EventArgs e) //[ieee]
         {
             parentForm1.TopMost = alwaysOnTopCheckBox.Checked;
+        }
+
+        private void bordersCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (bordersCheckBox.Checked != hasBorder)
+            {
+                parentForm1.toggleBorder();
+                parentHelpForm.toggleBorder();
+                this.toggleBorder();
+
+                //Check whether to show the "Recommended: "Off"!" Label
+                if (currentSkin == Skin.Hellrages)
+                    recommendedLabel.Visible = hasBorder;
+                else
+                    recommendedLabel.Visible = false;
+            }
         }
     }
 }
