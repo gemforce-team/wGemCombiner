@@ -14,7 +14,7 @@ namespace WGemCombiner
     public partial class Options : Form
     {
 
-        private Keys[] usedKeys = { Keys.W, Keys.T, Keys.A, Keys.B, Keys.R, Keys.G, Keys.NumPad1, Keys.NumPad2, Keys.NumPad3, Keys.NumPad4, Keys.NumPad5, Keys.NumPad6, Keys.NumPad7, Keys.NumPad8, Keys.NumPad9 };
+        private Keys[] usedKeys = { Keys.W, Keys.T, Keys.A, Keys.B, Keys.R, Keys.G, Keys.NumPad1, Keys.NumPad2, Keys.NumPad3, Keys.NumPad4, Keys.NumPad5, Keys.NumPad6, Keys.NumPad7, Keys.NumPad8, Keys.NumPad9, Keys.Escape };
         
         Form1 parentForm1;
         HelpForm parentHelpForm;
@@ -160,7 +160,7 @@ namespace WGemCombiner
                 return;
             }
             hotkeyTextBox.Text = "";
-            /*
+            
             System.Text.StringBuilder messageBoxCS = new System.Text.StringBuilder();
             messageBoxCS.AppendFormat("{0} = {1}", "Alt", e.Alt);
             messageBoxCS.AppendLine();
@@ -181,7 +181,7 @@ namespace WGemCombiner
             messageBoxCS.AppendFormat("{0} = {1}", "SuppressKeyPress", e.SuppressKeyPress);
             messageBoxCS.AppendLine();
             MessageBox.Show(messageBoxCS.ToString(), "KeyDown Event");
-            */
+            
             var converter = new KeysConverter();
             string keyText = converter.ConvertToString(e.KeyData);
             
