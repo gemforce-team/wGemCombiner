@@ -20,6 +20,8 @@ namespace WGemCombiner
 
         private bool loaded = false;
         private bool isFormClosing = false;//have to check if form is closing
+        public int hotkey = (int)Keys.D9;
+        public string hotkeyText = "9"; //User Friendly display text for hotkey
 
         static Skin currentSkin = Skin.WindowsForms;//[HR]
         static bool hasBorder = true;//[HR]
@@ -279,14 +281,16 @@ namespace WGemCombiner
         static bool asyncWaiting = false;
         private void combineButton_Click(object sender, EventArgs e)
         {
-            if (asyncWaiting) return; // there was already a thread waiting for '9'
-            if (GetAsyncKeyState((int)Keys.D9) != 0)
+            if (asyncWaiting) return; // there was already a thread waiting for hotkey
+            if (GetAsyncKeyState(hotkey) != 0)
             {
-                //MessageBox.Show("Key detection failed, or you were already holding 9. Try again.");
-                combineButton.PerformClick();//ignore holding "9" key error and try again.
+                //MessageBox.Show("Key detection failed, or you were already holding hotkey. Try again.");
+                combineButton.PerformClick();//ignore holding hotkey error and try again.
                 return;
             }
-            combineButton.Text = "Press 9";
+
+            isFormClosing = false;
+            combineButton.Text = "Press "+hotkeyText+" on A1";//hotkey
             CP.sleep_time = (int)delayNumeric.Value;
             asyncWaiting = true;
             do {
@@ -299,7 +303,7 @@ namespace WGemCombiner
                     return;
                 }
             }
-            while (GetAsyncKeyState((int)Keys.D9) == 0);
+            while (GetAsyncKeyState(hotkey) == 0);
             // point in which "the user presses 9"
             asyncWaiting = false;
             combineButton.Text = "Working...";
@@ -383,9 +387,10 @@ namespace WGemCombiner
 
         private void optionsButton_Click(object sender, EventArgs e)
         {
+            isFormClosing = true;
             if (!optionsForm.Visible)
                 optionsForm = new Options(this, helpForm, CP);
-            optionsForm.Show();
+            optionsForm.ShowDialog(this);
         }
 
         private void stepNumeric_ValueChanged(object sender, EventArgs e)

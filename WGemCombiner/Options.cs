@@ -13,6 +13,8 @@ namespace WGemCombiner
 {
     public partial class Options : Form
     {
+
+        private Keys[] usedKeys = { Keys.W, Keys.T, Keys.A, Keys.B, Keys.R, Keys.G, Keys.NumPad1, Keys.NumPad2, Keys.NumPad3, Keys.NumPad4, Keys.NumPad5, Keys.NumPad6, Keys.NumPad7, Keys.NumPad8, Keys.NumPad9 };
         
         Form1 parentForm1;
         HelpForm parentHelpForm;
@@ -20,7 +22,7 @@ namespace WGemCombiner
 
         //Static properties allow to keep border\skin settings when closing and reopening windows
         static Skin currentSkin = Skin.WindowsForms;
-        static bool hasBorder = true;
+        static bool hasBorder = true; 
 
         //Passing main and help form links so that i know whose functions to call
         internal Options(Form1 parentForm1,HelpForm parentHelpForm,CombinePerformer CP)
@@ -39,6 +41,7 @@ namespace WGemCombiner
             bordersCheckBox.Checked = hasBorder;
             if (currentSkin == Skin.Hellrages)
                 recommendedLabel.Visible = hasBorder;
+            hotkeyTextBox.Text = parentForm1.hotkeyText;
         }
 
         //When the help form is closed it's link points to a disposed object, we have to update our options form with a new one
@@ -141,6 +144,77 @@ namespace WGemCombiner
                 else
                     recommendedLabel.Visible = false;
             }
+        }
+
+        private void hotkeyTextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            e.Handled = true;
+            e.SuppressKeyPress = true;
+            closeButton.Focus();//should force it to only use the 1 key when focus is lost
+
+            //key pressed, now validate it
+            if (Array.IndexOf(usedKeys, e.KeyCode) > -1 || e.Shift || e.Control)
+            {
+                MessageBox.Show("The hotkey '" + e.KeyCode.ToString() + "' is used by GemCraft.");//Ingame hotkeys
+                hotkeyTextBox.Text = parentForm1.hotkeyText;
+                return;
+            }
+            hotkeyTextBox.Text = "";
+            /*
+            System.Text.StringBuilder messageBoxCS = new System.Text.StringBuilder();
+            messageBoxCS.AppendFormat("{0} = {1}", "Alt", e.Alt);
+            messageBoxCS.AppendLine();
+            messageBoxCS.AppendFormat("{0} = {1}", "Control", e.Control);
+            messageBoxCS.AppendLine();
+            messageBoxCS.AppendFormat("{0} = {1}", "Handled", e.Handled);
+            messageBoxCS.AppendLine();
+            messageBoxCS.AppendFormat("{0} = {1}", "KeyCode", e.KeyCode);
+            messageBoxCS.AppendLine();
+            messageBoxCS.AppendFormat("{0} = {1}", "KeyValue", e.KeyValue);
+            messageBoxCS.AppendLine();
+            messageBoxCS.AppendFormat("{0} = {1}", "KeyData", e.KeyData);
+            messageBoxCS.AppendLine();
+            messageBoxCS.AppendFormat("{0} = {1}", "Modifiers", e.Modifiers);
+            messageBoxCS.AppendLine();
+            messageBoxCS.AppendFormat("{0} = {1}", "Shift", e.Shift);
+            messageBoxCS.AppendLine();
+            messageBoxCS.AppendFormat("{0} = {1}", "SuppressKeyPress", e.SuppressKeyPress);
+            messageBoxCS.AppendLine();
+            MessageBox.Show(messageBoxCS.ToString(), "KeyDown Event");
+            */
+            var converter = new KeysConverter();
+            string keyText = converter.ConvertToString(e.KeyData);
+            
+            if (e.Alt)
+                hotkeyTextBox.Text = "ALT";
+
+            if (keyText.Contains("Oem"))//show the [ ] ~ etc keys instead of Oem1
+            {
+                e.Handled = false;
+                e.SuppressKeyPress = false;
+            }
+            else
+                hotkeyTextBox.Text = keyText;
+
+            //update actual keycode for the form to use
+            parentForm1.hotkey = (int)e.KeyCode;
+        }
+
+        //Take control of the "Tab" key also
+        private void hotkeyTextBox_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        {
+            switch (e.KeyCode)
+            {
+                case Keys.Tab:
+                    e.IsInputKey = true;
+                    break;
+            }
+        }
+
+        private void hotkeyTextBox_TextChanged(object sender, EventArgs e)
+        {
+            //update static
+            parentForm1.hotkeyText = hotkeyTextBox.Text;
         }
     }
 }
