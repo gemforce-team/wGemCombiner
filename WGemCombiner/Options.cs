@@ -160,7 +160,7 @@ namespace WGemCombiner
                 return;
             }
             hotkeyTextBox.Text = "";
-            
+            /*
             System.Text.StringBuilder messageBoxCS = new System.Text.StringBuilder();
             messageBoxCS.AppendFormat("{0} = {1}", "Alt", e.Alt);
             messageBoxCS.AppendLine();
@@ -181,7 +181,7 @@ namespace WGemCombiner
             messageBoxCS.AppendFormat("{0} = {1}", "SuppressKeyPress", e.SuppressKeyPress);
             messageBoxCS.AppendLine();
             MessageBox.Show(messageBoxCS.ToString(), "KeyDown Event");
-            
+            */
             var converter = new KeysConverter();
             string keyText = converter.ConvertToString(e.KeyData);
             
