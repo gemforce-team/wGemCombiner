@@ -241,11 +241,11 @@ namespace WGemCombiner
                 if (p.Y == CombinePerformer.INST_DUPE)
                     instructionsListBox.Items.Add(i + ": Dupe " + SlotStr(p.X));
                 else if (p.Y == CombinePerformer.INST_UPGR)
-                    instructionsListBox.Items.Add(i + ": Upgr " + SlotStr(p.X));
+                    instructionsListBox.Items.Add(i + ": Upgrade " + SlotStr(p.X));
                 else if (p.Y < 0)
                     instructionsListBox.Items.Add(i + ": Move " + SlotStr(p.X) + "->" + SlotStr(-p.Y - 1));
                 else
-                    instructionsListBox.Items.Add(i + ": Comb " + SlotStr(p.X) + "+" + SlotStr(p.Y));
+                    instructionsListBox.Items.Add(i + ": Combine " + SlotStr(p.X) + "+" + SlotStr(p.Y));
             }
 
             if (CP.Slots_Required > 36)

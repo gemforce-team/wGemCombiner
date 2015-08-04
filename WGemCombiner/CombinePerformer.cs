@@ -99,49 +99,49 @@ namespace WGemCombiner
             {
                 baseGems.Add(Gem.Base(Gem.COLOR_ORANGE));
                 str = str.Replace("o", baseGems.Count.ToString());
-                baseGemSlots.Add(FormatBaseGemSlot(baseGems.Count, "orange"));
+                baseGemSlots.Add(FormatBaseGemSlot(baseGems.Count, "Orange"));
             }
             if (str.Contains('y'))
             {
                 baseGems.Add(Gem.Base(Gem.COLOR_YELLOW));
                 str = str.Replace("y", baseGems.Count.ToString());
-                baseGemSlots.Add(FormatBaseGemSlot(baseGems.Count, "yellow"));
+                baseGemSlots.Add(FormatBaseGemSlot(baseGems.Count, "Yellow"));
             }
             if (str.Contains('b'))
             {
                 baseGems.Add(Gem.Base(Gem.COLOR_BLACK));
                 str = str.Replace("b", baseGems.Count.ToString());
-                baseGemSlots.Add(FormatBaseGemSlot(baseGems.Count, "black"));
+                baseGemSlots.Add(FormatBaseGemSlot(baseGems.Count, "Black"));
             }
             if (str.Contains('r'))
             {
                 baseGems.Add(Gem.Base(Gem.COLOR_RED));
                 str = str.Replace("r", baseGems.Count.ToString());
-                baseGemSlots.Add(FormatBaseGemSlot(baseGems.Count, "red"));
+                baseGemSlots.Add(FormatBaseGemSlot(baseGems.Count, "Red"));
             }
             if (str.Contains('k'))
             {
                 baseGems.Add(Gem.Base(Gem.COLOR_KILLGEM));
                 str = str.Replace("k", baseGems.Count.ToString());
-                baseGemSlots.Add(FormatBaseGemSlot(baseGems.Count, "kill gem"));
+                baseGemSlots.Add(FormatBaseGemSlot(baseGems.Count, "Kill gem"));
             }
             if (str.Contains('m'))
             {
                 baseGems.Add(Gem.Base(Gem.COLOR_MANAGEM));
                 str = str.Replace("m", baseGems.Count.ToString());
-                baseGemSlots.Add(FormatBaseGemSlot(baseGems.Count, "mana gem"));
+                baseGemSlots.Add(FormatBaseGemSlot(baseGems.Count, "Mana gem"));
             }
             if (str.Contains('g')) // generic gem in all over the AG forum
             {
                 baseGems.Add(Gem.Base(Gem.COLOR_NULL));
                 str = str.Replace("g", baseGems.Count.ToString());
-                baseGemSlots.Add(FormatBaseGemSlot(baseGems.Count, "generic"));
+                baseGemSlots.Add(FormatBaseGemSlot(baseGems.Count, "Generic"));
             }
             // If no letters were found, it still needs one base gem.
             if (baseGems.Count == 0)
             {   
                 baseGems.Add(Gem.Base(Gem.COLOR_NULL));
-                baseGemSlots.Add(FormatBaseGemSlot(baseGems.Count, "generic"));
+                baseGemSlots.Add(FormatBaseGemSlot(baseGems.Count, "Generic"));
             }
             return str;
         }
