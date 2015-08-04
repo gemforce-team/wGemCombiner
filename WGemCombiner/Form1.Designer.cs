@@ -284,6 +284,7 @@
             // 
             // gemsListBox
             // 
+            this.gemsListBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.gemsListBox.FormattingEnabled = true;
             this.gemsListBox.Location = new System.Drawing.Point(218, 253);
             this.gemsListBox.Name = "gemsListBox";
@@ -292,6 +293,7 @@
             // 
             // label2
             // 
+            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(218, 236);
             this.label2.Name = "label2";
