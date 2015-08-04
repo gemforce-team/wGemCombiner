@@ -228,6 +228,12 @@ namespace WGemCombiner
             CP.SetMethod(formulaInputTextBox.Text, equationsRadioButton.Checked);
             resultInfoLabel.Text = GetGemInfo(CP.resultGem) + "\nSlots: " + CP.Slots_Required;
 
+            gemsListBox.Items.Clear();
+            foreach(var baseGemSlot in CP.baseGemSlots)
+            {
+                gemsListBox.Items.Add(baseGemSlot);
+            }
+
             instructionsListBox.Items.Clear();
             for (int i = 0; i < CP.inst.Count; i++)
             {

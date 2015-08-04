@@ -31,6 +31,8 @@ namespace WGemCombiner
         public int Slots_Required;
         public bool limitSlots = true;
 
+        public List<string> baseGemSlots = new List<string>();
+
         public void SetMethod(string m, bool formula = false)
         {
             // Parses equation/formulas to compressed scheme
@@ -79,6 +81,7 @@ namespace WGemCombiner
         private string ParseScheme(string str)
         {
             baseGems = new List<Gem>();
+            baseGemSlots.Clear();
 
             if (!schemeIsValid(str)) return "";
             // Is it from gemforce? (Letters)
@@ -96,42 +99,75 @@ namespace WGemCombiner
             {
                 baseGems.Add(Gem.Base(Gem.COLOR_ORANGE));
                 str = str.Replace("o", baseGems.Count.ToString());
+                baseGemSlots.Add(FormatBaseGemSlot(baseGems.Count, "orange"));
             }
             if (str.Contains('y'))
             {
                 baseGems.Add(Gem.Base(Gem.COLOR_YELLOW));
                 str = str.Replace("y", baseGems.Count.ToString());
+                baseGemSlots.Add(FormatBaseGemSlot(baseGems.Count, "yellow"));
             }
             if (str.Contains('b'))
             {
                 baseGems.Add(Gem.Base(Gem.COLOR_BLACK));
                 str = str.Replace("b", baseGems.Count.ToString());
+                baseGemSlots.Add(FormatBaseGemSlot(baseGems.Count, "black"));
             }
             if (str.Contains('r'))
             {
                 baseGems.Add(Gem.Base(Gem.COLOR_RED));
                 str = str.Replace("r", baseGems.Count.ToString());
+                baseGemSlots.Add(FormatBaseGemSlot(baseGems.Count, "red"));
             }
             if (str.Contains('k'))
             {
                 baseGems.Add(Gem.Base(Gem.COLOR_KILLGEM));
                 str = str.Replace("k", baseGems.Count.ToString());
+                baseGemSlots.Add(FormatBaseGemSlot(baseGems.Count, "kill gem"));
             }
             if (str.Contains('m'))
             {
                 baseGems.Add(Gem.Base(Gem.COLOR_MANAGEM));
                 str = str.Replace("m", baseGems.Count.ToString());
+                baseGemSlots.Add(FormatBaseGemSlot(baseGems.Count, "mana gem"));
             }
             if (str.Contains('g')) // generic gem in all over the AG forum
             {
                 baseGems.Add(Gem.Base(Gem.COLOR_NULL));
                 str = str.Replace("g", baseGems.Count.ToString());
+                baseGemSlots.Add(FormatBaseGemSlot(baseGems.Count, "generic"));
             }
             // If no letters were found, it still needs one base gem.
             if (baseGems.Count == 0)
+            {   
                 baseGems.Add(Gem.Base(Gem.COLOR_NULL));
+                baseGemSlots.Add(FormatBaseGemSlot(baseGems.Count, "generic"));
+            }
             return str;
         }
+
+        private string FormatBaseGemSlot(int slot, string color)
+        {
+            int column = ((slot - 1) % 3);
+            int row = ((slot - 1) / 3) + 1;
+
+            string columnLetter;
+            if (column == 0)
+            {
+                columnLetter = "A";
+            }
+            else if (column == 1)
+            {
+                columnLetter = "B";
+            }
+            else
+            {
+                columnLetter = "C";
+            }
+
+            return string.Format("{0}{1}: {2}", row, columnLetter, color);
+        }
+
         public string ieeePreParser(string recipe)
         {
             for (int i = 20; i > 1; i--)
