@@ -14,7 +14,10 @@ namespace WGemCombiner
     public partial class Options : Form
     {
 
-        private Keys[] usedKeys = { Keys.W, Keys.T, Keys.A, Keys.B, Keys.R, Keys.G, Keys.NumPad1, Keys.NumPad2, Keys.NumPad3, Keys.NumPad4, Keys.NumPad5, Keys.NumPad6, Keys.NumPad7, Keys.NumPad8, Keys.NumPad9, Keys.Escape };
+        private Keys[] usedKeys = { Keys.B, Keys.T, Keys.A, Keys.W, Keys.R, Keys.G, Keys.Q, Keys.Space, Keys.N, Keys.X, Keys.D, Keys.U, Keys.Tab, Keys.OemPeriod, Keys.P, Keys.Escape,
+                                      Keys.D1, Keys.D2, Keys.D3, Keys.D4, Keys.D5, Keys.D6,
+                                      Keys.NumPad1, Keys.NumPad2, Keys.NumPad3, Keys.NumPad4, Keys.NumPad5, Keys.NumPad6, Keys.NumPad7, Keys.NumPad8, Keys.NumPad9,
+                                  };
         
         Form1 parentForm1;
         HelpForm parentHelpForm;
@@ -153,35 +156,14 @@ namespace WGemCombiner
             closeButton.Focus();//should force it to only use the 1 key when focus is lost
 
             //key pressed, now validate it
-            if (Array.IndexOf(usedKeys, e.KeyCode) > -1 || e.Shift || e.Control)
+            if (usedKeys.Contains(e.KeyCode) || e.Shift || e.Control)
             {
                 MessageBox.Show("The hotkey '" + e.KeyCode.ToString() + "' is used by GemCraft.");//Ingame hotkeys
                 hotkeyTextBox.Text = parentForm1.hotkeyText;
                 return;
             }
             hotkeyTextBox.Text = "";
-            /*
-            System.Text.StringBuilder messageBoxCS = new System.Text.StringBuilder();
-            messageBoxCS.AppendFormat("{0} = {1}", "Alt", e.Alt);
-            messageBoxCS.AppendLine();
-            messageBoxCS.AppendFormat("{0} = {1}", "Control", e.Control);
-            messageBoxCS.AppendLine();
-            messageBoxCS.AppendFormat("{0} = {1}", "Handled", e.Handled);
-            messageBoxCS.AppendLine();
-            messageBoxCS.AppendFormat("{0} = {1}", "KeyCode", e.KeyCode);
-            messageBoxCS.AppendLine();
-            messageBoxCS.AppendFormat("{0} = {1}", "KeyValue", e.KeyValue);
-            messageBoxCS.AppendLine();
-            messageBoxCS.AppendFormat("{0} = {1}", "KeyData", e.KeyData);
-            messageBoxCS.AppendLine();
-            messageBoxCS.AppendFormat("{0} = {1}", "Modifiers", e.Modifiers);
-            messageBoxCS.AppendLine();
-            messageBoxCS.AppendFormat("{0} = {1}", "Shift", e.Shift);
-            messageBoxCS.AppendLine();
-            messageBoxCS.AppendFormat("{0} = {1}", "SuppressKeyPress", e.SuppressKeyPress);
-            messageBoxCS.AppendLine();
-            MessageBox.Show(messageBoxCS.ToString(), "KeyDown Event");
-            */
+
             var converter = new KeysConverter();
             string keyText = converter.ConvertToString(e.KeyData);
             
