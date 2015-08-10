@@ -95,7 +95,7 @@
             this.helpMessageTextBox.MaximumSize = new System.Drawing.Size(442, 537);
             this.helpMessageTextBox.Name = "helpMessageTextBox";
             this.helpMessageTextBox.ReadOnly = true;
-            this.helpMessageTextBox.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.ForcedVertical;
+            this.helpMessageTextBox.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
             this.helpMessageTextBox.Size = new System.Drawing.Size(411, 503);
             this.helpMessageTextBox.TabIndex = 4;
             this.helpMessageTextBox.Text = "";

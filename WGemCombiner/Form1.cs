@@ -39,8 +39,8 @@ namespace WGemCombiner
         public Form1()
         {
             InitializeComponent();
-            helpForm = new HelpForm();
-            optionsForm = new Options(this, helpForm,CP);
+            helpForm = new HelpForm(this);
+            optionsForm = new Options(this, helpForm, CP);
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -346,16 +346,10 @@ namespace WGemCombiner
         {
             if (!helpForm.Visible)
             {
-                helpForm = new HelpForm();
+                helpForm = new HelpForm(this);
                 optionsForm.updateParentForm(helpForm);
             }
             helpForm.Show();
-        }
-
-        // Credits
-        private void creditsLabel_Click(object sender, EventArgs e)
-        {
-            MessageBox.Show(HelpForm.credits);
         }
 
         //[HR] from here down
