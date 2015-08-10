@@ -40,13 +40,11 @@
             // 
             // closeHelpButton
             // 
-            this.closeHelpButton.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.closeHelpButton.BackColor = System.Drawing.SystemColors.Control;
+            this.closeHelpButton.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.closeHelpButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.closeHelpButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.closeHelpButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.closeHelpButton.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.closeHelpButton.Location = new System.Drawing.Point(189, 567);
+            this.closeHelpButton.Location = new System.Drawing.Point(189, 528);
             this.closeHelpButton.Name = "closeHelpButton";
             this.closeHelpButton.Size = new System.Drawing.Size(75, 23);
             this.closeHelpButton.TabIndex = 0;
@@ -56,12 +54,10 @@
             // 
             // leftButton
             // 
-            this.leftButton.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.leftButton.BackColor = System.Drawing.SystemColors.Control;
+            this.leftButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.leftButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.leftButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.leftButton.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.leftButton.Location = new System.Drawing.Point(72, 567);
+            this.leftButton.Location = new System.Drawing.Point(72, 528);
             this.leftButton.Name = "leftButton";
             this.leftButton.Size = new System.Drawing.Size(111, 23);
             this.leftButton.TabIndex = 2;
@@ -71,12 +67,10 @@
             // 
             // rightButton
             // 
-            this.rightButton.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.rightButton.BackColor = System.Drawing.SystemColors.Control;
+            this.rightButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.rightButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.rightButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.rightButton.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.rightButton.Location = new System.Drawing.Point(270, 567);
+            this.rightButton.Location = new System.Drawing.Point(270, 528);
             this.rightButton.Name = "rightButton";
             this.rightButton.Size = new System.Drawing.Size(111, 23);
             this.rightButton.TabIndex = 3;
@@ -91,20 +85,21 @@
             this.helpMessageTextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.helpMessageTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.helpMessageTextBox.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.helpMessageTextBox.Location = new System.Drawing.Point(12, -2);
+            this.helpMessageTextBox.Location = new System.Drawing.Point(3, 3);
             this.helpMessageTextBox.MaximumSize = new System.Drawing.Size(442, 537);
             this.helpMessageTextBox.Name = "helpMessageTextBox";
             this.helpMessageTextBox.ReadOnly = true;
-            this.helpMessageTextBox.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.ForcedVertical;
-            this.helpMessageTextBox.Size = new System.Drawing.Size(411, 503);
+            this.helpMessageTextBox.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
+            this.helpMessageTextBox.Size = new System.Drawing.Size(418, 459);
             this.helpMessageTextBox.TabIndex = 4;
             this.helpMessageTextBox.Text = "";
+            this.helpMessageTextBox.LinkClicked += new System.Windows.Forms.LinkClickedEventHandler(this.helpMessageTextBox_LinkClicked);
             // 
             // helpTitleTextBox
             // 
             this.helpTitleTextBox.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.helpTitleTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.helpTitleTextBox.Location = new System.Drawing.Point(12, 20);
+            this.helpTitleTextBox.Location = new System.Drawing.Point(12, 12);
             this.helpTitleTextBox.Name = "helpTitleTextBox";
             this.helpTitleTextBox.ReadOnly = true;
             this.helpTitleTextBox.Size = new System.Drawing.Size(428, 26);
@@ -118,7 +113,7 @@
             this.helpMessagePanel.Controls.Add(this.helpMessageTextBox);
             this.helpMessagePanel.Location = new System.Drawing.Point(12, 53);
             this.helpMessagePanel.Name = "helpMessagePanel";
-            this.helpMessagePanel.Size = new System.Drawing.Size(428, 508);
+            this.helpMessagePanel.Size = new System.Drawing.Size(428, 469);
             this.helpMessagePanel.TabIndex = 6;
             // 
             // HelpForm
@@ -127,7 +122,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ClientSize = new System.Drawing.Size(452, 601);
+            this.ClientSize = new System.Drawing.Size(452, 562);
             this.Controls.Add(this.helpMessagePanel);
             this.Controls.Add(this.helpTitleTextBox);
             this.Controls.Add(this.rightButton);

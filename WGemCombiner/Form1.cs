@@ -20,6 +20,8 @@ namespace WGemCombiner
 
         private bool loaded = false;
         private bool isFormClosing = false;//have to check if form is closing
+        public int hotkey = (int)Keys.D9;
+        public string hotkeyText = "9"; //User Friendly display text for hotkey
 
         static Skin currentSkin = Skin.WindowsForms;//[HR]
         static bool hasBorder = true;//[HR]
@@ -37,8 +39,8 @@ namespace WGemCombiner
         public Form1()
         {
             InitializeComponent();
-            helpForm = new HelpForm();
-            optionsForm = new Options(this, helpForm,CP);
+            helpForm = new HelpForm(this);
+            optionsForm = new Options(this, helpForm, CP);
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -224,7 +226,14 @@ namespace WGemCombiner
             }
 
             CP.SetMethod(formulaInputTextBox.Text, equationsRadioButton.Checked);
+            if (CP.resultGem == null) return; // this happens when the input formula is invalid
             resultInfoLabel.Text = GetGemInfo(CP.resultGem) + "\nSlots: " + CP.Slots_Required;
+
+            gemsListBox.Items.Clear();
+            foreach(var baseGemSlot in CP.baseGemSlots)
+            {
+                gemsListBox.Items.Add(baseGemSlot);
+            }
 
             instructionsListBox.Items.Clear();
             for (int i = 0; i < CP.inst.Count; i++)
@@ -233,11 +242,11 @@ namespace WGemCombiner
                 if (p.Y == CombinePerformer.INST_DUPE)
                     instructionsListBox.Items.Add(i + ": Dupe " + SlotStr(p.X));
                 else if (p.Y == CombinePerformer.INST_UPGR)
-                    instructionsListBox.Items.Add(i + ": Upgr " + SlotStr(p.X));
+                    instructionsListBox.Items.Add(i + ": Upgrade " + SlotStr(p.X));
                 else if (p.Y < 0)
                     instructionsListBox.Items.Add(i + ": Move " + SlotStr(p.X) + "->" + SlotStr(-p.Y - 1));
                 else
-                    instructionsListBox.Items.Add(i + ": Comb " + SlotStr(p.X) + "+" + SlotStr(p.Y));
+                    instructionsListBox.Items.Add(i + ": Combine " + SlotStr(p.X) + "+" + SlotStr(p.Y));
             }
 
             if (CP.Slots_Required > 36)
@@ -279,14 +288,16 @@ namespace WGemCombiner
         static bool asyncWaiting = false;
         private void combineButton_Click(object sender, EventArgs e)
         {
-            if (asyncWaiting) return; // there was already a thread waiting for '9'
-            if (GetAsyncKeyState((int)Keys.D9) != 0)
+            if (asyncWaiting) return; // there was already a thread waiting for hotkey
+            if (GetAsyncKeyState(hotkey) != 0)
             {
-                //MessageBox.Show("Key detection failed, or you were already holding 9. Try again.");
-                combineButton.PerformClick();//ignore holding "9" key error and try again.
+                //MessageBox.Show("Key detection failed, or you were already holding hotkey. Try again.");
+                combineButton.PerformClick();//ignore holding hotkey error and try again.
                 return;
             }
-            combineButton.Text = "Press 9";
+
+            isFormClosing = false;
+            combineButton.Text = "Press "+hotkeyText+" on A1";//hotkey
             CP.sleep_time = (int)delayNumeric.Value;
             asyncWaiting = true;
             do {
@@ -299,7 +310,7 @@ namespace WGemCombiner
                     return;
                 }
             }
-            while (GetAsyncKeyState((int)Keys.D9) == 0);
+            while (GetAsyncKeyState(hotkey) == 0);
             // point in which "the user presses 9"
             asyncWaiting = false;
             combineButton.Text = "Working...";
@@ -335,16 +346,10 @@ namespace WGemCombiner
         {
             if (!helpForm.Visible)
             {
-                helpForm = new HelpForm();
+                helpForm = new HelpForm(this);
                 optionsForm.updateParentForm(helpForm);
             }
             helpForm.Show();
-        }
-
-        // Credits
-        private void creditsLabel_Click(object sender, EventArgs e)
-        {
-            MessageBox.Show(HelpForm.credits);
         }
 
         //[HR] from here down
@@ -383,9 +388,10 @@ namespace WGemCombiner
 
         private void optionsButton_Click(object sender, EventArgs e)
         {
+            isFormClosing = true;
             if (!optionsForm.Visible)
                 optionsForm = new Options(this, helpForm, CP);
-            optionsForm.Show();
+            optionsForm.ShowDialog(this);
         }
 
         private void stepNumeric_ValueChanged(object sender, EventArgs e)

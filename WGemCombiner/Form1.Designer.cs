@@ -49,6 +49,8 @@
             this.combineComboBox = new System.Windows.Forms.ComboBox();
             this.colorComboBox = new System.Windows.Forms.ComboBox();
             this.importFileDialog = new System.Windows.Forms.OpenFileDialog();
+            this.gemsListBox = new System.Windows.Forms.ListBox();
+            this.label2 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.delayNumeric)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.stepNumeric)).BeginInit();
             this.SuspendLayout();
@@ -56,11 +58,11 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(18, 15);
+            this.label1.Location = new System.Drawing.Point(18, 13);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(133, 13);
+            this.label1.Size = new System.Drawing.Size(135, 13);
             this.label1.TabIndex = 0;
-            this.label1.Text = "Formula/Combine scheme:";
+            this.label1.Text = "Formula/Combine Scheme:";
             // 
             // getInstructionsButton
             // 
@@ -104,9 +106,9 @@
             this.instructionsListBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.instructionsListBox.FormattingEnabled = true;
-            this.instructionsListBox.Location = new System.Drawing.Point(218, 39);
+            this.instructionsListBox.Location = new System.Drawing.Point(218, 29);
             this.instructionsListBox.Name = "instructionsListBox";
-            this.instructionsListBox.Size = new System.Drawing.Size(149, 251);
+            this.instructionsListBox.Size = new System.Drawing.Size(149, 199);
             this.instructionsListBox.TabIndex = 21;
             // 
             // instructionsLabel
@@ -114,7 +116,7 @@
             this.instructionsLabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.instructionsLabel.AutoSize = true;
-            this.instructionsLabel.Location = new System.Drawing.Point(218, 21);
+            this.instructionsLabel.Location = new System.Drawing.Point(218, 13);
             this.instructionsLabel.Name = "instructionsLabel";
             this.instructionsLabel.Size = new System.Drawing.Size(64, 13);
             this.instructionsLabel.TabIndex = 22;
@@ -198,7 +200,7 @@
             // 
             this.copyListButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.copyListButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.copyListButton.Location = new System.Drawing.Point(301, 17);
+            this.copyListButton.Location = new System.Drawing.Point(301, 5);
             this.copyListButton.Name = "copyListButton";
             this.copyListButton.Size = new System.Drawing.Size(66, 21);
             this.copyListButton.TabIndex = 27;
@@ -280,11 +282,32 @@
             this.importFileDialog.Filter = "Text files|*.txt";
             this.importFileDialog.InitialDirectory = "N:\\Каталоги\\Git\\wGemCombiner\\WGemCombiner\\Resources";
             // 
+            // gemsListBox
+            // 
+            this.gemsListBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.gemsListBox.FormattingEnabled = true;
+            this.gemsListBox.Location = new System.Drawing.Point(218, 253);
+            this.gemsListBox.Name = "gemsListBox";
+            this.gemsListBox.Size = new System.Drawing.Size(149, 43);
+            this.gemsListBox.TabIndex = 35;
+            // 
+            // label2
+            // 
+            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(218, 236);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(81, 13);
+            this.label2.TabIndex = 36;
+            this.label2.Text = "Gem Locations:";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(389, 366);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.gemsListBox);
             this.Controls.Add(this.combineComboBox);
             this.Controls.Add(this.colorComboBox);
             this.Controls.Add(this.optionsButton);
@@ -342,6 +365,8 @@
         private System.Windows.Forms.ComboBox combineComboBox;
         private System.Windows.Forms.ComboBox colorComboBox;
         private System.Windows.Forms.OpenFileDialog importFileDialog;
+        private System.Windows.Forms.ListBox gemsListBox;
+        private System.Windows.Forms.Label label2;
     }
 }
 
