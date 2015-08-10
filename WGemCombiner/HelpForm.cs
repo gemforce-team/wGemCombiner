@@ -106,7 +106,7 @@ namespace WGemCombiner
                 "Contributors:\n" +
                 "- 12345ieee (some spec parsing, preset recipes)\n" +
                 "- Hellrage (some GUI tweaks, skin, small bugfixes, preset and resource management)\n" +
-                "- CooLTanG (Automate the 'Get Instructions' & 'Combine' steps, fix window size/resolution issues)\n" +
+                "- CooLTanG (Automate the 'Get Instructions' & 'Combine' steps, fix window size/resolution issues, customizable hotkey)\n" +
                 "\n" +
                 "Release version: "+ releaseVersion + "\n" +
                 "\n" +
