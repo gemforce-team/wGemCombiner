@@ -286,7 +286,7 @@ namespace WGemCombiner
                 slots[i + 1] = i;
             }
 
-            Slots_Required = 0;
+            Slots_Required = baseGems.Count;
 
             // All oneUse stuff is for slot compression. (This part of slot compression works.)
             List<int> oneUse = new List<int>();

@@ -226,6 +226,7 @@ namespace WGemCombiner
             }
 
             CP.SetMethod(formulaInputTextBox.Text, equationsRadioButton.Checked);
+            if (CP.resultGem == null) return; // this happens when the input formula is invalid
             resultInfoLabel.Text = GetGemInfo(CP.resultGem) + "\nSlots: " + CP.Slots_Required;
 
             gemsListBox.Items.Clear();
