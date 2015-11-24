@@ -2,9 +2,10 @@
 {
 	using System;
 	using System.Collections.Generic;
+	using System.Collections.ObjectModel;
+	using System.Globalization;
 	using System.Text;
 	using static Globals;
-	using static Localization;
 
 	#region Public Enums
 	public enum GemColor
@@ -18,7 +19,8 @@
 	}
 	#endregion
 
-	public class Gem : IComparable<Gem>
+	[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix", Justification = "Represents a tree node, so makes more sense to name in the singular.")]
+	public class Gem : Collection<Gem>, IComparable<Gem>
 	{
 		#region Static Fields
 		private static SortedDictionary<char, GemColor> gemTypes = new SortedDictionary<char, GemColor>()
@@ -99,15 +101,17 @@
 			ThrowNull(gem2, nameof(gem2));
 			gem1.UseCount++;
 			gem2.UseCount++;
+			gem1.Parent = this;
+			gem2.Parent = this;
 			if (gem2.Cost > gem1.Cost)
 			{
-				this.Component1 = gem2;
-				this.Component2 = gem1;
+				this.Add(gem2);
+				this.Add(gem1);
 			}
 			else
 			{
-				this.Component1 = gem1;
-				this.Component2 = gem2;
+				this.Add(gem1);
+				this.Add(gem2);
 			}
 
 			if (gem1.Color == gem2.Color)
@@ -178,11 +182,7 @@
 
 		public string ColorName => gemNames[this.Color];
 
-		public string CombineTitle => CurrentCulture($"{this.Cost:000000} ({this.Growth:0.00000}){(IsPowerOfTwo(this.Cost) ? "-" : string.Empty)}");
-
-		public Gem Component1 { get; set; }
-
-		public Gem Component2 { get; set; }
+		public string CombineTitle => string.Format(CultureInfo.CurrentCulture, "{0:000000} ({1:0.00000}){2}", this.Cost, this.Growth, IsPowerOfTwo(this.Cost) ? "-" : string.Empty);
 
 		public int Cost { get; set; }
 
@@ -190,11 +190,13 @@
 
 		public double Growth { get; set; } = 1; // ???? Math.Log10(1.379) / Math.Log10(2);
 
-		public int ID { get; set; }
+		public int Id { get; set; }
 
 		public bool IsBaseGem => this.GradeGrowth == 0;
 
 		public char Letter { get; }
+
+		public Gem Parent { get; private set; }
 
 		public double Power
 		{
@@ -228,10 +230,10 @@
 
 		public string DisplayInfo(bool showAll, int slots)
 		{
-			var retval = CurrentCulture($"Grade: +{this.GradeGrowth}\r\nCost: {this.Cost}x\r\nGrowth: {this.Growth:0.0####}\r\nSlots: {slots}");
+			var retval = string.Format(CultureInfo.CurrentCulture, "Grade: +{0}\r\nCost: {1}x\r\nGrowth: {2:0.0####}\r\nSlots: {3}", this.GradeGrowth, this.Cost, this.Growth, slots);
 			if (showAll)
 			{
-				retval += CurrentCulture($"\r\nPower: {this.Power:0.0####}\r\nDamage: {this.damage:0.0####}\r\nLeech: {this.leech:0.0####}\r\nCrit: {this.critMult:0.0####}\r\nBbound: {this.blood:0.0####}");
+				retval += string.Format(CultureInfo.CurrentCulture, "\r\nPower: {0:0.0####}\r\nDamage: {1:0.0####}\r\nLeech: {2:0.0####}\r\nCrit: {3:0.0####}\r\nBbound: {4:0.0####}", this.Power, this.damage, this.leech, this.critMult, this.blood);
 			}
 
 			return retval;
@@ -260,9 +262,13 @@
 		#region Private Methods
 		private void DoFullCombine()
 		{
-			this.Component1.DoSubCombine();
-			combineBuilder.Append("+");
-			this.Component2.DoSubCombine();
+			foreach (var component in this)
+			{
+				component.DoSubCombine();
+				combineBuilder.Append('+');
+			}
+
+			combineBuilder.Remove(combineBuilder.Length - 1, 1);
 		}
 
 		private void DoSubCombine()
@@ -278,8 +284,6 @@
 				combineBuilder.Append(")");
 			}
 		}
-
-		// private string GetSubCombine() => this.IsBaseGem ? this.ID : "(" + this.GetFullCombine() + ")";
 		#endregion
 	}
 }

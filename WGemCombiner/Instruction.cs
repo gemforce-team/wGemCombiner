@@ -66,6 +66,12 @@
 			}
 		}
 
+		// This constructor is a hack, but it's expected not to be needed once text file parsing is in place.
+		public Instruction(Gem gem)
+			: this(gem[0].Id, gem[1].Id)
+		{
+		}
+
 		public Instruction(ActionType type, int from, int to)
 		{
 			// Dupe can also use the other constructors, but specifying the target via this one is prefered even though it won't affect anything in the actual combine. This is required by the CondenseSlots logic to move the final base gem when no longer needed, but is also useful for debugging.

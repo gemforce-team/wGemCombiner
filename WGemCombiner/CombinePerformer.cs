@@ -349,10 +349,10 @@
 			{
 				foreach (var gem in this.combined)
 				{
-					if (gem.Component1 != null)
+					if (!gem.IsBaseGem)
 					{
 						// TODO: It's actually a bit silly to create an instruction just to save it, but this whole saving system needs to be re-thought into a simple text list of formulae that's read at run-time.
-						new Instruction(gem.Component1.ID, gem.Component2.ID).Save(binaryWriter);
+						new Instruction(gem).Save(binaryWriter);
 					}
 				}
 			}
@@ -424,14 +424,16 @@
 			// Each component's combine instructions must include placing the base gem in slot 0.
 			// If I add the duplicate step to performer1.Instructions, then the new condensed one will already have it.
 			// To solve this, try: If the instructions do not begin with duplicate step, add it.
-			Gem gem1 = gem.Component1;
-			Gem gem2 = gem.Component2;
+
+			// TODO: re-examine to see if this is needed if and when new CreateInstructions() is completed for list-style gem.
+			Gem gem1 = gem[0];
+			Gem gem2 = gem[1];
 			CombinePerformer performer1 = new CombinePerformer(false);
 			performer1.SetMethod(gem1.GetFullCombine());
-			performer1.ResultGem.ID = gem1.ID;
+			performer1.ResultGem.Id = gem1.Id;
 			CombinePerformer performer2 = new CombinePerformer(false);
 			performer2.SetMethod(gem2.GetFullCombine());
-			performer2.ResultGem.ID = gem2.ID;
+			performer2.ResultGem.Id = gem2.Id;
 
 			if (performer1.SlotsRequired > slotLimit)
 			{
@@ -483,6 +485,7 @@
 
 		private void CreateInstructions()
 		{
+			// TODO: Re-examine to see if this can be made more list-friendly.
 			this.Instructions.Clear(); // Instructions list
 			var empties = new SortedSet<int>();
 			for (int i = 0; i < this.combined.Count; i++)
@@ -497,58 +500,39 @@
 			for (int combinedIndex = this.BaseGems.Count; combinedIndex < this.combined.Count; combinedIndex++)
 			{
 				var gem = this.combined[combinedIndex];
-				var gem1 = gem.Component1;
-				var gem2 = gem.Component2;
-				int slot1 = gem1.Slot; // These may change during the routine, so save them and use base numbers throughout
-				int slot2 = gem2.Slot;
-				Debug.Assert(slot1 >= 0, "Gem 1, slot negative.");
-				Debug.Assert(slot2 >= 0, "Gem 2, slot negative.");
-
-				if (gem1 == gem2)
+				var slots = new List<int>();
+				foreach (var component in gem)
 				{
-					if (gem1.UseCount > 2)
-					{
-						// Dupe if not the last use (two uses = gem1 + gem2)
-						gem1.Slot = this.GetEmpty(empties);
-						this.Instructions.Add(new Instruction(ActionType.Duplicate, slot1, gem1.Slot));
-						this.SlotsRequired = gem1.Slot;
-					}
+					slots.Add(component.Slot);
+					component.UseCount--;
+					Debug.Assert(component.Slot >= 0, "Gem slot negative.");
+				}
 
-					this.Instructions.Add(new Instruction(ActionType.Upgrade, slot1));
-					gem.Slot = slot1;
+				if (gem[0] == gem[1])
+				{
+					this.DupeGem(gem[0], slots[0], empties);
+					this.Instructions.Add(new Instruction(ActionType.Upgrade, slots[0]));
+					gem.Slot = slots[0];
 				}
 				else
 				{
-					if (gem1.UseCount > 1)
+					for (int i = 0; i < gem.Count; i++)
 					{
-						gem1.Slot = this.GetEmpty(empties);
-						this.Instructions.Add(new Instruction(ActionType.Duplicate, slot1, gem1.Slot));
-						this.SlotsRequired = gem1.Slot;
-					}
-
-					if (gem2.UseCount > 1)
-					{
-						gem2.Slot = this.GetEmpty(empties);
-						this.Instructions.Add(new Instruction(ActionType.Duplicate, slot2, gem2.Slot));
-						this.SlotsRequired = gem2.Slot;
+						this.DupeGem(gem[i], slots[i], empties);
 					}
 
 					// Combine
-					this.Instructions.Add(new Instruction(ActionType.Combine, slot1, slot2));
-					empties.Add(slot1);
-					gem.Slot = slot2;
+					this.Instructions.Add(new Instruction(ActionType.Combine, slots[0], slots[1]));
+					empties.Add(slots[0]);
+					gem.Slot = slots[1];
 				}
 
-				gem1.UseCount--;
-				gem2.UseCount--;
-				if (gem1.UseCount == 0)
+				foreach (var component in gem)
 				{
-					gem1.Slot = SlotNoLongerUsed;
-				}
-
-				if (gem2.UseCount == 0)
-				{
-					gem2.Slot = SlotNoLongerUsed;
+					if (component.UseCount == 0)
+					{
+						component.Slot = SlotNoLongerUsed;
+					}
 				}
 
 				// If there is only one usage of any remaining gem components, move that gem next in the combine order. This reduces slot usage by not holding on to gems throughout subsequent steps for no good reason.
@@ -558,13 +542,11 @@
 				while (scanFrom < this.combined.Count)
 				{
 					Gem gemUse = this.combined[scanFrom];
-					var gemUse1 = gemUse.Component1;
-					var gemUse2 = gemUse.Component2;
 
 					// Do we need? && (empties.Count > 0)
-					if (gemUse1.Slot >= 0 && gemUse2.Slot >= 0)
+					if (gemUse[0].Slot >= 0 && gemUse[1].Slot >= 0)
 					{
-						if ((gemUse1.UseCount == 1 && gemUse2.UseCount == 1) || (gemUse1 == gemUse2 && gemUse1.UseCount == 2))
+						if ((gemUse[0].UseCount == 1 && gemUse[1].UseCount == 1) || (gemUse[0] == gemUse[1] && gemUse[0].UseCount == 2))
 						{
 							// Move single-use gem to be the next one parsed.
 							this.combined.RemoveAt(scanFrom);
@@ -575,7 +557,7 @@
 								scanFrom++;
 							}
 						}
-						else if (gemUse1.UseCount == 1 || gemUse2.UseCount == 1)
+						else if (gemUse[0].UseCount == 1 || gemUse[1].UseCount == 1)
 						{
 							secondaries.Add(gemUse);
 							this.combined.RemoveAt(scanFrom);
@@ -633,6 +615,17 @@
 			}
 		}
 
+		private void DupeGem(Gem gem, int atSlot, SortedSet<int> empties)
+		{
+			if (gem[0].UseCount > 0)
+			{
+				// Dupe if not the last use (two uses = gem[0] + gem[1])
+				gem[0].Slot = this.GetEmpty(empties);
+				this.Instructions.Add(new Instruction(ActionType.Duplicate, atSlot, gem[0].Slot));
+				this.SlotsRequired = gem[0].Slot;
+			}
+		}
+
 		private int GetEmpty(SortedSet<int> empties)
 		{
 			if (empties.Count == 0)
@@ -657,8 +650,8 @@
 				{
 					var gem = new Gem(c);
 					id++;
-					gem.ID = id;
-					formula = formula.Replace(gem.Letter, gem.ID.ToString(CultureInfo.InvariantCulture)[0]); // gem.ID should always be < 10 and since we have to convert one or the other, a char-char replacement is probably faster than a string-string one.
+					gem.Id = id;
+					formula = formula.Replace(gem.Letter, gem.Id.ToString(CultureInfo.InvariantCulture)[0]); // gem.ID should always be < 10 and since we have to convert one or the other, a char-char replacement is probably faster than a string-string one.
 					this.combined.Add(gem);
 				}
 			}
@@ -694,7 +687,7 @@
 
 				// Gem IDs are 1-based where this.combined is 0-based, so use +/- 1 as necessary.
 				this.ResultGem = new Gem(this.combined[num1 - 1], this.combined[num2 - 1]);
-				this.ResultGem.ID = newNum;
+				this.ResultGem.Id = newNum;
 				this.combined.Add(this.ResultGem);
 				formula = formula.Replace("(" + gem1 + "+" + gem2 + ")", newNum.ToString(CultureInfo.InvariantCulture));
 

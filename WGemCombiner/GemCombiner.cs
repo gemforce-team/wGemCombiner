@@ -8,7 +8,6 @@
 	using System.Windows.Forms;
 	using Properties;
 	using static Instruction;
-	using static Localization;
 	using static NativeMethods;
 
 	public partial class GemCombiner : Form
@@ -214,7 +213,7 @@
 			var instructions = this.combinePerformer.Instructions;
 			for (int i = 0; i < instructions.Count; i++)
 			{
-				items.Add(CurrentCulture($"{i}: {instructions[i]}"));
+				items.Add(string.Format(CultureInfo.CurrentCulture, "{0}: {1}", i, instructions[i]));
 			}
 
 			this.stepNumeric.Maximum = this.combinePerformer.Instructions.Count - 1;
