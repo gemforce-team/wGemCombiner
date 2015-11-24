@@ -8,10 +8,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace WGemCombiner.Resources.yellow {
+namespace WGemCombiner.Resources.orange {
     using System;
-
-
+    
+    
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
@@ -22,16 +22,16 @@ namespace WGemCombiner.Resources.yellow {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class yellowPresets {
-
+    internal class orangePresets {
+        
         private static global::System.Resources.ResourceManager resourceMan;
-
+        
         private static global::System.Globalization.CultureInfo resourceCulture;
-
+        
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal yellowPresets() {
+        internal orangePresets() {
         }
-
+        
         /// <summary>
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
@@ -39,13 +39,13 @@ namespace WGemCombiner.Resources.yellow {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("WGemCombiner.Resources.yellow.yellowPresets", typeof(yellowPresets).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("WGemCombiner.Resources.orange.orangePresets", typeof(orangePresets).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
             }
         }
-
+        
         /// <summary>
         ///   Overrides the current thread's CurrentUICulture property for all
         ///   resource lookups using this strongly typed resource class.
@@ -59,363 +59,293 @@ namespace WGemCombiner.Resources.yellow {
                 resourceCulture = value;
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        internal static byte[] yellow1024C {
+        internal static byte[] orange1024C {
             get {
-                object obj = ResourceManager.GetObject("yellow1024C", resourceCulture);
+                object obj = ResourceManager.GetObject("orange1024C", resourceCulture);
                 return ((byte[])(obj));
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        internal static byte[] yellow105183C {
+        internal static byte[] orange128C {
             get {
-                object obj = ResourceManager.GetObject("yellow105183C", resourceCulture);
+                object obj = ResourceManager.GetObject("orange128C", resourceCulture);
                 return ((byte[])(obj));
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        internal static byte[] yellow11C {
+        internal static byte[] orange131072C {
             get {
-                object obj = ResourceManager.GetObject("yellow11C", resourceCulture);
+                object obj = ResourceManager.GetObject("orange131072C", resourceCulture);
                 return ((byte[])(obj));
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        internal static byte[] yellow12504C {
+        internal static byte[] orange149C {
             get {
-                object obj = ResourceManager.GetObject("yellow12504C", resourceCulture);
+                object obj = ResourceManager.GetObject("orange149C", resourceCulture);
                 return ((byte[])(obj));
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        internal static byte[] yellow128C {
+        internal static byte[] orange156C {
             get {
-                object obj = ResourceManager.GetObject("yellow128C", resourceCulture);
+                object obj = ResourceManager.GetObject("orange156C", resourceCulture);
                 return ((byte[])(obj));
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        internal static byte[] yellow12C {
+        internal static byte[] orange15C {
             get {
-                object obj = ResourceManager.GetObject("yellow12C", resourceCulture);
+                object obj = ResourceManager.GetObject("orange15C", resourceCulture);
                 return ((byte[])(obj));
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        internal static byte[] yellow131072C {
+        internal static byte[] orange16384C {
             get {
-                object obj = ResourceManager.GetObject("yellow131072C", resourceCulture);
+                object obj = ResourceManager.GetObject("orange16384C", resourceCulture);
                 return ((byte[])(obj));
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        internal static byte[] yellow14C {
+        internal static byte[] orange16C {
             get {
-                object obj = ResourceManager.GetObject("yellow14C", resourceCulture);
+                object obj = ResourceManager.GetObject("orange16C", resourceCulture);
                 return ((byte[])(obj));
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        internal static byte[] yellow16384C {
+        internal static byte[] orange1912C {
             get {
-                object obj = ResourceManager.GetObject("yellow16384C", resourceCulture);
+                object obj = ResourceManager.GetObject("orange1912C", resourceCulture);
                 return ((byte[])(obj));
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        internal static byte[] yellow16C {
+        internal static byte[] orange2048C {
             get {
-                object obj = ResourceManager.GetObject("yellow16C", resourceCulture);
+                object obj = ResourceManager.GetObject("orange2048C", resourceCulture);
                 return ((byte[])(obj));
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        internal static byte[] yellow2048C {
+        internal static byte[] orange213C {
             get {
-                object obj = ResourceManager.GetObject("yellow2048C", resourceCulture);
+                object obj = ResourceManager.GetObject("orange213C", resourceCulture);
                 return ((byte[])(obj));
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        internal static byte[] yellow218226C {
+        internal static byte[] orange256C {
             get {
-                object obj = ResourceManager.GetObject("yellow218226C", resourceCulture);
+                object obj = ResourceManager.GetObject("orange256C", resourceCulture);
                 return ((byte[])(obj));
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        internal static byte[] yellow23C {
+        internal static byte[] orange262144C {
             get {
-                object obj = ResourceManager.GetObject("yellow23C", resourceCulture);
+                object obj = ResourceManager.GetObject("orange262144C", resourceCulture);
                 return ((byte[])(obj));
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        internal static byte[] yellow24053C {
+        internal static byte[] orange32768C {
             get {
-                object obj = ResourceManager.GetObject("yellow24053C", resourceCulture);
+                object obj = ResourceManager.GetObject("orange32768C", resourceCulture);
                 return ((byte[])(obj));
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        internal static byte[] yellow252C {
+        internal static byte[] orange32C {
             get {
-                object obj = ResourceManager.GetObject("yellow252C", resourceCulture);
+                object obj = ResourceManager.GetObject("orange32C", resourceCulture);
                 return ((byte[])(obj));
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        internal static byte[] yellow256C {
+        internal static byte[] orange342122C {
             get {
-                object obj = ResourceManager.GetObject("yellow256C", resourceCulture);
+                object obj = ResourceManager.GetObject("orange342122C", resourceCulture);
                 return ((byte[])(obj));
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        internal static byte[] yellow2618C {
+        internal static byte[] orange367C {
             get {
-                object obj = ResourceManager.GetObject("yellow2618C", resourceCulture);
+                object obj = ResourceManager.GetObject("orange367C", resourceCulture);
                 return ((byte[])(obj));
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        internal static byte[] yellow262144C {
+        internal static byte[] orange36C {
             get {
-                object obj = ResourceManager.GetObject("yellow262144C", resourceCulture);
+                object obj = ResourceManager.GetObject("orange36C", resourceCulture);
                 return ((byte[])(obj));
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        internal static byte[] yellow28C {
+        internal static byte[] orange4096C {
             get {
-                object obj = ResourceManager.GetObject("yellow28C", resourceCulture);
+                object obj = ResourceManager.GetObject("orange4096C", resourceCulture);
                 return ((byte[])(obj));
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        internal static byte[] yellow30C {
+        internal static byte[] orange512C {
             get {
-                object obj = ResourceManager.GetObject("yellow30C", resourceCulture);
+                object obj = ResourceManager.GetObject("orange512C", resourceCulture);
                 return ((byte[])(obj));
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        internal static byte[] yellow32768C {
+        internal static byte[] orange524288C {
             get {
-                object obj = ResourceManager.GetObject("yellow32768C", resourceCulture);
+                object obj = ResourceManager.GetObject("orange524288C", resourceCulture);
                 return ((byte[])(obj));
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        internal static byte[] yellow32C {
+        internal static byte[] orange64C {
             get {
-                object obj = ResourceManager.GetObject("yellow32C", resourceCulture);
+                object obj = ResourceManager.GetObject("orange64C", resourceCulture);
                 return ((byte[])(obj));
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        internal static byte[] yellow4096C {
+        internal static byte[] orange65536C {
             get {
-                object obj = ResourceManager.GetObject("yellow4096C", resourceCulture);
+                object obj = ResourceManager.GetObject("orange65536C", resourceCulture);
                 return ((byte[])(obj));
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        internal static byte[] yellow512C {
+        internal static byte[] orange6C {
             get {
-                object obj = ResourceManager.GetObject("yellow512C", resourceCulture);
+                object obj = ResourceManager.GetObject("orange6C", resourceCulture);
                 return ((byte[])(obj));
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        internal static byte[] yellow53239C {
+        internal static byte[] orange719405C {
             get {
-                object obj = ResourceManager.GetObject("yellow53239C", resourceCulture);
+                object obj = ResourceManager.GetObject("orange719405C", resourceCulture);
                 return ((byte[])(obj));
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        internal static byte[] yellow5374C {
+        internal static byte[] orange72C {
             get {
-                object obj = ResourceManager.GetObject("yellow5374C", resourceCulture);
+                object obj = ResourceManager.GetObject("orange72C", resourceCulture);
                 return ((byte[])(obj));
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        internal static byte[] yellow53C {
+        internal static byte[] orange8192C {
             get {
-                object obj = ResourceManager.GetObject("yellow53C", resourceCulture);
+                object obj = ResourceManager.GetObject("orange8192C", resourceCulture);
                 return ((byte[])(obj));
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        internal static byte[] yellow56C {
+        internal static byte[] orange8C {
             get {
-                object obj = ResourceManager.GetObject("yellow56C", resourceCulture);
+                object obj = ResourceManager.GetObject("orange8C", resourceCulture);
                 return ((byte[])(obj));
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        internal static byte[] yellow57C {
+        internal static byte[] orange971C {
             get {
-                object obj = ResourceManager.GetObject("yellow57C", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] yellow5C {
-            get {
-                object obj = ResourceManager.GetObject("yellow5C", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] yellow64C {
-            get {
-                object obj = ResourceManager.GetObject("yellow64C", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] yellow65536C {
-            get {
-                object obj = ResourceManager.GetObject("yellow65536C", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] yellow6C {
-            get {
-                object obj = ResourceManager.GetObject("yellow6C", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] yellow7C {
-            get {
-                object obj = ResourceManager.GetObject("yellow7C", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] yellow8192C {
-            get {
-                object obj = ResourceManager.GetObject("yellow8192C", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] yellow8C {
-            get {
-                object obj = ResourceManager.GetObject("yellow8C", resourceCulture);
+                object obj = ResourceManager.GetObject("orange971C", resourceCulture);
                 return ((byte[])(obj));
             }
         }

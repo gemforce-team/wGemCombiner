@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -9,10 +9,12 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>WGemCombiner</RootNamespace>
     <AssemblyName>WGemCombiner</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <TargetFrameworkProfile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -25,7 +27,7 @@
     <MapFileExtensions>false</MapFileExtensions>
     <OpenBrowserOnPublish>false</OpenBrowserOnPublish>
     <ApplicationRevision>0</ApplicationRevision>
-    <ApplicationVersion>1.0.8.%2a</ApplicationVersion>
+    <ApplicationVersion>1.1.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <ExcludeDeploymentUrl>true</ExcludeDeploymentUrl>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -40,6 +42,8 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>WGemCombiner.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -49,6 +53,8 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>WGemCombiner.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
     <ManifestCertificateThumbprint>665F61E25F2824FFC9240F574D156BD781EF37C0</ManifestCertificateThumbprint>
@@ -57,7 +63,7 @@
     <ManifestKeyFile>WGemCombiner_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
-    <GenerateManifests>true</GenerateManifests>
+    <GenerateManifests>false</GenerateManifests>
   </PropertyGroup>
   <PropertyGroup>
     <TargetZone>LocalIntranet</TargetZone>
@@ -76,18 +82,20 @@
     <DebugType>full</DebugType>
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>WGemCombiner.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>true</Prefer32Bit>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <OutputPath>bin\x86\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants>
+    </DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>true</Prefer32Bit>
+    <CodeAnalysisRuleSet>WGemCombiner.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject>
@@ -98,7 +106,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -109,21 +119,30 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BufferedTableLayoutPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="CombinePerformer.cs" />
-    <Compile Include="Form1.cs">
+    <Compile Include="GemCombiner.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="GemCombiner.Designer.cs">
+      <DependentUpon>GemCombiner.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormSkinner.cs" />
+    <Compile Include="Globals.cs" />
+    <Compile Include="Instruction.cs" />
+    <Compile Include="Preset.cs" />
+    <Compile Include="SettingsHandler.cs" />
     <Compile Include="Gem.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="HelpForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="HelpForm.Designer.cs">
       <DependentUpon>HelpForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Localization.cs" />
+    <Compile Include="NativeMethods.cs" />
     <Compile Include="Options.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -132,16 +151,16 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Properties\Resources.Designer.cs">
+    <Compile Include="Resources\Messages.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
+      <DependentUpon>Messages.resx</DependentUpon>
     </Compile>
     <Compile Include="RecipeConverter.cs" />
-    <Compile Include="Resources\graphics\graphics.Designer.cs">
+    <Compile Include="Resources\Images.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>graphics.resx</DependentUpon>
+      <DependentUpon>Images.resx</DependentUpon>
     </Compile>
     <Compile Include="Resources\kgComb\kgCombPresets.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -153,10 +172,10 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>kgSpecPresets.resx</DependentUpon>
     </Compile>
-    <Compile Include="Resources\leech\leechPresets.Designer.cs">
+    <Compile Include="Resources\orange\orangePresets.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>leechPresets.resx</DependentUpon>
+      <DependentUpon>orangePresets.resx</DependentUpon>
     </Compile>
     <Compile Include="Resources\mgComb\mgCombPresets.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -173,25 +192,27 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>yellowPresets.resx</DependentUpon>
     </Compile>
-    <Compile Include="SkinsEnum.cs" />
-    <EmbeddedResource Include="Form1.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="Settings.cs" />
+    <EmbeddedResource Include="GemCombiner.resx">
+      <DependentUpon>GemCombiner.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="HelpForm.resx">
       <DependentUpon>HelpForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Options.resx">
       <DependentUpon>Options.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Properties\Resources.resx">
+    <EmbeddedResource Include="Resources\Messages.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <SubType>Designer</SubType>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <LastGenOutput>Messages.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\graphics\graphics.resx">
+    <EmbeddedResource Include="Resources\Images.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>graphics.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+      <LastGenOutput>Images.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\kgComb\kgCombPresets.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -201,9 +222,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>kgSpecPresets.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\leech\leechPresets.resx">
+    <EmbeddedResource Include="Resources\orange\orangePresets.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>leechPresets.Designer.cs</LastGenOutput>
+      <LastGenOutput>orangePresets.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\mgComb\mgCombPresets.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -217,6 +238,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>yellowPresets.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="packages.config" />
     <None Include="Properties\app.manifest" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -268,35 +290,35 @@
     <None Include="Resources\kgSpec\kg64" />
     <None Include="Resources\kgSpec\kg8" />
     <None Include="Resources\kgSpec\kg987" />
-    <None Include="Resources\leech\leech1024C" />
-    <None Include="Resources\leech\leech128C" />
-    <None Include="Resources\leech\leech131072C" />
-    <None Include="Resources\leech\leech149C" />
-    <None Include="Resources\leech\leech156C" />
-    <None Include="Resources\leech\leech15C" />
-    <None Include="Resources\leech\leech16384C" />
-    <None Include="Resources\leech\leech16C" />
-    <None Include="Resources\leech\leech1912C" />
-    <None Include="Resources\leech\leech2048C" />
-    <None Include="Resources\leech\leech213C" />
-    <None Include="Resources\leech\leech256C" />
-    <None Include="Resources\leech\leech262144C" />
-    <None Include="Resources\leech\leech32768C" />
-    <None Include="Resources\leech\leech32C" />
-    <None Include="Resources\leech\leech342122C" />
-    <None Include="Resources\leech\leech367C" />
-    <None Include="Resources\leech\leech36C" />
-    <None Include="Resources\leech\leech4096C" />
-    <None Include="Resources\leech\leech512C" />
-    <None Include="Resources\leech\leech524288C" />
-    <None Include="Resources\leech\leech64C" />
-    <None Include="Resources\leech\leech65536C" />
-    <None Include="Resources\leech\leech6C" />
-    <None Include="Resources\leech\leech719405C" />
-    <None Include="Resources\leech\leech72C" />
-    <None Include="Resources\leech\leech8192C" />
-    <None Include="Resources\leech\leech8C" />
-    <None Include="Resources\leech\leech971C" />
+    <None Include="Resources\orange\orange1024C" />
+    <None Include="Resources\orange\orange128C" />
+    <None Include="Resources\orange\orange131072C" />
+    <None Include="Resources\orange\orange149C" />
+    <None Include="Resources\orange\orange156C" />
+    <None Include="Resources\orange\orange15C" />
+    <None Include="Resources\orange\orange16384C" />
+    <None Include="Resources\orange\orange16C" />
+    <None Include="Resources\orange\orange1912C" />
+    <None Include="Resources\orange\orange2048C" />
+    <None Include="Resources\orange\orange213C" />
+    <None Include="Resources\orange\orange256C" />
+    <None Include="Resources\orange\orange262144C" />
+    <None Include="Resources\orange\orange32768C" />
+    <None Include="Resources\orange\orange32C" />
+    <None Include="Resources\orange\orange342122C" />
+    <None Include="Resources\orange\orange367C" />
+    <None Include="Resources\orange\orange36C" />
+    <None Include="Resources\orange\orange4096C" />
+    <None Include="Resources\orange\orange512C" />
+    <None Include="Resources\orange\orange524288C" />
+    <None Include="Resources\orange\orange64C" />
+    <None Include="Resources\orange\orange65536C" />
+    <None Include="Resources\orange\orange6C" />
+    <None Include="Resources\orange\orange719405C" />
+    <None Include="Resources\orange\orange72C" />
+    <None Include="Resources\orange\orange8192C" />
+    <None Include="Resources\orange\orange8C" />
+    <None Include="Resources\orange\orange971C" />
     <None Include="Resources\mgComb\mg1024C" />
     <None Include="Resources\mgComb\mg128C" />
     <None Include="Resources\mgComb\mg131072C" />
@@ -362,6 +384,7 @@
     <None Include="Resources\yellow\yellow7C" />
     <None Include="Resources\yellow\yellow8192C" />
     <None Include="Resources\yellow\yellow8C" />
+    <None Include="WGemCombiner.ruleset" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -369,7 +392,7 @@
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5">
       <Visible>False</Visible>
-      <ProductName>Microsoft .NET Framework 4.5 %28x86 e x64%29</ProductName>
+      <ProductName>Microsoft .NET Framework 4.5 %28x86 and x64%29</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
@@ -384,15 +407,18 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <CodeAnalysisDictionary Include="CustomDictionary.xml" />
     <Content Include="GCIcon.ico" />
     <Content Include="Resources\graphics\GCIcon.ico" />
     <None Include="Resources\graphics\OptionsBG_Framed.jpg" />
     <None Include="Resources\graphics\HelpFormBG_Framed.jpg" />
-    <None Include="Resources\graphics\Form1BG_Framed.jpg" />
+    <None Include="Resources\graphics\GemCombinerBG_Framed.jpg" />
     <None Include="Resources\graphics\ButtonsDark2.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <WCFMetadata Include="Service References\" />
+    <Analyzer Include="..\packages\StyleCop.Analyzers.1.0.0-beta016\analyzers\dotnet\cs\Newtonsoft.Json.dll" />
+    <Analyzer Include="..\packages\StyleCop.Analyzers.1.0.0-beta016\analyzers\dotnet\cs\StyleCop.Analyzers.CodeFixes.dll" />
+    <Analyzer Include="..\packages\StyleCop.Analyzers.1.0.0-beta016\analyzers\dotnet\cs\StyleCop.Analyzers.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

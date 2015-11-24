@@ -28,128 +28,138 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(HelpForm));
-            this.closeHelpButton = new System.Windows.Forms.Button();
-            this.leftButton = new System.Windows.Forms.Button();
-            this.rightButton = new System.Windows.Forms.Button();
-            this.helpMessageTextBox = new System.Windows.Forms.RichTextBox();
-            this.helpTitleTextBox = new System.Windows.Forms.TextBox();
-            this.helpMessagePanel = new System.Windows.Forms.Panel();
-            this.helpMessagePanel.SuspendLayout();
-            this.SuspendLayout();
-            // 
-            // closeHelpButton
-            // 
-            this.closeHelpButton.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.closeHelpButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.closeHelpButton.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.closeHelpButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.closeHelpButton.Location = new System.Drawing.Point(189, 528);
-            this.closeHelpButton.Name = "closeHelpButton";
-            this.closeHelpButton.Size = new System.Drawing.Size(75, 23);
-            this.closeHelpButton.TabIndex = 0;
-            this.closeHelpButton.Text = "Close";
-            this.closeHelpButton.UseVisualStyleBackColor = false;
-            this.closeHelpButton.Click += new System.EventHandler(this.closeHelpButton_Click);
-            // 
-            // leftButton
-            // 
-            this.leftButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.leftButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.leftButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.leftButton.Location = new System.Drawing.Point(72, 528);
-            this.leftButton.Name = "leftButton";
-            this.leftButton.Size = new System.Drawing.Size(111, 23);
-            this.leftButton.TabIndex = 2;
-            this.leftButton.Text = "Previous page";
-            this.leftButton.UseVisualStyleBackColor = false;
-            this.leftButton.Click += new System.EventHandler(this.leftButton_Click);
-            // 
-            // rightButton
-            // 
-            this.rightButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.rightButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.rightButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.rightButton.Location = new System.Drawing.Point(270, 528);
-            this.rightButton.Name = "rightButton";
-            this.rightButton.Size = new System.Drawing.Size(111, 23);
-            this.rightButton.TabIndex = 3;
-            this.rightButton.Text = "Next page";
-            this.rightButton.UseVisualStyleBackColor = false;
-            this.rightButton.Click += new System.EventHandler(this.rightButton_Click);
-            // 
-            // helpMessageTextBox
-            // 
-            this.helpMessageTextBox.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.helpMessageTextBox.BackColor = System.Drawing.SystemColors.Window;
-            this.helpMessageTextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.helpMessageTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.helpMessageTextBox.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.helpMessageTextBox.Location = new System.Drawing.Point(3, 3);
-            this.helpMessageTextBox.MaximumSize = new System.Drawing.Size(442, 537);
-            this.helpMessageTextBox.Name = "helpMessageTextBox";
-            this.helpMessageTextBox.ReadOnly = true;
-            this.helpMessageTextBox.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-            this.helpMessageTextBox.Size = new System.Drawing.Size(418, 459);
-            this.helpMessageTextBox.TabIndex = 4;
-            this.helpMessageTextBox.Text = "";
-            this.helpMessageTextBox.LinkClicked += new System.Windows.Forms.LinkClickedEventHandler(this.helpMessageTextBox_LinkClicked);
-            // 
-            // helpTitleTextBox
-            // 
-            this.helpTitleTextBox.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.helpTitleTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.helpTitleTextBox.Location = new System.Drawing.Point(12, 12);
-            this.helpTitleTextBox.Name = "helpTitleTextBox";
-            this.helpTitleTextBox.ReadOnly = true;
-            this.helpTitleTextBox.Size = new System.Drawing.Size(428, 26);
-            this.helpTitleTextBox.TabIndex = 5;
-            this.helpTitleTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // helpMessagePanel
-            // 
-            this.helpMessagePanel.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.helpMessagePanel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.helpMessagePanel.Controls.Add(this.helpMessageTextBox);
-            this.helpMessagePanel.Location = new System.Drawing.Point(12, 53);
-            this.helpMessagePanel.Name = "helpMessagePanel";
-            this.helpMessagePanel.Size = new System.Drawing.Size(428, 469);
-            this.helpMessagePanel.TabIndex = 6;
-            // 
-            // HelpForm
-            // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.SystemColors.Control;
-            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ClientSize = new System.Drawing.Size(452, 562);
-            this.Controls.Add(this.helpMessagePanel);
-            this.Controls.Add(this.helpTitleTextBox);
-            this.Controls.Add(this.rightButton);
-            this.Controls.Add(this.leftButton);
-            this.Controls.Add(this.closeHelpButton);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.HelpButton = true;
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MaximizeBox = false;
-            this.Name = "HelpForm";
-            this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
-            this.Text = "Help";
-            this.Load += new System.EventHandler(this.HelpForm_Load);
-            this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.HelpForm_MouseDown);
-            this.helpMessagePanel.ResumeLayout(false);
-            this.ResumeLayout(false);
-            this.PerformLayout();
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(HelpForm));
+			this.helpTitleTextBox = new System.Windows.Forms.TextBox();
+			this.helpMessageTextBox = new System.Windows.Forms.RichTextBox();
+			this.bufferedTableLayoutPanel1 = new WGemCombiner.BufferedTableLayoutPanel();
+			this.closeHelpButton = new System.Windows.Forms.Button();
+			this.leftButton = new System.Windows.Forms.Button();
+			this.rightButton = new System.Windows.Forms.Button();
+			this.bufferedTableLayoutPanel1.SuspendLayout();
+			this.SuspendLayout();
+			// 
+			// helpTitleTextBox
+			// 
+			this.helpTitleTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.helpTitleTextBox.BackColor = System.Drawing.SystemColors.ControlLightLight;
+			this.helpTitleTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.helpTitleTextBox.Location = new System.Drawing.Point(12, 12);
+			this.helpTitleTextBox.Name = "helpTitleTextBox";
+			this.helpTitleTextBox.ReadOnly = true;
+			this.helpTitleTextBox.Size = new System.Drawing.Size(428, 26);
+			this.helpTitleTextBox.TabIndex = 5;
+			this.helpTitleTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			// 
+			// helpMessageTextBox
+			// 
+			this.helpMessageTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.helpMessageTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.helpMessageTextBox.Location = new System.Drawing.Point(12, 45);
+			this.helpMessageTextBox.Name = "helpMessageTextBox";
+			this.helpMessageTextBox.ReadOnly = true;
+			this.helpMessageTextBox.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
+			this.helpMessageTextBox.Size = new System.Drawing.Size(428, 476);
+			this.helpMessageTextBox.TabIndex = 6;
+			this.helpMessageTextBox.Text = "";
+			// 
+			// bufferedTableLayoutPanel1
+			// 
+			this.bufferedTableLayoutPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.bufferedTableLayoutPanel1.ColumnCount = 7;
+			this.bufferedTableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
+			this.bufferedTableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+			this.bufferedTableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
+			this.bufferedTableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+			this.bufferedTableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
+			this.bufferedTableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+			this.bufferedTableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
+			this.bufferedTableLayoutPanel1.Controls.Add(this.closeHelpButton, 3, 0);
+			this.bufferedTableLayoutPanel1.Controls.Add(this.leftButton, 1, 0);
+			this.bufferedTableLayoutPanel1.Controls.Add(this.rightButton, 5, 0);
+			this.bufferedTableLayoutPanel1.Location = new System.Drawing.Point(12, 527);
+			this.bufferedTableLayoutPanel1.Name = "bufferedTableLayoutPanel1";
+			this.bufferedTableLayoutPanel1.RowCount = 1;
+			this.bufferedTableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+			this.bufferedTableLayoutPanel1.Size = new System.Drawing.Size(428, 23);
+			this.bufferedTableLayoutPanel1.TabIndex = 8;
+			// 
+			// closeHelpButton
+			// 
+			this.closeHelpButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+			this.closeHelpButton.Cursor = System.Windows.Forms.Cursors.Default;
+			this.closeHelpButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.closeHelpButton.Location = new System.Drawing.Point(175, 0);
+			this.closeHelpButton.Margin = new System.Windows.Forms.Padding(0);
+			this.closeHelpButton.Name = "closeHelpButton";
+			this.closeHelpButton.Size = new System.Drawing.Size(75, 23);
+			this.closeHelpButton.TabIndex = 0;
+			this.closeHelpButton.Text = "Close";
+			this.closeHelpButton.UseVisualStyleBackColor = false;
+			this.closeHelpButton.Click += new System.EventHandler(this.CloseHelpButton_Click);
+			// 
+			// leftButton
+			// 
+			this.leftButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+			this.leftButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.leftButton.Location = new System.Drawing.Point(32, 0);
+			this.leftButton.Margin = new System.Windows.Forms.Padding(0);
+			this.leftButton.Name = "leftButton";
+			this.leftButton.Size = new System.Drawing.Size(111, 23);
+			this.leftButton.TabIndex = 2;
+			this.leftButton.Text = "Previous page";
+			this.leftButton.UseVisualStyleBackColor = false;
+			this.leftButton.Click += new System.EventHandler(this.LeftButton_Click);
+			// 
+			// rightButton
+			// 
+			this.rightButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+			this.rightButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.rightButton.Location = new System.Drawing.Point(282, 0);
+			this.rightButton.Margin = new System.Windows.Forms.Padding(0);
+			this.rightButton.Name = "rightButton";
+			this.rightButton.Size = new System.Drawing.Size(111, 23);
+			this.rightButton.TabIndex = 3;
+			this.rightButton.Text = "Next page";
+			this.rightButton.UseVisualStyleBackColor = false;
+			this.rightButton.Click += new System.EventHandler(this.RightButton_Click);
+			// 
+			// HelpForm
+			// 
+			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.BackColor = System.Drawing.SystemColors.Control;
+			this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+			this.ClientSize = new System.Drawing.Size(452, 562);
+			this.Controls.Add(this.bufferedTableLayoutPanel1);
+			this.Controls.Add(this.helpMessageTextBox);
+			this.Controls.Add(this.helpTitleTextBox);
+			this.DoubleBuffered = true;
+			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+			this.HelpButton = true;
+			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+			this.MaximizeBox = false;
+			this.Name = "HelpForm";
+			this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
+			this.Text = "Help";
+			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.HelpForm_FormClosing);
+			this.Load += new System.EventHandler(this.HelpForm_Load);
+			this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.HelpForm_MouseDown);
+			this.bufferedTableLayoutPanel1.ResumeLayout(false);
+			this.ResumeLayout(false);
+			this.PerformLayout();
 
         }
 
         #endregion
-
-        private System.Windows.Forms.Button closeHelpButton;
-        private System.Windows.Forms.Button leftButton;
-        private System.Windows.Forms.Button rightButton;
-        private System.Windows.Forms.RichTextBox helpMessageTextBox;
         private System.Windows.Forms.TextBox helpTitleTextBox;
-        private System.Windows.Forms.Panel helpMessagePanel;
-    }
+		private System.Windows.Forms.RichTextBox helpMessageTextBox;
+		private System.Windows.Forms.Button leftButton;
+		private System.Windows.Forms.Button closeHelpButton;
+		private System.Windows.Forms.Button rightButton;
+		private BufferedTableLayoutPanel bufferedTableLayoutPanel1;
+	}
 }

@@ -1,90 +1,90 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.IO;
-
-namespace WGemCombiner
+﻿namespace WGemCombiner
 {
-    static class RecipeConverter
-    {
-        static CombinePerformer CP = new CombinePerformer();
+	using System.Collections.Generic;
+	using System.IO;
 
-        static public void convertFromFile(string importFilePath)
-        {
-            int recipeNumber = 0;
-            string currentRecipe = "";
-            StreamReader recipeReader = new StreamReader(importFilePath);
+	internal static class RecipeConverter
+	{
+		#region Static Fields
+		private static CombinePerformer combinePerformer = new CombinePerformer(true);
+		#endregion
 
-            while((currentRecipe = recipeReader.ReadLine())!=null)
-            {
-                Form1.logger.Write( "Converting Recipe # " + ++recipeNumber + ":\t");
-                if(!CP.schemeIsValid(currentRecipe))
-                {
-                    Form1.logger.Write("Scheme is not valid, skipping...\n");
-                    continue;
-                }
-                convertRecipe(currentRecipe);
-            }
+		#region Public Methods
+		public static void ConvertFromFile(string importFilePath)
+		{
+			if (string.IsNullOrEmpty(importFilePath))
+			{
+				return;
+			}
 
-            recipeReader.Close();
-            Form1.logger.WriteLine("\nFinished importing!");
-            System.Windows.Forms.MessageBox.Show("Done, check the log in /Resources");
-        }
+			using (StreamReader recipeReader = new StreamReader(importFilePath))
+			{
+				int recipeNumber = 0;
+				string currentRecipe;
+				do
+				{
+					recipeNumber++;
+					currentRecipe = recipeReader.ReadLine()?.Trim();
+					if (!string.IsNullOrEmpty(currentRecipe))
+					{
+						/* if (!CombinePerformer.SchemeIsValid(currentRecipe))
+						{
+							continue;
+						} */
 
-        static public void convertRecipe(string recipe)
-        {
-            gemType type;
-            string outputPath = @"..\..\..\Resources";
-            bool isCombine = false;
+						ConvertRecipe(currentRecipe);
+					}
+				}
+				while (currentRecipe != null);
+			}
 
-            CP.SetMethod(recipe, false);
-            type = (gemType)CP.resultGem.GetColor();
-            switch (type)
-            {
-                case gemType.mg:
-                    if (recipe.Contains('m'))
-                    {
-                        outputPath += @"\mgComb\";
-                        isCombine = true;
-                    }
-                    else
-                        outputPath += @"\mgSpec\";
-                    break;
-                case gemType.kg:
-                    if (recipe.Contains('k'))
-                    {
-                        outputPath += @"\kgComb\";
-                        isCombine = true;
-                    }
-                    else
-                        outputPath += @"\kgSpec\";
-                    break;
-                default:
-                    {
-                        outputPath += @"\" + type.ToString() + @"\";
-                        isCombine=true;
-                    }
-                    break;
-            }
-            outputPath += type.ToString(); // Adding the beginning of the preset's filename
-            writePreset(outputPath,isCombine);
-        }
+			System.Windows.Forms.MessageBox.Show("Done, check the log in /Resources");
+		}
 
-        static private void writePreset(string path, bool isCombine)
-        {
-            string writtenFilePath = path + CP.resultGem.Cost + (isCombine ? "C" : "");
+		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1308:NormalizeStringsToUppercase", Justification = "English-only filename.")]
+		public static void ConvertRecipe(string recipe)
+		{
+			string outputPath = @"..\..\..\Resources\";
+			combinePerformer.Parse(recipe);
+			var gem = combinePerformer.ResultGem;
+			var isCombine = new List<Gem>(combinePerformer.BaseGems).Count == 1;
+			switch (gem.Color)
+			{
+				case GemColor.Mana:
+					if (isCombine)
+					{
+						outputPath += @"mgComb\mg";
+					}
+					else
+					{
+						outputPath += @"mgSpec\mg";
+					}
 
-            System.IO.File.WriteAllBytes(writtenFilePath, CP.GetSave());
-            Form1.logger.Write( "Written recipe to " + writtenFilePath + "\n");
-        }
-    }
+					break;
+				case GemColor.Kill:
+					if (isCombine)
+					{
+						outputPath += @"kgComb\kg";
+					}
+					else
+					{
+						outputPath += @"kgSpec\kg";
+					}
 
-    enum gemType
-    {
-        leech=1,
-        mg=3,
-        yellow=4,
-        kg=5,
-    }
+					break;
+				default:
+					{
+						var colorName = combinePerformer.ResultGem.ColorName.ToLowerInvariant();
+						outputPath += colorName + @"\" + colorName;
+						isCombine = true;
+					}
+
+					break;
+			}
+
+			outputPath += combinePerformer.ResultGem.Cost + (isCombine ? "C" : string.Empty);
+			combinePerformer.Save(outputPath);
+		}
+		#endregion
+	}
 }

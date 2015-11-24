@@ -1,673 +1,706 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Drawing;
-using System.Runtime.InteropServices;
-using System.Windows.Forms;
-using System.Threading;
-
-namespace WGemCombiner
+﻿namespace WGemCombiner
 {
-    class CombinePerformer
-    {
-
-        /// <summary>
-        /// List of instructions:
-        /// X is gem to U/D/C
-        /// Y is gem to C with, or -1 = D, or -2 = U
-        /// </summary>
-        public List<Point> inst = new List<Point>();
-        public const int INST_DUPE = -99;
-        public const int INST_UPGR = -98;
-        const int SLOT_SIZE = 28;
-        public const double NATIVE_SCREEN_HEIGHT = 612;//1088 x 612 says spy++, 600 flash version
-        public const double NATIVE_SCREEN_WIDTH = 1088;//
-        public double resolutionRatio = 1;
-        private const string gemcraftClassName = "ApolloRuntimeContentWindow";
-        private const string gemcraftWindowName = "GemCraft Chasing Shadows";
-
-        public int Slots_Required;
-        public bool limitSlots = true;
-
-        public List<string> baseGemSlots = new List<string>();
-
-        public void SetMethod(string m, bool formula = false)
-        {
-            // Parses equation/formulas to compressed scheme
-            if (formula)
-                m = ParseFormula(m);
-            m = m.Replace(" ", ""); // Remove spaces, whitespace is for human readers.
-            m = m.Replace("\n", ""); // Remove newlines or the parser crashes
-
-            // Parsing to base gems, and standardizing it to my ways.
-            m = ParseScheme(m);
-
-            SetGems(m); // Performs the combine pattern internally, recording the useage of each gem.
-            CreateInstructions(); // Uses the result gem from SetGems and the useage data to create the instructions.
-        }
-        // Parses equation/formulas to compressed scheme
-        private string ParseFormula(string str)
-        {
-            str = str.Replace(" ", "");
-            string[] strP = str.Split('\t');
-
-            string resStr = strP.Last().Split('=')[0];
-
-            for (int i = strP.Length - 1; i > 2; i -= 1)
-            {
-                int ind = strP[i].IndexOf('\n');
-                string s = strP[i];
-                if (ind > 0)
-                    s = s.Substring(0, ind);
-                string[] strC = s.Split('=');
-                if (i == 2)
-                    i = 2;
-                resStr = resStr.Replace(strC[0], "(" + strC[1] + ")");
-            }
-
-            if (resStr.Contains('0'))
-            {
-                resStr = resStr.Replace('1', '2');
-                resStr = resStr.Replace('0', '1');
-            }
-            resStr = resStr.Substring(1, resStr.Length - 2);
-
-            return resStr;
-        }
-        private List<Gem> baseGems;
-        // All parsing except ParseFormula
-        private string ParseScheme(string str)
-        {
-            baseGems = new List<Gem>();
-            baseGemSlots.Clear();
-
-            if (!schemeIsValid(str)) return "";
-            // Is it from gemforce? (Letters)
-            if (str.Contains('+') == true)
-            {
-                char letterOrNumber = str[str.IndexOf('+') - 1];
-                if (letterOrNumber != '2' && letterOrNumber != '1')
-                    str = ieeePreParser(str); // Replaces 4b with 3b, 2o with o, etc.
-                else
-                    str = str.Replace("2", "(1+1)");
-            }
-            else str = ieeePreParser(str); // must be like "8m"
-            // Check which letters are used, and replace each one with a number indentifier for the internal combiner
-            if (str.Contains('o'))
-            {
-                baseGems.Add(Gem.Base(Gem.COLOR_ORANGE));
-                str = str.Replace("o", baseGems.Count.ToString());
-                baseGemSlots.Add(FormatBaseGemSlot(baseGems.Count, "Orange"));
-            }
-            if (str.Contains('y'))
-            {
-                baseGems.Add(Gem.Base(Gem.COLOR_YELLOW));
-                str = str.Replace("y", baseGems.Count.ToString());
-                baseGemSlots.Add(FormatBaseGemSlot(baseGems.Count, "Yellow"));
-            }
-            if (str.Contains('b'))
-            {
-                baseGems.Add(Gem.Base(Gem.COLOR_BLACK));
-                str = str.Replace("b", baseGems.Count.ToString());
-                baseGemSlots.Add(FormatBaseGemSlot(baseGems.Count, "Black"));
-            }
-            if (str.Contains('r'))
-            {
-                baseGems.Add(Gem.Base(Gem.COLOR_RED));
-                str = str.Replace("r", baseGems.Count.ToString());
-                baseGemSlots.Add(FormatBaseGemSlot(baseGems.Count, "Red"));
-            }
-            if (str.Contains('k'))
-            {
-                baseGems.Add(Gem.Base(Gem.COLOR_KILLGEM));
-                str = str.Replace("k", baseGems.Count.ToString());
-                baseGemSlots.Add(FormatBaseGemSlot(baseGems.Count, "Kill gem"));
-            }
-            if (str.Contains('m'))
-            {
-                baseGems.Add(Gem.Base(Gem.COLOR_MANAGEM));
-                str = str.Replace("m", baseGems.Count.ToString());
-                baseGemSlots.Add(FormatBaseGemSlot(baseGems.Count, "Mana gem"));
-            }
-            if (str.Contains('g')) // generic gem in all over the AG forum
-            {
-                baseGems.Add(Gem.Base(Gem.COLOR_NULL));
-                str = str.Replace("g", baseGems.Count.ToString());
-                baseGemSlots.Add(FormatBaseGemSlot(baseGems.Count, "Generic"));
-            }
-            // If no letters were found, it still needs one base gem.
-            if (baseGems.Count == 0)
-            {   
-                baseGems.Add(Gem.Base(Gem.COLOR_NULL));
-                baseGemSlots.Add(FormatBaseGemSlot(baseGems.Count, "Generic"));
-            }
-            return str;
-        }
-
-        private string FormatBaseGemSlot(int slot, string color)
-        {
-            int column = ((slot - 1) % 3);
-            int row = ((slot - 1) / 3) + 1;
-
-            string columnLetter;
-            if (column == 0)
-            {
-                columnLetter = "A";
-            }
-            else if (column == 1)
-            {
-                columnLetter = "B";
-            }
-            else
-            {
-                columnLetter = "C";
-            }
-
-            return string.Format("{0}{1}: {2}", row, columnLetter, color);
-        }
-
-        public string ieeePreParser(string recipe)
-        {
-            for (int i = 20; i > 1; i--)
-            {
-                string grd_str = i.ToString();
-                int place = recipe.IndexOf(grd_str);
-                while (place != -1)
-                {
-                    string color = recipe[place + grd_str.Length].ToString();
-                    string weakerGem = (i - 1).ToString() + color;
-                    if (i == 2)
-                        weakerGem = color;
-                    recipe = recipe.Replace(grd_str + color, "(" + weakerGem + "+" + weakerGem + ")");
-                    place = recipe.IndexOf(grd_str);
-                }
-            }
-            return recipe;
-        }
-        public bool schemeIsValid(string scheme)
-        {
-            if (scheme.Length < 2) return false;
-            if (!evenBrackets(scheme)) return false;// Mismatched brackets
-            if (scheme.Count(char.IsLetter) > 0 && !scheme.Contains('+') && scheme.Count(char.IsDigit) == 0) return false;// Only letters
-            if (scheme.Count(char.IsDigit) > 0 && !scheme.Contains('+') && scheme.Count(char.IsLetter) == 0) return false;// Only digits
-            if (scheme.Count(char.IsLetter) >= 2 && !scheme.Contains('+')) return false;
-
-            return true;
-        }
-
-        private bool evenBrackets(string scheme)
-        {
-            int openingBrackets = 0;
-            int closingBrackets = 0;
-            foreach (char character in scheme)
-            {
-                if (character == '(') openingBrackets++;
-                if (character == ')') closingBrackets++;
-            }
-            if (openingBrackets != closingBrackets) return false;
-            return true;
-        }
-
-        public Gem resultGem;
-        List<Gem> combined = new List<Gem>();
-        List<Gem> orderedCombined;
-        List<int> useCount = new List<int>();
-        private void SetGems(string str)
-        {
-            combined.Clear();
-            useCount.Clear();
-
-            // Add baseGems to combined, and add values for their useage count.
-            combined.Add(null);
-            useCount.Add(-1);
-            for (int i = 0; i < baseGems.Count; i++)
-            {
-                combined.Add(baseGems[i]);
-                combined[i + 1].strID = (i + 1).ToString();
-                useCount.Add(0);
-            }
-
-            do
-            { // Get the first set of parenthesis and replace with incrementing id.
-                int close = str.IndexOf(')');
-                if (close == -1)
-                    break;
-                int open = str.LastIndexOf('(', close);
-                string thisCombine = str.Substring(open + 1, close - open - 1);
-                string[] cGems = thisCombine.Split('+');
-
-                int gem1 = Convert.ToInt32(cGems[0]);
-                int gem2 = Convert.ToInt32(cGems[1]);
-                str = str.Replace("(" + gem1 + "+" + gem2 + ")", combined.Count.ToString());
-
-                // Internal combines
-                resultGem = Gem.Combine(combined[gem1], combined[gem2]);
-                resultGem.strID = combined.Count.ToString();
-                combined.Add(resultGem);
-
-                useCount.Add(0); // Have to track times each gem is used.
-                useCount[gem1]++; useCount[gem2]++;
-
-            } while (true);
-            // final combine
-            if (str.Contains('+'))
-            {  // if scheme was surrounded by parenthesis (e.g. ((1+1)+1)) this step is not required, was already done in loop.
-                string[] lastGems = str.Split('+');
-
-                int fgem1 = Convert.ToInt32(lastGems[0]);
-                int fgem2 = Convert.ToInt32(lastGems[1]);
-
-                resultGem = Gem.Combine(combined[fgem1], combined[fgem2]);
-                resultGem.strID = combined.Count.ToString();
-                combined.Add(resultGem);
-                useCount.Add(0);
-                useCount[fgem1]++; useCount[fgem2]++;
-            }
-
-            orderedCombined = new List<Gem>();
-            orderedCombined.AddRange(combined);
-        }
-        private void CreateInstructions()
-        {
-            inst.Clear(); // Instructions list
-
-            Gem[] inventory = new Gem[136]; // Array of what is in each of your inventory slots (Over 36 because this is before slot compression.)
-
-            int[] slots = new int[combined.Count]; // Which slot each gem is in
-            for (int i = 0; i < slots.Length; i++)
-                slots[i] = -2;
-
-            // Place baseGems in inventory slots
-            for (int i = 0; i < baseGems.Count; i++)
-            {
-                inventory[i] = combined[i + 1];
-                slots[i + 1] = i;
-            }
-
-            Slots_Required = baseGems.Count;
-
-            // All oneUse stuff is for slot compression. (This part of slot compression works.)
-            List<int> oneUse = new List<int>();
-
-            int startAt = baseGems.Count + 1; // Don't try to give instructinos for placing the base gems.
-            for (int i = startAt; i < combined.Count; i++)
-            {
-                Gem g = combined[i];
-                int c1 = Convert.ToInt32(g.Component1.strID);
-                int c2 = Convert.ToInt32(g.Component2.strID);
-                int slot1 = slots[c1];
-                int slot2 = slots[c2];
-
-                if (c1 == c2)
-                { // Upgrade gem
-                    useCount[c2] -= 2;
-                    if (useCount[c2] > 0)
-                    {
-                        // DUPE
-                        inst.Add(new Point(slot1, INST_DUPE));
-                        slots[c1] = GetEmpty(inventory);
-                        inventory[slots[c1]] = g.Component1;
-                        CheckSlotReq(slots[c1]);
-                    }
-                    inst.Add(new Point(slot1, INST_UPGR));
-                    inventory[slot1] = g;
-                    slots[Convert.ToInt32(g.strID)] = slot1;
-                }
-                else
-                {
-                    if (useCount[c1] > 1)
-                    { // DUPE
-                        inst.Add(new Point(slot1, INST_DUPE));
-                        slots[c1] = GetEmpty(inventory);
-                        inventory[slots[c1]] = g.Component1;
-                        CheckSlotReq(slots[c1]);
-                    }
-                    if (useCount[c2] > 1)
-                    { // DUPE (repetitive code :/)
-                        inst.Add(new Point(slot2, INST_DUPE));
-                        slots[c2] = GetEmpty(inventory);
-                        inventory[slots[c2]] = g.Component1;
-                        CheckSlotReq(slots[c2]);
-                    }
-                    useCount[c1] -= 1;
-                    useCount[c2] -= 1;
-                    if (useCount[c1] == 1)
-                        oneUse.Add(c1);
-                    if (useCount[c2] == 1)
-                        oneUse.Add(c2);
-
-                    inst.Add(new Point(slot1, slot2));
-                    inventory[slot1] = null;
-                    inventory[slot2] = g;
-                    slots[Convert.ToInt32(g.strID)] = slot2;
-                    // None remaining? (Did not dupe)
-                    // useCount[c1] == 0 should work here?
-                    if (slots[c1] == slot1)
-                        slots[c1] = -1;
-                    if (slots[c2] == slot2)
-                        slots[c2] = -1;
-
-                    // Check oneUse combines
-                    for (int iU = i + 2; iU < combined.Count; iU++)
-                    {
-                        Gem gU = combined[iU];
-                        int c1U = Convert.ToInt32(gU.Component1.strID);
-                        int c2U = Convert.ToInt32(gU.Component2.strID);
-                        int slot1U = slots[c1U];
-                        int slot2U = slots[c2U];
-
-                        int oneID1 = oneUse.IndexOf(c1U);
-                        int oneID2 = oneUse.IndexOf(c2U);
-                        if (oneID1 != -1 && oneID2 != -1)
-                        { // Combine, by shifting position in combined list.
-                            combined.Insert(i + 1, combined[iU]);
-                            combined.RemoveAt(iU + 1);
-                            oneUse.RemoveAt(oneID1);
-                            oneUse.Remove(c2U);
-                            iU -= 2;
-                        }
-                        else if (GetEmpty(inventory) < Slots_Required && oneID1 != -1 && slot2U > 0)
-                        { // If only one of the two is a oneUse, combine it anyway, if doing so will not put it over the current Slots_Req
-                            combined.Insert(i + 1, combined[iU]);
-                            combined.RemoveAt(iU + 1);
-                            oneUse.RemoveAt(oneID1); iU--;
-                        }
-                        else if (GetEmpty(inventory) < Slots_Required && oneID2 != -1 && slot1U > 0)
-                        {
-                            combined.Insert(i + 1, combined[iU]);
-                            combined.RemoveAt(iU + 1);
-                            oneUse.RemoveAt(oneID2); iU--;
-                        }
-                    }
-                }
-            }
-
-            // REDUCE SLOT REQUIREMENT
-            if (limitSlots && Slots_Required > 36)
-            {
-                inst = CondenseSlots(resultGem, inst, false, 36);
-                inst.Insert(0, new Point(0, -36));
-            }
-        }
-        // CondenseSlots seems to be messed up, I can't get the 262144-combine to work.
-        private List<Point> CondenseSlots(Gem g, List<Point> bigInst, bool keepBase, int slotLimit)
-        {
-            // Get the combine INST for both components. (Will not include duplicating base gem.)
-            // If the combine for a component exceeds the slotLimit, CondenseSlots to get new INST.
-            // 
-            // Each component's combine INST must include placing the base gem in slot 0.
-            // If I add the duplicate step to p1.inst, then the new condensed one will already have it.
-            // To solve this, try: If the INST does not begin with duplicate step, add it.
-
-
-            Gem c1 = g.Component1;
-            Gem c2 = g.Component2;
-            CombinePerformer p1 = new CombinePerformer(); p1.limitSlots = false;
-            p1.SetMethod(c1.GetFullCombine()); p1.resultGem.strID = c1.strID;
-            CombinePerformer p2 = new CombinePerformer(); p2.limitSlots = false;
-            p2.SetMethod(c2.GetFullCombine()); p2.resultGem.strID = c2.strID;
-
-            if (p1.Slots_Required > slotLimit - 1)
-                p1.inst = CondenseSlots(c1, p1.inst, true, slotLimit);
-            // Move result gem to highest open slot
-            p1.inst.Add(new Point(p1.inst.Last().Y, -(slotLimit - 1))); // Move to 1st open space.
-            if (p2.Slots_Required > slotLimit - 1)
-                p2.inst = CondenseSlots(c2, p2.inst, false, slotLimit - 1);
-            if (keepBase) // Is slot 36 used by baseGem?
-                p2.inst.Add(new Point(p2.inst.Last().Y, -(slotLimit - 2))); // 2nd open (now 1st) space.
-            else
-                p2.inst.Add(new Point(p2.inst.Last().Y, -36));
-
-            List<Point> newInst = new List<Point>();
-            // Both combines require placing a base gem in slot 0 first.
-            if (p1.inst[0].X != 35)
-                newInst.Add(new Point(35, INST_DUPE));
-            newInst.AddRange(p1.inst);
-
-            if (keepBase || p2.Slots_Required > slotLimit - 1) // Duplicate base_gem
-                newInst.Add(new Point(35, INST_DUPE));
-            else // Move base_gem
-                newInst.Add(new Point(35, -1));
-            newInst.AddRange(p2.inst);
-
-            // Combine the two resulting gems
-            if (keepBase)
-                newInst.Add(new Point((slotLimit - 3), (slotLimit - 2))); // Combine to the higher slot (shouldn't matter, last gem is moved later anyway)
-            else
-                newInst.Add(new Point((slotLimit - 2), 35));
-
-            // Finally
-            return newInst;
-        }
-
-        private int GetEmpty(Gem[] a)
-        {
-            for (int i = 0; i < a.Length; i++)
-            {
-                if (a[i] == null)
-                    return i;
-            }
-            return -1;
-        }
-        private void CheckSlotReq(int s)
-        {
-            if (s + 1 > Slots_Required)
-                Slots_Required = s + 1;
-        }
-
-        // Get a handle to an application window.
-        [DllImport("user32.dll", CharSet = CharSet.Unicode)]
-        static extern IntPtr FindWindow(string lpClassName, string lpWindowName);//find gemcraft window
-        [DllImport("user32.dll")]
-        static extern bool GetClientRect(IntPtr hWnd, out Rectangle lpRect);//grab the demensions of the window
-        [DllImport("user32.dll")]
-        static extern bool SetForegroundWindow(IntPtr hWnd);//set focus to the window
-
-
-        [DllImport("user32.dll")]
-        static extern void mouse_event(uint dwFlags, uint dx, uint dy, uint cButtons, UIntPtr dwExtraInfo);
-        private void MoveCursor(int X, int Y)
-        { Cursor.Position = new Point(X, Y); }
-        private void PressMouse()
-        { mouse_event(2, 0, 0, 0, UIntPtr.Zero); }
-        private void ReleaseMouse()
-        { mouse_event(4, 0, 0, 0, UIntPtr.Zero); }
-
-        const uint KEYEVENTF_KEYUP = 0x2;
-        [DllImport("user32.dll")]
-        static extern bool keybd_event(byte bVk, byte bScan, uint dwFlags, UIntPtr dwExtraInfo);
-        void PressKey(byte keyCode)
-        {
-            keybd_event(keyCode, 0, 0, UIntPtr.Zero);
-            Thread.Sleep(3);
-            keybd_event(keyCode, 0, KEYEVENTF_KEYUP, UIntPtr.Zero);
-        }
-
-        public delegate void DEL_STEPC(int stepID);
-        public event DEL_STEPC StepComplete;
-        public bool cancel_Combine = false;
-        public int sleep_time = 33;
-        public void PerformCombine(int mSteps)
-        {
-            const byte KEY_D = 0x44;
-            const byte KEY_U = 0x55;
-            const byte KEY_DOT = 0xBE;//hide info box
-            Form1.logger.WriteLine("Performing a combine:");
-
-            Rectangle clientRect;
-            resolutionRatio = 1;//set the default ratio back to 1
-
-            IntPtr gemcraftHandle = FindWindow(gemcraftClassName, gemcraftWindowName);
-            // Verify that Gemcraft is a running process. 
-            if (gemcraftHandle == IntPtr.Zero)
-            {
-                //Gemcraft Steam verison not running, defaulting back to flash version
-                PressMouse(); ReleaseMouse(); //Just to give focus to the window 
-            }
-            else
-            {
-                //set gemcraft window focus
-                SetForegroundWindow(gemcraftHandle);
-                //grab window size
-                GetClientRect(gemcraftHandle, out clientRect);
-
-                double width = clientRect.Width;
-                double height = clientRect.Height;
-                double ratio = NATIVE_SCREEN_WIDTH / NATIVE_SCREEN_HEIGHT; //1088x612//1.7777
-                double newHeight = width / ratio;
-                double newWidth = height * ratio;
-
-                //Please modify if there is a better way.
-                if (newHeight <= height)
-                    resolutionRatio = width / NATIVE_SCREEN_WIDTH;
-                else
-                    if (newWidth <= width)
-                        resolutionRatio = height / NATIVE_SCREEN_HEIGHT;
-                /* 
-                 MessageBox.Show("newheight="+newheight.ToString("0.#####")+
-                                 " newwidth="+newwidth.ToString("0.#####")+
-                                 " height="+height.ToString("0.#####")+
-                                 " width="+width.ToString("0.#####")+
-                                 " ratio="+ratio.ToString("0.#####")+
-                                 " resolutionRatio="+resolutionRatio.ToString("0.#####"));
-                 return;
-                 */
-            }
-
-
-            cancel_Combine = false;
-            Point sA1 = Cursor.Position;
-            PressKey(KEY_DOT);//hide info box
-            Thread.Sleep(sleep_time);
-            for (int i = mSteps; i < inst.Count; i++)
-            {
-                Point sPos = GetSlotPos(inst[i].X);
-                MoveCursor(sA1.X - (int)(sPos.X * SLOT_SIZE * resolutionRatio), sA1.Y - (int)(sPos.Y * SLOT_SIZE * resolutionRatio));
-                Form1.logger.WriteLine("Moved cursor to\t\t" + inst[i].X + "\t\t" + Cursor.Position.ToString());
-                //Thread.Sleep(sleep_time);
-                if (inst[i].Y == INST_DUPE)
-                {
-                    PressKey(KEY_D);
-                    //SendKeys.Send("d");
-                    //SendKeys.SendWait("d");
-                    //Thread.Sleep(sleep_time);
-                    Form1.logger.WriteLine("Duped gem in slot\t\t" + inst[i].X + "\t\t" + Cursor.Position.ToString());
-                }
-                else if (inst[i].Y == INST_UPGR)
-                {
-                    PressKey(KEY_U);
-                    //SendKeys.Send("u");
-                    //SendKeys.SendWait("u");
-                    //Thread.Sleep(sleep_time);
-                    Form1.logger.WriteLine("Upgrd gem in slot\t\t" + inst[i].X + "\t\t" + Cursor.Position.ToString());
-                }
-                else if (inst[i].Y < 0) // Move gem (only used when slots are compressed)
-                {
-                    PressMouse();
-                    Thread.Sleep(sleep_time);
-                    sPos = GetSlotPos(-(inst[i].Y + 1));
-                    MoveCursor(sA1.X - (int)(sPos.X * SLOT_SIZE * resolutionRatio), sA1.Y - (int)(sPos.Y * SLOT_SIZE * resolutionRatio));
-                    ReleaseMouse();
-                }
-                else
-                { // Try the button. Works wonders!
-                    Form1.logger.WriteLine("Combining gems \t\t" + inst[i].X + " and " + inst[i].Y);
-                    MoveCursor(sA1.X - (int)(-0.5 * SLOT_SIZE * resolutionRatio), sA1.Y - (int)(12.8 * SLOT_SIZE * resolutionRatio));
-                    PressMouse(); ReleaseMouse();
-                    MoveCursor(sA1.X - (int)(sPos.X * SLOT_SIZE * resolutionRatio), sA1.Y - (int)(sPos.Y * SLOT_SIZE * resolutionRatio));
-                    PressMouse();
-                    sPos = GetSlotPos(inst[i].Y);
-                    MoveCursor(sA1.X - (int)(sPos.X * SLOT_SIZE * resolutionRatio), sA1.Y - (int)(sPos.Y * SLOT_SIZE * resolutionRatio));
-                    ReleaseMouse();
-                }
-
-                if (StepComplete != null)
-                    StepComplete.Invoke(i);
-                if (cancel_Combine)
-                    break;
-                Thread.Sleep(sleep_time);
-            }
-            //Move the gem back to default spot
-            PressMouse();
-            MoveCursor(sA1.X, sA1.Y);
-            ReleaseMouse();
-            Thread.Sleep(sleep_time);
-            PressKey(KEY_DOT);//show info box
-        }
-        private Point GetSlotPos(int s)
-        {
-            int row = s / 3;
-            int column = s % 3;
-            return new Point(column, row);
-        }
-
-        // Save a combine
-        public byte[] GetSave()
-        {
-            // First, gem all gems. (combined already has them yay!!) Then sort by grade and cost.
-            // Then save using GemCombiner's save.
-
-            // Actually, I shouldn't need to sort combined since they are in an order with each combine only requiring previous ones.
-            List<Point> gemCombines = new List<Point>();
-            // Base gems
-            for (int i = 1; i < orderedCombined.Count; i++)
-            { // i = 0 is null, no ID 0 gem
-                if (orderedCombined[i].Component1 == null)
-                    continue;
-                gemCombines.Add(new Point(i - 1, 0)); // Number of base gems
-                break;
-            }
-            for (int i = gemCombines[0].X + 1; i < orderedCombined.Count; i++)
-            {
-                gemCombines.Add(new Point(Convert.ToInt32(orderedCombined[i].Component1.strID), Convert.ToInt32(orderedCombined[i].Component2.strID)));
-            }
-
-            byte[] saveBytes = new byte[gemCombines.Count * 8];
-            for (int i = 0; i < gemCombines.Count; i++)
-            {
-                BitConverter.GetBytes(gemCombines[i].X).CopyTo(saveBytes, i * 8);
-                BitConverter.GetBytes(gemCombines[i].Y).CopyTo(saveBytes, i * 8 + 4);
-            }
-
-            return saveBytes;
-        }
-        public static Gem LoadGem(byte[] lBytes, char[] colors = null)
-        {
-            // turn the array back in to a list of points
-            List<Point> gemCombines = new List<Point>();
-            int baseGems = BitConverter.ToInt32(lBytes, 0);
-            gemCombines.Add(new Point(baseGems, 0));
-
-            for (int i = 8; i < lBytes.Length; i += 8)
-            {
-                gemCombines.Add(new Point(BitConverter.ToInt32(lBytes, i),
-                    BitConverter.ToInt32(lBytes, i + 4)));
-            }
-
-            // Get the gem by performing these combines.
-            List<Gem> Gems = new List<Gem>();
-            Gems.Add(null);
-            for (int i = 0; i < gemCombines[0].X; i++)
-            {
-                if (colors != null)
-                {
-                    Gems.Add(Gem.Base(Gem.Clr(colors[i])));
-                    Gems[Gems.Count - 1].strID = colors[i].ToString();
-                }
-                else
-                    Gems.Add(Gem.Base(Gem.COLOR_NULL)); // TEMPORARY FIX
-            }
-            for (int i = 1; i < gemCombines.Count; i++)
-            {
-                Gem c1 = Gems[gemCombines[i].X];
-                Gem c2 = Gems[gemCombines[i].Y];
-                Gems.Add(Gem.Combine(c1, c2));
-            }
-
-            return Gems.Last();
-        }
-
-    }
+	using System;
+	using System.Collections.Generic;
+	using System.Diagnostics;
+	using System.Drawing;
+	using System.Globalization;
+	using System.IO;
+	using System.Text;
+	using System.Text.RegularExpressions;
+	using System.Threading;
+	using System.Windows.Forms;
+	using static Instruction;
+	using static NativeMethods;
+
+	internal class CombinePerformer
+	{
+		#region Private Constants
+		private const string GemcraftClassName = "ApolloRuntimeContentWindow";
+		private const string GemcraftWindowName = "GemCraft Chasing Shadows";
+		private const uint KeyEventFKeyUp = 0x2;
+		private const double NativeScreenHeight = 612; // 1088 x 612 says spy++, 600 flash version
+		private const double NativeScreenWidth = 1088;
+		private const int SlotSize = 28;
+		#endregion
+
+		#region Static Fields
+		private static Point cursorStart;
+
+		private static Regex gemPower = new Regex(@"g?(?<num>[0-9]+)\s*(?<color>([a-z]|\([a-z]+\)))");
+
+		private static double resolutionRatio = 1;
+
+		private static int slotLimit;
+		#endregion
+
+		#region Fields
+		private bool limitSlots;
+		private List<Gem> combined = new List<Gem>();
+		private int slotsRequired = 0;
+		#endregion
+
+		#region Constructors
+		public CombinePerformer(bool limitSlots)
+		{
+			this.limitSlots = limitSlots;
+		}
+		#endregion
+
+		#region Public Events
+		public event EventHandler<int> StepComplete;
+		#endregion
+
+		#region Public Properties
+		public IReadOnlyCollection<Gem> BaseGems
+		{
+			get
+			{
+				var list = new List<Gem>();
+				foreach (var gem in this.combined)
+				{
+					if (gem.IsBaseGem)
+					{
+						list.Add(gem);
+					}
+					else
+					{
+						break;
+					}
+				}
+
+				return list;
+			}
+		}
+
+		public string BaseGemText
+		{
+			get
+			{
+				var sb = new StringBuilder();
+				var i = 0;
+				foreach (var gem in this.BaseGems)
+				{
+					sb.AppendLine(Instruction.SlotName(i) + ": " + gem.ColorName);
+					i++;
+				}
+
+				return sb.ToString().TrimEnd();
+			}
+		}
+
+		public bool CancelCombine { get; set; }
+
+		public bool Enabled { get; set; }
+
+		public List<Instruction> Instructions { get; set; } = new List<Instruction>();
+
+		public Gem ResultGem { get; set; }
+
+		public int SleepTime { get; set; } = 33;
+
+		public int SlotsRequired
+		{
+			get
+			{
+				return this.slotsRequired;
+			}
+
+			private set
+			{
+				// Do not set unless setting higher
+				if (value >= this.slotsRequired)
+				{
+					this.slotsRequired = value + 1;
+				}
+			}
+		}
+		#endregion
+
+		#region Public Static Methods
+		public static string LeveledPreparser(string recipe)
+		{
+			// Replaces leveled gems (e.g., "3o" becomes "((o+o)+(o+o))")
+			var sb = new StringBuilder();
+			var replacements = new Dictionary<int, string>();
+			int lastPos = 0;
+			foreach (Match match in gemPower.Matches(recipe))
+			{
+				var num = int.Parse(match.Groups["num"].Value, CultureInfo.InvariantCulture);
+				var color = match.Groups["color"].Value;
+				string newColor;
+				if (num == 1)
+				{
+					newColor = color;
+				}
+				else
+				{
+					if (!replacements.TryGetValue(num, out newColor))
+					{
+						newColor = "*";
+						for (int i = 2; i <= num; i++)
+						{
+							newColor = newColor.Replace("*", "(*+*)");
+							replacements.Add(i, newColor);
+						}
+					}
+
+					newColor = newColor.Replace("*", color);
+				}
+
+				sb.Append(recipe.Substring(lastPos, match.Index - lastPos));
+				sb.Append(newColor);
+				lastPos = match.Index + match.Length;
+			}
+
+			return lastPos == 0 ? recipe : sb.Append(recipe.Substring(lastPos)).ToString();
+		}
+
+			/* public static bool SchemeIsValid(string scheme)
+			{
+				// TODO: Consider implementing a RegEx-based solution for each specific type.
+				if (scheme.Length <= 2)
+				{
+					return false;
+				}
+
+				var letterCount = 0;
+				var brackets = 0;
+				var hasPlus = false;
+				foreach (var c in scheme)
+				{
+					switch (c)
+					{
+						case '(':
+							brackets++;
+							break;
+						case ')':
+							brackets--;
+							break;
+						case '+':
+							hasPlus = true;
+							break;
+						default:
+							if (char.IsLetterOrDigit(c))
+							{
+								letterCount++;
+							}
+
+							break;
+					}
+				}
+
+				return brackets == 0 && hasPlus && letterCount > 1;
+			}
+			*/
+		#endregion
+
+		#region Public Methods
+		public void ChangeLastDestination(int slot)
+		{
+			if (this.Instructions.Count > 0)
+			{
+				var lastInstruction = this.Instructions[this.Instructions.Count - 1];
+				if (lastInstruction.To != slot)
+				{
+					if (lastInstruction.Action != ActionType.Move)
+					{
+						this.Instructions.Add(new Instruction(ActionType.Move, lastInstruction.To, slot));
+					}
+					else
+					{
+						lastInstruction.To = slot;
+					}
+				}
+			}
+		}
+
+		public void Parse(string formula)
+		{
+			formula = formula.Replace(" ", string.Empty); // Remove spaces, whitespace is for human readers.
+			var val = formula.IndexOf("(val", StringComparison.OrdinalIgnoreCase);
+			if (val >= 0)
+			{
+				formula = formula.Substring(val);
+			}
+
+			formula = LeveledPreparser(formula);
+			if (formula.IndexOf('=') > -1)
+			{
+				formula = ParseEquations(formula);
+			}
+			else
+			{
+				formula = formula.Replace("\n", string.Empty); // Remove newlines or the parser crashes
+			}
+
+			this.SetMethod(formula);
+		}
+
+		public void PerformCombine(int mSteps)
+		{
+			if (!this.Enabled)
+			{
+				return;
+			}
+
+			const byte KeyD = 0x44;
+			const byte KeyG = 0x47;
+			const byte KeyU = 0x55;
+			const byte KeyDot = 0xBE; // hide info box
+
+			Rectangle clientRect;
+			resolutionRatio = 1; // set the default ratio back to 1
+
+			IntPtr gemcraftHandle = FindWindow(GemcraftClassName, GemcraftWindowName);
+
+			// Verify that Gemcraft is a running process.
+			if (gemcraftHandle == IntPtr.Zero)
+			{
+				// Gemcraft Steam verison not running, defaulting back to flash version
+				PressMouse();
+				ReleaseMouse(); // Just to give focus to the window
+			}
+			else
+			{
+				// set gemcraft window focus
+				SetForegroundWindow(gemcraftHandle);
+
+				// grab window size
+				GetClientRect(gemcraftHandle, out clientRect);
+
+				double width = clientRect.Width;
+				double height = clientRect.Height;
+				double ratio = NativeScreenWidth / NativeScreenHeight; // 1088x612//1.7777
+				double newHeight = width / ratio;
+				double newWidth = height * ratio;
+
+				// Please modify if there is a better way.
+				if (newHeight <= height)
+				{
+					resolutionRatio = width / NativeScreenWidth;
+				}
+				else if (newWidth <= width)
+				{
+					resolutionRatio = height / NativeScreenHeight;
+				}
+
+				/*
+				MessageBox.Show("newheight="+newheight.ToString("0.#####")+
+				 " newwidth="+newwidth.ToString("0.#####")+
+				 " height="+height.ToString("0.#####")+
+				 " width="+width.ToString("0.#####")+
+				 " ratio="+ratio.ToString("0.#####")+
+				 " resolutionRatio="+resolutionRatio.ToString("0.#####"));
+				 return;
+				*/
+			}
+
+			// In limited experiments, the mouse drag operations seemed to be the most prone to failure when Gemcraft was laggy, so I added a bit of extra sleeping both before and after the mouse moves. This may need tweaked.
+			this.CancelCombine = false;
+			cursorStart = Cursor.Position;
+			PressKey(KeyDot); // hide info box
+			for (int i = mSteps; i < this.Instructions.Count; i++)
+			{
+				var instruction = this.Instructions[i];
+				Thread.Sleep(this.SleepTime);
+				MoveCursorToSlot(instruction.From);
+				switch (instruction.Action)
+				{
+					case ActionType.Duplicate:
+						PressKey(KeyD);
+						break;
+					case ActionType.Upgrade:
+						PressKey(KeyU);
+						break;
+					case ActionType.Move:
+						// Move gem (only used when slots are compressed)
+						PressMouse();
+						Thread.Sleep(this.SleepTime / 2); // Extra sleep for mouse drag.
+						MoveCursorToSlot(instruction.To);
+						Thread.Sleep(this.SleepTime / 2);
+						ReleaseMouse();
+						break;
+					case ActionType.Combine:
+						PressKey(KeyG);
+						PressMouse();
+						Thread.Sleep(this.SleepTime / 2); // Extra sleep for mouse drag
+						MoveCursorToSlot(instruction.To);
+						Thread.Sleep(this.SleepTime / 2);
+						ReleaseMouse();
+						break;
+				}
+
+				this.StepComplete?.Invoke(this, i);
+				if (this.CancelCombine)
+				{
+					break;
+				}
+			}
+
+			PressKey(KeyDot); // show info box
+		}
+
+		// Save a combine
+		public void Save(string path)
+		{
+			using (var file = File.OpenWrite(path))
+			using (var binaryWriter = new BinaryWriter(file))
+			{
+				foreach (var gem in this.combined)
+				{
+					if (gem.Component1 != null)
+					{
+						// TODO: It's actually a bit silly to create an instruction just to save it, but this whole saving system needs to be re-thought into a simple text list of formulae that's read at run-time.
+						new Instruction(gem.Component1.ID, gem.Component2.ID).Save(binaryWriter);
+					}
+				}
+			}
+		}
+
+		public void SetMethod(string formula)
+		{
+			this.SetGems(formula); // Performs the combine pattern internally, recording the useage of each gem.
+			this.CreateInstructions(); // Uses the result gem from SetGems and the useage data to create the instructions.
+		}
+		#endregion
+
+		#region Private Static Methods
+		private static Point GetSlotPos(int s)
+		{
+			int row = s / 3;
+			int column = s % 3;
+			return new Point(column, row);
+		}
+
+		private static void MoveCursorToSlot(int slot)
+		{
+			var cursorDestination = GetSlotPos(slot);
+			var scaledPoint = new Point(
+				cursorStart.X - (int)(cursorDestination.X * SlotSize * resolutionRatio),
+				cursorStart.Y - (int)(cursorDestination.Y * SlotSize * resolutionRatio));
+			Cursor.Position = scaledPoint;
+		}
+
+		private static string ParseEquations(string str)
+		{
+			var replace = new Regex(@"\n?\(val=[0-9]+\)\t?").Replace(str, "\n");
+			string[] strP = replace.Split('\n');
+			var sb = new StringBuilder(strP[strP.Length - 1].Split('=')[1]);
+			for (int i = strP.Length - 2; i > 0; i--)
+			{
+				var strC = strP[i].Split('=');
+				var strRep = strC[1];
+				if (strRep.IndexOf('+') > -1)
+				{
+					strRep = "(" + strRep + ")";
+				}
+
+				sb.Replace(strC[0], strRep);
+			}
+
+			return sb.ToString();
+		}
+
+		private static void PressKey(byte keyCode)
+		{
+			keybd_event(keyCode, 0, 0, UIntPtr.Zero);
+			Thread.Sleep(3);
+			keybd_event(keyCode, 0, KeyEventFKeyUp, UIntPtr.Zero);
+		}
+
+		private static void PressMouse() => mouse_event(2, 0, 0, 0, UIntPtr.Zero);
+
+		private static void ReleaseMouse() => mouse_event(4, 0, 0, 0, UIntPtr.Zero);
+		#endregion
+
+		#region Private Methods
+		// CondenseSlots seems to be messed up, I can't get the 262144-combine to work.
+		private List<Instruction> CondenseSlots(Gem gem)
+		{
+			// Get the combined instructions for both components. (Will not include duplicating base gem.)
+			// If the combine for a component exceeds the slotLimit, recursively call CondenseSlots to get new instructions.
+			//
+			// Each component's combine instructions must include placing the base gem in slot 0.
+			// If I add the duplicate step to performer1.Instructions, then the new condensed one will already have it.
+			// To solve this, try: If the instructions do not begin with duplicate step, add it.
+			Gem gem1 = gem.Component1;
+			Gem gem2 = gem.Component2;
+			CombinePerformer performer1 = new CombinePerformer(false);
+			performer1.SetMethod(gem1.GetFullCombine());
+			performer1.ResultGem.ID = gem1.ID;
+			CombinePerformer performer2 = new CombinePerformer(false);
+			performer2.SetMethod(gem2.GetFullCombine());
+			performer2.ResultGem.ID = gem2.ID;
+
+			if (performer1.SlotsRequired > slotLimit)
+			{
+				performer1.Instructions = this.CondenseSlots(gem1);
+			}
+
+			// Move result gem to highest open slot
+			slotLimit--;
+			if (slotLimit < 3)
+			{
+				// Not sure what fantastical combine gets you here, but it's conceivable, at any rate.
+				throw new InvalidOperationException("Slot limit is too low; cannot perform this combine.");
+			}
+
+			performer1.ChangeLastDestination(slotLimit);
+			var slot1 = slotLimit;
+
+			if (performer2.SlotsRequired > slotLimit)
+			{
+				performer2.Instructions = this.CondenseSlots(gem2);
+			}
+
+			var slot2 = performer2.Instructions[performer2.Instructions.Count - 1].To;
+
+			List<Instruction> newInst = new List<Instruction>();
+
+			// Merge instructions
+			// Both combines require placing a base gem in slot 0 first.
+			if (performer1.Instructions[0].From != Slot12C)
+			{
+				newInst.Add(new Instruction(ActionType.Duplicate, Slot12C, Slot1A));
+			}
+
+			newInst.AddRange(performer1.Instructions);
+
+			if (performer2.Instructions[0].From != Slot12C)
+			{
+				newInst.Add(new Instruction(ActionType.Duplicate, Slot12C, Slot1A));
+			}
+
+			newInst.AddRange(performer2.Instructions);
+
+			// Combine the two resulting gems
+			newInst.Add(new Instruction(ActionType.Combine, slot2, slot1)); // Combine to the higher slot
+			slotLimit++;
+
+			return newInst;
+		}
+
+		private void CreateInstructions()
+		{
+			this.Instructions.Clear(); // Instructions list
+			var empties = new SortedSet<int>();
+			for (int i = 0; i < this.combined.Count; i++)
+			{
+				var gem = this.combined[i];
+				gem.Slot = gem.IsBaseGem ? i : SlotUninitialized;
+			}
+
+			this.slotsRequired = this.BaseGems.Count; // Bypass setter for initial setup
+
+			// Don't try to give instructions for placing the base gems.
+			for (int combinedIndex = this.BaseGems.Count; combinedIndex < this.combined.Count; combinedIndex++)
+			{
+				var gem = this.combined[combinedIndex];
+				var gem1 = gem.Component1;
+				var gem2 = gem.Component2;
+				int slot1 = gem1.Slot; // These may change during the routine, so save them and use base numbers throughout
+				int slot2 = gem2.Slot;
+				Debug.Assert(slot1 >= 0, "Gem 1, slot negative.");
+				Debug.Assert(slot2 >= 0, "Gem 2, slot negative.");
+
+				if (gem1 == gem2)
+				{
+					if (gem1.UseCount > 2)
+					{
+						// Dupe if not the last use (two uses = gem1 + gem2)
+						gem1.Slot = this.GetEmpty(empties);
+						this.Instructions.Add(new Instruction(ActionType.Duplicate, slot1, gem1.Slot));
+						this.SlotsRequired = gem1.Slot;
+					}
+
+					this.Instructions.Add(new Instruction(ActionType.Upgrade, slot1));
+					gem.Slot = slot1;
+				}
+				else
+				{
+					if (gem1.UseCount > 1)
+					{
+						gem1.Slot = this.GetEmpty(empties);
+						this.Instructions.Add(new Instruction(ActionType.Duplicate, slot1, gem1.Slot));
+						this.SlotsRequired = gem1.Slot;
+					}
+
+					if (gem2.UseCount > 1)
+					{
+						gem2.Slot = this.GetEmpty(empties);
+						this.Instructions.Add(new Instruction(ActionType.Duplicate, slot2, gem2.Slot));
+						this.SlotsRequired = gem2.Slot;
+					}
+
+					// Combine
+					this.Instructions.Add(new Instruction(ActionType.Combine, slot1, slot2));
+					empties.Add(slot1);
+					gem.Slot = slot2;
+				}
+
+				gem1.UseCount--;
+				gem2.UseCount--;
+				if (gem1.UseCount == 0)
+				{
+					gem1.Slot = SlotNoLongerUsed;
+				}
+
+				if (gem2.UseCount == 0)
+				{
+					gem2.Slot = SlotNoLongerUsed;
+				}
+
+				// If there is only one usage of any remaining gem components, move that gem next in the combine order. This reduces slot usage by not holding on to gems throughout subsequent steps for no good reason.
+				var scanFrom = combinedIndex + 2; // No need to scan i + 1 because if it's a single-use, it's already in the correct position.
+				var insertPos = combinedIndex + 1;
+				var secondaries = new List<Gem>();
+				while (scanFrom < this.combined.Count)
+				{
+					Gem gemUse = this.combined[scanFrom];
+					var gemUse1 = gemUse.Component1;
+					var gemUse2 = gemUse.Component2;
+
+					// Do we need? && (empties.Count > 0)
+					if (gemUse1.Slot >= 0 && gemUse2.Slot >= 0)
+					{
+						if ((gemUse1.UseCount == 1 && gemUse2.UseCount == 1) || (gemUse1 == gemUse2 && gemUse1.UseCount == 2))
+						{
+							// Move single-use gem to be the next one parsed.
+							this.combined.RemoveAt(scanFrom);
+							this.combined.Insert(insertPos, gemUse);
+							insertPos++;
+							if (scanFrom == insertPos)
+							{
+								scanFrom++;
+							}
+						}
+						else if (gemUse1.UseCount == 1 || gemUse2.UseCount == 1)
+						{
+							secondaries.Add(gemUse);
+							this.combined.RemoveAt(scanFrom);
+							// No scanFrom or insertPos change, since we want to resume from the current (= next) gem.
+						}
+						else
+						{
+							scanFrom++;
+						}
+					}
+					else
+					{
+						scanFrom++;
+					}
+				}
+
+				this.combined.InsertRange(insertPos, secondaries);
+			}
+
+			this.CheckSlotLimit();
+		}
+
+		private void CheckSlotLimit()
+		{
+			// REDUCE SLOT REQUIREMENT
+			if (this.limitSlots && this.SlotsRequired > 36)
+			{
+				slotLimit = 35;
+				var instructions = this.Instructions;
+				instructions.Clear();
+				instructions.Add(new Instruction(ActionType.Move, Slot1A, Slot12C));
+				instructions.AddRange(this.CondenseSlots(this.ResultGem));
+
+				// Change last Dupe 12C to a Move.
+				for (int i = instructions.Count - 1; i >= 0; i--)
+				{
+					var instruction = instructions[i];
+					if (instruction.Action == ActionType.Duplicate && instruction.From == Slot12C)
+					{
+						if (i == 1)
+						{
+							instructions.RemoveAt(0);
+							instructions.RemoveAt(0);
+						}
+						else
+						{
+							var to = instruction.To;
+							instructions.RemoveAt(i);
+							instructions.Insert(i, new Instruction(ActionType.Move, Slot12C, to)); // I think this should always be 1A, but let's be sure.
+						}
+
+						break;
+					}
+				}
+			}
+		}
+
+		private int GetEmpty(SortedSet<int> empties)
+		{
+			if (empties.Count == 0)
+			{
+				return this.SlotsRequired;
+			}
+
+			var min = empties.Min;
+			empties.Remove(min);
+			return min;
+		}
+
+		private void SetGems(string formula)
+		{
+			this.combined.Clear();
+
+			// Check which letters are used, and replace each one with an internal identifier
+			var id = 0;
+			foreach (var c in "oybrkm")
+			{
+				if (formula.IndexOf(c) > -1)
+				{
+					var gem = new Gem(c);
+					id++;
+					gem.ID = id;
+					formula = formula.Replace(gem.Letter, gem.ID.ToString(CultureInfo.InvariantCulture)[0]); // gem.ID should always be < 10 and since we have to convert one or the other, a char-char replacement is probably faster than a string-string one.
+					this.combined.Add(gem);
+				}
+			}
+
+			// Scan for plus signs within the formula and add gems together appropriately.
+			int plus = formula.IndexOf('+');
+			while (plus > -1)
+			{
+				string thisCombine;
+				var close = formula.IndexOf(')', plus);
+				if (close == -1)
+				{
+					thisCombine = formula;
+					formula = "(" + formula + ")"; // Add brackets so the final replace will work
+				}
+				else
+				{
+					var open = formula.LastIndexOf('(', close);
+					thisCombine = formula.Substring(open + 1, close - open - 1);
+				}
+
+				string[] combineGems = thisCombine.Split('+');
+				if (combineGems.Length != 2)
+				{
+					throw new ArgumentException("The formula provided contains more than a single plus sign within a pair of brackets. This is not currently supported.", nameof(formula));
+				}
+
+				var gem1 = combineGems[0];
+				var gem2 = combineGems[1];
+				var num1 = Convert.ToInt32(gem1, CultureInfo.InvariantCulture);
+				var num2 = Convert.ToInt32(gem2, CultureInfo.InvariantCulture);
+				var newNum = this.combined.Count + 1;
+
+				// Gem IDs are 1-based where this.combined is 0-based, so use +/- 1 as necessary.
+				this.ResultGem = new Gem(this.combined[num1 - 1], this.combined[num2 - 1]);
+				this.ResultGem.ID = newNum;
+				this.combined.Add(this.ResultGem);
+				formula = formula.Replace("(" + gem1 + "+" + gem2 + ")", newNum.ToString(CultureInfo.InvariantCulture));
+
+				plus = formula.IndexOf('+');
+			}
+		}
+		#endregion
+	}
 }

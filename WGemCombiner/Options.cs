@@ -1,202 +1,124 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using System.Runtime.InteropServices;
-
-namespace WGemCombiner
+﻿namespace WGemCombiner
 {
-    public partial class Options : Form
-    {
+	using System;
+	using System.Collections.Generic;
+	using System.Windows.Forms;
+	using Properties;
+	using static NativeMethods;
 
-        private Keys[] usedKeys = { Keys.B, Keys.T, Keys.A, Keys.W, Keys.R, Keys.G, Keys.Q, Keys.Space, Keys.N, Keys.X, Keys.D, Keys.U, Keys.Tab, Keys.OemPeriod, Keys.P, Keys.Escape,
-                                      Keys.D1, Keys.D2, Keys.D3, Keys.D4, Keys.D5, Keys.D6,
-                                      Keys.NumPad1, Keys.NumPad2, Keys.NumPad3, Keys.NumPad4, Keys.NumPad5, Keys.NumPad6, Keys.NumPad7, Keys.NumPad8, Keys.NumPad9,
-                                  };
-        
-        Form1 parentForm1;
-        HelpForm parentHelpForm;
-        CombinePerformer CP;
+	public partial class Options : Form
+	{
+		#region Fields
+		private SortedSet<Keys> usedKeys = new SortedSet<Keys>()
+		{
+			Keys.B, Keys.T, Keys.A, Keys.W, Keys.R, Keys.G, Keys.Q, Keys.Space, Keys.N, Keys.X, Keys.D, Keys.U, Keys.Tab, Keys.OemPeriod, Keys.P, Keys.Escape,
+			Keys.D1, Keys.D2, Keys.D3, Keys.D4, Keys.D5, Keys.D6,
+			Keys.NumPad1, Keys.NumPad2, Keys.NumPad3, Keys.NumPad4, Keys.NumPad5, Keys.NumPad6, Keys.NumPad7, Keys.NumPad8, Keys.NumPad9,
+		};
+		#endregion
 
-        //Static properties allow to keep border\skin settings when closing and reopening windows
-        static Skin currentSkin = Skin.WindowsForms;
-        static bool hasBorder = true; 
+		#region Constructors
+		internal Options()
+		{
+			this.InitializeComponent();
+		}
+		#endregion
 
-        //Passing main and help form links so that i know whose functions to call
-        internal Options(Form1 parentForm1,HelpForm parentHelpForm,CombinePerformer CP)
-        {
-            this.parentForm1 = parentForm1;
-            this.parentHelpForm = parentHelpForm;
-            this.CP = CP;
-            InitializeComponent();
-        }
+		#region Form/Control Methods
+		private void AlwaysOnTopCheckBox_CheckedChanged(object sender, EventArgs e) // [ieee]
+		{
+			// This is the lazy way of doing it, since there's only the one form to worry about currently. Could be turned into an event if ever there are more TopMost forms.
+			Application.OpenForms["GemCombiner"].TopMost = this.alwaysOnTopCheckBox.Checked;
+		}
 
-        private void Options_Load(object sender, EventArgs e)
-        {
-            changeSkin(currentSkin);
-            setBorder(hasBorder);
-            alwaysOnTopCheckBox.Checked = parentForm1.TopMost;
-            bordersCheckBox.Checked = hasBorder;
-            if (currentSkin == Skin.Hellrages)
-                recommendedLabel.Visible = hasBorder;
-            hotkeyTextBox.Text = parentForm1.hotkeyText;
-        }
+		private void BordersCheckBox_CheckedChanged(object sender, EventArgs e) => SettingsHandler.ChangeBorders(!this.bordersCheckBox.Checked);
 
-        //When the help form is closed it's link points to a disposed object, we have to update our options form with a new one
-        public void updateParentForm(Form form)
-        {
-            if (form is Form1)
-                parentForm1 = (Form1)form;
-            if (form is HelpForm)
-                parentHelpForm = (HelpForm)form;
-        }
+		private void CloseButton_Click(object sender, EventArgs e)
+		{
+			this.Close();
+		}
 
-        private void hellrageSkinButton_Click(object sender, EventArgs e)
-        {
-            parentForm1.changeSkin(Skin.Hellrages);
-            parentHelpForm.changeSkin(Skin.Hellrages);
-            this.changeSkin(Skin.Hellrages);
-            recommendedLabel.Visible = hasBorder;
-        }
+		private void HellrageSkinButton_Click(object sender, EventArgs e) => SettingsHandler.ChangeSkin(Skin.Hellrages);
 
-        private void winFormsSkinButton_Click(object sender, EventArgs e)
-        {
-            parentForm1.changeSkin(Skin.WindowsForms);
-            parentHelpForm.changeSkin(Skin.WindowsForms);
-            this.changeSkin(Skin.WindowsForms);
-            recommendedLabel.Visible = false;
-        }
+		private void HotkeyTextBox_KeyDown(object sender, KeyEventArgs e)
+		{
+			e.Handled = true;
+			e.SuppressKeyPress = true;
+			this.closeButton.Focus(); // should force it to only use the 1 key when focus is lost
 
-        #region WindowDrag      //This part allows you to drag the window around while holding it anywhere
-        public const int WM_NCLBUTTONDOWN = 0xA1;
-        public const int HT_CAPTION = 0x2;
-        [DllImportAttribute("user32.dll")]
-        public static extern int SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
-        [DllImportAttribute("user32.dll")]
-        public static extern bool ReleaseCapture();
+			// key pressed, now validate it
+			if (this.usedKeys.Contains(e.KeyCode) || e.Shift || e.Control)
+			{
+				MessageBox.Show("The hotkey '" + e.KeyCode.ToString() + "' is used by GemCraft."); // In-game hotkeys
+			}
+			else
+			{
+				// update actual keycode for the form to use
+				Settings.Default.Hotkey = (int)e.KeyCode;
+				SettingsHandler.SetHotkeyText(e.KeyData);
+			}
 
-        private void Options_MouseDown(object sender, MouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Left)
-            {
-                ReleaseCapture();
-                SendMessage(Handle, WM_NCLBUTTONDOWN, HT_CAPTION, 0);
-            }
-        }
-        #endregion
+			this.hotkeyTextBox.Text = SettingsHandler.HotkeyText;
+		}
 
+		// Take control of the "Tab" key also
+		private void HotkeyTextBox_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+		{
+			switch (e.KeyCode)
+			{
+				case Keys.Tab:
+					e.IsInputKey = true;
+					break;
+			}
+		}
 
-        public void changeSkin(Skin newSkin)
-        {
-            currentSkin = newSkin;
-            FormSkinner.changeSkin(currentSkin, this);
-        }
+		private void Options_FormClosing(object sender, FormClosingEventArgs e)
+		{
+			// Modal forms are automatically hidden, not closed/disposed, so there's no need to cancel and hide here like there is on HelpForm. The FormClosing event still fires, however, so we have to check why it's closing and react appropriately.
+			if (e.CloseReason != CloseReason.UserClosing)
+			{
+				SettingsHandler.BordersChanged -= this.ApplyBorders;
+				SettingsHandler.SkinChanged -= this.ApplySkin;
+			}
+		}
 
-        private void toggleBorder()
-        {
-            if (hasBorder)
-            {
-                setBorder(false);
-            }
-            else
-            {
-                setBorder(true);
-            }
-        }
+		private void Options_Load(object sender, EventArgs e)
+		{
+			this.ApplySkin(null, null);
+			this.ApplyBorders(null, null);
+			SettingsHandler.SkinChanged += this.ApplySkin;
+			SettingsHandler.BordersChanged += this.ApplyBorders;
+			this.alwaysOnTopCheckBox.Checked = Settings.Default.TopMost;
+			this.bordersCheckBox.Checked = !Settings.Default.Borderless;
+			this.hotkeyTextBox.Text = SettingsHandler.HotkeyText;
+		}
 
-        private void setBorder(bool border)
-        {
-            if (!border)
-            {
-                this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-                hasBorder = false;
-            }
-            else
-            {
-                this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-                hasBorder = true;
-            }
-        }
+		private void Options_MouseDown(object sender, MouseEventArgs e)
+		{
+			if (e.Button == MouseButtons.Left)
+			{
+				ReleaseCapture();
+				SendMessage(this.Handle, WmNclButtonDown, HtCaption, IntPtr.Zero);
+			}
+		}
 
-        private void closeButton_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
+		private void WinFormsSkinButton_Click(object sender, EventArgs e) => SettingsHandler.ChangeSkin(Skin.WindowsForms);
+		#endregion
 
-        private void alwaysOnTopCheckBox_CheckedChanged(object sender, EventArgs e) //[ieee]
-        {
-            parentForm1.TopMost = alwaysOnTopCheckBox.Checked;
-        }
+		#region Private Methods
+		private void ApplyBorders(object sender, EventArgs e)
+		{
+			SettingsHandler.ApplyBorders(this);
+			this.SetRecommendationVisible();
+		}
 
-        private void bordersCheckBox_CheckedChanged(object sender, EventArgs e)
-        {
-            if (bordersCheckBox.Checked != hasBorder)
-            {
-                parentForm1.toggleBorder();
-                parentHelpForm.toggleBorder();
-                this.toggleBorder();
+		private void ApplySkin(object sender, EventArgs e)
+		{
+			SettingsHandler.ApplySkin(this);
+			this.SetRecommendationVisible();
+		}
 
-                //Check whether to show the "Recommended: "Off"!" Label
-                if (currentSkin == Skin.Hellrages)
-                    recommendedLabel.Visible = hasBorder;
-                else
-                    recommendedLabel.Visible = false;
-            }
-        }
-
-        private void hotkeyTextBox_KeyDown(object sender, KeyEventArgs e)
-        {
-            e.Handled = true;
-            e.SuppressKeyPress = true;
-            closeButton.Focus();//should force it to only use the 1 key when focus is lost
-
-            //key pressed, now validate it
-            if (usedKeys.Contains(e.KeyCode) || e.Shift || e.Control)
-            {
-                MessageBox.Show("The hotkey '" + e.KeyCode.ToString() + "' is used by GemCraft.");//Ingame hotkeys
-                hotkeyTextBox.Text = parentForm1.hotkeyText;
-                return;
-            }
-            hotkeyTextBox.Text = "";
-
-            var converter = new KeysConverter();
-            string keyText = converter.ConvertToString(e.KeyData);
-            
-            if (e.Alt)
-                hotkeyTextBox.Text = "ALT";
-
-            if (keyText.Contains("Oem"))//show the [ ] ~ etc keys instead of Oem1
-            {
-                e.Handled = false;
-                e.SuppressKeyPress = false;
-            }
-            else
-                hotkeyTextBox.Text = keyText;
-
-            //update actual keycode for the form to use
-            parentForm1.hotkey = (int)e.KeyCode;
-        }
-
-        //Take control of the "Tab" key also
-        private void hotkeyTextBox_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
-        {
-            switch (e.KeyCode)
-            {
-                case Keys.Tab:
-                    e.IsInputKey = true;
-                    break;
-            }
-        }
-
-        private void hotkeyTextBox_TextChanged(object sender, EventArgs e)
-        {
-            //update static
-            parentForm1.hotkeyText = hotkeyTextBox.Text;
-        }
-    }
+		private void SetRecommendationVisible() => this.recommendedLabel.Visible = (Skin)Settings.Default.Skin == Skin.Hellrages ? !Settings.Default.Borderless : false;
+		#endregion
+	}
 }
