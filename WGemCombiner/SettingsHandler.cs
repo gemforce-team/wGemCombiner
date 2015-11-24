@@ -6,7 +6,6 @@
 	using System.Windows.Forms;
 	using Properties;
 	using Resources;
-	using static System.Windows.Forms.Keys;
 	using static NativeMethods;
 
 	#region Public Enums
@@ -91,7 +90,7 @@
 
 		public static void SetHotkeyText(Keys keyData)
 		{
-			if (keyData.HasFlag(Alt))
+			if (keyData.HasFlag(Keys.Alt))
 			{
 				HotkeyText = "Alt";
 				return;

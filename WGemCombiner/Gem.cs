@@ -239,6 +239,7 @@
 			return retval;
 		}
 
+		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate", Justification = "Lengthy operation that should not be a property.")]
 		public string GetFullCombine()
 		{
 			combineBuilder.Clear();

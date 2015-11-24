@@ -617,12 +617,12 @@
 
 		private void DupeGem(Gem gem, int atSlot, SortedSet<int> empties)
 		{
-			if (gem[0].UseCount > 0)
+			if (gem.UseCount > 0)
 			{
 				// Dupe if not the last use (two uses = gem[0] + gem[1])
-				gem[0].Slot = this.GetEmpty(empties);
-				this.Instructions.Add(new Instruction(ActionType.Duplicate, atSlot, gem[0].Slot));
-				this.SlotsRequired = gem[0].Slot;
+				gem.Slot = this.GetEmpty(empties);
+				this.Instructions.Add(new Instruction(ActionType.Duplicate, atSlot, gem.Slot));
+				this.SlotsRequired = gem.Slot;
 			}
 		}
 
