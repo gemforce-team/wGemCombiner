@@ -152,3 +152,5 @@ Desktop.ini
 # Recycle Bin used on file shares
 $RECYCLE.BIN/
 WGemCombiner/Resources/importLog.txt
+*.ruleset
+/WGemCombiner/packages.config
