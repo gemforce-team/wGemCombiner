@@ -34,12 +34,19 @@
 
 		private void BordersCheckBox_CheckedChanged(object sender, EventArgs e) => SettingsHandler.ChangeBorders(!this.bordersCheckBox.Checked);
 
+		private void HidePanelsCheckBox_CheckedChanged(object sender, EventArgs e)
+		{
+			Settings.Default.HidePanels = this.hidePanelsCheckBox.Checked;
+		}
+
 		private void CloseButton_Click(object sender, EventArgs e)
 		{
 			this.Close();
 		}
 
 		private void HellrageSkinButton_Click(object sender, EventArgs e) => SettingsHandler.ChangeSkin(Skin.Hellrages);
+
+		private void WinFormsSkinButton_Click(object sender, EventArgs e) => SettingsHandler.ChangeSkin(Skin.WindowsForms);
 
 		private void HotkeyTextBox_KeyDown(object sender, KeyEventArgs e)
 		{
@@ -89,8 +96,9 @@
 			this.ApplyBorders(null, null);
 			SettingsHandler.SkinChanged += this.ApplySkin;
 			SettingsHandler.BordersChanged += this.ApplyBorders;
-			this.alwaysOnTopCheckBox.Checked = Settings.Default.TopMost;
 			this.bordersCheckBox.Checked = !Settings.Default.Borderless;
+			this.alwaysOnTopCheckBox.Checked = Settings.Default.TopMost;
+			this.hidePanelsCheckBox.Checked = Settings.Default.HidePanels;
 			this.hotkeyTextBox.Text = SettingsHandler.HotkeyText;
 		}
 
@@ -102,8 +110,6 @@
 				SendMessage(this.Handle, WmNclButtonDown, HtCaption, IntPtr.Zero);
 			}
 		}
-
-		private void WinFormsSkinButton_Click(object sender, EventArgs e) => SettingsHandler.ChangeSkin(Skin.WindowsForms);
 		#endregion
 
 		#region Private Methods
