@@ -165,43 +165,43 @@
 			return lastPos == 0 ? recipe : sb.Append(recipe.Substring(lastPos)).ToString();
 		}
 
-			/* public static bool SchemeIsValid(string scheme)
+		/* public static bool SchemeIsValid(string scheme)
+		{
+			// TODO: Consider implementing a RegEx-based solution for each specific type.
+			if (scheme.Length <= 2)
 			{
-				// TODO: Consider implementing a RegEx-based solution for each specific type.
-				if (scheme.Length <= 2)
-				{
-					return false;
-				}
-
-				var letterCount = 0;
-				var brackets = 0;
-				var hasPlus = false;
-				foreach (var c in scheme)
-				{
-					switch (c)
-					{
-						case '(':
-							brackets++;
-							break;
-						case ')':
-							brackets--;
-							break;
-						case '+':
-							hasPlus = true;
-							break;
-						default:
-							if (char.IsLetterOrDigit(c))
-							{
-								letterCount++;
-							}
-
-							break;
-					}
-				}
-
-				return brackets == 0 && hasPlus && letterCount > 1;
+				return false;
 			}
-			*/
+
+			var letterCount = 0;
+			var brackets = 0;
+			var hasPlus = false;
+			foreach (var c in scheme)
+			{
+				switch (c)
+				{
+					case '(':
+						brackets++;
+						break;
+					case ')':
+						brackets--;
+						break;
+					case '+':
+						hasPlus = true;
+						break;
+					default:
+						if (char.IsLetterOrDigit(c))
+						{
+							letterCount++;
+						}
+
+						break;
+				}
+			}
+
+			return brackets == 0 && hasPlus && letterCount > 1;
+		}
+		*/
 		#endregion
 
 		#region Public Methods
