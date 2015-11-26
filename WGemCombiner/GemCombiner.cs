@@ -1,8 +1,10 @@
 ﻿namespace WGemCombiner
 {
 	using System;
+	using System.Collections.Generic;
 	using System.Drawing;
 	using System.Globalization;
+	using System.IO;
 	using System.Text;
 	using System.Threading;
 	using System.Windows.Forms;
@@ -15,8 +17,9 @@
 		#region Fields
 		private HelpForm helpForm = new HelpForm();
 		private Options optionsForm = new Options();
-		private CombinePerformer combinePerformer = new CombinePerformer(true);
+		private CombinePerformer combinePerformer = new CombinePerformer(false);
 		private bool asyncWaiting = false;
+		private Dictionary<string, RecipeCollection> recipes = new Dictionary<string, RecipeCollection>();
 		#endregion
 
 		#region Constructors
@@ -42,11 +45,11 @@
 #endif
 			else
 			{
-				var preset = (Preset)this.colorComboBox.SelectedItem;
-				this.combineComboBox.Items.Clear();
-				foreach (var entry in preset.Entries)
+				var cb = this.combineComboBox.Items;
+				cb.Clear();
+				foreach (var item in this.recipes[this.colorComboBox.Text])
 				{
-					this.combineComboBox.Items.Add(entry);
+					cb.Add(item.CombineTitle);
 				}
 
 				this.combineComboBox.SelectedIndex = 0; // Preselect the first in the box
@@ -68,8 +71,12 @@
 				return;
 			}
 
+			if (this.combinePerformer == null)
+			{
+				this.getInstructionsButton.PerformClick();
+			}
+
 			this.combineButton.Text = "Press " + SettingsHandler.HotkeyText + " on A1"; // hotkey
-			this.combinePerformer.SleepTime = (int)this.delayNumeric.Value;
 			this.asyncWaiting = true;
 			do
 			{
@@ -77,7 +84,7 @@
 				Thread.Sleep(10);
 
 				// [HR] Cancel before starting or if form is closing
-				if (GetAsyncKeyState(Keys.Escape) != 0 || this.IsDisposed)
+				if (GetAsyncKeyState(Keys.Escape) != 0 || this.combinePerformer == null)
 				{
 					this.combineButton.Text = "Combine";
 					this.asyncWaiting = false;
@@ -89,6 +96,7 @@
 			// User pressed hotkey
 			this.asyncWaiting = false;
 			this.combineButton.Text = "Working...";
+			this.combinePerformer.SleepTime = (int)this.delayNumeric.Value;
 			this.combinePerformer.PerformCombine((int)this.stepNumeric.Value);
 			if (!this.combinePerformer.CancelCombine)
 			{
@@ -102,7 +110,7 @@
 		{
 			if (this.colorComboBox.SelectedIndex > 0)
 			{
-				var gem = (Gem)this.combineComboBox.SelectedItem;
+				var gem = this.recipes[this.colorComboBox.Text][this.combineComboBox.Text];
 				var result = gem.GetFullCombine();
 				this.formulaInputRichTextBox.Text = result;
 				this.GetInstructionsButton_Click(this, EventArgs.Empty); // Auto-load instructions, so u don't have to even press that button
@@ -124,12 +132,6 @@
 			}
 		}
 
-		private void DelayNumeric_ValueChanged(object sender, EventArgs e)
-		{
-			// quick fix to make sure its use even if combine is already pressed
-			this.combinePerformer.SleepTime = (int)this.delayNumeric.Value;
-		}
-
 		private void ExitButton_Click(object sender, EventArgs e)
 		{
 			this.Close();
@@ -137,7 +139,7 @@
 
 		private void GemCombiner_FormClosing(object sender, FormClosingEventArgs e)
 		{
-			this.combinePerformer.Enabled = false;
+			this.combinePerformer = null;
 			Settings.Default.Save();
 			SettingsHandler.BordersChanged -= this.ApplyBorders;
 			SettingsHandler.SkinChanged -= this.ApplySkin;
@@ -152,12 +154,12 @@
 			SettingsHandler.BordersChanged += this.ApplyBorders;
 			var cb = this.colorComboBox.Items;
 			cb.Add("Custom");
-			cb.Add(new Preset("o", "Orange Combine", "WGemCombiner.Resources.orange.orangePresets.resources"));
-			cb.Add(new Preset("obr", "Mana Gem Spec", "WGemCombiner.Resources.mgSpec.mgSpecPresets.resources"));
-			cb.Add(new Preset("m", "Mana Gem Combine", "WGemCombiner.Resources.mgComb.mgCombPresets.resources"));
-			cb.Add(new Preset("y", "Yellow Combine", "WGemCombiner.Resources.yellow.yellowPresets.resources"));
-			cb.Add(new Preset("ybr", "Kill Gem Spec", "WGemCombiner.Resources.kgSpec.kgSpecPresets.resources"));
-			cb.Add(new Preset("k", "Kill Gem Combine", "WGemCombiner.Resources.kgComb.kgCombPresets.resources"));
+			this.AddResourceRecipes();
+			// this.AddTextFileRecipes();
+			foreach (var key in this.recipes.Keys)
+			{
+				cb.Add(key);
+			}
 #if DEBUG
 			cb.Add("Import...");
 #endif
@@ -178,28 +180,19 @@
 		private void GetInstructionsButton_Click(object sender, EventArgs e)
 		{
 			var parsedText = this.formulaInputRichTextBox.Text;
-			if (sender == this)
+			if (parsedText.Contains("-combine:"))
 			{
-				// If we know this is from a preset, skip pre-parsing
-				this.combinePerformer.SetMethod(parsedText);
-			}
-			else
-			{
-				if (parsedText.Contains("-combine:"))
-				{
-					// Remove X-combine: tag
-					int tagEnd = parsedText.IndexOf(':') + 1;
-					parsedText = parsedText.Substring(tagEnd).Trim();
-				}
-
-				if (parsedText.Length <= 1)
-				{
-					return; // [HR]
-				}
-
-				this.combinePerformer.Parse(parsedText);
+				// Remove X-combine: tag
+				int tagEnd = parsedText.IndexOf(':') + 1;
+				parsedText = parsedText.Substring(tagEnd).Trim();
 			}
 
+			if (parsedText.Length <= 1)
+			{
+				return; // [HR]
+			}
+
+			this.combinePerformer.Parse(parsedText);
 			this.combinePerformer.ChangeLastDestination(Slot1A);
 			if (this.combinePerformer.ResultGem == null)
 			{
@@ -239,6 +232,51 @@
 #endregion
 
 		#region Private Methods
+		private void AddResourceRecipes()
+		{
+			var recipes = this.recipes;
+			recipes["Orange Combine"] = new RecipeCollection(Preset.ReadResources("WGemCombiner.Resources.orange.orangePresets.resources", "o"));
+			recipes["Mana Gem Spec"] = new RecipeCollection(Preset.ReadResources("WGemCombiner.Resources.mgSpec.mgSpecPresets.resources", "obr"));
+			recipes["Mana Gem Combine"] = new RecipeCollection(Preset.ReadResources("WGemCombiner.Resources.mgComb.mgCombPresets.resources", "m"));
+			recipes["Yellow Combine"] = new RecipeCollection(Preset.ReadResources("WGemCombiner.Resources.yellow.yellowPresets.resources", "y"));
+			recipes["Kill Gem Spec"] = new RecipeCollection(Preset.ReadResources("WGemCombiner.Resources.kgSpec.kgSpecPresets.resources", "ybr"));
+			recipes["Kill Gem Combine"] = new RecipeCollection(Preset.ReadResources("WGemCombiner.Resources.kgComb.kgCombPresets.resources", "k"));
+		}
+
+		private void AddTextFileRecipes()
+		{
+			foreach (var filename in Directory.EnumerateFiles(".", "*.txt", SearchOption.TopDirectoryOnly))
+			{
+				var lines = File.ReadAllLines(filename);
+				var recipe = new StringBuilder();
+				int lineNum = 0;
+				foreach (var line in lines)
+				{
+					lineNum++;
+					if (!line.StartsWith("#", StringComparison.Ordinal) && !line.StartsWith("//", StringComparison.Ordinal))
+					{
+						var trimmedLine = line.Trim();
+						if (trimmedLine.Length == 0)
+						{
+							if (recipe.Length > 0)
+							{
+								this.combinePerformer.Parse(recipe.ToString());
+								recipe.Clear();
+							}
+						}
+						else if (line.Contains("="))
+						{
+							recipe.AppendLine(line);
+						}
+						else
+						{
+							this.combinePerformer.Parse(trimmedLine);
+						}
+					}
+				}
+			}
+		}
+
 		private void ApplyBorders(object sender, EventArgs e)
 		{
 			SettingsHandler.ApplyBorders(this);

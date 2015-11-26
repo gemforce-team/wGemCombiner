@@ -131,6 +131,7 @@
     <Compile Include="Globals.cs" />
     <Compile Include="Instruction.cs" />
     <Compile Include="Preset.cs" />
+    <Compile Include="RecipeCollection.cs" />
     <Compile Include="SettingsHandler.cs" />
     <Compile Include="Gem.cs" />
     <Compile Include="HelpForm.cs">
@@ -405,6 +406,9 @@
   <ItemGroup>
     <CodeAnalysisDictionary Include="CustomDictionary.xml" />
     <Content Include="GCIcon.ico" />
+    <Content Include="recipes.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="Resources\graphics\optionsbg_framed.jpg" />
     <None Include="Resources\graphics\helpformbg_framed.jpg" />
     <None Include="Resources\graphics\gemcombinerbg_framed.jpg" />

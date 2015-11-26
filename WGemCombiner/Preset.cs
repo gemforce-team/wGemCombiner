@@ -6,25 +6,20 @@
 	using System.Resources;
 	using static Globals;
 
-	public class Preset
+	// Deprecated
+	internal static class Preset
 	{
 		#region Static Fields
 		private static Assembly assembly = Assembly.GetExecutingAssembly();
 		#endregion
 
-		#region Constructors
-		/// <summary>Initializes a new instance of the <see cref="Preset"/> class from the files specified in the passed resource.resx, and adds the information to the presets.</summary>
-		/// <param name="letters">The list of letters that go into the gem (e.g., "obr").</param>
-		/// <param name="name">The friendly name of the group, for display purposes.</param>
-		/// <param name="embeddedResourceFullName">Full path to the embedded assembly resource file containing the schemes</param>
-		public Preset(string letters, string name, string embeddedResourceFullName)
+		#region Public Methods
+		public static IEnumerable<Gem> ReadResources(string embeddedResourceName, string letters)
 		{
+			var entries = new List<Gem>();
+			ThrowNull(embeddedResourceName, nameof(embeddedResourceName));
 			ThrowNull(letters, nameof(letters));
-			ThrowNull(name, nameof(name));
-			ThrowNull(embeddedResourceFullName, nameof(embeddedResourceFullName));
-
-			this.Name = name;
-			using (ResourceReader resourceReader = new ResourceReader(assembly.GetManifestResourceStream(embeddedResourceFullName)))
+			using (ResourceReader resourceReader = new ResourceReader(assembly.GetManifestResourceStream(embeddedResourceName)))
 			{
 				var dict = resourceReader.GetEnumerator();
 				while (dict.MoveNext())
@@ -56,20 +51,12 @@
 						gems.Add(lastGem);
 					}
 
-					this.Entries.Add(lastGem);
+					entries.Add(lastGem);
 				}
 			}
+
+			return entries;
 		}
-		#endregion
-
-		#region Public Properties
-		public SortedSet<Gem> Entries { get; } = new SortedSet<Gem>();
-
-		public string Name { get; set; }
-		#endregion
-
-		#region Public Override Properties
-		public override string ToString() => this.Name;
 		#endregion
 	}
 }

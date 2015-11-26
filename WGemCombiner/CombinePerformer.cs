@@ -13,6 +13,7 @@
 	using static Instruction;
 	using static NativeMethods;
 
+	// TODO: Redo most of this class so that equations are the default structure, as this goes through a LOT of unnecessary work right now to convert from equations to parenthetical format, then to this.combined which is essentially going back to equations again. Then the slot condenser starts doing the same thing, only recursively this time! Better to convert to equations at the start and then stick with those throughout.
 	internal class CombinePerformer
 	{
 		#region Private Constants
@@ -122,7 +123,7 @@
 		{
 			// Replaces leveled gems (e.g., "3o" becomes "((o+o)+(o+o))")
 			var sb = new StringBuilder();
-			var replacements = new Dictionary<int, string>();
+			var replacements = new SortedDictionary<int, string>();
 			int lastPos = 0;
 			foreach (Match match in gemPower.Matches(recipe))
 			{
@@ -137,8 +138,16 @@
 				{
 					if (!replacements.TryGetValue(num, out newColor))
 					{
-						newColor = "*";
-						for (int i = 2; i <= num; i++)
+						if (num == 2)
+						{
+							newColor = "*";
+						}
+						else
+						{
+							newColor = replacements[replacements.Count + 1];
+						}
+
+						for (int i = replacements.Count + 2; i <= num; i++)
 						{
 							newColor = newColor.Replace("*", "(*+*)");
 							replacements.Add(i, newColor);
@@ -245,7 +254,7 @@
 			}
 
 			const byte KeyD = 0x44;
-			const byte KeyG = 0x47;
+			// const byte KeyG = 0x47;
 			const byte KeyU = 0x55;
 			const byte KeyDot = 0xBE; // hide info box
 
@@ -296,37 +305,46 @@
 				*/
 			}
 
-			// In limited experiments, the mouse drag operations seemed to be the most prone to failure when Gemcraft was laggy, so I added a bit of extra sleeping both before and after the mouse moves. This may need tweaked.
+			// In limited experiments, the mouse drag operations seemed to be the most prone to failure when Gemcraft was laggy, so I originally added a bit of extra sleep time both before and after the mouse moves. This may not be necessary, per the note at case ActionType.Combine. Needs further testing.
 			this.CancelCombine = false;
 			cursorStart = Cursor.Position;
 			PressKey(KeyDot); // hide info box
+			Stopwatch sw = new Stopwatch();
+			sw.Start();
 			for (int i = mSteps; i < this.Instructions.Count; i++)
 			{
 				var instruction = this.Instructions[i];
 				Thread.Sleep(this.SleepTime);
-				MoveCursorToSlot(instruction.From);
 				switch (instruction.Action)
 				{
 					case ActionType.Duplicate:
+						MoveCursorToSlot(instruction.From);
 						PressKey(KeyD);
 						break;
 					case ActionType.Upgrade:
+						MoveCursorToSlot(instruction.From);
 						PressKey(KeyU);
 						break;
 					case ActionType.Move:
 						// Move gem (only used when slots are compressed)
+						MoveCursorToSlot(instruction.From);
 						PressMouse();
-						Thread.Sleep(this.SleepTime / 2); // Extra sleep for mouse drag.
+						// Thread.Sleep(this.SleepTime / 2); // Extra sleep for mouse drag.
 						MoveCursorToSlot(instruction.To);
-						Thread.Sleep(this.SleepTime / 2);
+						// Thread.Sleep(this.SleepTime / 2);
 						ReleaseMouse();
 						break;
 					case ActionType.Combine:
-						PressKey(KeyG);
+						// PressKey(KeyG);
+						// Do NOT use the G key here. At least in the Steam version, combining gems without a sufficient delay will fail with they key, where the mouse moves appear to be buffered and will succeed.
+						MoveCursorToSlot(-1);
 						PressMouse();
-						Thread.Sleep(this.SleepTime / 2); // Extra sleep for mouse drag
+						ReleaseMouse();
+						MoveCursorToSlot(instruction.From);
+						PressMouse();
+						// Thread.Sleep(this.SleepTime / 2); // Extra sleep for mouse drag
 						MoveCursorToSlot(instruction.To);
-						Thread.Sleep(this.SleepTime / 2);
+						// Thread.Sleep(this.SleepTime / 2);
 						ReleaseMouse();
 						break;
 				}
@@ -337,6 +355,9 @@
 					break;
 				}
 			}
+
+			sw.Stop();
+			Debug.WriteLine(sw.ElapsedMilliseconds);
 
 			PressKey(KeyDot); // show info box
 		}
@@ -375,6 +396,12 @@
 
 		private static void MoveCursorToSlot(int slot)
 		{
+			if (slot == -1)
+			{
+				Cursor.Position = new Point(cursorStart.X - (int)(-0.5 * SlotSize * resolutionRatio), cursorStart.Y - (int)(12.8 * SlotSize * resolutionRatio));
+				return;
+			}
+
 			var cursorDestination = GetSlotPos(slot);
 			var scaledPoint = new Point(
 				cursorStart.X - (int)(cursorDestination.X * SlotSize * resolutionRatio),
@@ -384,10 +411,10 @@
 
 		private static string ParseEquations(string str)
 		{
-			var replace = new Regex(@"\n?\(val=[0-9]+\)\t?").Replace(str, "\n");
-			string[] strP = replace.Split('\n');
+			var replace = new Regex(@"\r?\n?\(val=[0-9]+\)\t?").Replace(str, "\n");
+			string[] strP = replace.Trim().Split('\n');
 			var sb = new StringBuilder(strP[strP.Length - 1].Split('=')[1]);
-			for (int i = strP.Length - 2; i > 0; i--)
+			for (int i = strP.Length - 2; i >= 0; i--)
 			{
 				var strC = strP[i].Split('=');
 				var strRep = strC[1];
@@ -649,10 +676,10 @@
 				if (formula.IndexOf(c) > -1)
 				{
 					var gem = new Gem(c);
-					id++;
 					gem.Id = id;
-					formula = formula.Replace(gem.Letter, gem.Id.ToString(CultureInfo.InvariantCulture)[0]); // gem.ID should always be < 10 and since we have to convert one or the other, a char-char replacement is probably faster than a string-string one.
+					formula = formula.Replace(gem.Letter, gem.Id.ToString(CultureInfo.InvariantCulture)[0]); // gem.ID should always be < 10 here and since we have to convert one or the other, a char-char replacement is probably faster than a string-string one.
 					this.combined.Add(gem);
+					id++;
 				}
 			}
 
@@ -683,10 +710,9 @@
 				var gem2 = combineGems[1];
 				var num1 = Convert.ToInt32(gem1, CultureInfo.InvariantCulture);
 				var num2 = Convert.ToInt32(gem2, CultureInfo.InvariantCulture);
-				var newNum = this.combined.Count + 1;
+				var newNum = this.combined.Count;
 
-				// Gem IDs are 1-based where this.combined is 0-based, so use +/- 1 as necessary.
-				this.ResultGem = new Gem(this.combined[num1 - 1], this.combined[num2 - 1]);
+				this.ResultGem = new Gem(this.combined[num1], this.combined[num2]);
 				this.ResultGem.Id = newNum;
 				this.combined.Add(this.ResultGem);
 				formula = formula.Replace("(" + gem1 + "+" + gem2 + ")", newNum.ToString(CultureInfo.InvariantCulture));

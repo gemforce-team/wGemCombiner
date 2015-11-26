@@ -100,7 +100,6 @@
             0,
             0,
             0});
-			this.delayNumeric.ValueChanged += new System.EventHandler(this.DelayNumeric_ValueChanged);
 			// 
 			// stepLabel
 			// 
@@ -150,6 +149,7 @@
 			this.combineComboBox.Items.AddRange(new object[] {
             resources.GetString("combineComboBox.Items")});
 			this.combineComboBox.Name = "combineComboBox";
+			this.combineComboBox.Sorted = true;
 			this.combineComboBox.SelectedIndexChanged += new System.EventHandler(this.CombineComboBox_SelectedIndexChanged);
 			// 
 			// colorComboBox

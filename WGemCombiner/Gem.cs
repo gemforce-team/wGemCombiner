@@ -5,6 +5,7 @@
 	using System.Collections.ObjectModel;
 	using System.Globalization;
 	using System.Text;
+	using System.Text.RegularExpressions;
 	using static Globals;
 
 	#region Public Enums
@@ -20,9 +21,11 @@
 	#endregion
 
 	[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix", Justification = "Represents a tree node, so makes more sense to name in the singular.")]
-	public class Gem : Collection<Gem>, IComparable<Gem>
+	public class Gem : Collection<Gem>
 	{
 		#region Static Fields
+		private static Regex equationLine = new Regex(@"\(val=\d+\)\t?\d+=(<lhs>\d+)\+(<rhs>\d+)");
+
 		private static SortedDictionary<char, GemColor> gemTypes = new SortedDictionary<char, GemColor>()
 		{
 			['b'] = GemColor.Black,
