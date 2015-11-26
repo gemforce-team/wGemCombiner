@@ -26,6 +26,7 @@
 		public GemCombiner()
 		{
 			this.InitializeComponent();
+			this.testButton.Visible = Type.GetType("WGemCombiner.NewGemTester") != null;
 		}
 		#endregion
 
@@ -229,18 +230,18 @@
 			this.stepNumeric.Font = new Font(this.stepNumeric.Font, style);
 			this.stepLabel.Font = new Font(this.stepNumeric.Font, style);
 		}
-#endregion
+		#endregion
 
 		#region Private Methods
 		private void AddResourceRecipes()
 		{
-			var recipes = this.recipes;
-			recipes["Orange Combine"] = new RecipeCollection(Preset.ReadResources("WGemCombiner.Resources.orange.orangePresets.resources", "o"));
-			recipes["Mana Gem Spec"] = new RecipeCollection(Preset.ReadResources("WGemCombiner.Resources.mgSpec.mgSpecPresets.resources", "obr"));
-			recipes["Mana Gem Combine"] = new RecipeCollection(Preset.ReadResources("WGemCombiner.Resources.mgComb.mgCombPresets.resources", "m"));
-			recipes["Yellow Combine"] = new RecipeCollection(Preset.ReadResources("WGemCombiner.Resources.yellow.yellowPresets.resources", "y"));
-			recipes["Kill Gem Spec"] = new RecipeCollection(Preset.ReadResources("WGemCombiner.Resources.kgSpec.kgSpecPresets.resources", "ybr"));
-			recipes["Kill Gem Combine"] = new RecipeCollection(Preset.ReadResources("WGemCombiner.Resources.kgComb.kgCombPresets.resources", "k"));
+			var recipeDictionary = this.recipes;
+			recipeDictionary["Orange Combine"] = new RecipeCollection(Preset.ReadResources("WGemCombiner.Resources.orange.orangePresets.resources", "o"));
+			recipeDictionary["Mana Gem Spec"] = new RecipeCollection(Preset.ReadResources("WGemCombiner.Resources.mgSpec.mgSpecPresets.resources", "obr"));
+			recipeDictionary["Mana Gem Combine"] = new RecipeCollection(Preset.ReadResources("WGemCombiner.Resources.mgComb.mgCombPresets.resources", "m"));
+			recipeDictionary["Yellow Combine"] = new RecipeCollection(Preset.ReadResources("WGemCombiner.Resources.yellow.yellowPresets.resources", "y"));
+			recipeDictionary["Kill Gem Spec"] = new RecipeCollection(Preset.ReadResources("WGemCombiner.Resources.kgSpec.kgSpecPresets.resources", "ybr"));
+			recipeDictionary["Kill Gem Combine"] = new RecipeCollection(Preset.ReadResources("WGemCombiner.Resources.kgComb.kgCombPresets.resources", "k"));
 		}
 
 		private void AddTextFileRecipes()
@@ -297,6 +298,19 @@
 
 			this.combineButton.Text = stepID.ToString(CultureInfo.CurrentCulture);
 		}
-#endregion
+		#endregion
+
+		private void TestButton_Click(object sender, EventArgs e)
+		{
+			try
+			{
+				var testForm = Activator.CreateInstance(Type.GetType("WGemCombiner.NewGemTester")) as Form;
+				testForm.Show();
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show("This button is for testing only and will not work for anyone else.");
+			}
+		}
 	}
 }

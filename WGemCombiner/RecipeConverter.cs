@@ -50,7 +50,7 @@
 			var isCombine = new List<Gem>(combinePerformer.BaseGems).Count == 1;
 			switch (gem.Color)
 			{
-				case GemColor.Mana:
+				case GemColors.Mana:
 					if (isCombine)
 					{
 						outputPath += @"mgComb\mg";
@@ -61,7 +61,7 @@
 					}
 
 					break;
-				case GemColor.Kill:
+				case GemColors.Kill:
 					if (isCombine)
 					{
 						outputPath += @"kgComb\kg";

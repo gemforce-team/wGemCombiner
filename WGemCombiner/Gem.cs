@@ -9,14 +9,16 @@
 	using static Globals;
 
 	#region Public Enums
-	public enum GemColor
+	[Flags]
+	public enum GemColors
 	{
-		Orange,
-		Black,
-		Mana,
-		Yellow,
-		Kill,
-		Red,
+		None,
+		Orange = 1,
+		Yellow = 1 << 1,
+		Black = 1 << 2,
+		Red = 1 << 3,
+		Mana = Orange | Black | Red,
+		Kill = Yellow | Black | Red
 	}
 	#endregion
 
@@ -24,26 +26,25 @@
 	public class Gem : Collection<Gem>
 	{
 		#region Static Fields
-		private static Regex equationLine = new Regex(@"\(val=\d+\)\t?\d+=(<lhs>\d+)\+(<rhs>\d+)");
-
-		private static SortedDictionary<char, GemColor> gemTypes = new SortedDictionary<char, GemColor>()
+		// private static Regex equationLine = new Regex(@"\(val=\d+\)\t?\d+=(<lhs>\d+)\+(<rhs>\d+)");
+		private static SortedDictionary<char, GemColors> gemTypes = new SortedDictionary<char, GemColors>()
 		{
-			['b'] = GemColor.Black,
-			['k'] = GemColor.Kill,
-			['m'] = GemColor.Mana,
-			['o'] = GemColor.Orange,
-			['r'] = GemColor.Red,
-			['y'] = GemColor.Yellow,
+			['b'] = GemColors.Black,
+			['k'] = GemColors.Kill,
+			['m'] = GemColors.Mana,
+			['o'] = GemColors.Orange,
+			['r'] = GemColors.Red,
+			['y'] = GemColors.Yellow,
 		};
 
-		private static SortedDictionary<GemColor, string> gemNames = new SortedDictionary<GemColor, string>()
+		private static SortedDictionary<GemColors, string> gemNames = new SortedDictionary<GemColors, string>()
 		{
-			[GemColor.Black] = "Black",
-			[GemColor.Kill] = "Kill gem",
-			[GemColor.Mana] = "Mana gem",
-			[GemColor.Orange] = "Orange",
-			[GemColor.Red] = "Red",
-			[GemColor.Yellow] = "Yellow",
+			[GemColors.Black] = "Black",
+			[GemColors.Kill] = "Kill gem",
+			[GemColors.Mana] = "Mana gem",
+			[GemColors.Orange] = "Orange",
+			[GemColors.Red] = "Red",
+			[GemColors.Yellow] = "Yellow",
 		};
 
 		private static StringBuilder combineBuilder = new StringBuilder();
@@ -67,32 +68,32 @@
 			this.Cost = 1;
 			this.damage = 0; // gems that need damage will have that properly setted (dmg_yellow=1)
 
-			if (color == GemColor.Black)
+			if (color == GemColors.Black)
 			{
 				this.damage = 1.186168;
 				this.blood = 1.0;
 			}
-			else if (color == GemColor.Kill)
+			else if (color == GemColors.Kill)
 			{
 				this.damage = 1.0;
 				this.critMult = 1.0;
 				this.blood = 1.0;
 			}
-			else if (color == GemColor.Mana)
+			else if (color == GemColors.Mana)
 			{
 				this.leech = 1.0;
 				this.blood = 1.0;
 			}
-			else if (color == GemColor.Orange)
+			else if (color == GemColors.Orange)
 			{
 				this.leech = 1.0;
 			}
-			else if (color == GemColor.Yellow)
+			else if (color == GemColors.Yellow)
 			{
 				this.damage = 1.0;
 				this.critMult = 1.0;
 			}
-			else if (color == GemColor.Red)
+			else if (color == GemColors.Red)
 			{
 				this.damage = 0.909091;
 			}
@@ -123,19 +124,19 @@
 			}
 			else
 			{
-				if (gem1.Color == GemColor.Kill || gem2.Color == GemColor.Kill || gem1.Color == GemColor.Yellow || gem2.Color == GemColor.Yellow)
+				if (gem1.Color == GemColors.Kill || gem2.Color == GemColors.Kill || gem1.Color == GemColors.Yellow || gem2.Color == GemColors.Yellow)
 				{
 					// Since the colors aren't the same and yellow is involved, this must be a kill gem.
-					this.Color = GemColor.Kill;
+					this.Color = GemColors.Kill;
 				}
-				else if (gem1.Color == GemColor.Mana || gem2.Color == GemColor.Mana || gem1.Color == GemColor.Orange || gem2.Color == GemColor.Orange)
+				else if (gem1.Color == GemColors.Mana || gem2.Color == GemColors.Mana || gem1.Color == GemColors.Orange || gem2.Color == GemColors.Orange)
 				{
 					// Since the colors aren't the same and orange is involved, this must be a mana gem.
-					this.Color = GemColor.Mana;
+					this.Color = GemColors.Mana;
 				}
 				else
 				{
-					this.Color = GemColor.Red; // Ignore any black component for now and call this red. Since it's not yellow or orange, it'll still be picked up as part of a kill/mana gem in subsequent combines.
+					this.Color = GemColors.Red; // Ignore any black component for now and call this red. Since it's not yellow or orange, it'll still be picked up as part of a kill/mana gem in subsequent combines.
 				}
 			}
 
@@ -144,30 +145,23 @@
 			{
 				this.GradeGrowth++;
 				this.damage = CombineCalc(gem1.damage, gem2.damage, 0.87, 0.71);
-				this.leech = CombineCalc(gem1.leech, gem2.leech, 0.88, 0.50);
 				this.blood = CombineCalc(gem1.blood, gem2.blood, 0.78, 0.31);
-				this.critMult = CombineCalc(gem1.critMult, gem2.critMult, 0.88, 0.50);
+				this.critMult = CombineCalc(gem1.critMult, gem2.critMult, 0.88, 0.5);
+				this.leech = CombineCalc(gem1.leech, gem2.leech, 0.88, 0.5);
 			}
-			else if (gem1.GradeGrowth == gem2.GradeGrowth + 1)
+			else if (Math.Abs(gem1.GradeGrowth - gem2.GradeGrowth) == 1)
 			{
-				this.damage = CombineCalc(gem1.damage, gem2.damage, 0.86, 0.70);
-				this.leech = CombineCalc(gem1.leech, gem2.leech, 0.89, 0.44);
+				this.damage = CombineCalc(gem1.damage, gem2.damage, 0.86, 0.7);
 				this.blood = CombineCalc(gem1.blood, gem2.blood, 0.79, 0.29);
 				this.critMult = CombineCalc(gem1.critMult, gem2.critMult, 0.88, 0.44);
-			}
-			else if (gem1.GradeGrowth == gem2.GradeGrowth - 1)
-			{
-				this.damage = CombineCalc(gem1.damage, gem2.damage, 0.86, 0.70);
 				this.leech = CombineCalc(gem1.leech, gem2.leech, 0.89, 0.44);
-				this.blood = CombineCalc(gem1.blood, gem2.blood, 0.79, 0.29);
-				this.critMult = CombineCalc(gem1.critMult, gem2.critMult, 0.88, 0.44);
 			}
 			else
 			{
 				this.damage = CombineCalc(gem1.damage, gem2.damage, 0.85, 0.69);
-				this.leech = CombineCalc(gem1.leech, gem2.leech, 0.90, 0.38);
-				this.blood = CombineCalc(gem1.blood, gem2.blood, 0.80, 0.27);
+				this.blood = CombineCalc(gem1.blood, gem2.blood, 0.8, 0.27);
 				this.critMult = CombineCalc(gem1.critMult, gem2.critMult, 0.88, 0.44);
+				this.leech = CombineCalc(gem1.leech, gem2.leech, 0.9, 0.38);
 			}
 
 			this.damage = Math.Max(this.damage, Math.Max(gem1.damage, gem2.damage));
@@ -181,7 +175,7 @@
 		#endregion
 
 		#region Public Properties
-		public GemColor Color { get; }
+		public GemColors Color { get; }
 
 		public string ColorName => gemNames[this.Color];
 
@@ -207,15 +201,15 @@
 			{
 				switch (this.Color)
 				{
-					case GemColor.Orange:
+					case GemColors.Orange:
 						return this.leech;
-					case GemColor.Black:
+					case GemColors.Black:
 						return this.blood;
-					case GemColor.Mana:
+					case GemColors.Mana:
 						return this.leech * this.blood;
-					case GemColor.Yellow:
+					case GemColors.Yellow:
 						return this.damage * this.critMult;
-					case GemColor.Kill:
+					case GemColors.Kill:
 						return this.damage * this.critMult * this.blood * this.blood; // 1+blood makes no sense, g1 bb is set to 1 by convention
 					default:
 						return 0; // Red have no mana or kill power

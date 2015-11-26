@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RuleSet Name="Rules for WGemCombiner" Description="Code analysis rules for WGemCombiner.csproj." ToolsVersion="14.0">
+  <IncludeAll Action="Warning" />
+  <Rules AnalyzerId="Microsoft.Analyzers.ManagedCodeAnalysis" RuleNamespace="Microsoft.Rules.Managed">
+    <Rule Id="CA1014" Action="None" />
+    <Rule Id="CA1300" Action="None" />
+    <Rule Id="CA1303" Action="None" />
+    <Rule Id="CA1304" Action="Warning" />
+    <Rule Id="CA1305" Action="Warning" />
+    <Rule Id="CA1703" Action="None" />
+    <Rule Id="CA2202" Action="None" />
+    <Rule Id="CA2210" Action="None" />
+  </Rules>
+  <Rules AnalyzerId="StyleCop.Analyzers" RuleNamespace="StyleCop.Analyzers">
+    <Rule Id="SA1027" Action="None" />
+    <Rule Id="SA1124" Action="None" />
+    <Rule Id="SA1133" Action="Warning" />
+    <Rule Id="SA1134" Action="Warning" />
+    <Rule Id="SA1514" Action="None" />
+    <Rule Id="SA1515" Action="None" />
+    <Rule Id="SA1633" Action="None" />
+    <Rule Id="SA1652" Action="None" />
+  </Rules>
+</RuleSet>

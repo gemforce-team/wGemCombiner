@@ -49,6 +49,7 @@
 			this.baseGemsTextBox = new System.Windows.Forms.TextBox();
 			this.resultLabel = new System.Windows.Forms.Label();
 			this.formulaInputRichTextBox = new System.Windows.Forms.RichTextBox();
+			this.testButton = new System.Windows.Forms.Button();
 			((System.ComponentModel.ISupportInitialize)(this.delayNumeric)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.stepNumeric)).BeginInit();
 			this.SuspendLayout();
@@ -185,10 +186,17 @@
 			resources.ApplyResources(this.formulaInputRichTextBox, "formulaInputRichTextBox");
 			this.formulaInputRichTextBox.Name = "formulaInputRichTextBox";
 			// 
+			// testButton
+			// 
+			resources.ApplyResources(this.testButton, "testButton");
+			this.testButton.Name = "testButton";
+			this.testButton.Click += new System.EventHandler(this.TestButton_Click);
+			// 
 			// GemCombiner
 			// 
 			resources.ApplyResources(this, "$this");
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.Controls.Add(this.testButton);
 			this.Controls.Add(this.formulaInputRichTextBox);
 			this.Controls.Add(this.resultLabel);
 			this.Controls.Add(this.baseGemsTextBox);
@@ -243,6 +251,7 @@
 		private System.Windows.Forms.TextBox baseGemsTextBox;
 		private System.Windows.Forms.Label resultLabel;
 		private System.Windows.Forms.RichTextBox formulaInputRichTextBox;
+		private System.Windows.Forms.Button testButton;
 	}
 }
 

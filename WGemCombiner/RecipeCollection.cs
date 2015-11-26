@@ -8,6 +8,7 @@
 	{
 		public RecipeCollection(IEnumerable<Gem> gems)
 		{
+			ThrowNull(gems, nameof(gems));
 			foreach (var gem in gems)
 			{
 				this.Add(gem);

@@ -98,8 +98,7 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>
-    </StartupObject>
+    <StartupObject>WGemCombiner.Program</StartupObject>
   </PropertyGroup>
   <PropertyGroup>
     <NoWin32Manifest>true</NoWin32Manifest>
@@ -122,6 +121,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="CombinePerformer.cs" />
+    <Compile Include="GemNew.cs" />
     <Compile Include="GemCombiner.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -130,6 +130,12 @@
     </Compile>
     <Compile Include="Globals.cs" />
     <Compile Include="Instruction.cs" />
+    <Compile Include="NewGemTester.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="NewGemTester.Designer.cs">
+      <DependentUpon>NewGemTester.cs</DependentUpon>
+    </Compile>
     <Compile Include="Preset.cs" />
     <Compile Include="RecipeCollection.cs" />
     <Compile Include="SettingsHandler.cs" />
@@ -198,6 +204,9 @@
     <EmbeddedResource Include="HelpForm.resx">
       <DependentUpon>HelpForm.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NewGemTester.resx">
+      <DependentUpon>NewGemTester.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Options.resx">
       <DependentUpon>Options.cs</DependentUpon>
@@ -415,9 +424,9 @@
     <None Include="Resources\graphics\buttonsdark2.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <Analyzer Include="..\packages\StyleCop.Analyzers.1.0.0-beta016\analyzers\dotnet\cs\Newtonsoft.Json.dll" />
-    <Analyzer Include="..\packages\StyleCop.Analyzers.1.0.0-beta016\analyzers\dotnet\cs\StyleCop.Analyzers.CodeFixes.dll" />
-    <Analyzer Include="..\packages\StyleCop.Analyzers.1.0.0-beta016\analyzers\dotnet\cs\StyleCop.Analyzers.dll" />
+    <Analyzer Include="..\packages\StyleCop.Analyzers.1.0.0-beta017\analyzers\dotnet\cs\Newtonsoft.Json.dll" />
+    <Analyzer Include="..\packages\StyleCop.Analyzers.1.0.0-beta017\analyzers\dotnet\cs\StyleCop.Analyzers.CodeFixes.dll" />
+    <Analyzer Include="..\packages\StyleCop.Analyzers.1.0.0-beta017\analyzers\dotnet\cs\StyleCop.Analyzers.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
