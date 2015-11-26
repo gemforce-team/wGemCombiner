@@ -120,6 +120,7 @@
     <Compile Include="BufferedTableLayoutPanel.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Combine.cs" />
     <Compile Include="CombinePerformer.cs" />
     <Compile Include="GemNew.cs" />
     <Compile Include="GemCombiner.cs">

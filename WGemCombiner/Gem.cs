@@ -105,8 +105,6 @@
 			ThrowNull(gem2, nameof(gem2));
 			gem1.UseCount++;
 			gem2.UseCount++;
-			gem1.Parent = this;
-			gem2.Parent = this;
 			if (gem2.Cost > gem1.Cost)
 			{
 				this.Add(gem2);
@@ -193,8 +191,6 @@
 
 		public char Letter { get; }
 
-		public Gem Parent { get; private set; }
-
 		public double Power
 		{
 			get
@@ -223,8 +219,6 @@
 		#endregion
 
 		#region Public Methods
-		public int CompareTo(Gem other) => this.Cost.CompareTo(other?.Cost);
-
 		public string DisplayInfo(bool showAll, int slots)
 		{
 			var retval = string.Format(CultureInfo.CurrentCulture, "Grade: +{0}\r\nCost: {1}x\r\nGrowth: {2:0.0####}\r\nSlots: {3}", this.GradeGrowth, this.Cost, this.Growth, slots);

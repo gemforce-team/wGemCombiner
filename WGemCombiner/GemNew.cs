@@ -2,10 +2,23 @@
 {
 	using System;
 	using System.Collections.Generic;
+	using System.Globalization;
 	using static Globals;
 
 	public class GemNew
 	{
+		#region Static Fields
+		private static Dictionary<GemColors, double> gemDamages = new Dictionary<GemColors, double>()
+		{
+			[GemColors.Black] = 1.18181818181818,
+			[GemColors.Kill] = 1,
+			[GemColors.Mana] = 0,
+			[GemColors.Orange] = 0,
+			[GemColors.Red] = .90909090909091,
+			[GemColors.Yellow] = 1,
+		};
+		#endregion
+
 		#region Fields
 		// Components
 		private double blood;
@@ -20,37 +33,10 @@
 			this.Color = color;
 			this.Cost = 1;
 			this.Slot = 0;
-
-			this.damage = 0; // gems that need damage will have that properly setted (dmg_yellow=1)
-			if (color == GemColors.Black)
-			{
-				this.damage = 1.186168;
-				this.blood = 1.0;
-			}
-			else if (color == GemColors.Kill)
-			{
-				this.damage = 1.0;
-				this.critMult = 1.0;
-				this.blood = 1.0;
-			}
-			else if (color == GemColors.Mana)
-			{
-				this.leech = 1.0;
-				this.blood = 1.0;
-			}
-			else if (color == GemColors.Orange)
-			{
-				this.leech = 1.0;
-			}
-			else if (color == GemColors.Yellow)
-			{
-				this.damage = 1.0;
-				this.critMult = 1.0;
-			}
-			else if (color == GemColors.Red)
-			{
-				this.damage = 0.909091;
-			}
+			this.blood = color.HasFlag(GemColors.Black) ? 1 : 0;
+			this.critMult = color.HasFlag(GemColors.Yellow) ? 1 : 0;
+			this.leech = color.HasFlag(GemColors.Orange) ? 1 : 0;
+			this.damage = gemDamages[color]; // Will throw an error if someone passes an odd gem color like Yellow | Black as a base gem, which is fine cuz they should never actually do that.
 		}
 
 		public GemNew(GemNew gem1, GemNew gem2)
@@ -102,6 +88,23 @@
 			this.Cost = gem1.Cost + gem2.Cost;
 			this.Growth = Math.Log(this.Power, this.Cost);
 		}
+
+		private GemNew()
+		{
+		}
+		#endregion
+
+		#region Public Static Properties
+		// Do we want this in this class or just locally to whatever uses it?
+		public static SortedDictionary<GemColors, char> GemLetters { get; } = new SortedDictionary<GemColors, char>()
+		{
+			[GemColors.Black] = 'b',
+			[GemColors.Kill] = 'k',
+			[GemColors.Mana] = 'm',
+			[GemColors.Orange] = 'o',
+			[GemColors.Red] = 'r',
+			[GemColors.Yellow] = 'y'
+		};
 		#endregion
 
 		#region Public Properties
@@ -192,6 +195,17 @@
 		#endregion
 
 		#region Public Methods
+		public string DisplayInfo(bool showAll, int slots)
+		{
+			var retval = string.Format(CultureInfo.CurrentCulture, "Grade: +{0}\r\nCost: {1}x\r\nGrowth: {2:0.0####}\r\nSlots: {3}", this.GradeGrowth, this.Cost, this.Growth, slots);
+			if (showAll)
+			{
+				retval += string.Format(CultureInfo.CurrentCulture, "\r\nPower: {0:0.0####}\r\nDamage: {1:0.0####}\r\nLeech: {2:0.0####}\r\nCrit: {3:0.0####}\r\nBbound: {4:0.0####}", this.Power, this.damage, this.leech, this.critMult, this.blood);
+			}
+
+			return retval;
+		}
+
 		public void FakeCreate()
 		{
 			this.Slot = 0;
@@ -206,10 +220,12 @@
 		}
 		#endregion
 
+		#region Public Override Methods
+		public override string ToString() => string.Format(CultureInfo.CurrentCulture, "Grade {0} {1}", this.GradeGrowth + 1, this.Color);
+		#endregion
+
 		#region Private Static Methods
 		private static double CombineCalc(double value1, double value2, double multHigh, double multLow) => value1 > value2 ? (multHigh * value1) + (multLow * value2) : (multHigh * value2) + (multLow * value1);
-
-		private static bool IsPowerOfTwo(int cost) => (cost != 0) && (cost & (cost - 1)) == 0;
 		#endregion
 
 	}

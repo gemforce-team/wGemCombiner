@@ -29,6 +29,7 @@
 		{
 			// This is the lazy way of doing it, since there's only the one form to worry about currently. Could be turned into an event if ever there are more TopMost forms.
 			Application.OpenForms["GemCombiner"].TopMost = this.alwaysOnTopCheckBox.Checked;
+			Settings.Default.TopMost = this.alwaysOnTopCheckBox.Checked;
 		}
 
 		private void BordersCheckBox_CheckedChanged(object sender, EventArgs e) => SettingsHandler.ChangeBorders(!this.bordersCheckBox.Checked);

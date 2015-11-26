@@ -15,7 +15,8 @@
 		{
 			var gemList = new List<GemNew>();
 			gemList.Add(new GemNew(GemColors.Orange));
-			gemList.Add(new GemNew(gemList[0], gemList[0]));
+			gemList.Add(new GemNew(GemColors.Black));
+			gemList.Add(new GemNew(GemColors.Red));
 			gemList.Add(new GemNew(gemList[1], gemList[1]));
 			gemList.Add(new GemNew(gemList[1], gemList[0]));
 			gemList.Add(new GemNew(gemList[3], gemList[0]));
