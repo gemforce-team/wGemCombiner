@@ -38,6 +38,7 @@
             this.bordersCheckBox = new System.Windows.Forms.CheckBox();
             this.hotkeyTextBox = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.hidePanelsCheckBox = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // winFormsSkinButton
@@ -85,7 +86,7 @@
             // 
             // closeButton
             // 
-            this.closeButton.Location = new System.Drawing.Point(216, 135);
+            this.closeButton.Location = new System.Drawing.Point(216, 184);
             this.closeButton.Name = "closeButton";
             this.closeButton.Size = new System.Drawing.Size(44, 23);
             this.closeButton.TabIndex = 6;
@@ -118,7 +119,7 @@
             // hotkeyTextBox
             // 
             this.hotkeyTextBox.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
-            this.hotkeyTextBox.Location = new System.Drawing.Point(145, 109);
+            this.hotkeyTextBox.Location = new System.Drawing.Point(145, 158);
             this.hotkeyTextBox.MaxLength = 1;
             this.hotkeyTextBox.Name = "hotkeyTextBox";
             this.hotkeyTextBox.Size = new System.Drawing.Size(115, 20);
@@ -132,18 +133,30 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(12, 112);
+            this.label1.Location = new System.Drawing.Point(12, 161);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(121, 13);
             this.label1.TabIndex = 11;
             this.label1.Text = "Hotkey To Activate:";
+            // 
+            // hidePanelsCheckBox
+            // 
+            this.hidePanelsCheckBox.AutoSize = true;
+            this.hidePanelsCheckBox.Location = new System.Drawing.Point(145, 109);
+            this.hidePanelsCheckBox.Name = "hidePanelsCheckBox";
+            this.hidePanelsCheckBox.Size = new System.Drawing.Size(111, 43);
+            this.hidePanelsCheckBox.TabIndex = 12;
+            this.hidePanelsCheckBox.Text = "Automatically hide\r\ninfo panels\r\nbefore combining";
+            this.hidePanelsCheckBox.UseVisualStyleBackColor = true;
+            this.hidePanelsCheckBox.CheckedChanged += new System.EventHandler(this.HidePanelsCheckBox_CheckedChanged);
             // 
             // Options
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ClientSize = new System.Drawing.Size(267, 166);
+            this.ClientSize = new System.Drawing.Size(267, 219);
+            this.Controls.Add(this.hidePanelsCheckBox);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.hotkeyTextBox);
             this.Controls.Add(this.bordersCheckBox);
@@ -157,7 +170,6 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(283, 204);
             this.MinimizeBox = false;
             this.MinimumSize = new System.Drawing.Size(283, 204);
             this.Name = "Options";
@@ -184,5 +196,6 @@
         private System.Windows.Forms.CheckBox bordersCheckBox;
         private System.Windows.Forms.TextBox hotkeyTextBox;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.CheckBox hidePanelsCheckBox;
     }
 }

@@ -153,6 +153,7 @@
 			this.ApplyBorders(null, null);
 			SettingsHandler.SkinChanged += this.ApplySkin;
 			SettingsHandler.BordersChanged += this.ApplyBorders;
+			this.TopMost = Settings.Default.TopMost;
 			var cb = this.colorComboBox.Items;
 			cb.Add("Custom");
 			this.AddResourceRecipes();

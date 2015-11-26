@@ -10,6 +10,7 @@
 	using System.Text.RegularExpressions;
 	using System.Threading;
 	using System.Windows.Forms;
+	using Properties;
 	using static Instruction;
 	using static NativeMethods;
 
@@ -308,7 +309,11 @@
 			// In limited experiments, the mouse drag operations seemed to be the most prone to failure when Gemcraft was laggy, so I originally added a bit of extra sleep time both before and after the mouse moves. This may not be necessary, per the note at case ActionType.Combine. Needs further testing.
 			this.CancelCombine = false;
 			cursorStart = Cursor.Position;
-			PressKey(KeyDot); // hide info box
+			if ( Settings.Default.HidePanels)
+			{
+				PressKey(KeyDot); // hide info box
+			}
+
 			Stopwatch sw = new Stopwatch();
 			sw.Start();
 			for (int i = mSteps; i < this.Instructions.Count; i++)
@@ -359,7 +364,10 @@
 			sw.Stop();
 			Debug.WriteLine(sw.ElapsedMilliseconds);
 
-			PressKey(KeyDot); // show info box
+			if (Settings.Default.HidePanels)
+			{
+				PressKey(KeyDot); // show info box
+			}
 		}
 
 		// Save a combine
