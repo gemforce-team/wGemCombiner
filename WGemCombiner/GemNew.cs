@@ -8,7 +8,7 @@
 	public class GemNew
 	{
 		#region Static Fields
-		private static Dictionary<GemColors, double> gemDamages = new Dictionary<GemColors, double>()
+		private static SortedDictionary<GemColors, double> gemDamages = new SortedDictionary<GemColors, double>()
 		{
 			[GemColors.Black] = 1.18181818181818,
 			[GemColors.Kill] = 1,
@@ -16,6 +16,16 @@
 			[GemColors.Orange] = 0,
 			[GemColors.Red] = .90909090909091,
 			[GemColors.Yellow] = 1,
+		};
+
+		private static SortedDictionary<char, GemColors> gemTypes = new SortedDictionary<char, GemColors>()
+		{
+			['b'] = GemColors.Black,
+			['k'] = GemColors.Kill,
+			['m'] = GemColors.Mana,
+			['o'] = GemColors.Orange,
+			['r'] = GemColors.Red,
+			['y'] = GemColors.Yellow,
 		};
 		#endregion
 
@@ -28,48 +38,53 @@
 		#endregion
 
 		#region Constructors
-		public GemNew(GemColors color)
+		public GemNew(char letter)
 		{
+			GemColors color;
+			if (!gemTypes.TryGetValue(letter, out color))
+			{
+				throw new ArgumentOutOfRangeException(nameof(letter), "Invalid letter value for gem: " + letter);
+			}
+
 			this.Color = color;
 			this.Cost = 1;
 			this.Slot = 0;
 			this.blood = color.HasFlag(GemColors.Black) ? 1 : 0;
 			this.critMult = color.HasFlag(GemColors.Yellow) ? 1 : 0;
 			this.leech = color.HasFlag(GemColors.Orange) ? 1 : 0;
-			this.damage = gemDamages[color]; // Will throw an error if someone passes an odd gem color like Yellow | Black as a base gem, which is fine cuz they should never actually do that.
+			this.damage = gemDamages[color];
 		}
 
 		public GemNew(GemNew gem1, GemNew gem2)
 		{
 			ThrowNull(gem1, nameof(gem1));
 			ThrowNull(gem2, nameof(gem2));
-			if (gem2.Cost > gem1.Cost)
+			if (gem1.Grade < gem2.Grade)
 			{
-				this.Components.Add(gem2);
-				this.Components.Add(gem1);
-			}
-			else
-			{
-				this.Components.Add(gem1);
-				this.Components.Add(gem2);
+				// Always make gem1 the highest-grade gem
+				var temp = gem1;
+				gem1 = gem2;
+				gem2 = temp;
 			}
 
+			this.Components.Add(gem1);
+			this.Components.Add(gem2);
 			foreach (var component in this.Components)
 			{
 				this.Color |= component.Color;
 				component.UseCount++;
 			}
 
-			this.GradeGrowth = (gem1.GradeGrowth > gem2.GradeGrowth) ? gem1.GradeGrowth : gem2.GradeGrowth;
-			if (gem1.GradeGrowth == gem2.GradeGrowth)
+			this.Grade = gem1.Grade;
+			if (gem1.Grade == gem2.Grade)
 			{
-				this.GradeGrowth++;
+				this.Grade++;
 				this.damage = CombineCalc(gem1.damage, gem2.damage, 0.87, 0.71);
 				this.blood = CombineCalc(gem1.blood, gem2.blood, 0.78, 0.31);
 				this.critMult = CombineCalc(gem1.critMult, gem2.critMult, 0.88, 0.5);
 				this.leech = CombineCalc(gem1.leech, gem2.leech, 0.88, 0.5);
 			}
-			else if (Math.Abs(gem1.GradeGrowth - gem2.GradeGrowth) == 1)
+			else if (gem1.Grade - gem2.Grade == 1)
 			{
 				this.damage = CombineCalc(gem1.damage, gem2.damage, 0.86, 0.7);
 				this.blood = CombineCalc(gem1.blood, gem2.blood, 0.79, 0.29);
@@ -108,42 +123,23 @@
 		#endregion
 
 		#region Public Properties
-		public bool CanCreate
-		{
-			// Concept only - should really be part of the collection checking when combining.
-			get
-			{
-				if (this.Slot >= 0 || this.UseCount == 0)
-				{
-					return false;
-				}
-
-				var existing = new HashSet<GemNew>();
-				foreach (var gem in this.GemList)
-				{
-					if (gem.Slot >= 0)
-					{
-						existing.Add(gem);
-					}
-				}
-
-				return existing.IsSupersetOf(this.Components);
-			}
-		}
-
 		public GemColors Color { get; }
 
-		public ICollection<GemNew> Components { get; } = new List<GemNew>();
+		public IList<GemNew> Components { get; } = new List<GemNew>(2);
 
 		public int Cost { get; set; }
 
+		public int EarliestUsed { get; set; }
+
 		public IEnumerable<GemNew> GemList { get; }
 
-		public int GradeGrowth { get; }
+		public int Grade { get; }
 
 		public double Growth { get; }
 
-		public bool IsBaseGem => this.GradeGrowth == 0;
+		public bool IsBaseGem => this.Grade == 0;
+
+		public bool IsUpgrade => this.Components[0] == this.Components[1];
 
 		public double Power
 		{
@@ -189,7 +185,7 @@
 			}
 		}
 
-		public int Slot { get; private set; } = -1;
+		public int Slot { get; set; }
 
 		public int UseCount { get; set; }
 		#endregion
@@ -197,7 +193,7 @@
 		#region Public Methods
 		public string DisplayInfo(bool showAll, int slots)
 		{
-			var retval = string.Format(CultureInfo.CurrentCulture, "Grade: +{0}\r\nCost: {1}x\r\nGrowth: {2:0.0####}\r\nSlots: {3}", this.GradeGrowth, this.Cost, this.Growth, slots);
+			var retval = string.Format(CultureInfo.CurrentCulture, "Grade: +{0}\r\nCost: {1}x\r\nGrowth: {2:0.0####}\r\nSlots: {3}", this.Grade, this.Cost, this.Growth, slots);
 			if (showAll)
 			{
 				retval += string.Format(CultureInfo.CurrentCulture, "\r\nPower: {0:0.0####}\r\nDamage: {1:0.0####}\r\nLeech: {2:0.0####}\r\nCrit: {3:0.0####}\r\nBbound: {4:0.0####}", this.Power, this.damage, this.leech, this.critMult, this.blood);
@@ -205,23 +201,10 @@
 
 			return retval;
 		}
-
-		public void FakeCreate()
-		{
-			this.Slot = 0;
-			foreach (var gem in this.Components)
-			{
-				gem.UseCount--;
-				if (gem.UseCount == 0)
-				{
-					gem.Slot = -1;
-				}
-			}
-		}
 		#endregion
 
 		#region Public Override Methods
-		public override string ToString() => string.Format(CultureInfo.CurrentCulture, "Grade {0} {1}", this.GradeGrowth + 1, this.Color);
+		public override string ToString() => string.Format(CultureInfo.CurrentCulture, "Grade {0} {1}", this.Grade + 1, this.Color);
 		#endregion
 
 		#region Private Static Methods

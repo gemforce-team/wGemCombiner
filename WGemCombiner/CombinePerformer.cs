@@ -53,6 +53,12 @@
 		public event EventHandler<int> StepComplete;
 		#endregion
 
+		#region Public Static Properties
+		public static int SlotUninitialized { get; } = -2;
+
+		public static int SlotNoLongerUsed { get; } = -1;
+		#endregion
+
 		#region Public Properties
 		public IReadOnlyCollection<Gem> BaseGems
 		{
@@ -309,7 +315,7 @@
 			// In limited experiments, the mouse drag operations seemed to be the most prone to failure when Gemcraft was laggy, so I originally added a bit of extra sleep time both before and after the mouse moves. This may not be necessary, per the note at case ActionType.Combine. Needs further testing.
 			this.CancelCombine = false;
 			cursorStart = Cursor.Position;
-			if ( Settings.Default.HidePanels)
+			if (Settings.Default.HidePanels)
 			{
 				PressKey(KeyDot); // hide info box
 			}

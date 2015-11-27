@@ -131,6 +131,7 @@
     </Compile>
     <Compile Include="Globals.cs" />
     <Compile Include="Instruction.cs" />
+    <Compile Include="InstructionCollection.cs" />
     <Compile Include="NewGemTester.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -392,6 +393,7 @@
     <None Include="Resources\yellow\yellow7c" />
     <None Include="Resources\yellow\yellow8192c" />
     <None Include="Resources\yellow\yellow8c" />
+    <None Include="WGemCombiner.ruleset" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

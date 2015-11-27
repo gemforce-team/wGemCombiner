@@ -26,7 +26,6 @@
 	public class Gem : Collection<Gem>
 	{
 		#region Static Fields
-		// private static Regex equationLine = new Regex(@"\(val=\d+\)\t?\d+=(<lhs>\d+)\+(<rhs>\d+)");
 		private static SortedDictionary<char, GemColors> gemTypes = new SortedDictionary<char, GemColors>()
 		{
 			['b'] = GemColors.Black,

@@ -86,10 +86,6 @@
 		public static int Slot1A { get; } = 0;
 
 		public static int Slot12C { get; } = 35;
-
-		public static int SlotUninitialized { get; } = -2;
-
-		public static int SlotNoLongerUsed { get; } = -1;
 		#endregion
 
 		#region Public Properties
