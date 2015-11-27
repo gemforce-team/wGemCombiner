@@ -9,10 +9,10 @@
 
 	// New class for combining gems; made distinct from CombinePerformer so that class can strictly be about interacting with GC while this one is for internal use
 	[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix", Justification = "Represents a concrete concept rather than a simply a GemCollection.")]
-	public class Combine : List<GemNew>
+	internal class Combine : List<GemNew>
 	{
 		#region Static Fields
-		private static Regex equationParser = new Regex(@"(?<index>\d+)=((?<lhs>\d+)\s*\+\s*(?<rhs>\d+)|g?\d*\s*(?<letter>[bkmory]))");
+		private static Regex equationParser = new Regex(@"(?<index>\d+)\s*=\s*((?<lhs>\d+)\s*\+\s*(?<rhs>\d+)|g?\d*\s*(?<letter>[bkmory]))");
 		private static Regex gemPower = new Regex(@"g?(?<num>[0-9]+)\s*(?<color>([a-z]|\([a-z]+\)))");
 		#endregion
 
@@ -40,27 +40,6 @@
 		#endregion
 
 		#region Public Properties
-		public IReadOnlyCollection<GemNew> BaseGems
-		{
-			get
-			{
-				var list = new List<GemNew>();
-				foreach (var gem in this)
-				{
-					if (gem.IsBaseGem)
-					{
-						list.Add(gem);
-					}
-					else
-					{
-						break;
-					}
-				}
-
-				return list;
-			}
-		}
-
 		public GemNew Result
 		{
 			get
@@ -149,7 +128,7 @@
 			var index = int.Parse(match.Groups["index"].Value, CultureInfo.InvariantCulture);
 			if (index != this.Count)
 			{
-				throw new ArgumentException(string.Format("Index in equation {0} does not match current gem count of {1}.", index, this.Count));
+				throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, "Index in equation {0} does not match current gem count of {1}.", index, this.Count));
 			}
 
 			var letter = match.Groups["letter"].Value;
@@ -195,45 +174,13 @@
 				}
 				else
 				{
-					if (gem.Components[0].EarliestUsed == 0)
-					{
-						gem.Components[0].EarliestUsed = i;
-					}
-
-					if (gem.Components[1].EarliestUsed == 0)
-					{
-						gem.Components[1].EarliestUsed = i;
-					}
-
 					gem.Slot = NotSlotted;
 				}
 			}
 
 			// No guarantee that base gems are all in the lowest equations, so start at 0.
-			this.Result.UseCount = 1;
-			while (this.Result.Slot < 0)
-			{
-				var index = this.GetPreferredGemIndex();
-				var gem = this[index];
-				gem.Components[0].UseCount--;
-				gem.Components[1].UseCount--;
-				if (gem.IsUpgrade)
-				{
-					instructions.Upgrade(gem, instructions.DuplicateIfNeeded(gem.Components[0]));
-				}
-				else
-				{
-					instructions.Combine(gem, instructions.DuplicateIfNeeded(gem.Components[0]), instructions.DuplicateIfNeeded(gem.Components[1]));
-				}
-
-				foreach (var component in gem.Components)
-				{
-					if (component.UseCount == 0)
-					{
-						component.Slot = NotSlotted;
-					}
-				}
-			}
+			// this.Result.UseCount = 1;
+			this.BuildGem(this.Result, instructions);
 
 			return instructions;
 		}
@@ -288,6 +235,90 @@
 		#endregion
 
 		#region Private Methods
+		// Select the costliest branch of a gem and build it.
+		private void BuildGem(GemNew gem, InstructionCollection instructions)
+		{
+			var gem1 = gem.Components[0];
+			var gem2 = gem.Components[1];
+			if (gem2.Cost > gem1.Cost)
+			{
+				var temp = gem1;
+				gem1 = gem2;
+				gem2 = temp;
+			}
+
+			if (gem1.IsNeeded)
+			{
+				this.BuildGem(gem1, instructions);
+			}
+
+			if (gem2.IsNeeded)
+			{
+				this.BuildGem(gem2, instructions);
+			}
+
+			// Gem may have already been pre-built due to optimizations after dupeHappened.
+			if (!gem.IsNeeded)
+			{
+				return;
+			}
+
+			Debug.WriteLine("(val={0}) {1}={2}+{3}", gem.Cost, this.IndexOf(gem), this.IndexOf(gem.Components[0]), this.IndexOf(gem.Components[1]));
+			gem.Components[0].UseCount--;
+			gem.Components[1].UseCount--;
+			var dupeHappened = gem.IsUpgrade ? instructions.Upgrade(gem) : instructions.Combine(gem);
+			if (dupeHappened)
+			{
+				// While either of these optimizations happened, try again until all optimizations have been handled.
+				// bool repeatOptimization;
+				// do
+				// {
+					// repeatOptimization = false;
+					bool foundOne;
+					do
+					{
+						foundOne = false;
+						foreach (var listGem in this)
+						{
+							if (listGem.IsNeeded && listGem.LastTwo)
+							{
+								// repeatOptimization = true;
+								foundOne = true;
+								this.BuildGem(listGem, instructions);
+							}
+						}
+					}
+					while (foundOne);
+
+					do
+					{
+						foundOne = false;
+						foreach (var listGem in this)
+						{
+							if (listGem.IsNeeded && (listGem.Components[0].Slot >= 0 && listGem.Components[0].UseCount == 1 || listGem.Components[1].Slot >= 0 && listGem.Components[1].UseCount == 1))
+							{
+								// repeatOptimization = true;
+								foundOne = true;
+								this.BuildGem(listGem, instructions);
+							}
+						}
+					}
+					while (foundOne);
+				// }
+				// while (repeatOptimization);
+			}
+
+			foreach (var component in gem.Components)
+			{
+				if (component.UseCount == 0)
+				{
+					component.Slot = NotSlotted;
+				}
+			}
+		}
+
+		/*
+		// Logic was too primitive and resulted in very unoptimal builds. First portion might have some use in the future, though, since it establishes what we have no choice but to build during the first steps.
 		private int GetPreferredGemIndex()
 		{
 			var canCreate = new List<int>();
@@ -308,24 +339,8 @@
 				Debug.WriteLine(canCreate[0]);
 				return canCreate[0];
 			}
-
-			// TODO: Logic is primitive and may need tweaking. Experiment on different formulae to see if this is sufficient or not.
-			var bestGemIndex = -1;
-			var bestGemScore = 10000;
-			foreach (var gemIndex in canCreate)
-			{
-				var gem = this[gemIndex];
-				var gemScore = gem.EarliestUsed;
-				if (gemScore < bestGemScore)
-				{
-					bestGemScore = gemScore;
-					bestGemIndex = gemIndex;
-				}
-			}
-
-			Debug.WriteLine(bestGemIndex);
-			return bestGemIndex;
 		}
+		*/
 		#endregion
 	}
 }

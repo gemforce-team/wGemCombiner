@@ -30,6 +30,7 @@
 		{
 			this.button1 = new System.Windows.Forms.Button();
 			this.textBox1 = new System.Windows.Forms.TextBox();
+			this.textBoxInput = new System.Windows.Forms.TextBox();
 			this.SuspendLayout();
 			// 
 			// button1
@@ -48,18 +49,32 @@
 			this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.textBox1.Location = new System.Drawing.Point(12, 42);
+			this.textBox1.Location = new System.Drawing.Point(12, 290);
 			this.textBox1.Multiline = true;
 			this.textBox1.Name = "textBox1";
 			this.textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.textBox1.Size = new System.Drawing.Size(301, 512);
+			this.textBox1.Size = new System.Drawing.Size(301, 264);
 			this.textBox1.TabIndex = 1;
+			// 
+			// textBoxInput
+			// 
+			this.textBoxInput.AcceptsReturn = true;
+			this.textBoxInput.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.textBoxInput.Location = new System.Drawing.Point(12, 41);
+			this.textBoxInput.Multiline = true;
+			this.textBoxInput.Name = "textBoxInput";
+			this.textBoxInput.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+			this.textBoxInput.Size = new System.Drawing.Size(301, 243);
+			this.textBoxInput.TabIndex = 2;
 			// 
 			// NewGemTester
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(325, 566);
+			this.Controls.Add(this.textBoxInput);
 			this.Controls.Add(this.textBox1);
 			this.Controls.Add(this.button1);
 			this.Name = "NewGemTester";
@@ -73,5 +88,6 @@
 
 		private System.Windows.Forms.Button button1;
 		private System.Windows.Forms.TextBox textBox1;
+		private System.Windows.Forms.TextBox textBoxInput;
 	}
 }

@@ -2,6 +2,7 @@
 {
 	using System;
 	using System.Collections.Generic;
+	using System.Diagnostics;
 	using System.Globalization;
 	using static Globals;
 
@@ -129,8 +130,6 @@
 
 		public int Cost { get; set; }
 
-		public int EarliestUsed { get; set; }
-
 		public IEnumerable<GemNew> GemList { get; }
 
 		public int Grade { get; }
@@ -139,7 +138,11 @@
 
 		public bool IsBaseGem => this.Grade == 0;
 
+		public bool IsNeeded => this.Slot < 0 && this.UseCount > 0;
+
 		public bool IsUpgrade => this.Components[0] == this.Components[1];
+
+		public bool LastTwo => this.IsUpgrade ? this.Components[0].Slot >= 0 && this.Components[0].UseCount == 2 : this.Components[0].Slot >= 0 && this.Components[0].UseCount == 1 && this.Components[1].Slot >= 0 && this.Components[1].UseCount == 1;
 
 		public double Power
 		{
@@ -159,28 +162,6 @@
 						return this.damage * this.critMult * this.blood * this.blood; // 1+blood makes no sense, g1 bb is set to 1 by convention
 					default:
 						return 0; // Red have no mana or kill power
-				}
-			}
-		}
-
-		/// <summary>Gets the slot requirement to create this gem NOT accounting for the possible need to duplicate any gems along the way.</summary>
-		public int SlotRequirement
-		{
-			get
-			{
-				if (this.Slot < 0)
-				{
-					int slots = 0;
-					foreach (var component in this.Components)
-					{
-						slots += component.SlotRequirement;
-					}
-
-					return slots;
-				}
-				else
-				{
-					return 1; // If we're already in a slot, we obviously take up a single slot.
 				}
 			}
 		}

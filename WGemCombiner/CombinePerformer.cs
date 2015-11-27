@@ -525,6 +525,7 @@
 			for (int combinedIndex = this.BaseGems.Count; combinedIndex < this.combined.Count; combinedIndex++)
 			{
 				var gem = this.combined[combinedIndex];
+				Debug.WriteLine("(val={0}) {1}={2}+{3}", gem.Cost, this.combined.IndexOf(gem), this.combined.IndexOf(gem[0]), this.combined.IndexOf(gem[1]));
 				var slots = new List<int>();
 				foreach (var component in gem)
 				{
@@ -713,6 +714,7 @@
 				this.ResultGem = new Gem(this.combined[num1], this.combined[num2]);
 				this.ResultGem.Id = newNum;
 				this.combined.Add(this.ResultGem);
+				Debug.WriteLine(string.Format("(val={0}) {1}={2}+{3}", this.ResultGem.Cost, newNum, gem1, gem2));
 				formula = formula.Replace("(" + gem1 + "+" + gem2 + ")", newNum.ToString(CultureInfo.InvariantCulture));
 
 				plus = formula.IndexOf('+');

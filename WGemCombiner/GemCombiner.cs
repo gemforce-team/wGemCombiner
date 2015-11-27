@@ -310,15 +310,8 @@
 
 		private void TestButton_Click(object sender, EventArgs e)
 		{
-			try
-			{
-				var testForm = Activator.CreateInstance(Type.GetType("WGemCombiner.NewGemTester")) as Form;
-				testForm.Show();
-			}
-			catch (Exception ex)
-			{
-				MessageBox.Show("This button is for testing only and will not work for anyone else.");
-			}
+			var testForm = new NewGemTester();
+			testForm.Show();
 		}
 	}
 }
