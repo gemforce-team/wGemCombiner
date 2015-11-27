@@ -74,7 +74,7 @@
 
 			if (this.combinePerformer == null)
 			{
-				this.getInstructionsButton.PerformClick();
+				this.parseRecipeButton.PerformClick();
 			}
 
 			this.combineButton.Text = "Press " + SettingsHandler.HotkeyText + " on A1"; // hotkey
@@ -114,7 +114,7 @@
 				var gem = this.recipes[this.colorComboBox.Text][this.combineComboBox.Text];
 				var result = gem.GetFullCombine();
 				this.formulaInputRichTextBox.Text = result;
-				this.GetInstructionsButton_Click(this, EventArgs.Empty); // Auto-load instructions, so u don't have to even press that button
+				this.ParseRecipeButton_Click(this, EventArgs.Empty); // Auto-load instructions, so u don't have to even press that button
 				this.combineButton.PerformClick(); // Auto-load the combine button so all u have to press is "9" over the gem
 			}
 		}
@@ -179,7 +179,7 @@
 			}
 		}
 
-		private void GetInstructionsButton_Click(object sender, EventArgs e)
+		private void ParseRecipeButton_Click(object sender, EventArgs e)
 		{
 			var parsedText = this.formulaInputRichTextBox.Text;
 			if (parsedText.Contains("-combine:"))

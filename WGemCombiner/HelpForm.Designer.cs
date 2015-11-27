@@ -64,6 +64,7 @@
 			this.helpMessageTextBox.Size = new System.Drawing.Size(428, 476);
 			this.helpMessageTextBox.TabIndex = 6;
 			this.helpMessageTextBox.Text = "";
+			this.helpMessageTextBox.LinkClicked += new System.Windows.Forms.LinkClickedEventHandler(this.HelpMessageTextBox_LinkClicked);
 			// 
 			// bufferedTableLayoutPanel1
 			// 

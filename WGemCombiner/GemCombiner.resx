@@ -147,37 +147,37 @@
     <value>18</value>
   </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="getInstructionsButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+  <data name="parseRecipeButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Left</value>
   </data>
-  <data name="getInstructionsButton.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+  <data name="parseRecipeButton.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
     <value>System</value>
   </data>
-  <data name="getInstructionsButton.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+  <data name="parseRecipeButton.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="getInstructionsButton.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="parseRecipeButton.Location" type="System.Drawing.Point, System.Drawing">
     <value>18, 179</value>
   </data>
-  <data name="getInstructionsButton.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="parseRecipeButton.Size" type="System.Drawing.Size, System.Drawing">
     <value>183, 23</value>
   </data>
-  <data name="getInstructionsButton.TabIndex" type="System.Int32, mscorlib">
+  <data name="parseRecipeButton.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
   </data>
-  <data name="getInstructionsButton.Text" xml:space="preserve">
+  <data name="parseRecipeButton.Text" xml:space="preserve">
     <value>Parse custom recipe</value>
   </data>
-  <data name="&gt;&gt;getInstructionsButton.Name" xml:space="preserve">
-    <value>getInstructionsButton</value>
+  <data name="&gt;&gt;parseRecipeButton.Name" xml:space="preserve">
+    <value>parseRecipeButton</value>
   </data>
-  <data name="&gt;&gt;getInstructionsButton.Type" xml:space="preserve">
+  <data name="&gt;&gt;parseRecipeButton.Type" xml:space="preserve">
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;getInstructionsButton.Parent" xml:space="preserve">
+  <data name="&gt;&gt;parseRecipeButton.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;getInstructionsButton.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;parseRecipeButton.ZOrder" xml:space="preserve">
     <value>17</value>
   </data>
   <data name="instructionsListBox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
@@ -6883,9 +6883,6 @@
         AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
         AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
 </value>
-  </data>
-  <data name="$this.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
   </data>
   <data name="$this.MinimumSize" type="System.Drawing.Size, System.Drawing">
     <value>400, 405</value>

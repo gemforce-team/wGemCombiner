@@ -30,7 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GemCombiner));
             this.schemeLabel = new System.Windows.Forms.Label();
-            this.getInstructionsButton = new System.Windows.Forms.Button();
+            this.parseRecipeButton = new System.Windows.Forms.Button();
             this.instructionsListBox = new System.Windows.Forms.ListBox();
             this.instructionsLabel = new System.Windows.Forms.Label();
             this.combineButton = new System.Windows.Forms.Button();
@@ -59,11 +59,11 @@
             resources.ApplyResources(this.schemeLabel, "schemeLabel");
             this.schemeLabel.Name = "schemeLabel";
             // 
-            // getInstructionsButton
+            // parseRecipeButton
             // 
-            resources.ApplyResources(this.getInstructionsButton, "getInstructionsButton");
-            this.getInstructionsButton.Name = "getInstructionsButton";
-            this.getInstructionsButton.Click += new System.EventHandler(this.GetInstructionsButton_Click);
+            resources.ApplyResources(this.parseRecipeButton, "parseRecipeButton");
+            this.parseRecipeButton.Name = "parseRecipeButton";
+            this.parseRecipeButton.Click += new System.EventHandler(this.ParseRecipeButton_Click);
             // 
             // instructionsListBox
             // 
@@ -213,7 +213,7 @@
             this.Controls.Add(this.combineButton);
             this.Controls.Add(this.instructionsLabel);
             this.Controls.Add(this.instructionsListBox);
-            this.Controls.Add(this.getInstructionsButton);
+            this.Controls.Add(this.parseRecipeButton);
             this.Controls.Add(this.schemeLabel);
             this.Controls.Add(this.copyListButton);
             this.DoubleBuffered = true;
@@ -232,7 +232,7 @@
         #endregion
 
         private System.Windows.Forms.Label schemeLabel;
-        private System.Windows.Forms.Button getInstructionsButton;
+        private System.Windows.Forms.Button parseRecipeButton;
         private System.Windows.Forms.ListBox instructionsListBox;
         private System.Windows.Forms.Label instructionsLabel;
         private System.Windows.Forms.Button combineButton;
@@ -248,10 +248,10 @@
         private System.Windows.Forms.ComboBox colorComboBox;
         private System.Windows.Forms.OpenFileDialog importFileDialog;
         private System.Windows.Forms.Label gemLocationsLabel;
-		private System.Windows.Forms.TextBox baseGemsTextBox;
-		private System.Windows.Forms.Label resultLabel;
-		private System.Windows.Forms.RichTextBox formulaInputRichTextBox;
-		private System.Windows.Forms.Button testButton;
-	}
+        private System.Windows.Forms.TextBox baseGemsTextBox;
+        private System.Windows.Forms.Label resultLabel;
+        private System.Windows.Forms.RichTextBox formulaInputRichTextBox;
+        private System.Windows.Forms.Button testButton;
+    }
 }
 
