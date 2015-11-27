@@ -118,16 +118,18 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="HelpCombinerMessage" xml:space="preserve">
-    <value>Paste gem combining equations or a parenthesis formula into the text box, then click 'Get Instructions'.
+    <value>Paste gem combining equations or parenthesis formula into the text box, then click the 'Parse custom recipe' button.
 
 Set the 'delay' to at LEAST as many milliseconds as a frame on GC2 is taking. I recommend at least 45-50 for no lag (it will usually work with much lower, but going any lower than the frame time will not actually speed up the process, as the game will only do one step per frame).
 
-Game gem info tooltips will be hidden and reshown after the combine ("."), be sure to have them activated before combining
+Game gem info tooltips have to be hidden during the combine.
+The combiner will automatically hide them and reshow after the combine ('.'), unless configured differently in the options.
 
 To have the program perform the combining method:
-- Place the base gem in the bottom-right inventory slot. Empty inventory up to as many slots as the combine requires
-- Choose the Combine Spec and Amount
-- Hover your cursor over the base gem
+- Place the base gem(s) in the bottom-right inventory slot(s), following the base gems box instructions
+- Empty the inventory up to as many slots as the combine requires
+- Press the 'Combine' button
+- Hover your cursor over the rightmost base gem
 - Press the '{0}' key.
 
 You can cancel the combine by pressing the 'Escape' key (you may have to hold it for a second with lag). Using a delay lower than GC2's frame time will cause input to be ahead of what you see happening, and so canceling may appear to not work. If your cursor has stopped moving, the program has stopped.
@@ -135,16 +137,16 @@ You can cancel the combine by pressing the 'Escape' key (you may have to hold it
 The displayed list of instructions should be pretty self-explanatory. 1A is bottom-right, 1C is bottom-left, 12C is top-left.</value>
   </data>
   <data name="HelpCombinerTitle" xml:space="preserve">
-    <value>Working with the combiner</value>
+    <value>Working with the combiner - custom recipes</value>
   </data>
   <data name="HelpCreditsMessage" xml:space="preserve">
-    <value>Gem Combiner was made by Suuper.
+    <value>Contributors (alphabetic order):
+- 12345ieee: some spec parsing, preset recipes
+- CooLTanG: automate the 'Get Instructions' &amp; 'Combine' steps, fix window size/resolution issues, customizable hotkey
+- Hellrage: some GUI tweaks, skin, small bug fixes, preset and resource management
+- Suuper: original author, initial idea, main program logic
+- RobinHood70: code cleaning and revamping; partial localization support
 
-Contributors:
-- 12345ieee (some spec parsing, preset recipes)
-- CooLTanG (Automate the 'Get Instructions' &amp; 'Combine' steps, fix window size/resolution issues, customizable hotkey)
-- Hellrage (some GUI tweaks, skin, small bug fixes, preset and resource management)
-- RobinHood70 (code cleaning and revamping; partial localization support)
 
 Release version: {0}
 
@@ -160,17 +162,20 @@ https://github.com/gemforce-team/wGemCombiner#credits
   </data>
   <data name="HelpImportingPresetsMessage" xml:space="preserve">
     <value>In debug mode you can import new presets from a .txt file with recipes.
-Your txt must contain one recipe per line. The recipes have to be valid parenthesis formulas (not equations). The parser is somewhat robust but i wouldn't test it too hard :)
-To start importing, choose the "Import..." option from the Preset drop-down, then choose the .txt file with recipes.</value>
+
+Your txt must contain one recipe per line. The recipes have to be valid parenthesis formulas (not equations).
+The parser is somewhat robust but i wouldn't test it too hard :)
+
+To start importing, choose the 'Import...' option from the Preset drop-down, then choose the .txt file with recipes.</value>
   </data>
   <data name="HelpImportingPresetsTitle" xml:space="preserve">
     <value>Importing New Presets</value>
   </data>
   <data name="HelpInputFormatMessage" xml:space="preserve">
     <value>Example of combining equations:
-(val = 1)\t0 = g1 orange
-(val = 2)\t1 = 0 + 0
-(val = 3)\t2 = 1 + 0
+(val = 1)	0 = g1 orange
+(val = 2)	1 = 0 + 0
+(val = 3)	2 = 1 + 0
 Works if you have first gem as '1' and second as '2', etc, as well.
 
 Example of parenthesis formula:
@@ -182,13 +187,17 @@ or
 If zeros are present they are treated as 1s and 1s as 2s.</value>
   </data>
   <data name="HelpInputFormatTitle" xml:space="preserve">
-    <value>Input Format</value>
+    <value>Input Formats</value>
   </data>
   <data name="HelpPresetsMessage" xml:space="preserve">
-    <value>Preset schemes are supported. To use one, first select a color + combine/spec from the top drop-down list.
-After selecting a color + combine/spec, the second drop-down list will display the preset options. First number is number of base gems, second number is the growth rate. Ones marked with a '-' are 2^n combines [over 8], and are NEVER the best for growth rate per cost (included for convenience if you want easily comparable gem costs). Selecting a preset will change the textbox's text. This text is used to combine, not the preset. Any changes to the text displayed will affect the combine.
+    <value>Preset schemes are supported.
+To use one, first select a color + combine/spec from the top drop-down list.
 
-Kg/Yellow and Mg/Orange combines are set to both use the same number of base gems, so that they can be used easily for gem and amps. Note that the preset combines are optimized for different combines between gem and amps, the optimal combines for a whole setup aren't included, but will be very similar to the gem ones.</value>
+After selecting a color + combine/spec, the second drop-down list will display the preset options. First number is number of base gems, second number is the growth rate. Ones marked with a '-' are 2^n combines [over 8], and are rarely the best for growth rate up to that cost, they are included for convenience if you want easily comparable gem costs.
+Selecting a preset will change the textbox's text. This text is used to combine, not the preset. Any changes to the text displayed will affect the combine.
+
+Kg/Yellow and Mg/Orange combines are set to both use the same number of base gems, so that they can be used easily for gem and amps.
+FIXME - Note that the preset combines are optimized for different combines between gem and amps, the optimal combines for a whole setup aren't included, but will be very similar to the gem ones.</value>
   </data>
   <data name="HelpPresetsTitle" xml:space="preserve">
     <value>Presets</value>
@@ -196,18 +205,17 @@ Kg/Yellow and Mg/Orange combines are set to both use the same number of base gem
   <data name="HelpSpeccingMessage" xml:space="preserve">
     <value>Gem Combiner now supports speccing.
 To spec, place base gems of different color in 1A, 1B, and 1C.
-
 Order of colors, starting at 1A, should be: orange/yellow, black, red.
-
 Speccing provides another way of squeezing red out of a gem. Simply select your mana/kill gem combine and replace one of the 'k' or 'm' with another (valid) color's letter. Be sure you have your two gems in the proper slots, though!
 
 EXAMPLE:
 Pick Mana Gem Spec
 Choose the default 8 pattern
-Put orange grade 1 in 1A(bottom right slot)
-Put black or White gem grade 1 in 1B (bottom middle slot)
-Put red gem grade 1 in 1C (bottom left slot)
+Put orange grade 1 in 1A (bottom right slot)
+Put black grade 1 in 1B (bottom middle slot)
+Put red grade 1 in 1C (bottom left slot)
 Press '{0}' with your cursor over the orange gem in 1A
+
 Enjoy!</value>
   </data>
   <data name="HelpSpeccingTitle" xml:space="preserve">

@@ -61,11 +61,12 @@ namespace WGemCombiner.Resources {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Paste gem combining equations or a parenthesis formula into the text box, then click &apos;Get Instructions&apos;.
+        ///   Cerca una stringa localizzata simile a Paste gem combining equations or parenthesis formula into the text box, then click the &apos;Parse custom recipe&apos; button.
         ///
         ///Set the &apos;delay&apos; to at LEAST as many milliseconds as a frame on GC2 is taking. I recommend at least 45-50 for no lag (it will usually work with much lower, but going any lower than the frame time will not actually speed up the process, as the game will only do one step per frame).
         ///
-        ///Game gem info tooltips will be hidden and reshown after the combine (&quot;.&quot;), be sure to have them activated before combini [stringa troncata]&quot;;.
+        ///Game gem info tooltips have to be hidden during the combine.
+        ///The combiner will automatically hide them and  [stringa troncata]&quot;;.
         /// </summary>
         internal static string HelpCombinerMessage {
             get {
@@ -74,7 +75,7 @@ namespace WGemCombiner.Resources {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Working with the combiner.
+        ///   Cerca una stringa localizzata simile a Working with the combiner - custom recipes.
         /// </summary>
         internal static string HelpCombinerTitle {
             get {
@@ -83,20 +84,18 @@ namespace WGemCombiner.Resources {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Gem Combiner was made by Suuper.
+        ///   Cerca una stringa localizzata simile a Contributors (alphabetic order):
+        ///- 12345ieee: some spec parsing, preset recipes
+        ///- CooLTanG: automate the &apos;Get Instructions&apos; &amp; &apos;Combine&apos; steps, fix window size/resolution issues, customizable hotkey
+        ///- Hellrage: some GUI tweaks, skin, small bug fixes, preset and resource management
+        ///- Suuper: original author, initial idea, main program logic
+        ///- RobinHood70: code cleaning and revamping; partial localization support
         ///
-        ///Contributors:
-        ///- 12345ieee (some spec parsing, preset recipes)
-        ///- CooLTanG (Automate the &apos;Get Instructions&apos; &amp; &apos;Combine&apos; steps, fix window size/resolution issues, customizable hotkey)
-        ///- Hellrage (some GUI tweaks, skin, small bug fixes, preset and resource management)
-        ///- RobinHood70 (code cleaning and revamping; partial localization support)
         ///
         ///Release version: {0}
         ///
         ///To report a problem, see
-        ///https://github.com/gemforce-team/wGemCombiner#report-bugs
-        ///
-        ///If you wish to cont [stringa troncata]&quot;;.
+        ///https://github.com/gemforce-team/wGemC [stringa troncata]&quot;;.
         /// </summary>
         internal static string HelpCreditsMessage {
             get {
@@ -115,8 +114,11 @@ namespace WGemCombiner.Resources {
         
         /// <summary>
         ///   Cerca una stringa localizzata simile a In debug mode you can import new presets from a .txt file with recipes.
-        ///Your txt must contain one recipe per line. The recipes have to be valid parenthesis formulas (not equations). The parser is somewhat robust but i wouldn&apos;t test it too hard :)
-        ///To start importing, choose the &quot;Import...&quot; option from the Preset drop-down, then choose the .txt file with recipes..
+        ///
+        ///Your txt must contain one recipe per line. The recipes have to be valid parenthesis formulas (not equations).
+        ///The parser is somewhat robust but i wouldn&apos;t test it too hard :)
+        ///
+        ///To start importing, choose the &apos;Import...&apos; option from the Preset drop-down, then choose the .txt file with recipes..
         /// </summary>
         internal static string HelpImportingPresetsMessage {
             get {
@@ -135,9 +137,9 @@ namespace WGemCombiner.Resources {
         
         /// <summary>
         ///   Cerca una stringa localizzata simile a Example of combining equations:
-        ///(val = 1)\t0 = g1 orange
-        ///(val = 2)\t1 = 0 + 0
-        ///(val = 3)\t2 = 1 + 0
+        ///(val = 1)	0 = g1 orange
+        ///(val = 2)	1 = 0 + 0
+        ///(val = 3)	2 = 1 + 0
         ///Works if you have first gem as &apos;1&apos; and second as &apos;2&apos;, etc, as well.
         ///
         ///Example of parenthesis formula:
@@ -155,7 +157,7 @@ namespace WGemCombiner.Resources {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Input Format.
+        ///   Cerca una stringa localizzata simile a Input Formats.
         /// </summary>
         internal static string HelpInputFormatTitle {
             get {
@@ -164,8 +166,11 @@ namespace WGemCombiner.Resources {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Preset schemes are supported. To use one, first select a color + combine/spec from the top drop-down list.
-        ///After selecting a color + combine/spec, the second drop-down list will display the preset options. First number is number of base gems, second number is the growth rate. Ones marked with a &apos;-&apos; are 2^n combines [over 8], and are NEVER the best for growth rate per cost (included for convenience if you want easily comparable gem costs). Selecting a preset will change the textbox&apos;s text. This text is used [stringa troncata]&quot;;.
+        ///   Cerca una stringa localizzata simile a Preset schemes are supported.
+        ///To use one, first select a color + combine/spec from the top drop-down list.
+        ///
+        ///After selecting a color + combine/spec, the second drop-down list will display the preset options. First number is number of base gems, second number is the growth rate. Ones marked with a &apos;-&apos; are 2^n combines [over 8], and are rarely the best for growth rate up to that cost, they are included for convenience if you want easily comparable gem costs.
+        ///Selecting a preset will change the textbox&apos;s tex [stringa troncata]&quot;;.
         /// </summary>
         internal static string HelpPresetsMessage {
             get {
@@ -185,15 +190,13 @@ namespace WGemCombiner.Resources {
         /// <summary>
         ///   Cerca una stringa localizzata simile a Gem Combiner now supports speccing.
         ///To spec, place base gems of different color in 1A, 1B, and 1C.
-        ///
         ///Order of colors, starting at 1A, should be: orange/yellow, black, red.
-        ///
         ///Speccing provides another way of squeezing red out of a gem. Simply select your mana/kill gem combine and replace one of the &apos;k&apos; or &apos;m&apos; with another (valid) color&apos;s letter. Be sure you have your two gems in the proper slots, though!
         ///
         ///EXAMPLE:
         ///Pick Mana Gem Spec
         ///Choose the default 8 pattern
-        ///Put orange grade 1 in 1A(bottom right s [stringa troncata]&quot;;.
+        ///Put orange grade 1 in 1A (bottom right slot [stringa troncata]&quot;;.
         /// </summary>
         internal static string HelpSpeccingMessage {
             get {
