@@ -202,7 +202,14 @@
 			}
 
 			this.resultLabel.Text = this.combinePerformer.ResultGem.DisplayInfo(false, this.combinePerformer.SlotsRequired);
-			this.baseGemsTextBox.Text = this.combinePerformer.BaseGemText;
+			this.baseGemsListBox.Items.Clear();
+			int ngem = 0;
+			foreach (var gem in this.combinePerformer.BaseGems)
+			{
+				this.baseGemsListBox.Items.Add(SlotName(ngem) + ": " + gem.ColorName);
+				ngem++;
+			}
+
 			this.instructionsListBox.Items.Clear();
 			var items = this.instructionsListBox.Items;
 			var instructions = this.combinePerformer.Instructions;

@@ -46,10 +46,10 @@
             this.colorComboBox = new System.Windows.Forms.ComboBox();
             this.importFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.gemLocationsLabel = new System.Windows.Forms.Label();
-            this.baseGemsTextBox = new System.Windows.Forms.TextBox();
             this.resultLabel = new System.Windows.Forms.Label();
             this.formulaInputRichTextBox = new System.Windows.Forms.RichTextBox();
             this.testButton = new System.Windows.Forms.Button();
+            this.baseGemsListBox = new System.Windows.Forms.ListBox();
             ((System.ComponentModel.ISupportInitialize)(this.delayNumeric)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.stepNumeric)).BeginInit();
             this.SuspendLayout();
@@ -169,11 +169,6 @@
             resources.ApplyResources(this.gemLocationsLabel, "gemLocationsLabel");
             this.gemLocationsLabel.Name = "gemLocationsLabel";
             // 
-            // baseGemsTextBox
-            // 
-            resources.ApplyResources(this.baseGemsTextBox, "baseGemsTextBox");
-            this.baseGemsTextBox.Name = "baseGemsTextBox";
-            // 
             // resultLabel
             // 
             resources.ApplyResources(this.resultLabel, "resultLabel");
@@ -192,14 +187,20 @@
             this.testButton.Name = "testButton";
             this.testButton.Click += new System.EventHandler(this.TestButton_Click);
             // 
+            // baseGemsListBox
+            // 
+            resources.ApplyResources(this.baseGemsListBox, "baseGemsListBox");
+            this.baseGemsListBox.FormattingEnabled = true;
+            this.baseGemsListBox.Name = "baseGemsListBox";
+            // 
             // GemCombiner
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.baseGemsListBox);
             this.Controls.Add(this.testButton);
             this.Controls.Add(this.formulaInputRichTextBox);
             this.Controls.Add(this.resultLabel);
-            this.Controls.Add(this.baseGemsTextBox);
             this.Controls.Add(this.gemLocationsLabel);
             this.Controls.Add(this.combineComboBox);
             this.Controls.Add(this.colorComboBox);
@@ -248,10 +249,10 @@
         private System.Windows.Forms.ComboBox colorComboBox;
         private System.Windows.Forms.OpenFileDialog importFileDialog;
         private System.Windows.Forms.Label gemLocationsLabel;
-        private System.Windows.Forms.TextBox baseGemsTextBox;
         private System.Windows.Forms.Label resultLabel;
         private System.Windows.Forms.RichTextBox formulaInputRichTextBox;
         private System.Windows.Forms.Button testButton;
+        private System.Windows.Forms.ListBox baseGemsListBox;
     }
 }
 

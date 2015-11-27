@@ -157,7 +157,7 @@
     <value>NoControl</value>
   </data>
   <data name="parseRecipeButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>18, 179</value>
+    <value>18, 166</value>
   </data>
   <data name="parseRecipeButton.Size" type="System.Drawing.Size, System.Drawing">
     <value>183, 23</value>
@@ -187,7 +187,7 @@
     <value>218, 29</value>
   </data>
   <data name="instructionsListBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>149, 199</value>
+    <value>149, 186</value>
   </data>
   <data name="instructionsListBox.TabIndex" type="System.Int32, mscorlib">
     <value>21</value>
@@ -211,7 +211,7 @@
     <value>True</value>
   </data>
   <data name="instructionsLabel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>218, 13</value>
+    <value>215, 13</value>
   </data>
   <data name="instructionsLabel.Size" type="System.Drawing.Size, System.Drawing">
     <value>64, 13</value>
@@ -241,7 +241,7 @@
     <value>System</value>
   </data>
   <data name="combineButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>21, 332</value>
+    <value>18, 319</value>
   </data>
   <data name="combineButton.Size" type="System.Drawing.Size, System.Drawing">
     <value>128, 23</value>
@@ -271,7 +271,7 @@
     <value>True</value>
   </data>
   <data name="delayLabel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>18, 290</value>
+    <value>15, 277</value>
   </data>
   <data name="delayLabel.Size" type="System.Drawing.Size, System.Drawing">
     <value>37, 13</value>
@@ -298,7 +298,7 @@
     <value>Bottom, Left</value>
   </data>
   <data name="delayNumeric.Location" type="System.Drawing.Point, System.Drawing">
-    <value>21, 306</value>
+    <value>18, 293</value>
   </data>
   <data name="delayNumeric.Size" type="System.Drawing.Size, System.Drawing">
     <value>57, 20</value>
@@ -325,7 +325,7 @@
     <value>True</value>
   </data>
   <data name="stepLabel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>89, 290</value>
+    <value>86, 277</value>
   </data>
   <data name="stepLabel.Size" type="System.Drawing.Size, System.Drawing">
     <value>67, 13</value>
@@ -352,7 +352,7 @@
     <value>Bottom, Left</value>
   </data>
   <data name="stepNumeric.Location" type="System.Drawing.Point, System.Drawing">
-    <value>92, 306</value>
+    <value>89, 293</value>
   </data>
   <data name="stepNumeric.Size" type="System.Drawing.Size, System.Drawing">
     <value>57, 20</value>
@@ -412,10 +412,10 @@
     <value>NoControl</value>
   </data>
   <data name="helpButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>299, 303</value>
+    <value>299, 290</value>
   </data>
   <data name="helpButton.Size" type="System.Drawing.Size, System.Drawing">
-    <value>66, 23</value>
+    <value>68, 23</value>
   </data>
   <data name="helpButton.TabIndex" type="System.Int32, mscorlib">
     <value>28</value>
@@ -442,7 +442,7 @@
     <value>System</value>
   </data>
   <data name="exitButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>218, 332</value>
+    <value>218, 319</value>
   </data>
   <data name="exitButton.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 23</value>
@@ -472,7 +472,7 @@
     <value>System</value>
   </data>
   <data name="optionsButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>218, 303</value>
+    <value>218, 290</value>
   </data>
   <data name="optionsButton.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 23</value>
@@ -556,7 +556,7 @@
     <value>True</value>
   </data>
   <data name="gemLocationsLabel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>218, 232</value>
+    <value>215, 225</value>
   </data>
   <data name="gemLocationsLabel.Size" type="System.Drawing.Size, System.Drawing">
     <value>81, 13</value>
@@ -579,33 +579,6 @@
   <data name="&gt;&gt;gemLocationsLabel.ZOrder" xml:space="preserve">
     <value>4</value>
   </data>
-  <data name="baseGemsTextBox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Bottom, Right</value>
-  </data>
-  <data name="baseGemsTextBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>218, 248</value>
-  </data>
-  <data name="baseGemsTextBox.Multiline" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="baseGemsTextBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>149, 49</value>
-  </data>
-  <data name="baseGemsTextBox.TabIndex" type="System.Int32, mscorlib">
-    <value>37</value>
-  </data>
-  <data name="&gt;&gt;baseGemsTextBox.Name" xml:space="preserve">
-    <value>baseGemsTextBox</value>
-  </data>
-  <data name="&gt;&gt;baseGemsTextBox.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;baseGemsTextBox.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;baseGemsTextBox.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
   <data name="resultLabel.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Left</value>
   </data>
@@ -613,10 +586,10 @@
     <value>NoControl</value>
   </data>
   <data name="resultLabel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>18, 205</value>
+    <value>15, 192</value>
   </data>
   <data name="resultLabel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>183, 73</value>
+    <value>183, 85</value>
   </data>
   <data name="resultLabel.TabIndex" type="System.Int32, mscorlib">
     <value>39</value>
@@ -635,7 +608,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;resultLabel.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>3</value>
   </data>
   <data name="formulaInputRichTextBox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Bottom, Left</value>
@@ -644,7 +617,7 @@
     <value>18, 84</value>
   </data>
   <data name="formulaInputRichTextBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>183, 89</value>
+    <value>183, 76</value>
   </data>
   <data name="formulaInputRichTextBox.TabIndex" type="System.Int32, mscorlib">
     <value>40</value>
@@ -662,7 +635,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;formulaInputRichTextBox.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
   </data>
   <data name="testButton.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Right</value>
@@ -674,10 +647,10 @@
     <value>NoControl</value>
   </data>
   <data name="testButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>299, 332</value>
+    <value>299, 319</value>
   </data>
   <data name="testButton.Size" type="System.Drawing.Size, System.Drawing">
-    <value>66, 23</value>
+    <value>68, 23</value>
   </data>
   <data name="testButton.TabIndex" type="System.Int32, mscorlib">
     <value>41</value>
@@ -695,6 +668,30 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;testButton.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="baseGemsListBox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Right</value>
+  </data>
+  <data name="baseGemsListBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>218, 241</value>
+  </data>
+  <data name="baseGemsListBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>149, 43</value>
+  </data>
+  <data name="baseGemsListBox.TabIndex" type="System.Int32, mscorlib">
+    <value>42</value>
+  </data>
+  <data name="&gt;&gt;baseGemsListBox.Name" xml:space="preserve">
+    <value>baseGemsListBox</value>
+  </data>
+  <data name="&gt;&gt;baseGemsListBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ListBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;baseGemsListBox.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;baseGemsListBox.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
@@ -710,7 +707,7 @@
     <value>Stretch</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>389, 367</value>
+    <value>389, 354</value>
   </data>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -6885,7 +6882,7 @@
 </value>
   </data>
   <data name="$this.MinimumSize" type="System.Drawing.Size, System.Drawing">
-    <value>400, 405</value>
+    <value>400, 392</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>Gem Combiner</value>

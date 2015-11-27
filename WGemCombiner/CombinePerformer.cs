@@ -81,22 +81,6 @@
 			}
 		}
 
-		public string BaseGemText
-		{
-			get
-			{
-				var sb = new StringBuilder();
-				var i = 0;
-				foreach (var gem in this.BaseGems)
-				{
-					sb.AppendLine(Instruction.SlotName(i) + ": " + gem.ColorName);
-					i++;
-				}
-
-				return sb.ToString().TrimEnd();
-			}
-		}
-
 		public bool CancelCombine { get; set; }
 
 		public bool Enabled { get; set; }
