@@ -304,8 +304,6 @@
 				PressKey(KeyDot); // hide info box
 			}
 
-			Stopwatch sw = new Stopwatch();
-			sw.Start();
 			for (int i = mSteps; i < this.Instructions.Count; i++)
 			{
 				var instruction = this.Instructions[i];
@@ -350,9 +348,6 @@
 					break;
 				}
 			}
-
-			sw.Stop();
-			Debug.WriteLine(sw.ElapsedMilliseconds);
 
 			if (Settings.Default.HidePanels)
 			{
@@ -421,7 +416,6 @@
 					strRep = "(" + strRep + ")";
 				}
 
-				Debug.WriteLine(strC[0]);
 				str = str.Replace(strC[0], strRep);
 			}
 
@@ -532,7 +526,7 @@
 			for (int combinedIndex = this.BaseGems.Count; combinedIndex < this.combined.Count; combinedIndex++)
 			{
 				var gem = this.combined[combinedIndex];
-				Debug.WriteLine("(val={0}) {1}={2}+{3}", gem.Cost, originals.IndexOf(gem), originals.IndexOf(gem.Components[0]), originals.IndexOf(gem.Components[1]));
+				// Debug.WriteLine("(val={0}) {1}={2}+{3}", gem.Cost, originals.IndexOf(gem), originals.IndexOf(gem.Components[0]), originals.IndexOf(gem.Components[1]));
 				var slots = new List<int>();
 				foreach (var component in gem.Components)
 				{
