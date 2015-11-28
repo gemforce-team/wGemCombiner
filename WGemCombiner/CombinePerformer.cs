@@ -532,11 +532,6 @@
 			for (int combinedIndex = this.BaseGems.Count; combinedIndex < this.combined.Count; combinedIndex++)
 			{
 				var gem = this.combined[combinedIndex];
-				if (originals.IndexOf(gem) == 20)
-				{
-					Debug.WriteLine("Hi");
-				}
-
 				Debug.WriteLine("(val={0}) {1}={2}+{3}", gem.Cost, originals.IndexOf(gem), originals.IndexOf(gem.Components[0]), originals.IndexOf(gem.Components[1]));
 				var slots = new List<int>();
 				foreach (var component in gem.Components)
