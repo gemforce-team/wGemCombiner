@@ -23,7 +23,7 @@
 	#endregion
 
 	[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix", Justification = "Represents a tree node, so makes more sense to name in the singular.")]
-	public class Gem : Collection<Gem>
+	public class Gem
 	{
 		#region Static Fields
 		private static SortedDictionary<char, GemColors> gemTypes = new SortedDictionary<char, GemColors>()
@@ -106,13 +106,13 @@
 			gem2.UseCount++;
 			if (gem2.Cost > gem1.Cost)
 			{
-				this.Add(gem2);
-				this.Add(gem1);
+				this.Components.Add(gem2);
+				this.Components.Add(gem1);
 			}
 			else
 			{
-				this.Add(gem1);
-				this.Add(gem2);
+				this.Components.Add(gem1);
+				this.Components.Add(gem2);
 			}
 
 			if (gem1.Color == gem2.Color)
@@ -177,6 +177,8 @@
 		public string ColorName => gemNames[this.Color];
 
 		public string CombineTitle => string.Format(CultureInfo.CurrentCulture, "{0:000000} ({1:0.00000}){2}", this.Cost, this.Growth, IsPowerOfTwo(this.Cost) ? "-" : string.Empty);
+
+		public Collection<Gem> Components { get; } = new Collection<Gem>();
 
 		public int Cost { get; set; }
 
@@ -253,7 +255,7 @@
 		#region Private Methods
 		private void DoFullCombine()
 		{
-			foreach (var component in this)
+			foreach (var component in this.Components)
 			{
 				component.DoSubCombine();
 				combineBuilder.Append('+');

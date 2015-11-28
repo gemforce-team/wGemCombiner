@@ -16,7 +16,7 @@
 			var combine = new Combine(File.ReadAllText(@"C:\Users\rmorl\Documents\GitHubVisualStudio\wGemCombiner\WGemCombiner\test.txt"));
 			// var combine = new Combine(this.textBoxInput.Text);
 			this.textBox1.Clear();
-			var instructions = combine.GetInstructions();
+			var instructions = combine.GetInstructions(false);
 			foreach (var instruction in instructions)
 			{
 				this.textBox1.AppendText(instruction.ToString() + Environment.NewLine);

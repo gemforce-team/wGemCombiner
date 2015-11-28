@@ -69,7 +69,7 @@
 		// This constructor is a hack, but it's expected not to be needed once text file parsing is in place.
 		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:Validate arguments of public methods", MessageId = "0", Justification = "Temporary")]
 		public Instruction(Gem gem)
-			: this(gem[0].Id, gem[1].Id)
+			: this(gem.Components[0].Id, gem.Components[1].Id)
 		{
 		}
 

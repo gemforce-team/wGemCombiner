@@ -161,9 +161,10 @@
 			}
 		}
 
-		public InstructionCollection GetInstructions()
+		public InstructionCollection GetInstructions(bool useOld = false)
 		{
 			var instructions = new InstructionCollection();
+			instructions.UseOldBehavior = useOld;
 			for (int i = 0; i < this.Count; i++)
 			{
 				var gem = this[i];
@@ -179,8 +180,8 @@
 			}
 
 			// No guarantee that base gems are all in the lowest equations, so start at 0.
-			// this.Result.UseCount = 1;
-			this.BuildGem(this.Result, instructions);
+			this.Result.UseCount = 1;
+			this.BuildGem(this.Result, instructions, true);
 
 			return instructions;
 		}
@@ -236,8 +237,14 @@
 
 		#region Private Methods
 		// Select the costliest branch of a gem and build it.
-		private void BuildGem(GemNew gem, InstructionCollection instructions)
+		private void BuildGem(GemNew gem, InstructionCollection instructions, bool doPostScan)
 		{
+			if (!gem.IsNeeded)
+			{
+				return;
+			}
+
+			// Debug.WriteLine("(val={0}) {1}={2}+{3}{4}", gem.Cost, this.IndexOf(gem), this.IndexOf(gem.Components[0]), this.IndexOf(gem.Components[1]), doPostScan ? string.Empty : " (by optimizer)");
 			var gem1 = gem.Components[0];
 			var gem2 = gem.Components[1];
 			if (gem2.Cost > gem1.Cost)
@@ -247,100 +254,72 @@
 				gem2 = temp;
 			}
 
-			if (gem1.IsNeeded)
-			{
-				this.BuildGem(gem1, instructions);
-			}
+			// Debug.Indent();
+			this.BuildGem(gem1, instructions, true);
+			this.BuildGem(gem2, instructions, true);
+			// Debug.Unindent();
 
-			if (gem2.IsNeeded)
+			// Re-check in case gem was already built during optimization routine for component gems.
+			if (gem.IsNeeded)
 			{
-				this.BuildGem(gem2, instructions);
-			}
+				gem.Components[0].UseCount--;
+				gem.Components[1].UseCount--;
+				var dupeHappened = gem.IsUpgrade ? instructions.Upgrade(gem) : instructions.Combine(gem);
 
-			// Gem may have already been pre-built due to optimizations after dupeHappened.
-			if (!gem.IsNeeded)
-			{
-				return;
-			}
-
-			Debug.WriteLine("(val={0}) {1}={2}+{3}", gem.Cost, this.IndexOf(gem), this.IndexOf(gem.Components[0]), this.IndexOf(gem.Components[1]));
-			gem.Components[0].UseCount--;
-			gem.Components[1].UseCount--;
-			var dupeHappened = gem.IsUpgrade ? instructions.Upgrade(gem) : instructions.Combine(gem);
-			if (dupeHappened)
-			{
-				// While either of these optimizations happened, try again until all optimizations have been handled.
-				// bool repeatOptimization;
-				// do
-				// {
-					// repeatOptimization = false;
-					bool foundOne;
-					do
-					{
-						foundOne = false;
-						foreach (var listGem in this)
-						{
-							if (listGem.IsNeeded && listGem.LastTwo)
-							{
-								// repeatOptimization = true;
-								foundOne = true;
-								this.BuildGem(listGem, instructions);
-							}
-						}
-					}
-					while (foundOne);
-
-					do
-					{
-						foundOne = false;
-						foreach (var listGem in this)
-						{
-							if (listGem.IsNeeded && (listGem.Components[0].Slot >= 0 && listGem.Components[0].UseCount == 1 || listGem.Components[1].Slot >= 0 && listGem.Components[1].UseCount == 1))
-							{
-								// repeatOptimization = true;
-								foundOne = true;
-								this.BuildGem(listGem, instructions);
-							}
-						}
-					}
-					while (foundOne);
-				// }
-				// while (repeatOptimization);
-			}
-
-			foreach (var component in gem.Components)
-			{
-				if (component.UseCount == 0)
+				foreach (var component in gem.Components)
 				{
-					component.Slot = NotSlotted;
+					if (component.UseCount == 0)
+					{
+						component.Slot = NotSlotted;
+					}
+				}
+
+				if (doPostScan && dupeHappened)
+				{
+					this.PostCreateScan(instructions);
 				}
 			}
 		}
 
-		/*
-		// Logic was too primitive and resulted in very unoptimal builds. First portion might have some use in the future, though, since it establishes what we have no choice but to build during the first steps.
-		private int GetPreferredGemIndex()
+		private void PostCreateScan(InstructionCollection instructions)
 		{
-			var canCreate = new List<int>();
-
-			// TODO: Consider not having i start at 0 every time, but updating it as you go to start at the lowest gem not already created.
-			for (int i = 0; i < this.Count; i++)
+			bool repeatOptimization;
+			do
 			{
-				var gem = this[i];
-				if (gem.UseCount > 0 && gem.Slot < 0 && gem.Components[0].Slot >= 0 && gem.Components[1].Slot >= 0)
+				repeatOptimization = false;
+				bool foundOne;
+				do
 				{
-					canCreate.Add(i);
+					foundOne = false;
+					foreach (var listGem in this)
+					{
+						if (listGem.IsNeeded && listGem.LastCombine)
+						{
+							repeatOptimization = true;
+							foundOne = true;
+							this.BuildGem(listGem, instructions, false);
+						}
+					}
 				}
-			}
+				while (foundOne);
 
-			// If there's only one possible gem that can be created, choose that one.
-			if (canCreate.Count == 1)
-			{
-				Debug.WriteLine(canCreate[0]);
-				return canCreate[0];
+				do
+				{
+					foundOne = false;
+					foreach (var listGem in this)
+					{
+						if (listGem.IsNeeded && listGem.Components[0].Slot >= 0 && listGem.Components[1].Slot >= 0 && (listGem.Components[0].UseCount == 1 || listGem.Components[1].UseCount == 1))
+						{
+							repeatOptimization = true;
+							foundOne = true;
+							this.BuildGem(listGem, instructions, false);
+						}
+					}
+				}
+				while (foundOne);
 			}
+			while (repeatOptimization);
 		}
-		*/
 		#endregion
 	}
 }

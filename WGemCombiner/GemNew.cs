@@ -74,6 +74,7 @@
 			{
 				this.Color |= component.Color;
 				component.UseCount++;
+				component.Parent = this;
 			}
 
 			this.Grade = gem1.Grade;
@@ -142,7 +143,9 @@
 
 		public bool IsUpgrade => this.Components[0] == this.Components[1];
 
-		public bool LastTwo => this.IsUpgrade ? this.Components[0].Slot >= 0 && this.Components[0].UseCount == 2 : this.Components[0].Slot >= 0 && this.Components[0].UseCount == 1 && this.Components[1].Slot >= 0 && this.Components[1].UseCount == 1;
+		public bool LastCombine => this.IsUpgrade ? this.Components[0].Slot >= 0 && this.Components[0].UseCount == 2 : this.Components[0].Slot >= 0 && this.Components[0].UseCount == 1 && this.Components[1].Slot >= 0 && this.Components[1].UseCount == 1;
+
+		public GemNew Parent { get; private set; }
 
 		public double Power
 		{

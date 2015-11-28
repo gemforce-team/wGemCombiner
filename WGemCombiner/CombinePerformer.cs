@@ -411,7 +411,7 @@
 		{
 			var replace = new Regex(@"\r?\n?\(val=[0-9]+\)\t?").Replace(str, "\n");
 			string[] strP = replace.Trim().Split('\n');
-			var sb = new StringBuilder(strP[strP.Length - 1].Split('=')[1]);
+			str = strP[strP.Length - 1].Split('=')[1];
 			for (int i = strP.Length - 2; i >= 0; i--)
 			{
 				var strC = strP[i].Split('=');
@@ -421,10 +421,11 @@
 					strRep = "(" + strRep + ")";
 				}
 
-				sb.Replace(strC[0], strRep);
+				Debug.WriteLine(strC[0]);
+				str = str.Replace(strC[0], strRep);
 			}
 
-			return sb.ToString();
+			return str;
 		}
 
 		private static void PressKey(byte keyCode)
@@ -451,8 +452,8 @@
 			// To solve this, try: If the instructions do not begin with duplicate step, add it.
 
 			// TODO: re-examine to see if this is needed if and when new CreateInstructions() is completed for list-style gem.
-			Gem gem1 = gem[0];
-			Gem gem2 = gem[1];
+			Gem gem1 = gem.Components[0];
+			Gem gem2 = gem.Components[1];
 			CombinePerformer performer1 = new CombinePerformer(false);
 			performer1.SetMethod(gem1.GetFullCombine());
 			performer1.ResultGem.Id = gem1.Id;
@@ -521,30 +522,41 @@
 
 			this.slotsRequired = this.BaseGems.Count; // Bypass setter for initial setup
 
+			var originals = new List<Gem>();
+			foreach (var gem in this.combined)
+			{
+				originals.Add(gem);
+			}
+
 			// Don't try to give instructions for placing the base gems.
 			for (int combinedIndex = this.BaseGems.Count; combinedIndex < this.combined.Count; combinedIndex++)
 			{
 				var gem = this.combined[combinedIndex];
-				Debug.WriteLine("(val={0}) {1}={2}+{3}", gem.Cost, this.combined.IndexOf(gem), this.combined.IndexOf(gem[0]), this.combined.IndexOf(gem[1]));
+				if (originals.IndexOf(gem) == 20)
+				{
+					Debug.WriteLine("Hi");
+				}
+
+				Debug.WriteLine("(val={0}) {1}={2}+{3}", gem.Cost, originals.IndexOf(gem), originals.IndexOf(gem.Components[0]), originals.IndexOf(gem.Components[1]));
 				var slots = new List<int>();
-				foreach (var component in gem)
+				foreach (var component in gem.Components)
 				{
 					slots.Add(component.Slot);
 					component.UseCount--;
 					Debug.Assert(component.Slot >= 0, "Gem slot negative.");
 				}
 
-				if (gem[0] == gem[1])
+				if (gem.Components[0] == gem.Components[1])
 				{
-					this.DupeGem(gem[0], slots[0], empties);
+					this.DupeGem(gem.Components[0], slots[0], empties);
 					this.Instructions.Add(new Instruction(ActionType.Upgrade, slots[0]));
 					gem.Slot = slots[0];
 				}
 				else
 				{
-					for (int i = 0; i < gem.Count; i++)
+					for (int i = 0; i < gem.Components.Count; i++)
 					{
-						this.DupeGem(gem[i], slots[i], empties);
+						this.DupeGem(gem.Components[i], slots[i], empties);
 					}
 
 					// Combine
@@ -553,7 +565,7 @@
 					gem.Slot = slots[1];
 				}
 
-				foreach (var component in gem)
+				foreach (var component in gem.Components)
 				{
 					if (component.UseCount == 0)
 					{
@@ -570,9 +582,9 @@
 					Gem gemUse = this.combined[scanFrom];
 
 					// Do we need? && (empties.Count > 0)
-					if (gemUse[0].Slot >= 0 && gemUse[1].Slot >= 0)
+					if (gemUse.Components[0].Slot >= 0 && gemUse.Components[1].Slot >= 0)
 					{
-						if ((gemUse[0].UseCount == 1 && gemUse[1].UseCount == 1) || (gemUse[0] == gemUse[1] && gemUse[0].UseCount == 2))
+						if ((gemUse.Components[0].UseCount == 1 && gemUse.Components[1].UseCount == 1) || (gemUse.Components[0] == gemUse.Components[1] && gemUse.Components[0].UseCount == 2))
 						{
 							// Move single-use gem to be the next one parsed.
 							this.combined.RemoveAt(scanFrom);
@@ -583,7 +595,7 @@
 								scanFrom++;
 							}
 						}
-						else if (gemUse[0].UseCount == 1 || gemUse[1].UseCount == 1)
+						else if (gemUse.Components[0].UseCount == 1 || gemUse.Components[1].UseCount == 1)
 						{
 							secondaries.Add(gemUse);
 							this.combined.RemoveAt(scanFrom);
@@ -645,7 +657,7 @@
 		{
 			if (gem.UseCount > 0)
 			{
-				// Dupe if not the last use (two uses = gem[0] + gem[1])
+				// Dupe if not the last use (two uses = gem.Components[0] + gem.Components[1])
 				gem.Slot = this.GetEmpty(empties);
 				this.Instructions.Add(new Instruction(ActionType.Duplicate, atSlot, gem.Slot));
 				this.SlotsRequired = gem.Slot;
@@ -714,7 +726,6 @@
 				this.ResultGem = new Gem(this.combined[num1], this.combined[num2]);
 				this.ResultGem.Id = newNum;
 				this.combined.Add(this.ResultGem);
-				Debug.WriteLine(string.Format("(val={0}) {1}={2}+{3}", this.ResultGem.Cost, newNum, gem1, gem2));
 				formula = formula.Replace("(" + gem1 + "+" + gem2 + ")", newNum.ToString(CultureInfo.InvariantCulture));
 
 				plus = formula.IndexOf('+');

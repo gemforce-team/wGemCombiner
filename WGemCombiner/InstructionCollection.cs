@@ -31,6 +31,8 @@
 				}
 			}
 		}
+
+		public bool UseOldBehavior { get; set; }
 		#endregion
 
 		#region Public Methods
@@ -43,6 +45,11 @@
 		public bool Combine(GemNew parentGem)
 		{
 			ThrowNull(parentGem, nameof(parentGem));
+			if (this.UseOldBehavior)
+			{
+				return this.CombineOld(parentGem);
+			}
+
 			var slot1 = this.DuplicateIfNeeded(parentGem.Components[0]);
 			var slot2 = this.DuplicateIfNeeded(parentGem.Components[1]);
 			var dupeHappened = slot1 != parentGem.Components[0].Slot || slot2 != parentGem.Components[1].Slot;
@@ -62,6 +69,11 @@
 		public bool Upgrade(GemNew gem)
 		{
 			ThrowNull(gem, nameof(gem));
+			if (this.UseOldBehavior)
+			{
+				return this.UpgradeOld(gem);
+			}
+
 			var slot = this.DuplicateIfNeeded(gem.Components[0]);
 			this.Add(new Instruction(ActionType.Upgrade, slot));
 			var dupeHappened = gem.Slot != slot;
@@ -71,12 +83,26 @@
 		#endregion
 
 		#region Private Methods
+		private bool CombineOld(GemNew parentGem)
+		{
+			var slot1 = this.DuplicateIfNeeded(parentGem.Components[0]);
+			var slot2 = this.DuplicateIfNeeded(parentGem.Components[1]);
+			var dupeHappened = slot1 != parentGem.Components[0].Slot || slot2 != parentGem.Components[1].Slot;
+			this.Add(new Instruction(ActionType.Combine, parentGem.Components[0].Slot, parentGem.Components[1].Slot));
+			this.empties.Add(parentGem.Components[0].Slot);
+			parentGem.Slot = parentGem.Components[1].Slot;
+			parentGem.Components[0].Slot = parentGem.Components[0].UseCount == 0 ? -1 : slot1;
+			parentGem.Components[1].Slot = parentGem.Components[1].UseCount == 0 ? -1 : slot2;
+
+			return dupeHappened;
+		}
+
 		private int DuplicateIfNeeded(GemNew gem)
 		{
 			ThrowNull(gem, nameof(gem));
 			if (gem.UseCount > 0)
 			{
-				// Dupe if not the last use (two uses = gem[0] + gem[1])
+				// Dupe if not the last use (two uses = gem.Components[0] + gem.Components[1])
 				var slot = this.empties.Count == 0 ? this.SlotsRequired : this.empties.Min;
 				this.SlotsRequired = slot;
 				this.Add(new Instruction(ActionType.Duplicate, gem.Slot, slot));
@@ -86,6 +112,16 @@
 			}
 
 			return gem.Slot;
+		}
+
+		private bool UpgradeOld(GemNew gem)
+		{
+			var slot = this.DuplicateIfNeeded(gem.Components[0]);
+			var dupeHappened = gem.Components[0].Slot != slot;
+			this.Add(new Instruction(ActionType.Upgrade, gem.Components[0].Slot));
+			gem.Slot = gem.Components[0].Slot;
+			gem.Components[0].Slot = slot;
+			return dupeHappened;
 		}
 		#endregion
 	}
