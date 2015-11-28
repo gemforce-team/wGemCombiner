@@ -182,17 +182,66 @@
 
 						if (lhs > gemList.Count - 1 || rhs > gemList.Count - 1)
 						{
-							throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, "Gem values in equation {0} are higher than the gem count of {1}.", line, gemList.Count));
+							throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, "Gem values in equation {0} must be less than {1}.", line, gemList.Count));
 						}
 
 						gemList.Add(new GemNew(gemList[lhs], gemList[rhs]));
 					}
 				}
 
+				GemColors gemColor = gemList[gemList.Count - 1].Color;
+				switch (gemColor)
+				{
+					// case GemColors.Black:
+					case GemColors.Kill:
+					case GemColors.Mana:
+					case GemColors.Orange:
+					// case GemColors.Red:
+					case GemColors.Yellow:
+						break;
+					default:
+						throw new ArgumentException("Invalid color or combination for base gems: " + gemColor.ToString());
+				}
+
 				this.gems.Clear();
 				foreach (var gem in gemList)
 				{
+					var count = this.gems.Count;
 					this.gems.Add(gem);
+
+					if (gem.UseCount == 0)
+					{
+						var index = gemList.IndexOf(gem);
+						if (index != gemList.Count - 1)
+						{
+							throw new ArgumentException(string.Format(CultureInfo.InvariantCulture, "Equation {0} is unused.", index));
+						}
+					}
+
+					if (this.gems.Count == count)
+					{
+						int duplicateIndex;
+						for (duplicateIndex = 0; duplicateIndex < gemList.Count; duplicateIndex++)
+						{
+							var dupeGem = gemList[duplicateIndex];
+							if (dupeGem.IsBaseGem)
+							{
+								if (gem.IsBaseGem && dupeGem.Color == gem.Color)
+								{
+									break;
+								}
+							}
+							else
+							{
+								if (dupeGem.Components[0] == gem.Components[0] && dupeGem.Components[1] == gem.Components[1])
+								{
+									break;
+								}
+							}
+						}
+
+						throw new ArgumentException(string.Format(CultureInfo.InvariantCulture, "The gem at equation {0} is identical to the gem at equation {1}.", gemList.IndexOf(gem), duplicateIndex));
+					}
 				}
 			}
 		}
@@ -284,15 +333,12 @@
 		// Be sure that the existing gem list is cleared before calling this.
 		private void AddGemTree(GemNew gem)
 		{
-			// Add from least-costly to most-costly
+			this.gems.Add(gem);
 			if (!gem.IsBaseGem)
 			{
-				this.AddGemTree(gem.Components[1]);
 				this.AddGemTree(gem.Components[0]);
+				this.AddGemTree(gem.Components[1]);
 			}
-
-			// No need to check if gem already added, as SortedSet ignores duplicates.
-			this.gems.Add(gem);
 		}
 
 		// Select the costliest branch of a gem and build it.

@@ -311,6 +311,11 @@
 
 		private void TestButton_Click(object sender, EventArgs e)
 		{
+			if (this.testForm.IsDisposed)
+			{
+				this.testForm = new NewGemTester();
+			}
+
 			this.testForm.Show();
 		}
 	}
