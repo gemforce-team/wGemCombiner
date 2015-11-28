@@ -27,6 +27,7 @@
 			if (combine != null)
 			{
 				this.textBox1.Clear();
+				this.textBox1.AppendText(combine.Gem.DisplayInfo(true, -1) + "\r\n\r\n");
 				var instructions = combine.GetInstructions();
 				foreach (var instruction in instructions)
 				{

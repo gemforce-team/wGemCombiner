@@ -163,13 +163,13 @@
 
 				if (this.Color.HasFlag(GemColors.Yellow))
 				{
+					power *= this.damage * this.critMult;
+
 					if (this.Color.HasFlag(GemColors.Black))
 					{
 						// blood is squared here
 						power *= this.blood;
 					}
-
-					power *= this.damage * this.critMult;
 				}
 
 				return power;
