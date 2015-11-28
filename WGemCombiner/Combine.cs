@@ -2,36 +2,44 @@
 {
 	using System;
 	using System.Collections.Generic;
-	using System.Diagnostics;
 	using System.Globalization;
 	using System.Text;
 	using System.Text.RegularExpressions;
+	using System.Windows.Forms;
+	using static Globals;
 
 	// New class for combining gems; made distinct from CombinePerformer so that class can strictly be about interacting with GC while this one is for internal use
 	[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix", Justification = "Represents a concrete concept rather than a simply a GemCollection.")]
-	internal class Combine : List<GemNew>
+	internal class Combine
 	{
 		#region Static Fields
 		private static Regex equationParser = new Regex(@"(?<index>\d+)\s*=\s*((?<lhs>\d+)\s*\+\s*(?<rhs>\d+)|g?\d*\s*(?<letter>[bkmory]))");
 		private static Regex gemPower = new Regex(@"g?(?<num>[0-9]+)\s*(?<color>([a-z]|\([a-z]+\)))");
 		#endregion
 
+		#region Fields
+		private SortedSet<GemNew> gems = new SortedSet<GemNew>(new GemSorter());
+		#endregion
+
 		#region Constructors
-		public Combine()
+		public Combine(GemNew parentGem)
 		{
+			this.AddGemTree(parentGem);
 		}
 
 		public Combine(string recipe)
 		{
-			if (recipe != null)
+			if (string.IsNullOrWhiteSpace(recipe))
 			{
-				if (!recipe.Contains("="))
-				{
-					recipe = EquationsFromParentheses(recipe);
-				}
-
-				this.AddRange(recipe);
+				throw new ArgumentNullException(nameof(recipe), "Combine recipe was blank.");
 			}
+
+			if (!recipe.Contains("="))
+			{
+				recipe = EquationsFromParentheses(recipe);
+			}
+
+			this.AddRecipe(recipe);
 		}
 		#endregion
 
@@ -40,11 +48,11 @@
 		#endregion
 
 		#region Public Properties
-		public GemNew Result
+		public GemNew Gem
 		{
 			get
 			{
-				return this[this.Count - 1];
+				return this.gems.Count == 0 ? null : this.gems.Max;
 			}
 		}
 		#endregion
@@ -58,6 +66,7 @@
 			}
 
 			var equations = new List<string>();
+			recipe = "(" + recipe + ")"; // If this is a duplication of effort, we'll silently ignore it later.
 			recipe = recipe.Replace(" ", string.Empty); // Remove spaces, whitespace is for human readers.
 			recipe = recipe.Replace("\n", string.Empty); // Remove newlines or the parser crashes
 			recipe = LeveledPreparser(recipe);
@@ -73,105 +82,141 @@
 				}
 			}
 
+			if (equations.Count == 0)
+			{
+				throw new ArgumentException("Recipe did not contain any recognizable gems.");
+			}
+
 			// Scan for plus signs within the formula and add gems together appropriately.
 			int plus = recipe.IndexOf('+');
+			string newNum = string.Empty;
 			while (plus > -1)
 			{
 				string thisCombine;
 				var close = recipe.IndexOf(')', plus);
-				if (close == -1)
-				{
-					thisCombine = recipe;
-					recipe = "(" + recipe + ")"; // Add brackets so the final replace will work
-				}
-				else
+				if (close >= 0)
 				{
 					var open = recipe.LastIndexOf('(', close);
+					if (open < 0)
+					{
+						throw new ArgumentException("Bracket mismatch in formula.");
+					}
+
 					thisCombine = recipe.Substring(open + 1, close - open - 1);
-				}
 
-				string[] combineGems = thisCombine.Split('+');
-				if (combineGems.Length != 2)
-				{
-					throw new ArgumentException("The formula provided contains more than a single plus sign within a pair of brackets. This is not currently supported.", nameof(recipe));
-				}
+					string[] combineGems = thisCombine.Split('+');
+					if (combineGems.Length != 2)
+					{
+						throw new ArgumentException("The formula provided contains more than a single plus sign within a pair of brackets. This is not currently supported.");
+					}
 
-				var newNum = id.ToString(CultureInfo.InvariantCulture);
-				recipe = recipe.Replace("(" + thisCombine + ")", newNum);
-				equations.Add(string.Format(CultureInfo.InvariantCulture, "{0}={1}+{2}", id, combineGems[0], combineGems[1]));
+					if (combineGems[0].Length == 0 || combineGems[1].Length == 0)
+					{
+						throw new ArgumentException("Invalid formula part: (" + thisCombine + ")");
+					}
+
+					newNum = id.ToString(CultureInfo.InvariantCulture);
+					recipe = recipe.Replace("(" + thisCombine + ")", newNum);
+					equations.Add(string.Format(CultureInfo.InvariantCulture, "{0}={1}+{2}", id, combineGems[0], combineGems[1]));
+				}
 
 				plus = recipe.IndexOf('+');
 				id++;
 			}
 
-			return string.Join(Environment.NewLine, equations);
-		}
+			bool replacedBrackets;
+			do
+			{
+				replacedBrackets = false;
+				if (recipe.StartsWith("(", StringComparison.Ordinal) && recipe.EndsWith(")", StringComparison.Ordinal))
+				{
+					recipe = recipe.Substring(1, recipe.Length - 2);
+					replacedBrackets = true;
+				}
+			}
+			while (replacedBrackets);
 
-		public static Combine FromParentheses(string recipe)
-		{
-			var retval = new Combine();
-			var equations = EquationsFromParentheses(recipe);
-			retval.AddRange(equations);
-			return retval;
+			if (recipe != newNum)
+			{
+				if (recipe.Contains("("))
+				{
+					throw new ArgumentException("Bracket mismatch in formula.");
+				}
+
+				throw new ArgumentException("Invalid recipe.");
+			}
+
+			return string.Join(Environment.NewLine, equations);
 		}
 		#endregion
 
 		#region Public Methods
-		public void Add(string equation)
-		{
-			var match = equationParser.Match(equation);
-			if (!match.Success)
-			{
-				throw new ArgumentException("Invalid equation: " + equation);
-			}
-
-			var index = int.Parse(match.Groups["index"].Value, CultureInfo.InvariantCulture);
-			if (index != this.Count)
-			{
-				throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, "Index in equation {0} does not match current gem count of {1}.", index, this.Count));
-			}
-
-			var letter = match.Groups["letter"].Value;
-			if (letter.Length != 0)
-			{
-				this.Add(new GemNew(letter[0]));
-			}
-			else
-			{
-				var lhs = int.Parse(match.Groups["lhs"].Value, CultureInfo.InvariantCulture);
-				var rhs = int.Parse(match.Groups["rhs"].Value, CultureInfo.InvariantCulture);
-
-				if (lhs > this.Count - 1 || rhs > this.Count - 1)
-				{
-					throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, "Gem values in equation {0} are higher than the gem count of {1}.", equation, this.Count));
-				}
-
-				this.Add(new GemNew(this[lhs], this[rhs]));
-			}
-		}
-
-		public void AddRange(string equations)
+		public void AddRecipe(string equations)
 		{
 			if (!string.IsNullOrWhiteSpace(equations))
 			{
+				var gemList = new List<GemNew>();
 				foreach (var line in equations.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries))
 				{
-					this.Add(line);
+					var match = equationParser.Match(line);
+					if (!match.Success)
+					{
+						throw new ArgumentException("Invalid equation: " + line);
+					}
+
+					var index = int.Parse(match.Groups["index"].Value, CultureInfo.InvariantCulture);
+					if (index != gemList.Count)
+					{
+						throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, "Index in equation {0} does not match current gem count of {1}.", index, gemList.Count));
+					}
+
+					var letter = match.Groups["letter"].Value;
+					if (letter.Length != 0)
+					{
+						gemList.Add(new GemNew(letter[0]));
+					}
+					else
+					{
+						var lhs = int.Parse(match.Groups["lhs"].Value, CultureInfo.InvariantCulture);
+						var rhs = int.Parse(match.Groups["rhs"].Value, CultureInfo.InvariantCulture);
+
+						if (lhs > gemList.Count - 1 || rhs > gemList.Count - 1)
+						{
+							throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, "Gem values in equation {0} are higher than the gem count of {1}.", line, gemList.Count));
+						}
+
+						gemList.Add(new GemNew(gemList[lhs], gemList[rhs]));
+					}
+				}
+
+				this.gems.Clear();
+				foreach (var gem in gemList)
+				{
+					this.gems.Add(gem);
 				}
 			}
 		}
 
-		public InstructionCollection GetInstructions(bool useOld = false)
+		public InstructionCollection GetInstructions()
 		{
 			var instructions = new InstructionCollection();
-			instructions.UseOldBehavior = useOld;
-			for (int i = 0; i < this.Count; i++)
+			foreach (var gem in this.gems)
 			{
-				var gem = this[i];
 				if (gem.IsBaseGem)
 				{
 					instructions.AddBaseGem(gem);
-					gem.Slot = i;
+					switch (gem.Color)
+					{
+						case GemColors.Black:
+							gem.Slot = 1;
+							break;
+						case GemColors.Red:
+							gem.Slot = 2;
+							break;
+						default:
+							gem.Slot = 0;
+							break;
+					}
 				}
 				else
 				{
@@ -180,8 +225,8 @@
 			}
 
 			// No guarantee that base gems are all in the lowest equations, so start at 0.
-			this.Result.UseCount = 1;
-			this.BuildGem(this.Result, instructions, true);
+			this.Gem.UseCount = 1;
+			this.BuildGem(this.Gem, instructions, true);
 
 			return instructions;
 		}
@@ -207,13 +252,13 @@
 				{
 					if (!replacements.TryGetValue(num, out newColor))
 					{
-						if (num == 2)
+						if (replacements.Count == 0)
 						{
 							newColor = "*";
 						}
 						else
 						{
-							newColor = replacements[replacements.Count + 1];
+							newColor = replacements[replacements.Count - 1];
 						}
 
 						for (int i = replacements.Count + 2; i <= num; i++)
@@ -236,6 +281,20 @@
 		#endregion
 
 		#region Private Methods
+		// Be sure that the existing gem list is cleared before calling this.
+		private void AddGemTree(GemNew gem)
+		{
+			// Add from least-costly to most-costly
+			if (!gem.IsBaseGem)
+			{
+				this.AddGemTree(gem.Components[1]);
+				this.AddGemTree(gem.Components[0]);
+			}
+
+			// No need to check if gem already added, as SortedSet ignores duplicates.
+			this.gems.Add(gem);
+		}
+
 		// Select the costliest branch of a gem and build it.
 		private void BuildGem(GemNew gem, InstructionCollection instructions, bool doPostScan)
 		{
@@ -244,15 +303,9 @@
 				return;
 			}
 
-			// Debug.WriteLine("(val={0}) {1}={2}+{3}{4}", gem.Cost, this.IndexOf(gem), this.IndexOf(gem.Components[0]), this.IndexOf(gem.Components[1]), doPostScan ? string.Empty : " (by optimizer)");
+			// Debug.WriteLine("(val={0}) {1}={2}+{3}{4}", gem.Cost, this.gems.IndexOf(gem), this.gems.IndexOf(gem.Components[0]), this.gems.IndexOf(gem.Components[1]), doPostScan ? string.Empty : " (by optimizer)");
 			var gem1 = gem.Components[0];
 			var gem2 = gem.Components[1];
-			if (gem2.Cost > gem1.Cost)
-			{
-				var temp = gem1;
-				gem1 = gem2;
-				gem2 = temp;
-			}
 
 			// Debug.Indent();
 			this.BuildGem(gem1, instructions, true);
@@ -291,7 +344,7 @@
 				do
 				{
 					foundOne = false;
-					foreach (var listGem in this)
+					foreach (var listGem in this.gems)
 					{
 						if (listGem.IsNeeded && listGem.LastCombine)
 						{
@@ -306,7 +359,7 @@
 				do
 				{
 					foundOne = false;
-					foreach (var listGem in this)
+					foreach (var listGem in this.gems)
 					{
 						if (listGem.IsNeeded && listGem.Components[0].Slot >= 0 && listGem.Components[1].Slot >= 0 && (listGem.Components[0].UseCount == 1 || listGem.Components[1].UseCount == 1))
 						{
@@ -319,6 +372,51 @@
 				while (foundOne);
 			}
 			while (repeatOptimization);
+		}
+		#endregion
+
+		#region Private Classes
+		private class GemSorter : IComparer<GemNew>
+		{
+			public int Compare(GemNew x, GemNew y)
+			{
+				ThrowNull(x, nameof(x));
+				ThrowNull(y, nameof(y));
+				if (y.Cost > x.Cost)
+				{
+					return -1;
+				}
+				else if (y.Cost < x.Cost)
+				{
+					return 1;
+				}
+				else
+				{
+					if (y.Grade > x.Grade)
+					{
+						return -1;
+					}
+					else if (y.Grade < x.Grade)
+					{
+						return 1;
+					}
+					else
+					{
+						if (y.Color > x.Color)
+						{
+							return -1;
+						}
+						else if (y.Color < x.Color)
+						{
+							return 1;
+						}
+						else
+						{
+							return 0;
+						}
+					}
+				}
+			}
 		}
 		#endregion
 	}

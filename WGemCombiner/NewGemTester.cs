@@ -13,17 +13,29 @@
 
 		private void Button1_Click(object sender, EventArgs e)
 		{
-			var combine = new Combine(File.ReadAllText(@"C:\Users\rmorl\Documents\GitHubVisualStudio\wGemCombiner\WGemCombiner\test.txt"));
-			// var combine = new Combine(this.textBoxInput.Text);
-			this.textBox1.Clear();
-			var instructions = combine.GetInstructions(false);
-			foreach (var instruction in instructions)
+			Combine combine = null;
+			try
 			{
-				this.textBox1.AppendText(instruction.ToString() + Environment.NewLine);
+				// var combine = new Combine(File.ReadAllText(@"C:\Users\rmorl\Documents\GitHubVisualStudio\wGemCombiner\WGemCombiner\test.txt"));
+				combine = new Combine(this.textBoxInput.Text);
+			}
+			catch (ArgumentException ex)
+			{
+				MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
 
-			this.textBox1.AppendText(Environment.NewLine + "Instruction count: " + instructions.Count);
-			this.textBox1.AppendText(Environment.NewLine + "Slots required: " + instructions.SlotsRequired);
+			if (combine != null)
+			{
+				this.textBox1.Clear();
+				var instructions = combine.GetInstructions();
+				foreach (var instruction in instructions)
+				{
+					this.textBox1.AppendText(instruction.ToString() + Environment.NewLine);
+				}
+
+				this.textBox1.AppendText(Environment.NewLine + "Instruction count: " + instructions.Count);
+				this.textBox1.AppendText(Environment.NewLine + "Slots required: " + instructions.SlotsRequired);
+			}
 		}
 	}
 }

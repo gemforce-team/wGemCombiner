@@ -17,6 +17,7 @@
 		#region Fields
 		private HelpForm helpForm = new HelpForm();
 		private Options optionsForm = new Options();
+		private NewGemTester testForm = new NewGemTester();
 		private CombinePerformer combinePerformer = new CombinePerformer(false);
 		private bool asyncWaiting = false;
 		private Dictionary<string, RecipeCollection> recipes = new Dictionary<string, RecipeCollection>();
@@ -310,8 +311,7 @@
 
 		private void TestButton_Click(object sender, EventArgs e)
 		{
-			var testForm = new NewGemTester();
-			testForm.Show();
+			this.testForm.Show();
 		}
 	}
 }

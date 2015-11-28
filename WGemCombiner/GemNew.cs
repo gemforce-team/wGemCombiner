@@ -60,14 +60,6 @@
 		{
 			ThrowNull(gem1, nameof(gem1));
 			ThrowNull(gem2, nameof(gem2));
-			if (gem1.Grade < gem2.Grade)
-			{
-				// Always make gem1 the highest-grade gem
-				var temp = gem1;
-				gem1 = gem2;
-				gem2 = temp;
-			}
-
 			this.Components.Add(gem1);
 			this.Components.Add(gem2);
 			foreach (var component in this.Components)
@@ -77,17 +69,17 @@
 				component.Parent = this;
 			}
 
-			this.Grade = gem1.Grade;
 			if (gem1.Grade == gem2.Grade)
 			{
-				this.Grade++;
+				this.Grade = gem1.Grade + 1;
 				this.damage = CombineCalc(gem1.damage, gem2.damage, 0.87, 0.71);
 				this.blood = CombineCalc(gem1.blood, gem2.blood, 0.78, 0.31);
 				this.critMult = CombineCalc(gem1.critMult, gem2.critMult, 0.88, 0.5);
 				this.leech = CombineCalc(gem1.leech, gem2.leech, 0.88, 0.5);
 			}
-			else if (gem1.Grade - gem2.Grade == 1)
+			else if (Math.Abs(gem1.Grade - gem2.Grade) == 1)
 			{
+				this.Grade = gem1.Grade > gem2.Grade ? gem1.Grade : gem2.Grade;
 				this.damage = CombineCalc(gem1.damage, gem2.damage, 0.86, 0.7);
 				this.blood = CombineCalc(gem1.blood, gem2.blood, 0.79, 0.29);
 				this.critMult = CombineCalc(gem1.critMult, gem2.critMult, 0.88, 0.44);
@@ -95,6 +87,7 @@
 			}
 			else
 			{
+				this.Grade = gem1.Grade > gem2.Grade ? gem1.Grade : gem2.Grade;
 				this.damage = CombineCalc(gem1.damage, gem2.damage, 0.85, 0.69);
 				this.blood = CombineCalc(gem1.blood, gem2.blood, 0.8, 0.27);
 				this.critMult = CombineCalc(gem1.critMult, gem2.critMult, 0.88, 0.44);
@@ -188,7 +181,7 @@
 		#endregion
 
 		#region Public Override Methods
-		public override string ToString() => string.Format(CultureInfo.CurrentCulture, "Grade {0} {1}", this.Grade + 1, this.Color);
+		public override string ToString() => string.Format(CultureInfo.CurrentCulture, "Grade {0} {1} (cost={2})", this.Grade + 1, this.Color, this.Cost);
 		#endregion
 
 		#region Private Static Methods
