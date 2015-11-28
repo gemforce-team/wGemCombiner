@@ -68,6 +68,7 @@
 			var equations = new List<string>();
 			recipe = "(" + recipe + ")"; // If this is a duplication of effort, we'll silently ignore it later.
 			recipe = recipe.Replace(" ", string.Empty); // Remove spaces, whitespace is for human readers.
+			recipe = recipe.Replace("\r", string.Empty);
 			recipe = recipe.Replace("\n", string.Empty); // Remove newlines or the parser crashes
 			recipe = LeveledPreparser(recipe);
 
@@ -189,6 +190,7 @@
 					}
 				}
 
+				/*
 				GemColors gemColor = gemList[gemList.Count - 1].Color;
 				switch (gemColor)
 				{
@@ -202,6 +204,7 @@
 					default:
 						throw new ArgumentException("Invalid color or combination for base gems: " + gemColor.ToString());
 				}
+				*/
 
 				this.gems.Clear();
 				foreach (var gem in gemList)
@@ -291,6 +294,11 @@
 			foreach (Match match in gemPower.Matches(recipe))
 			{
 				var num = int.Parse(match.Groups["num"].Value, CultureInfo.InvariantCulture);
+				if (num > 15)
+				{
+					throw new ArgumentException(match.Value + " is too high to be parsed via a recipe. Try converting your recipe to equations.");
+				}
+
 				var color = match.Groups["color"].Value;
 				string newColor;
 				if (num == 1)

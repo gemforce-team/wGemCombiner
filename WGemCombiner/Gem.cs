@@ -12,7 +12,7 @@
 	[Flags]
 	public enum GemColors
 	{
-		None,
+		Generic,
 		Orange = 1,
 		Yellow = 1 << 1,
 		Black = 1 << 2,

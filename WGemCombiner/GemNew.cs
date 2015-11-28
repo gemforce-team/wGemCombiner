@@ -11,7 +11,9 @@
 		#region Static Fields
 		private static SortedDictionary<GemColors, double> gemDamages = new SortedDictionary<GemColors, double>()
 		{
+			// Percent damage for base gems compared to Yellow
 			[GemColors.Black] = 1.18181818181818,
+			[GemColors.Generic] = 0,
 			[GemColors.Kill] = 1,
 			[GemColors.Mana] = 0,
 			[GemColors.Orange] = 0,
@@ -22,6 +24,7 @@
 		private static SortedDictionary<char, GemColors> gemTypes = new SortedDictionary<char, GemColors>()
 		{
 			['b'] = GemColors.Black,
+			['g'] = GemColors.Generic,
 			['k'] = GemColors.Kill,
 			['m'] = GemColors.Mana,
 			['o'] = GemColors.Orange,
@@ -109,6 +112,7 @@
 		public static SortedDictionary<GemColors, char> GemLetters { get; } = new SortedDictionary<GemColors, char>()
 		{
 			[GemColors.Black] = 'b',
+			[GemColors.Generic] = 'g',
 			[GemColors.Kill] = 'k',
 			[GemColors.Mana] = 'm',
 			[GemColors.Orange] = 'o',
@@ -144,21 +148,34 @@
 		{
 			get
 			{
-				switch (this.Color)
+				if (this.Color == GemColors.Red)
 				{
-					case GemColors.Orange:
-						return this.leech;
-					case GemColors.Black:
-						return this.blood;
-					case GemColors.Mana:
-						return this.leech * this.blood;
-					case GemColors.Yellow:
-						return this.damage * this.critMult;
-					case GemColors.Kill:
-						return this.damage * this.critMult * this.blood * this.blood; // 1+blood makes no sense, g1 bb is set to 1 by convention
-					default:
-						return 0; // Red have no mana or kill power
+					return 0;
 				}
+
+				double power = 1;
+				if (this.Color.HasFlag(GemColors.Black))
+				{
+					if (this.Color.HasFlag(GemColors.Yellow))
+					{
+						// blood is squared here
+						power = power * this.blood;
+					}
+
+					power = power * this.blood;
+				}
+
+				if (this.Color.HasFlag(GemColors.Orange))
+				{
+					power = power * this.leech;
+				}
+
+				if (this.Color.HasFlag(GemColors.Yellow))
+				{
+					power = power * this.damage * this.critMult;
+				}
+
+				return power;
 			}
 		}
 
