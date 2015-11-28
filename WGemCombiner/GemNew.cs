@@ -16,8 +16,8 @@
 			[GemColors.Generic] = 0,
 			[GemColors.Kill] = 1,
 			[GemColors.Mana] = 0,
-			[GemColors.Orange] = 0,
-			[GemColors.Red] = .90909090909091,
+			[GemColors.Orange] = 0.7272727272727272,
+			[GemColors.Red] = .909090909090909,
 			[GemColors.Yellow] = 1,
 		};
 
@@ -69,7 +69,6 @@
 			{
 				this.Color |= component.Color;
 				component.UseCount++;
-				component.Parent = this;
 			}
 
 			if (gem1.Grade == gem2.Grade)
@@ -142,8 +141,6 @@
 
 		public bool LastCombine => this.IsUpgrade ? this.Components[0].Slot >= 0 && this.Components[0].UseCount == 2 : this.Components[0].Slot >= 0 && this.Components[0].UseCount == 1 && this.Components[1].Slot >= 0 && this.Components[1].UseCount == 1;
 
-		public GemNew Parent { get; private set; }
-
 		public double Power
 		{
 			get
@@ -156,23 +153,23 @@
 				double power = 1;
 				if (this.Color.HasFlag(GemColors.Black))
 				{
-					if (this.Color.HasFlag(GemColors.Yellow))
-					{
-						// blood is squared here
-						power = power * this.blood;
-					}
-
-					power = power * this.blood;
+					power *= this.blood;
 				}
 
 				if (this.Color.HasFlag(GemColors.Orange))
 				{
-					power = power * this.leech;
+					power *= this.leech;
 				}
 
 				if (this.Color.HasFlag(GemColors.Yellow))
 				{
-					power = power * this.damage * this.critMult;
+					if (this.Color.HasFlag(GemColors.Black))
+					{
+						// blood is squared here
+						power *= this.blood;
+					}
+
+					power *= this.damage * this.critMult;
 				}
 
 				return power;
