@@ -156,12 +156,6 @@
 				double power = 1;
 				if (this.Color.HasFlag(GemColors.Black))
 				{
-					if (this.Color.HasFlag(GemColors.Yellow))
-					{
-						// blood is squared here
-						power = power * this.blood;
-					}
-
 					power = power * this.blood;
 				}
 
@@ -173,6 +167,12 @@
 				if (this.Color.HasFlag(GemColors.Yellow))
 				{
 					power = power * this.damage * this.critMult;
+
+					if (this.Color.HasFlag(GemColors.Black))
+					{
+						// blood is squared here
+						power = power * this.blood;
+					}
 				}
 
 				return power;
