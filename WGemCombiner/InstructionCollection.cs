@@ -7,30 +7,35 @@
 	public class InstructionCollection : Collection<Instruction>
 	{
 		#region Fields
-		private SortedSet<int> empties = new SortedSet<int>();
 		private int slotsRequired;
-		private Collection<GemNew> baseGems = new Collection<GemNew>();
+		#endregion
+
+		#region Constructors
+		public InstructionCollection()
+		{
+		}
+
+		internal InstructionCollection(int condenserSlot)
+		{
+			if (condenserSlot >= 0)
+			{
+				// Assumes base gems will be in lower slots than the condensor gem slot, which should always be the case.
+				for (int i = 0; i < condenserSlot; i++)
+				{
+					this.Empties.Add(i);
+				}
+
+				this.SlotsRequired = condenserSlot + 1;
+			}
+		}
 		#endregion
 
 		#region Public Properties
-		public IReadOnlyCollection<GemNew> BaseGems => this.baseGems;
+		public Collection<GemNew> BaseGems { get; private set; } = new Collection<GemNew>();
 
-		public int SlotsRequired
-		{
-			get
-			{
-				return this.slotsRequired;
-			}
+		public SortedSet<int> Empties { get; private set; } = new SortedSet<int>();
 
-			private set
-			{
-				// Do not set unless setting higher
-				if (value >= this.slotsRequired)
-				{
-					this.slotsRequired = value + 1;
-				}
-			}
-		}
+		public int SlotsRequired { get; internal set; }
 
 		public bool UseOldBehavior { get; set; }
 		#endregion
@@ -38,8 +43,20 @@
 		#region Public Methods
 		public void AddBaseGem(GemNew gem)
 		{
-			this.baseGems.Add(gem);
-			this.slotsRequired++;
+			this.BaseGems.Add(gem);
+			this.Empties.Remove(gem.Slot);
+			if (this.SlotsRequired <= gem.Slot)
+			{
+				this.SlotsRequired = gem.Slot + 1;
+			}
+		}
+
+		public void AddRange(InstructionCollection instructions)
+		{
+			foreach (var instruction in instructions)
+			{
+				this.Add(instruction);
+			}
 		}
 
 		public bool Combine(GemNew parentGem)
@@ -50,20 +67,26 @@
 				return this.CombineOld(parentGem);
 			}
 
-			var slot1 = this.DuplicateIfNeeded(parentGem.Components[0]);
 			var slot2 = this.DuplicateIfNeeded(parentGem.Components[1]);
+			var slot1 = this.DuplicateIfNeeded(parentGem.Components[0]);
 			var dupeHappened = slot1 != parentGem.Components[0].Slot || slot2 != parentGem.Components[1].Slot;
-			if (slot2 > slot1)
-			{
-				var temp = slot1;
-				slot1 = slot2;
-				slot2 = temp;
-			}
-
 			this.Add(new Instruction(ActionType.Combine, slot1, slot2));
-			this.empties.Add(slot1);
+			this.Empties.Add(slot1);
 			parentGem.Slot = slot2;
 			return dupeHappened;
+		}
+
+		public void Move1A(GemNew gem)
+		{
+			ThrowNull(gem, nameof(gem));
+			if (this.Count > 0)
+			{
+				var lastInstruction = this[this.Count - 1];
+				if (lastInstruction.To != 0)
+				{
+					this.Add(new Instruction(ActionType.Move, lastInstruction.To, 0));
+				}
+			}
 		}
 
 		public bool Upgrade(GemNew gem)
@@ -76,9 +99,22 @@
 
 			var slot = this.DuplicateIfNeeded(gem.Components[0]);
 			this.Add(new Instruction(ActionType.Upgrade, slot));
-			var dupeHappened = gem.Slot != slot;
+			var dupeHappened = gem.Components[0].Slot != slot;
 			gem.Slot = slot;
 			return dupeHappened;
+		}
+		#endregion
+
+		#region Protected Override Methods
+		protected override void ClearItems()
+		{
+			base.ClearItems();
+			this.Empties.Clear();
+			this.slotsRequired = 0;
+			foreach (var gem in this.BaseGems)
+			{
+				this.SlotsRequired = gem.Slot + 1;
+			}
 		}
 		#endregion
 
@@ -89,7 +125,7 @@
 			var slot2 = this.DuplicateIfNeeded(parentGem.Components[1]);
 			var dupeHappened = slot1 != parentGem.Components[0].Slot || slot2 != parentGem.Components[1].Slot;
 			this.Add(new Instruction(ActionType.Combine, parentGem.Components[0].Slot, parentGem.Components[1].Slot));
-			this.empties.Add(parentGem.Components[0].Slot);
+			this.Empties.Add(parentGem.Components[0].Slot);
 			parentGem.Slot = parentGem.Components[1].Slot;
 			parentGem.Components[0].Slot = parentGem.Components[0].UseCount == 0 ? -1 : slot1;
 			parentGem.Components[1].Slot = parentGem.Components[1].UseCount == 0 ? -1 : slot2;
@@ -103,10 +139,19 @@
 			if (gem.UseCount > 0)
 			{
 				// Dupe if not the last use (two uses = gem.Components[0] + gem.Components[1])
-				var slot = this.empties.Count == 0 ? this.SlotsRequired : this.empties.Min;
-				this.SlotsRequired = slot;
+				int slot;
+				if (this.Empties.Count == 0)
+				{
+					slot = this.SlotsRequired;
+					this.SlotsRequired++;
+				}
+				else
+				{
+					slot = this.Empties.Min;
+					this.Empties.Remove(slot);
+				}
+
 				this.Add(new Instruction(ActionType.Duplicate, gem.Slot, slot));
-				this.empties.Remove(slot);
 
 				return slot;
 			}

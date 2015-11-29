@@ -2,6 +2,7 @@
 {
 	using System;
 	using System.Collections.Generic;
+	using System.Diagnostics;
 	using System.Globalization;
 	using System.Text;
 	using System.Text.RegularExpressions;
@@ -22,9 +23,11 @@
 		#endregion
 
 		#region Constructors
-		public Combine(GemNew parentGem)
+		public Combine(GemNew parentGem, InstructionCollection instructions)
 		{
 			this.AddGemTree(parentGem);
+			this.Instructions = instructions;
+			this.SetupForSlotCondenser();
 		}
 
 		public Combine(string recipe)
@@ -34,6 +37,7 @@
 				throw new ArgumentNullException(nameof(recipe), "Combine recipe was blank.");
 			}
 
+			this.Instructions = new InstructionCollection();
 			if (!recipe.Contains("="))
 			{
 				recipe = EquationsFromParentheses(recipe);
@@ -45,6 +49,8 @@
 
 		#region Public Static Properties
 		public static int NotSlotted { get; } = -1;
+
+		public static int SlotLimit { get; set; } = 36; // Unlike previous combiner, this does not change as the slot condenser progresses.
 		#endregion
 
 		#region Public Properties
@@ -55,6 +61,8 @@
 				return this.gems.Count == 0 ? null : this.gems.Max;
 			}
 		}
+
+		public InstructionCollection Instructions { get; }
 		#endregion
 
 		#region Public Static Methods
@@ -119,6 +127,10 @@
 					newNum = id.ToString(CultureInfo.InvariantCulture);
 					recipe = recipe.Replace("(" + thisCombine + ")", newNum);
 					equations.Add(string.Format(CultureInfo.InvariantCulture, "{0}={1}+{2}", id, combineGems[0], combineGems[1]));
+				}
+				else
+				{
+					throw new ArgumentException("Bracket mismatch in formula.");
 				}
 
 				plus = recipe.IndexOf('+');
@@ -249,29 +261,18 @@
 			}
 		}
 
-		public InstructionCollection GetInstructions()
+		public void GetInstructions()
 		{
-			var instructions = new InstructionCollection();
-			var slot = 0;
-			foreach (var gem in this.gems)
+			this.Instructions.Clear();
+			this.SlotBaseGems();
+			this.Gem.UseCount = 1;
+			this.BuildGem(this.Gem, true);
+			if (this.Instructions.SlotsRequired > Combine.SlotLimit)
 			{
-				if (gem.IsBaseGem)
-				{
-					instructions.AddBaseGem(gem);
-					gem.Slot = slot;
-					slot++;
-				}
-				else
-				{
-					gem.Slot = NotSlotted;
-				}
+				this.CondenseSlots();
 			}
 
-			// No guarantee that base gems are all in the lowest equations, so start at 0.
-			this.Gem.UseCount = 1;
-			this.BuildGem(this.Gem, instructions, true);
-
-			return instructions;
+			this.Instructions.Move1A(this.Gem);
 		}
 		#endregion
 
@@ -341,28 +342,24 @@
 		}
 
 		// Select the costliest branch of a gem and build it.
-		private void BuildGem(GemNew gem, InstructionCollection instructions, bool doPostScan)
+		private void BuildGem(GemNew gem, bool doPostScan)
 		{
 			if (!gem.IsNeeded)
 			{
 				return;
 			}
 
-			// Debug.WriteLine("(val={0}) {1}={2}+{3}{4}", gem.Cost, this.gems.IndexOf(gem), this.gems.IndexOf(gem.Components[0]), this.gems.IndexOf(gem.Components[1]), doPostScan ? string.Empty : " (by optimizer)");
 			var gem1 = gem.Components[0];
 			var gem2 = gem.Components[1];
+			this.BuildGem(gem1, true);
+			this.BuildGem(gem2, true);
 
-			// Debug.Indent();
-			this.BuildGem(gem1, instructions, true);
-			this.BuildGem(gem2, instructions, true);
-			// Debug.Unindent();
-
-			// Re-check in case gem was already built during optimization routine for component gems.
+			// Re-check if gem is needed in case gem was already built during optimization routine for component gems.
 			if (gem.IsNeeded)
 			{
-				gem.Components[0].UseCount--;
-				gem.Components[1].UseCount--;
-				var dupeHappened = gem.IsUpgrade ? instructions.Upgrade(gem) : instructions.Combine(gem);
+				gem1.UseCount--;
+				gem2.UseCount--;
+				doPostScan &= gem.IsUpgrade ? this.Instructions.Upgrade(gem) : this.Instructions.Combine(gem);
 
 				foreach (var component in gem.Components)
 				{
@@ -372,51 +369,115 @@
 					}
 				}
 
-				if (doPostScan && dupeHappened)
+				while (doPostScan)
 				{
-					this.PostCreateScan(instructions);
+					doPostScan = this.OptimizeLastGems() || this.OptimizeSingleUseGems();
 				}
 			}
 		}
 
-		private void PostCreateScan(InstructionCollection instructions)
+		private void CondenseSlots()
 		{
-			bool repeatOptimization;
-			do
+			this.Instructions.Clear();
+			var combine1 = new Combine(this.Gem.Components[0], new InstructionCollection(-1));
+			combine1.Gem.UseCount++;
+			combine1.BuildGem(combine1.Gem, true);
+			if (combine1.Instructions.SlotsRequired > Combine.SlotLimit)
 			{
-				repeatOptimization = false;
-				bool foundOne;
-				do
-				{
-					foundOne = false;
-					foreach (var listGem in this.gems)
-					{
-						if (listGem.IsNeeded && listGem.LastCombine)
-						{
-							repeatOptimization = true;
-							foundOne = true;
-							this.BuildGem(listGem, instructions, false);
-						}
-					}
-				}
-				while (foundOne);
-
-				do
-				{
-					foundOne = false;
-					foreach (var listGem in this.gems)
-					{
-						if (listGem.IsNeeded && listGem.Components[0].Slot >= 0 && listGem.Components[1].Slot >= 0 && (listGem.Components[0].UseCount == 1 || listGem.Components[1].UseCount == 1))
-						{
-							repeatOptimization = true;
-							foundOne = true;
-							this.BuildGem(listGem, instructions, false);
-						}
-					}
-				}
-				while (foundOne);
+				combine1.CondenseSlots();
 			}
-			while (repeatOptimization);
+
+			this.Instructions.AddRange(combine1.Instructions);
+
+			// Clear out all empties above the current gem slot.
+			var empties = combine1.Instructions.Empties;
+			while (empties.Max > combine1.Gem.Slot)
+			{
+				empties.Remove(empties.Max);
+			}
+
+			var combine2 = new Combine(this.Gem.Components[1], new InstructionCollection(combine1.Gem.Slot));
+			combine2.Gem.UseCount++;
+			combine2.BuildGem(combine2.Gem, true);
+			if (combine2.Instructions.SlotsRequired > Combine.SlotLimit)
+			{
+				combine2.CondenseSlots();
+			}
+
+			this.Instructions.AddRange(combine2.Instructions);
+			this.Instructions.Combine(this.Gem);
+			this.Instructions.SlotsRequired = combine1.Instructions.SlotsRequired > combine2.Instructions.SlotsRequired ? combine1.Instructions.SlotsRequired : combine2.Instructions.SlotsRequired;
+		}
+
+		private bool OptimizeLastGems()
+		{
+			var optimized = false;
+			foreach (var gem in this.gems)
+			{
+				if (gem.IsNeeded && gem.Components[0].Slot >= 0 && gem.Components[1].Slot >= 0 && (gem.IsUpgrade && gem.Components[0].UseCount == 2 || gem.Components[0].UseCount == 1 && gem.Components[1].UseCount == 1))
+				{
+					optimized = true;
+					this.BuildGem(gem, false);
+				}
+			}
+
+			return optimized;
+		}
+
+		private bool OptimizeSingleUseGems()
+		{
+			var optimized = false;
+			foreach (var gem in this.gems)
+			{
+				if (gem.IsNeeded && gem.Components[0].Slot >= 0 && gem.Components[1].Slot >= 0 && (gem.Components[0].UseCount == 1 || gem.Components[1].UseCount == 1))
+				{
+					optimized = true;
+					this.BuildGem(gem, false);
+				}
+			}
+
+			return optimized;
+		}
+
+		private void SetupForSlotCondenser()
+		{
+			this.SlotBaseGems();
+			foreach (var gem in this.gems)
+			{
+				gem.UseCount = 0;
+			}
+
+			foreach (var gem in this.gems)
+			{
+				if (gem.IsBaseGem)
+				{
+					// Add one to base gem usage so it doesn't get optimized away.
+					gem.UseCount++;
+				}
+				else
+				{
+					gem.Components[0].UseCount++;
+					gem.Components[1].UseCount++;
+				}
+			}
+		}
+
+		private void SlotBaseGems()
+		{
+			var slot = 0;
+			foreach (var gem in this.gems)
+			{
+				if (gem.IsBaseGem)
+				{
+					gem.Slot = slot;
+					this.Instructions.AddBaseGem(gem);
+					slot++;
+				}
+				else
+				{
+					gem.Slot = NotSlotted;
+				}
+			}
 		}
 		#endregion
 

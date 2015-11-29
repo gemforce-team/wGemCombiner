@@ -9,10 +9,11 @@
 	using static Globals;
 
 	#region Public Enums
+	[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1008:EnumsShouldHaveZeroValue", Justification = "In this context, Generic makes more sense than None.")]
 	[Flags]
 	public enum GemColors
 	{
-		Generic,
+		Generic = 0,
 		Orange = 1,
 		Yellow = 1 << 1,
 		Black = 1 << 2,

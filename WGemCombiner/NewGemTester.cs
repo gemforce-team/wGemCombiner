@@ -16,8 +16,19 @@
 			Combine combine = null;
 			try
 			{
-				// var combine = new Combine(File.ReadAllText(@"C:\Users\rmorl\Documents\GitHubVisualStudio\wGemCombiner\WGemCombiner\test.txt"));
-				combine = new Combine(this.textBoxInput.Text);
+				if (this.inputRichTextBox.Text.Length == 0)
+				{
+					this.inputRichTextBox.Text = @"C:\Users\rmorl\Documents\GitHubVisualStudio\wGemCombiner\WGemCombiner\test.txt";
+				}
+
+				if (this.inputRichTextBox.Text.EndsWith(".txt"))
+				{
+					combine = new Combine(File.ReadAllText(this.inputRichTextBox.Text));
+				}
+				else
+				{
+					combine = new Combine(this.inputRichTextBox.Text);
+				}
 			}
 			catch (ArgumentException ex)
 			{
@@ -27,15 +38,15 @@
 			if (combine != null)
 			{
 				this.textBox1.Clear();
-				this.textBox1.AppendText(combine.Gem.DisplayInfo(true, -1) + "\r\n\r\n");
-				var instructions = combine.GetInstructions();
-				foreach (var instruction in instructions)
+				combine.GetInstructions();
+				this.textBox1.AppendText(combine.Gem.DisplayInfo(true, combine.Instructions.SlotsRequired) + "\r\n\r\n");
+				foreach (var instruction in combine.Instructions)
 				{
 					this.textBox1.AppendText(instruction.ToString() + Environment.NewLine);
 				}
 
-				this.textBox1.AppendText(Environment.NewLine + "Instruction count: " + instructions.Count);
-				this.textBox1.AppendText(Environment.NewLine + "Slots required: " + instructions.SlotsRequired);
+				this.textBox1.AppendText(Environment.NewLine + "Instruction count: " + combine.Instructions.Count);
+				this.textBox1.AppendText(Environment.NewLine + "Slots required: " + combine.Instructions.SlotsRequired);
 			}
 		}
 	}

@@ -18,7 +18,7 @@
 		private HelpForm helpForm = new HelpForm();
 		private Options optionsForm = new Options();
 		private NewGemTester testForm = new NewGemTester();
-		private CombinePerformer combinePerformer = new CombinePerformer(false);
+		private CombinePerformer combinePerformer = new CombinePerformer(true);
 		private bool asyncWaiting = false;
 		private Dictionary<string, RecipeCollection> recipes = new Dictionary<string, RecipeCollection>();
 		#endregion

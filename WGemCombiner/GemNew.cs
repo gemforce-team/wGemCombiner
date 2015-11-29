@@ -135,11 +135,9 @@
 
 		public bool IsBaseGem => this.Grade == 0;
 
-		public bool IsNeeded => this.Slot < 0 && this.UseCount > 0;
+		public bool IsNeeded => this.Slot < 0 && this.UseCount > 0; // This has the side-effect of also ruling out base gems automatically
 
 		public bool IsUpgrade => this.Components[0] == this.Components[1];
-
-		public bool LastCombine => this.IsUpgrade ? this.Components[0].Slot >= 0 && this.Components[0].UseCount == 2 : this.Components[0].Slot >= 0 && this.Components[0].UseCount == 1 && this.Components[1].Slot >= 0 && this.Components[1].UseCount == 1;
 
 		public double Power
 		{
