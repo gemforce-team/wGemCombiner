@@ -157,9 +157,10 @@
 		#region Public Methods
 		public void AddRecipe(string equations)
 		{
+			var dupeCheck = new HashSet<int>();
+			this.gems.Clear();
 			if (!string.IsNullOrWhiteSpace(equations))
 			{
-				var gemList = new List<GemNew>();
 				foreach (var line in equations.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries))
 				{
 					var match = equationParser.Match(line);
@@ -169,28 +170,31 @@
 					}
 
 					var index = int.Parse(match.Groups["index"].Value, CultureInfo.InvariantCulture);
-					if (index != gemList.Count)
+					if (index != this.gems.Count)
 					{
-						throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, "Index in equation {0} does not match current gem count of {1}.", index, gemList.Count));
+						throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, "Index in equation {0} does not match current gem count of {1}.", index, this.gems.Count));
 					}
 
 					var letter = match.Groups["letter"].Value;
 
 					if (letter.Length != 0)
 					{
-						gemList.Add(new GemNew(letter[0]));
+						this.gems.Add(new GemNew(letter[0]));
 					}
 					else
 					{
 						var lhs = int.Parse(match.Groups["lhs"].Value, CultureInfo.InvariantCulture);
 						var rhs = int.Parse(match.Groups["rhs"].Value, CultureInfo.InvariantCulture);
-
-						if (lhs > gemList.Count - 1 || rhs > gemList.Count - 1)
+						if (lhs > this.gems.Count - 1 || rhs > this.gems.Count - 1)
 						{
-							throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, "Gem values in equation {0} must be less than {1}.", line, gemList.Count));
+							throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, "Gem values in equation {0} must be less than {1}.", line, this.gems.Count));
 						}
 
-						gemList.Add(new GemNew(gemList[lhs], gemList[rhs]));
+						this.gems.Add(new GemNew(this.gems[lhs], this.gems[rhs]));
+						if (!dupeCheck.Add((lhs << 16) + rhs))
+						{
+							throw new ArgumentException(string.Format(CultureInfo.InvariantCulture, "The equation {0}+{1} appears more than once.", lhs, rhs));
+						}
 					}
 				}
 
@@ -210,48 +214,19 @@
 				}
 				*/
 
-				this.gems.Clear();
-				foreach (var gem in gemList)
+				foreach (var gem in this.gems)
 				{
-					var count = this.gems.Count;
-					this.gems.Add(gem);
-
 					if (gem.UseCount == 0)
 					{
-						var index = gemList.IndexOf(gem);
-						if (index != gemList.Count - 1)
+						var index = this.gems.IndexOf(gem);
+						if (index != this.gems.Count - 1)
 						{
 							throw new ArgumentException(string.Format(CultureInfo.InvariantCulture, "Equation {0} is unused.", index));
 						}
 					}
-
-					if (this.gems.Count == count)
-					{
-						int duplicateIndex;
-						for (duplicateIndex = 0; duplicateIndex < gemList.Count; duplicateIndex++)
-						{
-							var dupeGem = gemList[duplicateIndex];
-							if (dupeGem.IsBaseGem)
-							{
-								if (gem.IsBaseGem && dupeGem.Color == gem.Color)
-								{
-									break;
-								}
-							}
-							else
-							{
-								if (dupeGem.Components[0] == gem.Components[0] && dupeGem.Components[1] == gem.Components[1])
-								{
-									break;
-								}
-							}
-						}
-
-						throw new ArgumentException(string.Format(CultureInfo.InvariantCulture, "The gem at equation {0} is identical to the gem at equation {1}.", gemList.IndexOf(gem), duplicateIndex));
-					}
 				}
 
-				this.Gem = gemList[gemList.Count - 1];
+				this.Gem = this.gems[this.gems.Count - 1];
 			}
 		}
 
