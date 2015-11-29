@@ -2,12 +2,9 @@
 {
 	using System;
 	using System.Collections.Generic;
-	using System.Diagnostics;
 	using System.Globalization;
 	using System.Text;
 	using System.Text.RegularExpressions;
-	using System.Windows.Forms;
-	using static Globals;
 
 	// New class for combining gems; made distinct from CombinePerformer so that class can strictly be about interacting with GC while this one is for internal use
 	[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix", Justification = "Represents a concrete concept rather than a simply a GemCollection.")]
@@ -19,15 +16,15 @@
 		#endregion
 
 		#region Fields
-		private SortedSet<GemNew> gems = new SortedSet<GemNew>(new GemSorter());
+		private List<GemNew> gems = new List<GemNew>();
 		#endregion
 
 		#region Constructors
-		public Combine(GemNew parentGem, InstructionCollection instructions)
+		public Combine(GemNew parentGem, List<GemNew> gemList, int condenserSlot)
 		{
-			this.AddGemTree(parentGem);
-			this.Instructions = instructions;
-			this.SetupForSlotCondenser();
+			this.Gem = parentGem;
+			this.Instructions = new InstructionCollection(condenserSlot);
+			this.SetupForSlotCondenser(gemList);
 		}
 
 		public Combine(string recipe)
@@ -54,15 +51,9 @@
 		#endregion
 
 		#region Public Properties
-		public GemNew Gem
-		{
-			get
-			{
-				return this.gems.Count == 0 ? null : this.gems.Max;
-			}
-		}
+		public GemNew Gem { get; private set; }
 
-		public InstructionCollection Instructions { get; }
+		public InstructionCollection Instructions { get; private set; }
 		#endregion
 
 		#region Public Static Methods
@@ -184,6 +175,7 @@
 					}
 
 					var letter = match.Groups["letter"].Value;
+
 					if (letter.Length != 0)
 					{
 						gemList.Add(new GemNew(letter[0]));
@@ -258,16 +250,18 @@
 						throw new ArgumentException(string.Format(CultureInfo.InvariantCulture, "The gem at equation {0} is identical to the gem at equation {1}.", gemList.IndexOf(gem), duplicateIndex));
 					}
 				}
+
+				this.Gem = gemList[gemList.Count - 1];
 			}
 		}
 
 		public void GetInstructions()
 		{
-			this.Instructions.Clear();
+			this.Instructions.Reset();
 			this.SlotBaseGems();
 			this.Gem.UseCount = 1;
 			this.BuildGem(this.Gem, true);
-			if (this.Instructions.SlotsRequired > Combine.SlotLimit)
+			if (this.Instructions.SlotsRequired > SlotLimit)
 			{
 				this.CondenseSlots();
 			}
@@ -330,17 +324,6 @@
 		#endregion
 
 		#region Private Methods
-		// Be sure that the existing gem list is cleared before calling this.
-		private void AddGemTree(GemNew gem)
-		{
-			this.gems.Add(gem);
-			if (!gem.IsBaseGem)
-			{
-				this.AddGemTree(gem.Components[0]);
-				this.AddGemTree(gem.Components[1]);
-			}
-		}
-
 		// Select the costliest branch of a gem and build it.
 		private void BuildGem(GemNew gem, bool doPostScan)
 		{
@@ -378,28 +361,20 @@
 
 		private void CondenseSlots()
 		{
-			this.Instructions.Clear();
-			var combine1 = new Combine(this.Gem.Components[0], new InstructionCollection(-1));
+			var combine1 = new Combine(this.Gem.Components[0], this.gems, -1);
 			combine1.Gem.UseCount++;
 			combine1.BuildGem(combine1.Gem, true);
-			if (combine1.Instructions.SlotsRequired > Combine.SlotLimit)
+			if (combine1.Instructions.SlotsRequired > SlotLimit)
 			{
 				combine1.CondenseSlots();
 			}
 
-			this.Instructions.AddRange(combine1.Instructions);
+			this.Instructions = combine1.Instructions;
 
-			// Clear out all empties above the current gem slot.
-			var empties = combine1.Instructions.Empties;
-			while (empties.Max > combine1.Gem.Slot)
-			{
-				empties.Remove(empties.Max);
-			}
-
-			var combine2 = new Combine(this.Gem.Components[1], new InstructionCollection(combine1.Gem.Slot));
+			var combine2 = new Combine(this.Gem.Components[1], this.gems, combine1.Gem.Slot);
 			combine2.Gem.UseCount++;
 			combine2.BuildGem(combine2.Gem, true);
-			if (combine2.Instructions.SlotsRequired > Combine.SlotLimit)
+			if (combine2.Instructions.SlotsRequired > SlotLimit)
 			{
 				combine2.CondenseSlots();
 			}
@@ -439,8 +414,42 @@
 			return optimized;
 		}
 
-		private void SetupForSlotCondenser()
+		private void SetupForSlotCondenser(List<GemNew> gems)
 		{
+			// Only update UseCount for gems actually used in this combiner even though all gems are inherited from parent.
+			// First, determine which gems are actually part of this combine. Hijacking UseCount as a marker, since we're going to be resetting it right after this anyway (and those in the base list don't matter).
+			this.Gem.UseCount = -1;
+			bool changesMade;
+			do
+			{
+				changesMade = false;
+				for (int i = gems.Count - 1; i >= 0; i--)
+				{
+					var gem = gems[i];
+					if (gem.UseCount == -1)
+					{
+						foreach (var component in gem.Components)
+						{
+							if (component.UseCount != -1)
+							{
+								changesMade = true;
+								component.UseCount = -1;
+							}
+						}
+					}
+				}
+			}
+			while (changesMade);
+
+			this.gems = new List<GemNew>();
+			foreach (var gem in gems)
+			{
+				if (gem.UseCount == -1)
+				{
+					this.gems.Add(gem);
+				}
+			}
+
 			this.SlotBaseGems();
 			foreach (var gem in this.gems)
 			{
@@ -451,7 +460,6 @@
 			{
 				if (gem.IsBaseGem)
 				{
-					// Add one to base gem usage so it doesn't get optimized away.
 					gem.UseCount++;
 				}
 				else
@@ -476,51 +484,6 @@
 				else
 				{
 					gem.Slot = NotSlotted;
-				}
-			}
-		}
-		#endregion
-
-		#region Private Classes
-		private class GemSorter : IComparer<GemNew>
-		{
-			public int Compare(GemNew x, GemNew y)
-			{
-				ThrowNull(x, nameof(x));
-				ThrowNull(y, nameof(y));
-				if (y.Cost > x.Cost)
-				{
-					return -1;
-				}
-				else if (y.Cost < x.Cost)
-				{
-					return 1;
-				}
-				else
-				{
-					if (y.Grade > x.Grade)
-					{
-						return -1;
-					}
-					else if (y.Grade < x.Grade)
-					{
-						return 1;
-					}
-					else
-					{
-						if (y.Color > x.Color)
-						{
-							return -1;
-						}
-						else if (y.Color < x.Color)
-						{
-							return 1;
-						}
-						else
-						{
-							return 0;
-						}
-					}
 				}
 			}
 		}

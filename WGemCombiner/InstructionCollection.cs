@@ -4,7 +4,7 @@
 	using System.Collections.ObjectModel;
 	using static Globals;
 
-	public class InstructionCollection : Collection<Instruction>
+	public class InstructionCollection : List<Instruction>
 	{
 		#region Fields
 		private int slotsRequired;
@@ -19,7 +19,7 @@
 		{
 			if (condenserSlot >= 0)
 			{
-				// Assumes base gems will be in lower slots than the condensor gem slot, which should always be the case.
+				// Assumes base gems will be in lower slots than the condenser gem slot, which should always be the case.
 				for (int i = 0; i < condenserSlot; i++)
 				{
 					this.Empties.Add(i);
@@ -48,14 +48,6 @@
 			if (this.SlotsRequired <= gem.Slot)
 			{
 				this.SlotsRequired = gem.Slot + 1;
-			}
-		}
-
-		public void AddRange(InstructionCollection instructions)
-		{
-			foreach (var instruction in instructions)
-			{
-				this.Add(instruction);
 			}
 		}
 
@@ -106,9 +98,9 @@
 		#endregion
 
 		#region Protected Override Methods
-		protected override void ClearItems()
+		public void Reset()
 		{
-			base.ClearItems();
+			this.Clear();
 			this.Empties.Clear();
 			this.slotsRequired = 0;
 			foreach (var gem in this.BaseGems)

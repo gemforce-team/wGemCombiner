@@ -40,9 +40,9 @@
 				this.textBox1.Clear();
 				combine.GetInstructions();
 				this.textBox1.AppendText(combine.Gem.DisplayInfo(true, combine.Instructions.SlotsRequired) + "\r\n\r\n");
-				foreach (var instruction in combine.Instructions)
+				for (int i = 0; i < combine.Instructions.Count; i++)
 				{
-					this.textBox1.AppendText(instruction.ToString() + Environment.NewLine);
+					this.textBox1.AppendText(string.Format("{0}: {1}{2}", i, combine.Instructions[i], Environment.NewLine));
 				}
 
 				this.textBox1.AppendText(Environment.NewLine + "Instruction count: " + combine.Instructions.Count);
