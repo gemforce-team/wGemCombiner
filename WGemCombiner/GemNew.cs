@@ -181,6 +181,10 @@
 		public int UseCount { get; set; }
 		#endregion
 
+		#region Internal Static Properties
+		internal static string GemInitializer { get; } = "oykmgbr";
+		#endregion
+
 		#region Public Methods
 		public string DisplayInfo(bool showAll, int slots)
 		{

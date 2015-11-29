@@ -73,7 +73,7 @@
 			recipe = LeveledPreparser(recipe);
 
 			var id = 0;
-			foreach (var c in "oybrkm")
+			foreach (var c in GemNew.GemInitializer)
 			{
 				if (recipe.IndexOf(c) > -1)
 				{
@@ -90,7 +90,7 @@
 
 			// Scan for plus signs within the formula and add gems together appropriately.
 			int plus = recipe.IndexOf('+');
-			string newNum = string.Empty;
+			string newNum = (id - 1).ToString(CultureInfo.InvariantCulture);
 			while (plus > -1)
 			{
 				string thisCombine;
@@ -252,23 +252,14 @@
 		public InstructionCollection GetInstructions()
 		{
 			var instructions = new InstructionCollection();
+			var slot = 0;
 			foreach (var gem in this.gems)
 			{
 				if (gem.IsBaseGem)
 				{
 					instructions.AddBaseGem(gem);
-					switch (gem.Color)
-					{
-						case GemColors.Black:
-							gem.Slot = 1;
-							break;
-						case GemColors.Red:
-							gem.Slot = 2;
-							break;
-						default:
-							gem.Slot = 0;
-							break;
-					}
+					gem.Slot = slot;
+					slot++;
 				}
 				else
 				{
