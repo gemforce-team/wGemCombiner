@@ -6,10 +6,6 @@
 
 	public class InstructionCollection : List<Instruction>
 	{
-		#region Fields
-		private int slotsRequired;
-		#endregion
-
 		#region Constructors
 		public InstructionCollection()
 		{
@@ -31,9 +27,9 @@
 		#endregion
 
 		#region Public Properties
-		public Collection<GemNew> BaseGems { get; private set; } = new Collection<GemNew>();
+		public Collection<GemNew> BaseGems { get; } = new Collection<GemNew>();
 
-		public SortedSet<int> Empties { get; private set; } = new SortedSet<int>();
+		public SortedSet<int> Empties { get; } = new SortedSet<int>();
 
 		public int SlotsRequired { get; internal set; }
 
@@ -41,16 +37,6 @@
 		#endregion
 
 		#region Public Methods
-		public void AddBaseGem(GemNew gem)
-		{
-			this.BaseGems.Add(gem);
-			this.Empties.Remove(gem.Slot);
-			if (this.SlotsRequired <= gem.Slot)
-			{
-				this.SlotsRequired = gem.Slot + 1;
-			}
-		}
-
 		public bool Combine(GemNew parentGem)
 		{
 			ThrowNull(parentGem, nameof(parentGem));
@@ -81,6 +67,17 @@
 			}
 		}
 
+		public void Reset()
+		{
+			this.Clear();
+			this.Empties.Clear();
+			this.SlotsRequired = 0;
+			foreach (var gem in this.BaseGems)
+			{
+				this.SlotsRequired = gem.Slot + 1;
+			}
+		}
+
 		public bool Upgrade(GemNew gem)
 		{
 			ThrowNull(gem, nameof(gem));
@@ -97,13 +94,12 @@
 		}
 		#endregion
 
-		#region Protected Override Methods
-		public void Reset()
+		#region Internal Methods
+		internal void AddBaseGem(GemNew gem)
 		{
-			this.Clear();
-			this.Empties.Clear();
-			this.slotsRequired = 0;
-			foreach (var gem in this.BaseGems)
+			this.BaseGems.Add(gem);
+			this.Empties.Remove(gem.Slot);
+			if (this.SlotsRequired <= gem.Slot)
 			{
 				this.SlotsRequired = gem.Slot + 1;
 			}
