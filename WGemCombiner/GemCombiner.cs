@@ -2,7 +2,6 @@
 {
 	using System;
 	using System.Collections.Generic;
-	using System.Diagnostics;
 	using System.Drawing;
 	using System.Globalization;
 	using System.IO;
@@ -216,7 +215,6 @@
 		{
 			foreach (var filename in Directory.EnumerateFiles(".", "*.txt", SearchOption.TopDirectoryOnly))
 			{
-				Debug.WriteLine(filename);
 				var lines = File.ReadAllLines(filename);
 				var recipe = new List<string>();
 				int lineNum = 0;

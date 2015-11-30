@@ -2,15 +2,14 @@
 {
 	using System;
 	using System.Collections.Generic;
-	using System.Diagnostics;
 	using System.Globalization;
 	using static Globals;
 
 	public class InstructionCollection : List<Instruction>
 	{
 		#region Constants
-		private const bool useOldBehavior = false;
-		private const int slot1A = 0;
+		private const bool UseOldBehavior = false;
+		private const int Slot1A = 0;
 		#endregion
 
 		#region Constructors
@@ -59,7 +58,7 @@
 		public bool Combine(Gem parentGem)
 		{
 			ThrowNull(parentGem, nameof(parentGem));
-			if (useOldBehavior)
+			if (UseOldBehavior)
 			{
 				return this.CombineOld(parentGem);
 			}
@@ -92,9 +91,9 @@
 			if (this.Count > 0)
 			{
 				var lastInstruction = this[this.Count - 1];
-				if (lastInstruction.To != slot1A)
+				if (lastInstruction.To != Slot1A)
 				{
-					this.Add(new Instruction(ActionType.Move, lastInstruction.To, slot1A));
+					this.Add(new Instruction(ActionType.Move, lastInstruction.To, Slot1A));
 				}
 			}
 		}
@@ -102,7 +101,7 @@
 		public bool Upgrade(Gem gem)
 		{
 			ThrowNull(gem, nameof(gem));
-			if (useOldBehavior)
+			if (UseOldBehavior)
 			{
 				return this.UpgradeOld(gem);
 			}
@@ -185,7 +184,7 @@
 		internal void OptimizeCondensedBaseGems(IList<Gem> baseGems)
 		{
 			// Optimize last dupes of base gems so we don't leave the base gems hanging around.
-			// e.g. Dupe 1A-3A gets converted to Move 1A-3A
+			// e.g., the final Dupe 1A-3A gets removed and all subsequent 3A instructions are updated to use 1A.
 			foreach (var gem in baseGems)
 			{
 				var index = this.FindLastIndex(g => g.From == gem.Slot && g.Action == ActionType.Duplicate);
@@ -202,11 +201,6 @@
 		#region Private Methods
 		private bool CombineOld(Gem parentGem)
 		{
-			if (this.Count > 8180)
-			{
-				Debug.WriteLine("Hi");
-			}
-
 			var slot1 = this.DuplicateIfNeeded(parentGem.Components[0]);
 			var slot2 = this.DuplicateIfNeeded(parentGem.Components[1]);
 			var dupeHappened = parentGem.Components[0].UseCount != 0 || parentGem.Components[1].UseCount != 0;
