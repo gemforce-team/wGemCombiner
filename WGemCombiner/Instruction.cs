@@ -15,7 +15,7 @@
 	}
 	#endregion
 
-	public struct Instruction
+	public class Instruction
 	{
 		#region private Constants
 		private const int InstructionDuplicate = -99;
@@ -66,13 +66,6 @@
 			}
 		}
 
-		// This constructor is a hack, but it's expected not to be needed once text file parsing is in place.
-		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:Validate arguments of public methods", MessageId = "0", Justification = "Temporary")]
-		public Instruction(Gem gem)
-			: this(gem.Components[0].Id, gem.Components[1].Id)
-		{
-		}
-
 		public Instruction(ActionType type, int from, int to)
 		{
 			// Dupe can also use the other constructors, but specifying the target via this one is prefered even though it won't affect anything in the actual combine. This is required by the CondenseSlots logic to move the final base gem when no longer needed, but is also useful for debugging.
@@ -91,9 +84,9 @@
 		#region Public Properties
 		public ActionType Action { get; }
 
-		public int From { get; }
+		public int From { get; private set; }
 
-		public int To { get; set; }
+		public int To { get; private set; }
 		#endregion
 
 		#region Operators
@@ -103,7 +96,7 @@
 		#endregion
 
 		#region Public Static Methods
-		public static bool Equals(Instruction first, Instruction second) => first.From == second.From && first.To == second.To;
+		public static bool Equals(Instruction first, Instruction second) => first?.From == second?.From && first?.To == second?.To;
 
 		public static Instruction NewFromStream(BinaryReader stream)
 		{
@@ -122,13 +115,18 @@
 		#endregion
 
 		#region Public Methods
-		public void Save(BinaryWriter stream)
+		public void Translate(int oldLocation, int newLocation)
 		{
-			ThrowNull(stream, nameof(stream));
-			stream.Write(this.From);
-			stream.Write(this.To);
-		}
+			if (this.From == oldLocation)
+			{
+				this.From = newLocation;
+			}
 
+			if (this.To == oldLocation)
+			{
+				this.To = newLocation;
+			}
+		}
 		#endregion
 
 		#region Public Override Methods

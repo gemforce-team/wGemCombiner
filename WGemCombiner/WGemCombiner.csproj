@@ -117,12 +117,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BaseGem.cs" />
     <Compile Include="BufferedTableLayoutPanel.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Combine.cs" />
+    <Compile Include="Combiner.cs" />
     <Compile Include="CombinePerformer.cs" />
-    <Compile Include="GemNew.cs" />
+    <Compile Include="Gem.cs" />
     <Compile Include="GemCombiner.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -132,16 +133,8 @@
     <Compile Include="Globals.cs" />
     <Compile Include="Instruction.cs" />
     <Compile Include="InstructionCollection.cs" />
-    <Compile Include="NewGemTester.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="NewGemTester.Designer.cs">
-      <DependentUpon>NewGemTester.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Preset.cs" />
     <Compile Include="RecipeCollection.cs" />
     <Compile Include="SettingsHandler.cs" />
-    <Compile Include="Gem.cs" />
     <Compile Include="HelpForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -162,41 +155,10 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Messages.resx</DependentUpon>
     </Compile>
-    <Compile Include="RecipeConverter.cs" />
     <Compile Include="Resources\Images.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Images.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Resources\kgComb\kgCombPresets.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>kgCombPresets.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Resources\kgSpec\kgSpecPresets.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>kgSpecPresets.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Resources\orange\orangePresets.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>orangePresets.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Resources\mgComb\mgCombPresets.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>mgCombPresets.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Resources\mgSpec\mgSpecPresets.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>mgSpecPresets.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Resources\yellow\yellowPresets.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>yellowPresets.resx</DependentUpon>
     </Compile>
     <Compile Include="Settings.cs" />
     <EmbeddedResource Include="GemCombiner.resx">
@@ -206,9 +168,6 @@
     <EmbeddedResource Include="HelpForm.resx">
       <DependentUpon>HelpForm.cs</DependentUpon>
       <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="NewGemTester.resx">
-      <DependentUpon>NewGemTester.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Options.resx">
       <DependentUpon>Options.cs</DependentUpon>
@@ -223,30 +182,6 @@
       <SubType>Designer</SubType>
       <LastGenOutput>Images.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\kgComb\kgCombPresets.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>kgCombPresets.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\kgSpec\kgSpecPresets.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>kgSpecPresets.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\orange\orangePresets.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>orangePresets.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\mgComb\mgCombPresets.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>mgCombPresets.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\mgSpec\mgSpecPresets.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>mgSpecPresets.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\yellow\yellowPresets.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>yellowPresets.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\app.manifest" />
     <None Include="Properties\Settings.settings">
@@ -258,141 +193,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <None Include="Resources\kgcomb\kg1024c" />
-    <None Include="Resources\kgcomb\kg105183c" />
-    <None Include="Resources\kgcomb\kg11c" />
-    <None Include="Resources\kgcomb\kg12504c" />
-    <None Include="Resources\kgcomb\kg128c" />
-    <None Include="Resources\kgcomb\kg131072c" />
-    <None Include="Resources\kgcomb\kg16384c" />
-    <None Include="Resources\kgcomb\kg16c" />
-    <None Include="Resources\kgcomb\kg2048c" />
-    <None Include="Resources\kgcomb\kg218226c" />
-    <None Include="Resources\kgcomb\kg24053c" />
-    <None Include="Resources\kgcomb\kg252c" />
-    <None Include="Resources\kgcomb\kg256c" />
-    <None Include="Resources\kgcomb\kg2618c" />
-    <None Include="Resources\kgcomb\kg262144c" />
-    <None Include="Resources\kgcomb\kg30c" />
-    <None Include="Resources\kgcomb\kg32768c" />
-    <None Include="Resources\kgcomb\kg32c" />
-    <None Include="Resources\kgcomb\kg4096c" />
-    <None Include="Resources\kgcomb\kg512c" />
-    <None Include="Resources\kgcomb\kg53239c" />
-    <None Include="Resources\kgcomb\kg5374c" />
-    <None Include="Resources\kgcomb\kg56c" />
-    <None Include="Resources\kgcomb\kg64c" />
-    <None Include="Resources\kgcomb\kg65536c" />
-    <None Include="Resources\kgcomb\kg8192c" />
-    <None Include="Resources\kgcomb\kg8c" />
-    <None Include="Resources\kgSpec\kg1024" />
-    <None Include="Resources\kgSpec\kg105" />
-    <None Include="Resources\kgSpec\kg128" />
-    <None Include="Resources\kgSpec\kg15" />
-    <None Include="Resources\kgSpec\kg16" />
-    <None Include="Resources\kgSpec\kg21" />
-    <None Include="Resources\kgSpec\kg244" />
-    <None Include="Resources\kgSpec\kg256" />
-    <None Include="Resources\kgSpec\kg32" />
-    <None Include="Resources\kgSpec\kg394" />
-    <None Include="Resources\kgSpec\kg512" />
-    <None Include="Resources\kgSpec\kg64" />
-    <None Include="Resources\kgSpec\kg8" />
-    <None Include="Resources\kgSpec\kg987" />
-    <None Include="Resources\orange\orange1024c" />
-    <None Include="Resources\orange\orange128c" />
-    <None Include="Resources\orange\orange131072c" />
-    <None Include="Resources\orange\orange149c" />
-    <None Include="Resources\orange\orange156c" />
-    <None Include="Resources\orange\orange15c" />
-    <None Include="Resources\orange\orange16384c" />
-    <None Include="Resources\orange\orange16c" />
-    <None Include="Resources\orange\orange1912c" />
-    <None Include="Resources\orange\orange2048c" />
-    <None Include="Resources\orange\orange213c" />
-    <None Include="Resources\orange\orange256c" />
-    <None Include="Resources\orange\orange262144c" />
-    <None Include="Resources\orange\orange32768c" />
-    <None Include="Resources\orange\orange32c" />
-    <None Include="Resources\orange\orange342122c" />
-    <None Include="Resources\orange\orange367c" />
-    <None Include="Resources\orange\orange36c" />
-    <None Include="Resources\orange\orange4096c" />
-    <None Include="Resources\orange\orange512c" />
-    <None Include="Resources\orange\orange524288c" />
-    <None Include="Resources\orange\orange64c" />
-    <None Include="Resources\orange\orange65536c" />
-    <None Include="Resources\orange\orange6c" />
-    <None Include="Resources\orange\orange719405c" />
-    <None Include="Resources\orange\orange72c" />
-    <None Include="Resources\orange\orange8192c" />
-    <None Include="Resources\orange\orange8c" />
-    <None Include="Resources\orange\orange971c" />
-    <None Include="Resources\mgcomb\mg1024c" />
-    <None Include="Resources\mgcomb\mg128c" />
-    <None Include="Resources\mgcomb\mg131072c" />
-    <None Include="Resources\mgcomb\mg15c" />
-    <None Include="Resources\mgcomb\mg16384c" />
-    <None Include="Resources\mgcomb\mg16c" />
-    <None Include="Resources\mgcomb\mg1912c" />
-    <None Include="Resources\mgcomb\mg2048c" />
-    <None Include="Resources\mgcomb\mg213c" />
-    <None Include="Resources\mgcomb\mg256c" />
-    <None Include="Resources\mgcomb\mg262144c" />
-    <None Include="Resources\mgcomb\mg32768c" />
-    <None Include="Resources\mgcomb\mg32c" />
-    <None Include="Resources\mgcomb\mg367c" />
-    <None Include="Resources\mgcomb\mg4096c" />
-    <None Include="Resources\mgcomb\mg512c" />
-    <None Include="Resources\mgcomb\mg64c" />
-    <None Include="Resources\mgcomb\mg65536c" />
-    <None Include="Resources\mgcomb\mg8192c" />
-    <None Include="Resources\mgcomb\mg8c" />
-    <None Include="Resources\mgcomb\mg971c" />
-    <None Include="Resources\mgSpec\mg1024" />
-    <None Include="Resources\mgSpec\mg128" />
-    <None Include="Resources\mgSpec\mg16" />
-    <None Include="Resources\mgSpec\mg256" />
-    <None Include="Resources\mgSpec\mg32" />
-    <None Include="Resources\mgSpec\mg512" />
-    <None Include="Resources\mgSpec\mg64" />
-    <None Include="Resources\mgSpec\mg8" />
-    <None Include="Resources\yellow\yellow1024c" />
-    <None Include="Resources\yellow\yellow105183c" />
-    <None Include="Resources\yellow\yellow11c" />
-    <None Include="Resources\yellow\yellow12504c" />
-    <None Include="Resources\yellow\yellow128c" />
-    <None Include="Resources\yellow\yellow12c" />
-    <None Include="Resources\yellow\yellow131072c" />
-    <None Include="Resources\yellow\yellow14c" />
-    <None Include="Resources\yellow\yellow16384c" />
-    <None Include="Resources\yellow\yellow16c" />
-    <None Include="Resources\yellow\yellow2048c" />
-    <None Include="Resources\yellow\yellow218226c" />
-    <None Include="Resources\yellow\yellow23c" />
-    <None Include="Resources\yellow\yellow24053c" />
-    <None Include="Resources\yellow\yellow252c" />
-    <None Include="Resources\yellow\yellow256c" />
-    <None Include="Resources\yellow\yellow2618c" />
-    <None Include="Resources\yellow\yellow262144c" />
-    <None Include="Resources\yellow\yellow28c" />
-    <None Include="Resources\yellow\yellow30c" />
-    <None Include="Resources\yellow\yellow32768c" />
-    <None Include="Resources\yellow\yellow32c" />
-    <None Include="Resources\yellow\yellow4096c" />
-    <None Include="Resources\yellow\yellow512c" />
-    <None Include="Resources\yellow\yellow53239c" />
-    <None Include="Resources\yellow\yellow5374c" />
-    <None Include="Resources\yellow\yellow53c" />
-    <None Include="Resources\yellow\yellow56c" />
-    <None Include="Resources\yellow\yellow57c" />
-    <None Include="Resources\yellow\yellow5c" />
-    <None Include="Resources\yellow\yellow64c" />
-    <None Include="Resources\yellow\yellow65536c" />
-    <None Include="Resources\yellow\yellow6c" />
-    <None Include="Resources\yellow\yellow7c" />
-    <None Include="Resources\yellow\yellow8192c" />
-    <None Include="Resources\yellow\yellow8c" />
     <None Include="WGemCombiner.ruleset" />
   </ItemGroup>
   <ItemGroup>
@@ -418,6 +218,9 @@
   <ItemGroup>
     <CodeAnalysisDictionary Include="CustomDictionary.xml" />
     <Content Include="GCIcon.ico" />
+    <Content Include="leech.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="recipes.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

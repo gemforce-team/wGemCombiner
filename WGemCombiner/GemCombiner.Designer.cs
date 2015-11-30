@@ -28,205 +28,198 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GemCombiner));
-            this.schemeLabel = new System.Windows.Forms.Label();
-            this.parseRecipeButton = new System.Windows.Forms.Button();
-            this.instructionsListBox = new System.Windows.Forms.ListBox();
-            this.instructionsLabel = new System.Windows.Forms.Label();
-            this.combineButton = new System.Windows.Forms.Button();
-            this.delayLabel = new System.Windows.Forms.Label();
-            this.delayNumeric = new System.Windows.Forms.NumericUpDown();
-            this.stepLabel = new System.Windows.Forms.Label();
-            this.stepNumeric = new System.Windows.Forms.NumericUpDown();
-            this.copyListButton = new System.Windows.Forms.Button();
-            this.helpButton = new System.Windows.Forms.Button();
-            this.exitButton = new System.Windows.Forms.Button();
-            this.optionsButton = new System.Windows.Forms.Button();
-            this.combineComboBox = new System.Windows.Forms.ComboBox();
-            this.colorComboBox = new System.Windows.Forms.ComboBox();
-            this.importFileDialog = new System.Windows.Forms.OpenFileDialog();
-            this.gemLocationsLabel = new System.Windows.Forms.Label();
-            this.resultLabel = new System.Windows.Forms.Label();
-            this.formulaInputRichTextBox = new System.Windows.Forms.RichTextBox();
-            this.testButton = new System.Windows.Forms.Button();
-            this.baseGemsListBox = new System.Windows.Forms.ListBox();
-            ((System.ComponentModel.ISupportInitialize)(this.delayNumeric)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.stepNumeric)).BeginInit();
-            this.SuspendLayout();
-            // 
-            // schemeLabel
-            // 
-            resources.ApplyResources(this.schemeLabel, "schemeLabel");
-            this.schemeLabel.Name = "schemeLabel";
-            // 
-            // parseRecipeButton
-            // 
-            resources.ApplyResources(this.parseRecipeButton, "parseRecipeButton");
-            this.parseRecipeButton.Name = "parseRecipeButton";
-            this.parseRecipeButton.Click += new System.EventHandler(this.ParseRecipeButton_Click);
-            // 
-            // instructionsListBox
-            // 
-            resources.ApplyResources(this.instructionsListBox, "instructionsListBox");
-            this.instructionsListBox.FormattingEnabled = true;
-            this.instructionsListBox.Name = "instructionsListBox";
-            // 
-            // instructionsLabel
-            // 
-            resources.ApplyResources(this.instructionsLabel, "instructionsLabel");
-            this.instructionsLabel.Name = "instructionsLabel";
-            // 
-            // combineButton
-            // 
-            resources.ApplyResources(this.combineButton, "combineButton");
-            this.combineButton.Name = "combineButton";
-            this.combineButton.Click += new System.EventHandler(this.CombineButton_Click);
-            // 
-            // delayLabel
-            // 
-            resources.ApplyResources(this.delayLabel, "delayLabel");
-            this.delayLabel.Name = "delayLabel";
-            // 
-            // delayNumeric
-            // 
-            resources.ApplyResources(this.delayNumeric, "delayNumeric");
-            this.delayNumeric.Maximum = new decimal(new int[] {
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GemCombiner));
+			this.schemeLabel = new System.Windows.Forms.Label();
+			this.parseRecipeButton = new System.Windows.Forms.Button();
+			this.instructionsListBox = new System.Windows.Forms.ListBox();
+			this.instructionsLabel = new System.Windows.Forms.Label();
+			this.combineButton = new System.Windows.Forms.Button();
+			this.delayLabel = new System.Windows.Forms.Label();
+			this.delayNumeric = new System.Windows.Forms.NumericUpDown();
+			this.stepLabel = new System.Windows.Forms.Label();
+			this.stepNumeric = new System.Windows.Forms.NumericUpDown();
+			this.copyListButton = new System.Windows.Forms.Button();
+			this.helpButton = new System.Windows.Forms.Button();
+			this.exitButton = new System.Windows.Forms.Button();
+			this.optionsButton = new System.Windows.Forms.Button();
+			this.combineComboBox = new System.Windows.Forms.ComboBox();
+			this.colorComboBox = new System.Windows.Forms.ComboBox();
+			this.importFileDialog = new System.Windows.Forms.OpenFileDialog();
+			this.gemLocationsLabel = new System.Windows.Forms.Label();
+			this.resultLabel = new System.Windows.Forms.Label();
+			this.formulaInputRichTextBox = new System.Windows.Forms.RichTextBox();
+			this.baseGemsListBox = new System.Windows.Forms.ListBox();
+			((System.ComponentModel.ISupportInitialize)(this.delayNumeric)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.stepNumeric)).BeginInit();
+			this.SuspendLayout();
+			// 
+			// schemeLabel
+			// 
+			resources.ApplyResources(this.schemeLabel, "schemeLabel");
+			this.schemeLabel.Name = "schemeLabel";
+			// 
+			// parseRecipeButton
+			// 
+			resources.ApplyResources(this.parseRecipeButton, "parseRecipeButton");
+			this.parseRecipeButton.Name = "parseRecipeButton";
+			this.parseRecipeButton.Click += new System.EventHandler(this.ParseRecipeButton_Click);
+			// 
+			// instructionsListBox
+			// 
+			resources.ApplyResources(this.instructionsListBox, "instructionsListBox");
+			this.instructionsListBox.FormattingEnabled = true;
+			this.instructionsListBox.Name = "instructionsListBox";
+			// 
+			// instructionsLabel
+			// 
+			resources.ApplyResources(this.instructionsLabel, "instructionsLabel");
+			this.instructionsLabel.Name = "instructionsLabel";
+			// 
+			// combineButton
+			// 
+			resources.ApplyResources(this.combineButton, "combineButton");
+			this.combineButton.Name = "combineButton";
+			this.combineButton.Click += new System.EventHandler(this.CombineButton_Click);
+			// 
+			// delayLabel
+			// 
+			resources.ApplyResources(this.delayLabel, "delayLabel");
+			this.delayLabel.Name = "delayLabel";
+			// 
+			// delayNumeric
+			// 
+			resources.ApplyResources(this.delayNumeric, "delayNumeric");
+			this.delayNumeric.Maximum = new decimal(new int[] {
             1000,
             0,
             0,
             0});
-            this.delayNumeric.Name = "delayNumeric";
-            this.delayNumeric.Value = new decimal(new int[] {
+			this.delayNumeric.Name = "delayNumeric";
+			this.delayNumeric.Value = new decimal(new int[] {
             50,
             0,
             0,
             0});
-            // 
-            // stepLabel
-            // 
-            resources.ApplyResources(this.stepLabel, "stepLabel");
-            this.stepLabel.Name = "stepLabel";
-            // 
-            // stepNumeric
-            // 
-            resources.ApplyResources(this.stepNumeric, "stepNumeric");
-            this.stepNumeric.Maximum = new decimal(new int[] {
+			// 
+			// stepLabel
+			// 
+			resources.ApplyResources(this.stepLabel, "stepLabel");
+			this.stepLabel.Name = "stepLabel";
+			// 
+			// stepNumeric
+			// 
+			resources.ApplyResources(this.stepNumeric, "stepNumeric");
+			this.stepNumeric.Maximum = new decimal(new int[] {
             1000,
             0,
             0,
             0});
-            this.stepNumeric.Name = "stepNumeric";
-            this.stepNumeric.ValueChanged += new System.EventHandler(this.StepNumeric_ValueChanged);
-            // 
-            // copyListButton
-            // 
-            resources.ApplyResources(this.copyListButton, "copyListButton");
-            this.copyListButton.Name = "copyListButton";
-            this.copyListButton.UseVisualStyleBackColor = false;
-            this.copyListButton.Click += new System.EventHandler(this.CopyList_Click);
-            // 
-            // helpButton
-            // 
-            resources.ApplyResources(this.helpButton, "helpButton");
-            this.helpButton.Name = "helpButton";
-            this.helpButton.Click += new System.EventHandler(this.HelpButton_Click);
-            // 
-            // exitButton
-            // 
-            resources.ApplyResources(this.exitButton, "exitButton");
-            this.exitButton.Name = "exitButton";
-            this.exitButton.Click += new System.EventHandler(this.ExitButton_Click);
-            // 
-            // optionsButton
-            // 
-            resources.ApplyResources(this.optionsButton, "optionsButton");
-            this.optionsButton.Name = "optionsButton";
-            this.optionsButton.Click += new System.EventHandler(this.OptionsButton_Click);
-            // 
-            // combineComboBox
-            // 
-            this.combineComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            resources.ApplyResources(this.combineComboBox, "combineComboBox");
-            this.combineComboBox.Items.AddRange(new object[] {
+			this.stepNumeric.Name = "stepNumeric";
+			this.stepNumeric.ValueChanged += new System.EventHandler(this.StepNumeric_ValueChanged);
+			// 
+			// copyListButton
+			// 
+			resources.ApplyResources(this.copyListButton, "copyListButton");
+			this.copyListButton.Name = "copyListButton";
+			this.copyListButton.UseVisualStyleBackColor = false;
+			this.copyListButton.Click += new System.EventHandler(this.CopyList_Click);
+			// 
+			// helpButton
+			// 
+			resources.ApplyResources(this.helpButton, "helpButton");
+			this.helpButton.Name = "helpButton";
+			this.helpButton.Click += new System.EventHandler(this.HelpButton_Click);
+			// 
+			// exitButton
+			// 
+			resources.ApplyResources(this.exitButton, "exitButton");
+			this.exitButton.Name = "exitButton";
+			this.exitButton.Click += new System.EventHandler(this.ExitButton_Click);
+			// 
+			// optionsButton
+			// 
+			resources.ApplyResources(this.optionsButton, "optionsButton");
+			this.optionsButton.Name = "optionsButton";
+			this.optionsButton.Click += new System.EventHandler(this.OptionsButton_Click);
+			// 
+			// combineComboBox
+			// 
+			this.combineComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			resources.ApplyResources(this.combineComboBox, "combineComboBox");
+			this.combineComboBox.Items.AddRange(new object[] {
             resources.GetString("combineComboBox.Items")});
-            this.combineComboBox.Name = "combineComboBox";
-            this.combineComboBox.Sorted = true;
-            this.combineComboBox.SelectedIndexChanged += new System.EventHandler(this.CombineComboBox_SelectedIndexChanged);
-            // 
-            // colorComboBox
-            // 
-            this.colorComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            resources.ApplyResources(this.colorComboBox, "colorComboBox");
-            this.colorComboBox.Name = "colorComboBox";
-            this.colorComboBox.SelectedIndexChanged += new System.EventHandler(this.ColorComboBox_SelectedIndexChanged);
-            // 
-            // importFileDialog
-            // 
-            resources.ApplyResources(this.importFileDialog, "importFileDialog");
-            // 
-            // gemLocationsLabel
-            // 
-            resources.ApplyResources(this.gemLocationsLabel, "gemLocationsLabel");
-            this.gemLocationsLabel.Name = "gemLocationsLabel";
-            // 
-            // resultLabel
-            // 
-            resources.ApplyResources(this.resultLabel, "resultLabel");
-            this.resultLabel.Name = "resultLabel";
-            // 
-            // formulaInputRichTextBox
-            // 
-            this.formulaInputRichTextBox.AcceptsTab = true;
-            resources.ApplyResources(this.formulaInputRichTextBox, "formulaInputRichTextBox");
-            this.formulaInputRichTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.formulaInputRichTextBox.Name = "formulaInputRichTextBox";
-            // 
-            // testButton
-            // 
-            resources.ApplyResources(this.testButton, "testButton");
-            this.testButton.Name = "testButton";
-            this.testButton.Click += new System.EventHandler(this.TestButton_Click);
-            // 
-            // baseGemsListBox
-            // 
-            resources.ApplyResources(this.baseGemsListBox, "baseGemsListBox");
-            this.baseGemsListBox.FormattingEnabled = true;
-            this.baseGemsListBox.Name = "baseGemsListBox";
-            // 
-            // GemCombiner
-            // 
-            resources.ApplyResources(this, "$this");
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.baseGemsListBox);
-            this.Controls.Add(this.testButton);
-            this.Controls.Add(this.formulaInputRichTextBox);
-            this.Controls.Add(this.resultLabel);
-            this.Controls.Add(this.gemLocationsLabel);
-            this.Controls.Add(this.combineComboBox);
-            this.Controls.Add(this.colorComboBox);
-            this.Controls.Add(this.optionsButton);
-            this.Controls.Add(this.exitButton);
-            this.Controls.Add(this.helpButton);
-            this.Controls.Add(this.stepNumeric);
-            this.Controls.Add(this.delayNumeric);
-            this.Controls.Add(this.stepLabel);
-            this.Controls.Add(this.delayLabel);
-            this.Controls.Add(this.combineButton);
-            this.Controls.Add(this.instructionsLabel);
-            this.Controls.Add(this.instructionsListBox);
-            this.Controls.Add(this.parseRecipeButton);
-            this.Controls.Add(this.schemeLabel);
-            this.Controls.Add(this.copyListButton);
-            this.DoubleBuffered = true;
-            this.MaximizeBox = false;
-            this.Name = "GemCombiner";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.GemCombiner_FormClosing);
-            this.Load += new System.EventHandler(this.GemCombiner_Load);
-            this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.GemCombiner_MouseDown);
-            ((System.ComponentModel.ISupportInitialize)(this.delayNumeric)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.stepNumeric)).EndInit();
-            this.ResumeLayout(false);
-            this.PerformLayout();
+			this.combineComboBox.Name = "combineComboBox";
+			this.combineComboBox.Sorted = true;
+			this.combineComboBox.SelectedIndexChanged += new System.EventHandler(this.CombineComboBox_SelectedIndexChanged);
+			// 
+			// colorComboBox
+			// 
+			this.colorComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			resources.ApplyResources(this.colorComboBox, "colorComboBox");
+			this.colorComboBox.Name = "colorComboBox";
+			this.colorComboBox.Sorted = true;
+			this.colorComboBox.SelectedIndexChanged += new System.EventHandler(this.ColorComboBox_SelectedIndexChanged);
+			// 
+			// importFileDialog
+			// 
+			resources.ApplyResources(this.importFileDialog, "importFileDialog");
+			// 
+			// gemLocationsLabel
+			// 
+			resources.ApplyResources(this.gemLocationsLabel, "gemLocationsLabel");
+			this.gemLocationsLabel.Name = "gemLocationsLabel";
+			// 
+			// resultLabel
+			// 
+			resources.ApplyResources(this.resultLabel, "resultLabel");
+			this.resultLabel.Name = "resultLabel";
+			// 
+			// formulaInputRichTextBox
+			// 
+			this.formulaInputRichTextBox.AcceptsTab = true;
+			resources.ApplyResources(this.formulaInputRichTextBox, "formulaInputRichTextBox");
+			this.formulaInputRichTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.formulaInputRichTextBox.Name = "formulaInputRichTextBox";
+			// 
+			// baseGemsListBox
+			// 
+			resources.ApplyResources(this.baseGemsListBox, "baseGemsListBox");
+			this.baseGemsListBox.FormattingEnabled = true;
+			this.baseGemsListBox.Name = "baseGemsListBox";
+			// 
+			// GemCombiner
+			// 
+			resources.ApplyResources(this, "$this");
+			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.Controls.Add(this.baseGemsListBox);
+			this.Controls.Add(this.formulaInputRichTextBox);
+			this.Controls.Add(this.resultLabel);
+			this.Controls.Add(this.gemLocationsLabel);
+			this.Controls.Add(this.combineComboBox);
+			this.Controls.Add(this.colorComboBox);
+			this.Controls.Add(this.optionsButton);
+			this.Controls.Add(this.exitButton);
+			this.Controls.Add(this.helpButton);
+			this.Controls.Add(this.stepNumeric);
+			this.Controls.Add(this.delayNumeric);
+			this.Controls.Add(this.stepLabel);
+			this.Controls.Add(this.delayLabel);
+			this.Controls.Add(this.combineButton);
+			this.Controls.Add(this.instructionsLabel);
+			this.Controls.Add(this.instructionsListBox);
+			this.Controls.Add(this.parseRecipeButton);
+			this.Controls.Add(this.schemeLabel);
+			this.Controls.Add(this.copyListButton);
+			this.DoubleBuffered = true;
+			this.MaximizeBox = false;
+			this.Name = "GemCombiner";
+			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.GemCombiner_FormClosing);
+			this.Load += new System.EventHandler(this.GemCombiner_Load);
+			this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.GemCombiner_MouseDown);
+			((System.ComponentModel.ISupportInitialize)(this.delayNumeric)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.stepNumeric)).EndInit();
+			this.ResumeLayout(false);
+			this.PerformLayout();
 
         }
 
@@ -251,7 +244,6 @@
         private System.Windows.Forms.Label gemLocationsLabel;
         private System.Windows.Forms.Label resultLabel;
         private System.Windows.Forms.RichTextBox formulaInputRichTextBox;
-        private System.Windows.Forms.Button testButton;
         private System.Windows.Forms.ListBox baseGemsListBox;
     }
 }

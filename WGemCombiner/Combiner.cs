@@ -2,13 +2,14 @@
 {
 	using System;
 	using System.Collections.Generic;
+	using System.Diagnostics;
 	using System.Globalization;
 	using System.Text;
 	using System.Text.RegularExpressions;
-
+	using System.Windows.Forms;
 	// New class for combining gems; made distinct from CombinePerformer so that class can strictly be about interacting with GC while this one is for internal use
 	[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix", Justification = "Represents a concrete concept rather than a simply a GemCollection.")]
-	internal class Combine
+	public class Combiner
 	{
 		#region Static Fields
 		private static Regex equationParser = new Regex(@"(?<index>\d+)\s*=\s*((?<lhs>\d+)\s*\+\s*(?<rhs>\d+)|g?\d*\s*(?<letter>[a-z]))", RegexOptions.Compiled | RegexOptions.ExplicitCapture | RegexOptions.IgnoreCase);
@@ -16,33 +17,24 @@
 		#endregion
 
 		#region Fields
-		private List<GemNew> gems = new List<GemNew>();
+		private List<Gem> gems = new List<Gem>();
 		#endregion
 
 		#region Constructors
-		public Combine(GemNew parentGem, List<GemNew> gemList, int condenserSlot)
+		public Combiner(string recipe)
 		{
-			this.Gem = parentGem;
-			this.Instructions = new InstructionCollection(condenserSlot);
-			this.SetupForSlotCondenser(gemList);
+			this.AddRecipe(recipe);
 		}
 
-		public Combine(string recipe)
+		public Combiner(IEnumerable<string> equations)
 		{
-			if (string.IsNullOrWhiteSpace(recipe))
-			{
-				throw new ArgumentNullException(nameof(recipe), "Combine recipe was blank.");
-			}
+			this.AddEquations(equations);
+		}
 
-			this.Instructions = new InstructionCollection();
-			if (!recipe.Contains("="))
-			{
-				this.AddEquations(EquationsFromParentheses(recipe));
-			}
-			else
-			{
-				this.AddEquations(recipe);
-			}
+		public Combiner(Gem parentGem, IList<Gem> baseGems)
+		{
+			this.Gem = parentGem;
+			this.BaseGems = baseGems;
 		}
 		#endregion
 
@@ -53,9 +45,9 @@
 		#endregion
 
 		#region Public Properties
-		public GemNew Gem { get; private set; }
+		public IList<Gem> BaseGems { get; } = new List<Gem>(1);
 
-		public InstructionCollection Instructions { get; private set; }
+		public Gem Gem { get; private set; }
 		#endregion
 
 		#region Public Static Methods
@@ -78,7 +70,7 @@
 			}
 
 			var id = 0;
-			foreach (var c in GemNew.GemInitializer)
+			foreach (var c in Gem.GemInitializer)
 			{
 				if (recipe.IndexOf(c) > -1)
 				{
@@ -161,7 +153,91 @@
 		#endregion
 
 		#region Public Methods
-		public void AddEquations(string equations)
+		public InstructionCollection GetInstructions()
+		{
+			this.ResetUseCount(false);
+			var instructions = new InstructionCollection(this.BaseGems);
+			this.Gem.UseCount = 1;
+			this.BuildGem(this.Gem, instructions, true);
+			if (instructions.SlotsRequired > SlotLimit)
+			{
+				instructions = this.CondenseSlots();
+				instructions.OptimizeCondensedBaseGems(this.BaseGems);
+			}
+
+			instructions.Move1A(this.Gem);
+
+#if DEBUG
+			try
+			{
+				this.SlotBaseGems();
+				instructions.Verify(this.BaseGems);
+			}
+			catch (InvalidOperationException e)
+			{
+				MessageBox.Show(e.Message, "Verification failed", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+			}
+#endif
+
+			return instructions;
+		}
+		#endregion
+
+		#region Private Static Methods
+		private static string LeveledPreparser(string recipe)
+		{
+			// Replaces leveled gems (e.g., "3o" becomes "((o+o)+(o+o))")
+			var sb = new StringBuilder();
+			var replacements = new SortedDictionary<int, string>();
+			int lastPos = 0;
+			foreach (Match match in gemPower.Matches(recipe))
+			{
+				var num = int.Parse(match.Groups["num"].Value, CultureInfo.InvariantCulture);
+				if (num > 15)
+				{
+					throw new ArgumentException(match.Value + " is too high to be parsed via a recipe. Try converting your recipe to equations.");
+				}
+
+				var color = match.Groups["color"].Value;
+				string newColor;
+				if (num == 1)
+				{
+					newColor = color;
+				}
+				else
+				{
+					if (!replacements.TryGetValue(num, out newColor))
+					{
+						if (replacements.Count == 0)
+						{
+							newColor = "*";
+						}
+						else
+						{
+							newColor = replacements[replacements.Count + 1]; // Plus one because key values start at 2, not 0.
+						}
+
+						for (int i = replacements.Count + 2; i <= num; i++)
+						{
+							newColor = newColor.Replace("*", "(*+*)");
+							replacements.Add(i, newColor);
+						}
+					}
+
+					newColor = newColor.Replace("*", color);
+				}
+
+				sb.Append(recipe.Substring(lastPos, match.Index - lastPos));
+				sb.Append(newColor);
+				lastPos = match.Index + match.Length;
+			}
+
+			return lastPos == 0 ? recipe : sb.Append(recipe.Substring(lastPos)).ToString();
+		}
+		#endregion
+
+		#region Private Methods
+		private void AddEquations(string equations)
 		{
 			if (!string.IsNullOrWhiteSpace(equations))
 			{
@@ -169,10 +245,10 @@
 			}
 		}
 
-		public void AddEquations(IEnumerable<string> equations)
+		private void AddEquations(IEnumerable<string> equations)
 		{
+			this.Clear();
 			var dupeCheck = new HashSet<int>();
-			this.gems.Clear();
 			foreach (var line in equations)
 			{
 				if (string.IsNullOrWhiteSpace(line))
@@ -197,7 +273,10 @@
 
 				if (letter.Length != 0)
 				{
-					this.gems.Add(new GemNew(letter[0]));
+					var baseGem = new BaseGem(letter[0]);
+					this.gems.Add(baseGem);
+					this.BaseGems.Add(baseGem);
+
 				}
 				else
 				{
@@ -208,7 +287,7 @@
 						throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, "Gem values in equation {0} must be less than {1}.", line, this.gems.Count));
 					}
 
-					this.gems.Add(new GemNew(this.gems[lhs], this.gems[rhs]));
+					this.gems.Add(new Gem(this.gems[lhs], this.gems[rhs]));
 					if (!dupeCheck.Add((lhs << 16) + rhs))
 					{
 						throw new ArgumentException(string.Format(CultureInfo.InvariantCulture, "The equation {0}+{1} appears more than once.", lhs, rhs));
@@ -247,77 +326,19 @@
 			this.Gem = this.gems[this.gems.Count - 1];
 		}
 
-		public void GetInstructions()
+		private void AddRecipe(string recipe)
 		{
-			this.Instructions.Reset();
-			this.SlotBaseGems();
-			this.Gem.UseCount = 1;
-			this.BuildGem(this.Gem, true);
-			if (this.Instructions.SlotsRequired > SlotLimit)
+			if (!recipe.Contains("="))
 			{
-				this.CondenseSlots();
+				this.AddEquations(EquationsFromParentheses(recipe));
 			}
-
-			this.Instructions.Move1A(this.Gem);
-		}
-		#endregion
-
-		#region Private Static Methods
-		private static string LeveledPreparser(string recipe)
-		{
-			// Replaces leveled gems (e.g., "3o" becomes "((o+o)+(o+o))")
-			var sb = new StringBuilder();
-			var replacements = new SortedDictionary<int, string>();
-			int lastPos = 0;
-			foreach (Match match in gemPower.Matches(recipe))
+			else
 			{
-				var num = int.Parse(match.Groups["num"].Value, CultureInfo.InvariantCulture);
-				if (num > 15)
-				{
-					throw new ArgumentException(match.Value + " is too high to be parsed via a recipe. Try converting your recipe to equations.");
-				}
-
-				var color = match.Groups["color"].Value;
-				string newColor;
-				if (num == 1)
-				{
-					newColor = color;
-				}
-				else
-				{
-					if (!replacements.TryGetValue(num, out newColor))
-					{
-						if (replacements.Count == 0)
-						{
-							newColor = "*";
-						}
-						else
-						{
-							newColor = replacements[replacements.Count - 1];
-						}
-
-						for (int i = replacements.Count + 2; i <= num; i++)
-						{
-							newColor = newColor.Replace("*", "(*+*)");
-							replacements.Add(i, newColor);
-						}
-					}
-
-					newColor = newColor.Replace("*", color);
-				}
-
-				sb.Append(recipe.Substring(lastPos, match.Index - lastPos));
-				sb.Append(newColor);
-				lastPos = match.Index + match.Length;
+				this.AddEquations(recipe);
 			}
-
-			return lastPos == 0 ? recipe : sb.Append(recipe.Substring(lastPos)).ToString();
 		}
-		#endregion
 
-		#region Private Methods
-		// Select the costliest branch of a gem and build it.
-		private void BuildGem(GemNew gem, bool doPostScan)
+		private void BuildGem(Gem gem, InstructionCollection instructions, bool doPostScan)
 		{
 			if (!gem.IsNeeded)
 			{
@@ -326,57 +347,62 @@
 
 			var gem1 = gem.Components[0];
 			var gem2 = gem.Components[1];
-			this.BuildGem(gem1, true);
-			this.BuildGem(gem2, true);
+			this.BuildGem(gem1, instructions, true);
+			this.BuildGem(gem2, instructions, true);
 
 			// Re-check if gem is needed in case gem was already built during optimization routine for component gems.
 			if (gem.IsNeeded)
 			{
 				gem1.UseCount--;
 				gem2.UseCount--;
-				doPostScan &= gem.IsUpgrade ? this.Instructions.Upgrade(gem) : this.Instructions.Combine(gem);
-
-				foreach (var component in gem.Components)
-				{
-					if (component.UseCount == 0)
-					{
-						component.Slot = NotSlotted;
-					}
-				}
+				doPostScan &= gem.IsUpgrade ? instructions.Upgrade(gem) : instructions.Combine(gem);
 
 				while (doPostScan)
 				{
-					doPostScan = this.OptimizeLastGems() || this.OptimizeSingleUseGems();
+					doPostScan = this.OptimizeLastGems(instructions) || this.OptimizeSingleUseGems(instructions);
 				}
 			}
 		}
 
-		private void CondenseSlots()
+		private void Clear()
 		{
-			var combine1 = new Combine(this.Gem.Components[0], this.gems, -1);
-			combine1.Gem.UseCount++;
-			combine1.BuildGem(combine1.Gem, true);
-			if (combine1.Instructions.SlotsRequired > SlotLimit)
-			{
-				combine1.CondenseSlots();
-			}
-
-			this.Instructions = combine1.Instructions;
-
-			var combine2 = new Combine(this.Gem.Components[1], this.gems, combine1.Gem.Slot);
-			combine2.Gem.UseCount++;
-			combine2.BuildGem(combine2.Gem, true);
-			if (combine2.Instructions.SlotsRequired > SlotLimit)
-			{
-				combine2.CondenseSlots();
-			}
-
-			this.Instructions.AddRange(combine2.Instructions);
-			this.Instructions.Combine(this.Gem);
-			this.Instructions.SlotsRequired = combine1.Instructions.SlotsRequired > combine2.Instructions.SlotsRequired ? combine1.Instructions.SlotsRequired : combine2.Instructions.SlotsRequired;
+			this.gems.Clear();
+			this.BaseGems.Clear();
 		}
 
-		private bool OptimizeLastGems()
+		private InstructionCollection CondenseSlots()
+		{
+			var combine1 = new Combiner(this.Gem.Components[0], this.BaseGems);
+			combine1.SetupForSlotCondenser(this.gems);
+			combine1.Gem.UseCount++;
+			var instructions1 = new InstructionCollection(this.BaseGems);
+			combine1.BuildGem(combine1.Gem, instructions1, true);
+			if (instructions1.SlotsRequired > SlotLimit)
+			{
+				instructions1 = combine1.CondenseSlots();
+			}
+
+			var combine2 = new Combiner(this.Gem.Components[1], this.BaseGems);
+			combine2.SetupForSlotCondenser(this.gems);
+			combine2.Gem.UseCount++;
+			var instructions2 = new InstructionCollection(this.BaseGems, combine1.Gem.Slot);
+			combine2.BuildGem(combine2.Gem, instructions2, true);
+			if (instructions2.SlotsRequired > SlotLimit)
+			{
+				instructions2 = combine2.CondenseSlots();
+			}
+
+			instructions1.AddRange(instructions2);
+			instructions1.Combine(this.Gem);
+			if (instructions2.SlotsRequired > instructions1.SlotsRequired)
+			{
+				instructions1.SlotsRequired = instructions2.SlotsRequired;
+			}
+
+			return instructions1;
+		}
+
+		private bool OptimizeLastGems(InstructionCollection instructions)
 		{
 			var optimized = false;
 			foreach (var gem in this.gems)
@@ -384,14 +410,14 @@
 				if (gem.IsNeeded && gem.Components[0].Slot >= 0 && gem.Components[1].Slot >= 0 && (gem.IsUpgrade && gem.Components[0].UseCount == 2 || gem.Components[0].UseCount == 1 && gem.Components[1].UseCount == 1))
 				{
 					optimized = true;
-					this.BuildGem(gem, false);
+					this.BuildGem(gem, instructions, false);
 				}
 			}
 
 			return optimized;
 		}
 
-		private bool OptimizeSingleUseGems()
+		private bool OptimizeSingleUseGems(InstructionCollection instructions)
 		{
 			var optimized = false;
 			foreach (var gem in this.gems)
@@ -399,15 +425,45 @@
 				if (gem.IsNeeded && gem.Components[0].Slot >= 0 && gem.Components[1].Slot >= 0 && (gem.Components[0].UseCount == 1 || gem.Components[1].UseCount == 1))
 				{
 					optimized = true;
-					this.BuildGem(gem, false);
+					this.BuildGem(gem, instructions, false);
 				}
 			}
 
 			return optimized;
 		}
 
-		private void SetupForSlotCondenser(List<GemNew> gemList)
+		private void ResetUseCount(bool preserveBaseGems)
 		{
+			this.SlotBaseGems();
+			foreach (var gem in this.gems)
+			{
+				gem.UseCount = 0;
+			}
+
+			foreach (var gem in this.gems)
+			{
+				if (gem.IsBaseGem)
+				{
+					if (preserveBaseGems)
+					{
+						gem.UseCount++;
+					}
+				}
+				else
+				{
+					gem.Components[0].UseCount++;
+					gem.Components[1].UseCount++;
+				}
+			}
+		}
+
+		private void SetupForSlotCondenser(List<Gem> gemList)
+		{
+			foreach (var gem in this.gems)
+			{
+				gem.UseCount = 0;
+			}
+
 			// Only update UseCount for gems actually used in this combiner even though all gems are inherited from parent.
 			// First, determine which gems are actually part of this combine. Hijacking UseCount as a marker, since we're going to be resetting it right after this anyway (and those in the base list don't matter).
 			this.Gem.UseCount = -1;
@@ -433,7 +489,7 @@
 			}
 			while (changesMade);
 
-			this.gems = new List<GemNew>();
+			this.gems = new List<Gem>();
 			foreach (var gem in gemList)
 			{
 				if (gem.UseCount == -1)
@@ -442,24 +498,7 @@
 				}
 			}
 
-			this.SlotBaseGems();
-			foreach (var gem in this.gems)
-			{
-				gem.UseCount = 0;
-			}
-
-			foreach (var gem in this.gems)
-			{
-				if (gem.IsBaseGem)
-				{
-					gem.UseCount++;
-				}
-				else
-				{
-					gem.Components[0].UseCount++;
-					gem.Components[1].UseCount++;
-				}
-			}
+			this.ResetUseCount(true);
 		}
 
 		private void SlotBaseGems()
@@ -470,7 +509,6 @@
 				if (gem.IsBaseGem)
 				{
 					gem.Slot = slot;
-					this.Instructions.AddBaseGem(gem);
 					slot++;
 				}
 				else

@@ -1,24 +1,14 @@
 ﻿namespace WGemCombiner
 {
-	using System.Collections.Generic;
 	using System.Collections.ObjectModel;
 	using static Globals;
 
-	public class RecipeCollection : KeyedCollection<string, Gem>
+	public class RecipeCollection : KeyedCollection<string, Combiner>
 	{
-		public RecipeCollection(IEnumerable<Gem> gems)
-		{
-			ThrowNull(gems, nameof(gems));
-			foreach (var gem in gems)
-			{
-				this.Add(gem);
-			}
-		}
-
-		protected override string GetKeyForItem(Gem item)
+		protected override string GetKeyForItem(Combiner item)
 		{
 			ThrowNull(item, nameof(item));
-			return item.CombineTitle;
+			return item.Gem.CombineTitle;
 		}
 	}
 }

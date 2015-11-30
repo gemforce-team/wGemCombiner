@@ -2,6 +2,7 @@
 {
 	using System;
 	using System.Collections.Generic;
+	using System.Diagnostics;
 	using System.Drawing;
 	using System.Globalization;
 	using System.IO;
@@ -14,11 +15,22 @@
 
 	public partial class GemCombiner : Form
 	{
+		#region Static Fields
+		private static Dictionary<GemColors, string> gemGroups = new Dictionary<GemColors, string>()
+		{
+			[GemColors.Black] = "Black",
+			[GemColors.Generic] = "Other",
+			[GemColors.Kill] = "Kill",
+			[GemColors.Mana] = "Mana",
+			[GemColors.Orange] = "Leech (Orange)",
+			[GemColors.Red] = "Red",
+			[GemColors.Yellow] = "Critical (Yellow)"
+		};
+		#endregion
+
 		#region Fields
 		private HelpForm helpForm = new HelpForm();
 		private Options optionsForm = new Options();
-		private NewGemTester testForm = new NewGemTester();
-		private CombinePerformer combinePerformer = new CombinePerformer(true);
 		private bool asyncWaiting = false;
 		private Dictionary<string, RecipeCollection> recipes = new Dictionary<string, RecipeCollection>();
 		#endregion
@@ -27,35 +39,20 @@
 		public GemCombiner()
 		{
 			this.InitializeComponent();
-			this.testButton.Visible = Type.GetType("WGemCombiner.NewGemTester") != null;
 		}
 		#endregion
 
 		#region Form/Control Methods
 		private void ColorComboBox_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			if (this.colorComboBox.SelectedIndex == 0)
+			var cb = this.combineComboBox.Items;
+			cb.Clear();
+			foreach (var item in this.recipes[this.colorComboBox.Text])
 			{
-				this.combineComboBox.Items.Clear();
+				cb.Add(item.Gem.CombineTitle);
 			}
-#if DEBUG
-			else if (this.colorComboBox.SelectedIndex == this.colorComboBox.Items.Count - 1)
-			{
-				this.importFileDialog.ShowDialog();
-				RecipeConverter.ConvertFromFile(this.importFileDialog.FileName);
-			}
-#endif
-			else
-			{
-				var cb = this.combineComboBox.Items;
-				cb.Clear();
-				foreach (var item in this.recipes[this.colorComboBox.Text])
-				{
-					cb.Add(item.CombineTitle);
-				}
 
-				this.combineComboBox.SelectedIndex = 0; // Preselect the first in the box
-			}
+			this.combineComboBox.SelectedIndex = 0; // Preselect the first in the box
 		}
 
 		private void CombineButton_Click(object sender, EventArgs e)
@@ -73,11 +70,6 @@
 				return;
 			}
 
-			if (this.combinePerformer == null)
-			{
-				this.parseRecipeButton.PerformClick();
-			}
-
 			this.combineButton.Text = "Press " + SettingsHandler.HotkeyText + " on A1"; // hotkey
 			this.asyncWaiting = true;
 			do
@@ -86,7 +78,7 @@
 				Thread.Sleep(10);
 
 				// [HR] Cancel before starting or if form is closing
-				if (GetAsyncKeyState(Keys.Escape) != 0 || this.combinePerformer == null)
+				if (GetAsyncKeyState(Keys.Escape) != 0 || !CombinePerformer.Enabled)
 				{
 					this.combineButton.Text = "Combine";
 					this.asyncWaiting = false;
@@ -98,9 +90,9 @@
 			// User pressed hotkey
 			this.asyncWaiting = false;
 			this.combineButton.Text = "Working...";
-			this.combinePerformer.SleepTime = (int)this.delayNumeric.Value;
-			this.combinePerformer.PerformCombine((int)this.stepNumeric.Value);
-			if (!this.combinePerformer.CancelCombine)
+			CombinePerformer.SleepTime = (int)this.delayNumeric.Value;
+			CombinePerformer.PerformCombine((int)this.stepNumeric.Value);
+			if (!CombinePerformer.CancelCombine)
 			{
 				this.combineButton.Text = "Combine";
 				Thread.Sleep(500); // guess give it 0.5sec before going again
@@ -110,14 +102,10 @@
 
 		private void CombineComboBox_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			if (this.colorComboBox.SelectedIndex > 0)
-			{
-				var gem = this.recipes[this.colorComboBox.Text][this.combineComboBox.Text];
-				var result = gem.GetFullCombine();
-				this.formulaInputRichTextBox.Text = result;
-				this.ParseRecipeButton_Click(this, EventArgs.Empty); // Auto-load instructions, so u don't have to even press that button
-				this.combineButton.PerformClick(); // Auto-load the combine button so all u have to press is "9" over the gem
-			}
+			var combine = this.recipes[this.colorComboBox.Text][this.combineComboBox.Text];
+			// this.formulaInputRichTextBox.Text = combine.Gem.Recipe();
+			this.GetInstructions(combine);
+			this.combineButton.PerformClick(); // Auto-load the combine button so all u have to press is "9" over the gem
 		}
 
 		private void CopyList_Click(object sender, EventArgs e)
@@ -141,7 +129,7 @@
 
 		private void GemCombiner_FormClosing(object sender, FormClosingEventArgs e)
 		{
-			this.combinePerformer = null;
+			CombinePerformer.Enabled = false;
 			Settings.Default.Save();
 			SettingsHandler.BordersChanged -= this.ApplyBorders;
 			SettingsHandler.SkinChanged -= this.ApplySkin;
@@ -149,25 +137,22 @@
 
 		private void GemCombiner_Load(object sender, EventArgs e)
 		{
-			this.combinePerformer.StepComplete += this.CombinePerformer_StepComplete;
+			CombinePerformer.StepComplete += this.CombinePerformer_StepComplete;
 			this.ApplySkin(null, null);
 			this.ApplyBorders(null, null);
 			SettingsHandler.SkinChanged += this.ApplySkin;
 			SettingsHandler.BordersChanged += this.ApplyBorders;
 			this.TopMost = Settings.Default.TopMost;
+			this.AddTextFileRecipes();
+
 			var cb = this.colorComboBox.Items;
-			cb.Add("Custom");
-			this.AddResourceRecipes();
-			// this.AddTextFileRecipes();
 			foreach (var key in this.recipes.Keys)
 			{
 				cb.Add(key);
 			}
-#if DEBUG
-			cb.Add("Import...");
-#endif
+
 			this.colorComboBox.SelectedIndex = 0;
-			this.combinePerformer.Enabled = true;
+			CombinePerformer.Enabled = true;
 		}
 
 		private void GemCombiner_MouseDown(object sender, MouseEventArgs e)
@@ -190,36 +175,21 @@
 				parsedText = parsedText.Substring(tagEnd).Trim();
 			}
 
-			if (parsedText.Length <= 1)
+			Combiner combine;
+			try
 			{
-				return; // [HR]
+				combine = new Combiner(parsedText);
+			}
+			catch (ArgumentException ex)
+			{
+				MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				return;
 			}
 
-			this.combinePerformer.Parse(parsedText);
-			this.combinePerformer.ChangeLastDestination(Slot1A);
-			if (this.combinePerformer.ResultGem == null)
+			if (combine != null)
 			{
-				return; // this happens when the input formula is invalid
+				this.GetInstructions(combine);
 			}
-
-			this.resultLabel.Text = this.combinePerformer.ResultGem.DisplayInfo(false, this.combinePerformer.SlotsRequired);
-			this.baseGemsListBox.Items.Clear();
-			int ngem = 0;
-			foreach (var gem in this.combinePerformer.BaseGems)
-			{
-				this.baseGemsListBox.Items.Add(SlotName(ngem) + ": " + gem.ColorName);
-				ngem++;
-			}
-
-			this.instructionsListBox.Items.Clear();
-			var items = this.instructionsListBox.Items;
-			var instructions = this.combinePerformer.Instructions;
-			for (int i = 0; i < instructions.Count; i++)
-			{
-				items.Add(string.Format(CultureInfo.CurrentCulture, "{0}: {1}", i, instructions[i]));
-			}
-
-			this.stepNumeric.Maximum = this.combinePerformer.Instructions.Count - 1;
 		}
 
 		private void HelpButton_Click(object sender, EventArgs e)
@@ -242,23 +212,13 @@
 		#endregion
 
 		#region Private Methods
-		private void AddResourceRecipes()
-		{
-			var recipeDictionary = this.recipes;
-			recipeDictionary["Orange Combine"] = new RecipeCollection(Preset.ReadResources("WGemCombiner.Resources.orange.orangePresets.resources", "o"));
-			recipeDictionary["Mana Gem Spec"] = new RecipeCollection(Preset.ReadResources("WGemCombiner.Resources.mgSpec.mgSpecPresets.resources", "obr"));
-			recipeDictionary["Mana Gem Combine"] = new RecipeCollection(Preset.ReadResources("WGemCombiner.Resources.mgComb.mgCombPresets.resources", "m"));
-			recipeDictionary["Yellow Combine"] = new RecipeCollection(Preset.ReadResources("WGemCombiner.Resources.yellow.yellowPresets.resources", "y"));
-			recipeDictionary["Kill Gem Spec"] = new RecipeCollection(Preset.ReadResources("WGemCombiner.Resources.kgSpec.kgSpecPresets.resources", "ybr"));
-			recipeDictionary["Kill Gem Combine"] = new RecipeCollection(Preset.ReadResources("WGemCombiner.Resources.kgComb.kgCombPresets.resources", "k"));
-		}
-
 		private void AddTextFileRecipes()
 		{
 			foreach (var filename in Directory.EnumerateFiles(".", "*.txt", SearchOption.TopDirectoryOnly))
 			{
+				Debug.WriteLine(filename);
 				var lines = File.ReadAllLines(filename);
-				var recipe = new StringBuilder();
+				var recipe = new List<string>();
 				int lineNum = 0;
 				foreach (var line in lines)
 				{
@@ -268,22 +228,39 @@
 						var trimmedLine = line.Trim();
 						if (trimmedLine.Length == 0)
 						{
-							if (recipe.Length > 0)
+							if (recipe.Count > 0)
 							{
-								this.combinePerformer.Parse(recipe.ToString());
+								this.AddRecipe(new Combiner(recipe));
 								recipe.Clear();
 							}
 						}
 						else if (line.Contains("="))
 						{
-							recipe.AppendLine(line);
+							recipe.Add(line);
 						}
 						else
 						{
-							this.combinePerformer.Parse(trimmedLine);
+							this.AddRecipe(new Combiner(trimmedLine));
 						}
 					}
 				}
+			}
+		}
+
+		private void AddRecipe(Combiner combine)
+		{
+			var gem = combine.Gem;
+			var gemGroup = gemGroups[gem.Color] + " Gem " + (combine.BaseGems.Count == 1 ? "Combine" : "Spec");
+			if (!this.recipes.ContainsKey(gemGroup))
+			{
+				this.recipes[gemGroup] = new RecipeCollection();
+			}
+
+			if (!this.recipes[gemGroup].Contains(gem.CombineTitle))
+			{
+				// TODO: Consider some other method of checking if these truly are duplicates or not.
+				// Ignores gems with identical CombineTitles. Conceivably, there could be two different combines with identical titles, but I think this is fairly unlikely.
+				this.recipes[gemGroup].Add(combine);
 			}
 		}
 
@@ -302,21 +279,32 @@
 			Application.DoEvents();
 			if (GetAsyncKeyState(Keys.Escape) != 0)
 			{
-				this.combinePerformer.CancelCombine = true;
+				CombinePerformer.CancelCombine = true;
 			}
 
 			this.combineButton.Text = stepID.ToString(CultureInfo.CurrentCulture);
 		}
-		#endregion
 
-		private void TestButton_Click(object sender, EventArgs e)
+		private void GetInstructions(Combiner combine)
 		{
-			if (this.testForm.IsDisposed)
+			var instructions = combine.GetInstructions();
+			this.resultLabel.Text = combine.Gem.DisplayInfo(false, instructions.SlotsRequired);
+
+			this.baseGemsListBox.Items.Clear();
+			for (int ngem = 0; ngem < combine.BaseGems.Count; ngem++)
 			{
-				this.testForm = new NewGemTester();
+				this.baseGemsListBox.Items.Add(SlotName(ngem) + ": " + combine.BaseGems[ngem].Color.ToString());
 			}
 
-			this.testForm.Show();
+			this.instructionsListBox.Items.Clear();
+			var items = this.instructionsListBox.Items;
+			for (int i = 0; i < instructions.Count; i++)
+			{
+				items.Add(string.Format(CultureInfo.CurrentCulture, "{0}: {1}", i, instructions[i]));
+			}
+
+			this.stepNumeric.Maximum = instructions.Count - 1;
 		}
+		#endregion
 	}
 }
