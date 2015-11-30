@@ -9,7 +9,6 @@
 	using Properties;
 	using static NativeMethods;
 
-	// TODO: Redo most of this class so that equations are the default structure, as this goes through a LOT of unnecessary work right now to convert from equations to parenthetical format, then to this.combined which is essentially going back to equations again. Then the slot condenser starts doing the same thing, only recursively this time! Better to convert to equations at the start and then stick with those throughout.
 	internal static class CombinePerformer
 	{
 		#region Private Constants
@@ -28,7 +27,7 @@
 		#endregion
 
 		#region Public Events
-		public static event EventHandler<int> StepComplete = delegate { };
+		public static event EventHandler<int> StepComplete = (null1, null2) => { };
 		#endregion
 
 		#region Public Properties
@@ -36,7 +35,7 @@
 
 		public static bool Enabled { get; set; }
 
-		public static IList<Instruction> Instructions { get; set; }
+		public static InstructionCollection Instructions { get; set; }
 
 		public static int SleepTime { get; set; } = 33;
 		#endregion

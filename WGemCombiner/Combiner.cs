@@ -23,11 +23,13 @@
 		public Combiner(string recipe)
 		{
 			this.AddRecipe(recipe);
+			this.BaseGems = new List<Gem>(1);
 		}
 
 		public Combiner(IEnumerable<string> equations)
 		{
 			this.AddEquations(equations);
+			this.BaseGems = new List<Gem>(1);
 		}
 
 		public Combiner(Gem parentGem, IList<Gem> baseGems)
@@ -44,13 +46,13 @@
 		#endregion
 
 		#region Public Properties
-		public IList<Gem> BaseGems { get; } = new List<Gem>(1);
+		public IList<Gem> BaseGems { get; }
 
 		public Gem Gem { get; private set; }
 		#endregion
 
 		#region Public Static Methods
-		public static IList<string> EquationsFromParentheses(string recipe)
+		public static IEnumerable<string> EquationsFromParentheses(string recipe)
 		{
 			var equations = new List<string>();
 			if (string.IsNullOrWhiteSpace(recipe))
@@ -152,7 +154,8 @@
 		#endregion
 
 		#region Public Methods
-		public InstructionCollection GetInstructions()
+		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1002:DoNotExposeGenericLists", Justification = "Not intended as a consumable library, so List is fine.")]
+		public InstructionCollection CreateInstructions()
 		{
 			this.ResetUseCount(false);
 			var instructions = new InstructionCollection(this.BaseGems);
@@ -160,7 +163,7 @@
 			this.BuildGem(this.Gem, instructions, true);
 			if (instructions.SlotsRequired > SlotLimit)
 			{
-				instructions = this.CondenseSlots();
+				instructions = this.CondenseSlots(new List<Gem>(this.BaseGems));
 				instructions.OptimizeCondensedBaseGems(this.BaseGems);
 			}
 
@@ -170,7 +173,7 @@
 			try
 			{
 				this.SlotBaseGems();
-				instructions.Verify(this.BaseGems);
+				instructions.Verify(this.BaseGems, 1, -1);
 			}
 			catch (InvalidOperationException e)
 			{
@@ -275,7 +278,6 @@
 					var baseGem = new BaseGem(letter[0]);
 					this.gems.Add(baseGem);
 					this.BaseGems.Add(baseGem);
-
 				}
 				else
 				{
@@ -369,26 +371,29 @@
 			this.BaseGems.Clear();
 		}
 
-		private InstructionCollection CondenseSlots()
+		private InstructionCollection CondenseSlots(ICollection<Gem> gemsToIgnore)
 		{
 			var combine1 = new Combiner(this.Gem.Components[0], this.BaseGems);
 			combine1.SetupForSlotCondenser(this.gems);
 			combine1.Gem.UseCount++;
-			var instructions1 = new InstructionCollection(this.BaseGems);
+			var instructions1 = new InstructionCollection(gemsToIgnore);
 			combine1.BuildGem(combine1.Gem, instructions1, true);
+			combine1.Gem.UseCount--;
 			if (instructions1.SlotsRequired > SlotLimit)
 			{
-				instructions1 = combine1.CondenseSlots();
+				instructions1 = combine1.CondenseSlots(gemsToIgnore);
 			}
 
+			gemsToIgnore.Add(combine1.Gem);
 			var combine2 = new Combiner(this.Gem.Components[1], this.BaseGems);
 			combine2.SetupForSlotCondenser(this.gems);
 			combine2.Gem.UseCount++;
-			var instructions2 = new InstructionCollection(this.BaseGems, combine1.Gem.Slot);
+			var instructions2 = new InstructionCollection(gemsToIgnore);
 			combine2.BuildGem(combine2.Gem, instructions2, true);
+			combine2.Gem.UseCount--;
 			if (instructions2.SlotsRequired > SlotLimit)
 			{
-				instructions2 = combine2.CondenseSlots();
+				instructions2 = combine2.CondenseSlots(gemsToIgnore);
 			}
 
 			instructions1.AddRange(instructions2);
@@ -397,6 +402,8 @@
 			{
 				instructions1.SlotsRequired = instructions2.SlotsRequired;
 			}
+
+			gemsToIgnore.Remove(combine1.Gem);
 
 			return instructions1;
 		}
@@ -436,19 +443,12 @@
 			this.SlotBaseGems();
 			foreach (var gem in this.gems)
 			{
-				gem.UseCount = 0;
+				gem.UseCount = gem.IsBaseGem && preserveBaseGems ? 1 : 0;
 			}
 
 			foreach (var gem in this.gems)
 			{
-				if (gem.IsBaseGem)
-				{
-					if (preserveBaseGems)
-					{
-						gem.UseCount++;
-					}
-				}
-				else
+				if (!gem.IsBaseGem)
 				{
 					gem.Components[0].UseCount++;
 					gem.Components[1].UseCount++;

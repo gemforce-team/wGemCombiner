@@ -58,12 +58,6 @@
 		public int To { get; private set; }
 		#endregion
 
-		#region Operators
-		public static bool operator ==(Instruction first, Instruction second) => Equals(first, second);
-
-		public static bool operator !=(Instruction first, Instruction second) => !Equals(first, second);
-		#endregion
-
 		#region Public Static Methods
 		public static bool Equals(Instruction first, Instruction second) => first?.From == second?.From && first?.To == second?.To;
 
@@ -91,18 +85,6 @@
 		#endregion
 
 		#region Public Override Methods
-		public override bool Equals(object obj)
-		{
-			if (obj is Instruction)
-			{
-				return Equals(this, (Instruction)obj);
-			}
-
-			return false;
-		}
-
-		public override int GetHashCode() => this.From.GetHashCode() ^ this.To.GetHashCode();
-
 		public override string ToString()
 		{
 			var fromSlot = SlotName(this.From);

@@ -28,8 +28,11 @@
 		{
 			ThrowNull(gem1, nameof(gem1));
 			ThrowNull(gem2, nameof(gem2));
-			this.Components.Add(gem1);
-			this.Components.Add(gem2);
+			var components = new List<Gem>(2);
+			components.Add(gem1);
+			components.Add(gem2);
+			this.Components = components;
+
 			foreach (var component in this.Components)
 			{
 				this.Color |= component.Color;
@@ -76,7 +79,7 @@
 
 		public string CombineTitle => string.Format(CultureInfo.CurrentCulture, "{0:0000000} ({1:0.00000}){2}", this.Cost, this.Growth, IsPowerOfTwo(this.Cost) ? "-" : string.Empty);
 
-		public IList<Gem> Components { get; } = new List<Gem>(2);
+		public IReadOnlyList<Gem> Components { get; }
 
 		public int Cost { get; protected set; }
 

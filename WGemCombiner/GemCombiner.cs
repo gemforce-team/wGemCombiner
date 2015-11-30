@@ -103,7 +103,7 @@
 		{
 			var combine = this.recipes[this.colorComboBox.Text][this.combineComboBox.Text];
 			// this.formulaInputRichTextBox.Text = combine.Gem.Recipe();
-			this.GetInstructions(combine);
+			this.CreateInstructions(combine);
 			this.combineButton.PerformClick(); // Auto-load the combine button so all u have to press is "9" over the gem
 		}
 
@@ -187,7 +187,7 @@
 
 			if (combine != null)
 			{
-				this.GetInstructions(combine);
+				this.CreateInstructions(combine);
 			}
 		}
 
@@ -283,9 +283,9 @@
 			this.combineButton.Text = stepID.ToString(CultureInfo.CurrentCulture);
 		}
 
-		private void GetInstructions(Combiner combine)
+		private void CreateInstructions(Combiner combine)
 		{
-			var instructions = combine.GetInstructions();
+			var instructions = combine.CreateInstructions();
 			this.resultLabel.Text = combine.Gem.DisplayInfo(false, instructions.SlotsRequired);
 
 			this.baseGemsListBox.Items.Clear();
@@ -295,13 +295,13 @@
 			}
 
 			this.instructionsListBox.Items.Clear();
-			var items = this.instructionsListBox.Items;
 			for (int i = 0; i < instructions.Count; i++)
 			{
-				items.Add(string.Format(CultureInfo.CurrentCulture, "{0}: {1}", i, instructions[i]));
+				this.instructionsListBox.Items.Add(i.ToString(CultureInfo.CurrentCulture) + ": " + instructions[i].ToString());
 			}
 
 			this.stepNumeric.Maximum = instructions.Count - 1;
+			CombinePerformer.Instructions = instructions;
 		}
 		#endregion
 	}

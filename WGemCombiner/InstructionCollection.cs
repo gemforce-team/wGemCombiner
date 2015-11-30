@@ -1,49 +1,45 @@
 ﻿namespace WGemCombiner
 {
 	using System;
+	using System.Collections;
 	using System.Collections.Generic;
+	using System.Collections.ObjectModel;
 	using System.Globalization;
 	using static Globals;
 
 	public class InstructionCollection : List<Instruction>
 	{
 		#region Constants
-		private const bool UseOldBehavior = false;
 		private const int Slot1A = 0;
 		#endregion
 
 		#region Constructors
-		public InstructionCollection(IList<Gem> baseGems)
+		public InstructionCollection(IEnumerable<Gem> gemsToIgnore)
 		{
-			foreach (var gem in baseGems)
+			ThrowNull(gemsToIgnore, nameof(gemsToIgnore));
+			var slotsToIgnore = new List<int>();
+			foreach (var gem in gemsToIgnore)
 			{
-				if (gem.Slot >= this.SlotsRequired)
+				if (gem.Slot < 0)
 				{
-					this.SlotsRequired = gem.Slot + 1;
+					throw new InvalidOperationException("Instruction collection told to ignore an un-slotted gem.");
 				}
+
+				slotsToIgnore.Add(gem.Slot);
 			}
-		}
 
-		internal InstructionCollection(IList<Gem> baseGems, int condenserSlot)
-		{
-			if (condenserSlot >= 0)
+			// slotsToIgnore should include both base gem slots and any slots the slot condenser has used along the way.
+			slotsToIgnore.Sort();
+			var highestSlot = slotsToIgnore[slotsToIgnore.Count - 1];
+			for (int i = 0; i < highestSlot; i++)
 			{
-				// Assumes base gems will be in lower slots than the condenser gem slot, which should always be the case.
-				for (int i = 0; i < condenserSlot; i++)
-				{
-					this.Empties.Add(i);
-				}
+				this.Empties.Add(i);
+			}
 
-				foreach (var gem in baseGems)
-				{
-					this.Empties.Remove(gem.Slot);
-					this.SlotsRequired = gem.Slot + 1;
-				}
-
-				if (condenserSlot >= this.SlotsRequired)
-				{
-					this.SlotsRequired = condenserSlot + 1;
-				}
+			foreach (var slot in slotsToIgnore)
+			{
+				this.Empties.Remove(slot);
+				this.SlotsRequired = slot + 1;
 			}
 		}
 		#endregion
@@ -52,6 +48,11 @@
 		public SortedSet<int> Empties { get; } = new SortedSet<int>();
 
 		public int SlotsRequired { get; internal set; }
+		#endregion
+
+		#region Private Static Properties
+		// Static property rather than const so it doesn't trigger unreachable code warnings.
+		private static bool UseOldBehavior { get; }
 		#endregion
 
 		#region Public Methods
@@ -118,8 +119,10 @@
 			return true;
 		}
 
-		public void Verify(IList<Gem> baseGems)
+		// TODO: Update to handle multiple condenser gems
+		public void Verify(IEnumerable<Gem> baseGems, int expectedGemCount, int condenserGemSlot)
 		{
+			ThrowNull(baseGems, nameof(baseGems));
 			bool[] slots = new bool[36];
 			foreach (var gem in baseGems)
 			{
@@ -162,6 +165,11 @@
 					default:
 						break;
 				}
+
+				if (condenserGemSlot >= 0 && slots[condenserGemSlot])
+				{
+					throw new InvalidOperationException("Condenser gem slot was used, when it should always be ignored!");
+				}
 			}
 
 			var gemList = new List<string>();
@@ -173,7 +181,7 @@
 				}
 			}
 
-			if (gemList.Count != 1)
+			if (gemList.Count != expectedGemCount)
 			{
 				throw new InvalidOperationException("At the end of the run, there were gems in slots: " + string.Join(", ", gemList));
 			}
@@ -181,7 +189,7 @@
 		#endregion
 
 		#region Internal Methods
-		internal void OptimizeCondensedBaseGems(IList<Gem> baseGems)
+		internal void OptimizeCondensedBaseGems(IEnumerable<Gem> baseGems)
 		{
 			// Optimize last dupes of base gems so we don't leave the base gems hanging around.
 			// e.g., the final Dupe 1A-3A gets removed and all subsequent 3A instructions are updated to use 1A.
