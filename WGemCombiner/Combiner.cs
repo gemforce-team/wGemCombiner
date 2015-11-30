@@ -6,8 +6,8 @@
 	using System.Text;
 	using System.Text.RegularExpressions;
 	using System.Windows.Forms;
-	// New class for combining gems; made distinct from CombinePerformer so that class can strictly be about interacting with GC while this one is for internal use
-	[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix", Justification = "Represents a concrete concept rather than a simply a GemCollection.")]
+	using static Globals;
+
 	public class Combiner
 	{
 		#region Static Fields
@@ -22,18 +22,19 @@
 		#region Constructors
 		public Combiner(string recipe)
 		{
-			this.AddRecipe(recipe);
 			this.BaseGems = new List<Gem>(1);
+			this.AddRecipe(recipe);
 		}
 
 		public Combiner(IEnumerable<string> equations)
 		{
-			this.AddEquations(equations);
 			this.BaseGems = new List<Gem>(1);
+			this.AddEquations(equations);
 		}
 
 		public Combiner(Gem parentGem, IList<Gem> baseGems)
 		{
+			ThrowNull(baseGems, nameof(baseGems));
 			this.Gem = parentGem;
 			this.BaseGems = baseGems;
 		}
@@ -154,7 +155,6 @@
 		#endregion
 
 		#region Public Methods
-		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1002:DoNotExposeGenericLists", Justification = "Not intended as a consumable library, so List is fine.")]
 		public InstructionCollection CreateInstructions()
 		{
 			this.ResetUseCount(false);
@@ -396,16 +396,9 @@
 				instructions2 = combine2.CondenseSlots(gemsToIgnore);
 			}
 
-			instructions1.AddRange(instructions2);
-			instructions1.Combine(this.Gem);
-			if (instructions2.SlotsRequired > instructions1.SlotsRequired)
-			{
-				instructions1.SlotsRequired = instructions2.SlotsRequired;
-			}
-
 			gemsToIgnore.Remove(combine1.Gem);
 
-			return instructions1;
+			return new InstructionCollection(instructions1, instructions2, this.Gem);
 		}
 
 		private bool OptimizeLastGems(InstructionCollection instructions)
@@ -473,7 +466,7 @@
 				for (int i = gemList.Count - 1; i >= 0; i--)
 				{
 					var gem = gemList[i];
-					if (gem.UseCount == -1)
+					if (gem.UseCount == -1 && !gem.IsBaseGem)
 					{
 						foreach (var component in gem.Components)
 						{

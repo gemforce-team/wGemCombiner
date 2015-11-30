@@ -7,10 +7,14 @@
 	using System.Globalization;
 	using static Globals;
 
-	public class InstructionCollection : List<Instruction>
+	public class InstructionCollection : IReadOnlyList<Instruction>
 	{
 		#region Constants
 		private const int Slot1A = 0;
+		#endregion
+
+		#region Fields
+		private List<Instruction> instructions = new List<Instruction>();
 		#endregion
 
 		#region Constructors
@@ -42,9 +46,21 @@
 				this.SlotsRequired = slot + 1;
 			}
 		}
+
+		public InstructionCollection(InstructionCollection instructions1, InstructionCollection instructions2, Gem combine)
+		{
+			ThrowNull(instructions1, nameof(instructions1));
+			ThrowNull(instructions2, nameof(instructions2));
+			this.instructions.AddRange(instructions1);
+			this.instructions.AddRange(instructions2);
+			this.Combine(combine);
+			this.SlotsRequired = instructions2.SlotsRequired > instructions1.SlotsRequired ? instructions2.SlotsRequired : instructions1.SlotsRequired;
+		}
 		#endregion
 
 		#region Public Properties
+		public int Count => this.instructions.Count;
+
 		public SortedSet<int> Empties { get; } = new SortedSet<int>();
 
 		public int SlotsRequired { get; internal set; }
@@ -53,6 +69,10 @@
 		#region Private Static Properties
 		// Static property rather than const so it doesn't trigger unreachable code warnings.
 		private static bool UseOldBehavior { get; }
+		#endregion
+
+		#region Public Indexers
+		public Instruction this[int index] => this.instructions[index];
 		#endregion
 
 		#region Public Methods
@@ -66,7 +86,7 @@
 
 			var slot2 = this.DuplicateIfNeeded(parentGem.Components[1]);
 			var slot1 = this.DuplicateIfNeeded(parentGem.Components[0]);
-			this.Add(new Instruction(ActionType.Combine, slot1, slot2));
+			this.instructions.Add(new Instruction(ActionType.Combine, slot1, slot2));
 			this.Empties.Add(slot1);
 			parentGem.Slot = slot2;
 
@@ -86,6 +106,10 @@
 			return dupeHappened;
 		}
 
+		public IEnumerator<Instruction> GetEnumerator() => this.instructions.GetEnumerator();
+
+		IEnumerator IEnumerable.GetEnumerator() => this.instructions.GetEnumerator();
+
 		public void Move1A(Gem gem)
 		{
 			ThrowNull(gem, nameof(gem));
@@ -94,7 +118,7 @@
 				var lastInstruction = this[this.Count - 1];
 				if (lastInstruction.To != Slot1A)
 				{
-					this.Add(new Instruction(ActionType.Move, lastInstruction.To, Slot1A));
+					this.instructions.Add(new Instruction(ActionType.Move, lastInstruction.To, Slot1A));
 				}
 			}
 		}
@@ -108,7 +132,7 @@
 			}
 
 			var slot = this.DuplicateIfNeeded(gem.Components[0]);
-			this.Add(new Instruction(ActionType.Upgrade, slot));
+			this.instructions.Add(new Instruction(ActionType.Upgrade, slot));
 			gem.Slot = slot;
 			if (gem.Components[0].UseCount == 0)
 			{
@@ -195,9 +219,9 @@
 			// e.g., the final Dupe 1A-3A gets removed and all subsequent 3A instructions are updated to use 1A.
 			foreach (var gem in baseGems)
 			{
-				var index = this.FindLastIndex(g => g.From == gem.Slot && g.Action == ActionType.Duplicate);
+				var index = this.instructions.FindLastIndex(g => g.From == gem.Slot && g.Action == ActionType.Duplicate);
 				var oldLocation = this[index].To;
-				this.RemoveAt(index);
+				this.instructions.RemoveAt(index);
 				for (int index2 = index; index2 < this.Count; index2++)
 				{
 					this[index2].Translate(oldLocation, gem.Slot);
@@ -212,7 +236,7 @@
 			var slot1 = this.DuplicateIfNeeded(parentGem.Components[0]);
 			var slot2 = this.DuplicateIfNeeded(parentGem.Components[1]);
 			var dupeHappened = parentGem.Components[0].UseCount != 0 || parentGem.Components[1].UseCount != 0;
-			this.Add(new Instruction(ActionType.Combine, parentGem.Components[0].Slot, parentGem.Components[1].Slot));
+			this.instructions.Add(new Instruction(ActionType.Combine, parentGem.Components[0].Slot, parentGem.Components[1].Slot));
 			this.Empties.Add(parentGem.Components[0].Slot);
 			parentGem.Slot = parentGem.Components[1].Slot;
 			parentGem.Components[0].Slot = parentGem.Components[0].UseCount == 0 ? -1 : slot1;
@@ -239,7 +263,7 @@
 					this.Empties.Remove(slot);
 				}
 
-				this.Add(new Instruction(ActionType.Duplicate, gem.Slot, slot));
+				this.instructions.Add(new Instruction(ActionType.Duplicate, gem.Slot, slot));
 			}
 			else
 			{
@@ -253,7 +277,7 @@
 		{
 			var slot = this.DuplicateIfNeeded(gem.Components[0]);
 			var dupeHappened = gem.Components[0].UseCount == 0;
-			this.Add(new Instruction(ActionType.Upgrade, gem.Components[0].Slot));
+			this.instructions.Add(new Instruction(ActionType.Upgrade, gem.Components[0].Slot));
 			gem.Slot = gem.Components[0].Slot;
 			gem.Components[0].Slot = slot;
 
