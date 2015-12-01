@@ -119,7 +119,6 @@
 			var temp = this.From;
 			this.From = this.To;
 			this.To = temp;
-
 		}
 		#endregion
 	}

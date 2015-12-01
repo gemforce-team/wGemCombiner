@@ -2,7 +2,6 @@
 {
 	using System;
 	using System.Collections.Generic;
-	using System.Diagnostics;
 	using System.Drawing;
 	using System.Globalization;
 	using System.IO;
@@ -240,6 +239,12 @@
 					}
 				}
 			}
+
+			if (recipe.Count > 0)
+			{
+				this.AddRecipe(new Combiner(recipe));
+				recipe.Clear();
+			}
 		}
 
 		private void AddResourceRecipe(string name)
@@ -250,7 +255,7 @@
 			using (StreamReader reader = new StreamReader(stream))
 			{
 				var file = reader.ReadToEnd();
-				var lines = file.Split(new char[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
+				var lines = file.Split('\n', '\r');
 				this.AddFromLines(lines);
 			}
 		}

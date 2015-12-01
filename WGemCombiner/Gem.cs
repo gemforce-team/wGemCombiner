@@ -67,7 +67,14 @@
 
 			this.Damage = Math.Max(this.Damage, Math.Max(gem1.Damage, gem2.Damage));
 			this.Cost = gem1.Cost + gem2.Cost;
-			this.Growth = Math.Log(this.Power, this.Cost);
+			if (this.IsSpec)
+			{
+				this.Growth = this.Power / Math.Pow(this.Cost, this.Color == GemColors.Mana ? 0.627216 : 1.414061);
+			}
+			else
+			{
+				this.Growth = Math.Log(this.Power, this.Cost);
+			}
 		}
 
 		protected Gem()
@@ -76,8 +83,6 @@
 		#endregion
 
 		#region Public Properties
-		public double Coefficient => this.IsSpec ? this.Power / Math.Pow(this.Cost, this.Color == GemColors.Mana ? 0.627216 : 1.414061) : this.Growth;
-
 		public GemColors Color { get; protected set; }
 
 		public IReadOnlyList<Gem> Components { get; }
@@ -135,7 +140,7 @@
 
 		public int Slot { get; set; }
 
-		public string Title => string.Format(CultureInfo.CurrentCulture, "{0:0000000} ({1:0.00000}){2}", this.Cost, this.Coefficient, IsPowerOfTwo(this.Cost) ? "-" : string.Empty);
+		public string Title => string.Format(CultureInfo.CurrentCulture, "{0:0000000} ({1:0.00000}){2}", this.Cost, this.Growth, IsPowerOfTwo(this.Cost) ? "-" : string.Empty);
 
 		public int UseCount { get; set; }
 		#endregion
