@@ -108,6 +108,7 @@
 				PressKey(KeyDot); // hide info box
 			}
 
+			mSteps--; // Visually 1-based, but internally 0-based
 			for (int i = mSteps; i < Instructions.Count; i++)
 			{
 				var instruction = Instructions[i];
@@ -146,7 +147,7 @@
 						break;
 				}
 
-				StepComplete(null, i);
+				StepComplete(null, i + 1);
 				if (CancelCombine)
 				{
 					break;

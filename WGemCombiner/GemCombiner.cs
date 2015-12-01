@@ -38,6 +38,9 @@
 		#region Constructors
 		public GemCombiner()
 		{
+			this.AddResourceRecipe("leech");
+			this.AddTextFileRecipes(exePath + @"\recipes.txt");
+
 			this.InitializeComponent();
 		}
 		#endregion
@@ -143,8 +146,6 @@
 			SettingsHandler.SkinChanged += this.ApplySkin;
 			SettingsHandler.BordersChanged += this.ApplyBorders;
 			this.TopMost = Settings.Default.TopMost;
-			this.AddResourceRecipe("leech");
-			this.AddTextFileRecipes(exePath + @"\recipes.txt");
 
 			var cb = this.colorComboBox.Items;
 			foreach (var key in this.recipes.Keys)

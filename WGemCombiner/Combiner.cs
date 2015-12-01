@@ -13,6 +13,7 @@
 		#region Static Fields
 		private static Regex equationParser = new Regex(@"(?<index>\d+)\s*=\s*((?<lhs>\d+)\s*\+\s*(?<rhs>\d+)|g?\d*\s*(?<letter>[a-z]))", RegexOptions.Compiled | RegexOptions.ExplicitCapture | RegexOptions.IgnoreCase);
 		private static Regex gemPower = new Regex(@"g?(?<num>[0-9]+)\s*(?<color>([a-z]|\([a-z]+\)))", RegexOptions.Compiled | RegexOptions.ExplicitCapture | RegexOptions.IgnoreCase);
+		private static Regex invalidLetterFinder = new Regex(@"[a-z][^\+\)]", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 		#endregion
 
 		#region Fields
@@ -65,8 +66,8 @@
 			recipe = new Regex(@"\s+").Replace(recipe, string.Empty); // Remove all whitespace.
 			recipe = LeveledPreparser(recipe);
 
-			var multiLetterMatch = new Regex(@"[a-z]+\d*").Match(recipe);
-			if (multiLetterMatch.Success && multiLetterMatch.Length != 1)
+			var multiLetterMatch = invalidLetterFinder.Match(recipe);
+			if (multiLetterMatch.Success)
 			{
 				throw new ArgumentException("The gem \"" + multiLetterMatch.Value + "\" must be a single letter. Gem combinations must be expressed as individual components separated with plus signs and brackets, as needed. For example:\nob → o+b\nob+o → (o+b)+o");
 			}
