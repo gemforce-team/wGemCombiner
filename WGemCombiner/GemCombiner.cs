@@ -257,8 +257,11 @@
 
 		private void AddTextFileRecipes(string filename)
 		{
-			var lines = File.ReadAllLines(filename);
-			this.AddFromLines(lines);
+			if (File.Exists(filename))
+			{
+				var lines = File.ReadAllLines(filename);
+				this.AddFromLines(lines);
+			}
 		}
 
 		private void AddRecipe(Combiner combine)

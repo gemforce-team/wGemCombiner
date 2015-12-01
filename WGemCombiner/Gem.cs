@@ -76,7 +76,7 @@
 		#endregion
 
 		#region Public Properties
-		public double Coefficient => this.IsSpec ? this.Cost / Math.Pow(this.Power, this.Growth) : this.Growth;
+		public double Coefficient => this.IsSpec ? this.Power / Math.Pow(this.Cost, this.Color == GemColors.Mana ? 0.627216 : 1.414061) : this.Growth;
 
 		public GemColors Color { get; protected set; }
 
