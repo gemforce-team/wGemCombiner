@@ -217,10 +217,8 @@
   </ItemGroup>
   <ItemGroup>
     <CodeAnalysisDictionary Include="CustomDictionary.xml" />
-    <Content Include="GCIcon.ico" />
-    <Content Include="leech.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    <None Include="GCIcon.ico" />
+    <EmbeddedResource Include="Resources\leech.txt" />
     <Content Include="recipes.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

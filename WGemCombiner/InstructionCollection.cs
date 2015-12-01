@@ -116,7 +116,11 @@
 			if (this.Count > 0)
 			{
 				var lastInstruction = this[this.Count - 1];
-				if (lastInstruction.To != Slot1A)
+				if (lastInstruction.Action == ActionType.Combine && lastInstruction.From == Slot1A)
+				{
+					lastInstruction.Swap();
+				}
+				else if (lastInstruction.To != Slot1A)
 				{
 					this.instructions.Add(new Instruction(ActionType.Move, lastInstruction.To, Slot1A));
 				}

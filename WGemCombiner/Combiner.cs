@@ -65,10 +65,10 @@
 			recipe = new Regex(@"\s+").Replace(recipe, string.Empty); // Remove all whitespace.
 			recipe = LeveledPreparser(recipe);
 
-			var multiLetterMatch = new Regex("[a-z]{2,}").Match(recipe);
-			if (multiLetterMatch.Success)
+			var multiLetterMatch = new Regex(@"[a-z]+\d*").Match(recipe);
+			if (multiLetterMatch.Success && multiLetterMatch.Length != 1)
 			{
-				throw new ArgumentException("Gems must be a single letter. Gem combinations like \"" + multiLetterMatch.Value + "\" must be expressed as separate components separated with plus signs and brackets, as needed.");
+				throw new ArgumentException("The gem \"" + multiLetterMatch.Value + "\" must be a single letter. Gem combinations must be expressed as individual components separated with plus signs and brackets, as needed. For example:\nob → o+b\nob+o → (o+b)+o");
 			}
 
 			var id = 0;
@@ -312,19 +312,26 @@
 			}
 			*/
 
-			foreach (var gem in this.gems)
+			if (this.gems.Count > 0)
 			{
-				if (gem.UseCount == 0)
+				foreach (var gem in this.gems)
 				{
-					var index = this.gems.IndexOf(gem);
-					if (index != this.gems.Count - 1)
+					if (gem.UseCount == 0)
 					{
-						throw new ArgumentException(string.Format(CultureInfo.InvariantCulture, "Equation {0} is unused.", index));
+						var index = this.gems.IndexOf(gem);
+						if (index != this.gems.Count - 1)
+						{
+							throw new ArgumentException(string.Format(CultureInfo.InvariantCulture, "Equation {0} is unused.", index));
+						}
 					}
 				}
-			}
 
-			this.Gem = this.gems[this.gems.Count - 1];
+				this.Gem = this.gems[this.gems.Count - 1];
+			}
+			else
+			{
+				this.Gem = null;
+			}
 		}
 
 		private void AddRecipe(string recipe)

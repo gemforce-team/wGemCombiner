@@ -8,7 +8,7 @@
 		protected override string GetKeyForItem(Combiner item)
 		{
 			ThrowNull(item, nameof(item));
-			return item.Gem.CombineTitle;
+			return item.Gem.Title;
 		}
 	}
 }

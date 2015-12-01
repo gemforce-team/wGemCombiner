@@ -2,6 +2,7 @@
 {
 	using System;
 	using System.Collections.Generic;
+	using System.Diagnostics;
 	using System.Drawing;
 	using System.Globalization;
 	using System.IO;
@@ -9,21 +10,22 @@
 	using System.Threading;
 	using System.Windows.Forms;
 	using Properties;
+	using static Globals;
 	using static Instruction;
 	using static NativeMethods;
 
 	public partial class GemCombiner : Form
 	{
 		#region Static Fields
+		private static string exePath = Application.StartupPath;
 		private static Dictionary<GemColors, string> gemGroups = new Dictionary<GemColors, string>()
 		{
-			[GemColors.Black] = "Black",
-			[GemColors.Generic] = "Other",
+			[GemColors.Black] = "Bloodbound (Black)",
 			[GemColors.Kill] = "Kill",
 			[GemColors.Mana] = "Mana",
 			[GemColors.Orange] = "Leech (Orange)",
-			[GemColors.Red] = "Red",
-			[GemColors.Yellow] = "Critical (Yellow)"
+			[GemColors.Red] = "Multi Hit (Red)",
+			[GemColors.Yellow] = "Critical Hit (Yellow)"
 		};
 		#endregion
 
@@ -48,7 +50,7 @@
 			cb.Clear();
 			foreach (var item in this.recipes[this.colorComboBox.Text])
 			{
-				cb.Add(item.Gem.CombineTitle);
+				cb.Add(item.Gem.Title);
 			}
 
 			this.combineComboBox.SelectedIndex = 0; // Preselect the first in the box
@@ -142,7 +144,8 @@
 			SettingsHandler.SkinChanged += this.ApplySkin;
 			SettingsHandler.BordersChanged += this.ApplyBorders;
 			this.TopMost = Settings.Default.TopMost;
-			this.AddTextFileRecipes();
+			this.AddResourceRecipe("leech");
+			this.AddTextFileRecipes(exePath + @"\recipes.txt");
 
 			var cb = this.colorComboBox.Items;
 			foreach (var key in this.recipes.Keys)
@@ -185,7 +188,7 @@
 				return;
 			}
 
-			if (combine != null)
+			if (combine != null && combine.Gem != null)
 			{
 				this.CreateInstructions(combine);
 			}
@@ -204,57 +207,76 @@
 
 		private void StepNumeric_ValueChanged(object sender, EventArgs e)
 		{
-			var style = this.stepNumeric.Value == 0 ? FontStyle.Regular : FontStyle.Bold;
+			var style = this.stepNumeric.Value == 1 ? FontStyle.Regular : FontStyle.Bold;
 			this.stepNumeric.Font = new Font(this.stepNumeric.Font, style);
 			this.stepLabel.Font = new Font(this.stepNumeric.Font, style);
 		}
 		#endregion
 
 		#region Private Methods
-		private void AddTextFileRecipes()
+		private void AddFromLines(IEnumerable<string> lines)
 		{
-			foreach (var filename in Directory.EnumerateFiles(".", "*.txt", SearchOption.TopDirectoryOnly))
+			var recipe = new List<string>();
+			foreach (var line in lines)
 			{
-				var lines = File.ReadAllLines(filename);
-				var recipe = new List<string>();
-				int lineNum = 0;
-				foreach (var line in lines)
+				if (!line.StartsWith("#", StringComparison.Ordinal) && !line.StartsWith("//", StringComparison.Ordinal))
 				{
-					lineNum++;
-					if (!line.StartsWith("#", StringComparison.Ordinal) && !line.StartsWith("//", StringComparison.Ordinal))
+					var trimmedLine = line.Trim();
+					if (trimmedLine.Length == 0)
 					{
-						var trimmedLine = line.Trim();
-						if (trimmedLine.Length == 0)
+						if (recipe.Count > 0)
 						{
-							if (recipe.Count > 0)
-							{
-								this.AddRecipe(new Combiner(recipe));
-								recipe.Clear();
-							}
+							this.AddRecipe(new Combiner(recipe));
+							recipe.Clear();
 						}
-						else if (line.Contains("="))
-						{
-							recipe.Add(line);
-						}
-						else
-						{
-							this.AddRecipe(new Combiner(trimmedLine));
-						}
+					}
+					else if (line.Contains("="))
+					{
+						recipe.Add(line);
+					}
+					else
+					{
+						this.AddRecipe(new Combiner(trimmedLine));
 					}
 				}
 			}
 		}
 
+		private void AddResourceRecipe(string name)
+		{
+			var resourceName = "WGemCombiner.Resources." + name + ".txt";
+
+			using (Stream stream = Assembly.GetManifestResourceStream(resourceName))
+			using (StreamReader reader = new StreamReader(stream))
+			{
+				var file = reader.ReadToEnd();
+				var lines = file.Split(new char[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
+				this.AddFromLines(lines);
+			}
+		}
+
+		private void AddTextFileRecipes(string filename)
+		{
+			var lines = File.ReadAllLines(filename);
+			this.AddFromLines(lines);
+		}
+
 		private void AddRecipe(Combiner combine)
 		{
 			var gem = combine.Gem;
-			var gemGroup = gemGroups[gem.Color] + " Gem " + (combine.BaseGems.Count == 1 ? "Combine" : "Spec");
+			string gemGroup;
+			if (!gemGroups.TryGetValue(gem.Color, out gemGroup))
+			{
+				gemGroup = "Other";
+			}
+
+			gemGroup += " Gem " + (combine.Gem.IsSpec ? "Spec" : "Combine");
 			if (!this.recipes.ContainsKey(gemGroup))
 			{
 				this.recipes[gemGroup] = new RecipeCollection();
 			}
 
-			if (!this.recipes[gemGroup].Contains(gem.CombineTitle))
+			if (!this.recipes[gemGroup].Contains(gem.Title))
 			{
 				// TODO: Consider some other method of checking if these truly are duplicates or not.
 				// Ignores gems with identical CombineTitles. Conceivably, there could be two different combines with identical titles, but I think this is fairly unlikely.
@@ -295,12 +317,13 @@
 			}
 
 			this.instructionsListBox.Items.Clear();
-			for (int i = 0; i < instructions.Count; i++)
+			for (int i = 1; i <= instructions.Count; i++)
 			{
-				this.instructionsListBox.Items.Add(i.ToString(CultureInfo.CurrentCulture) + ": " + instructions[i].ToString());
+				this.instructionsListBox.Items.Add(i.ToString(CultureInfo.CurrentCulture) + ": " + instructions[i - 1].ToString());
 			}
 
-			this.stepNumeric.Maximum = instructions.Count - 1;
+			this.stepNumeric.Minimum = instructions.Count == 0 ? 0 : 1;
+			this.stepNumeric.Maximum = instructions.Count;
 			CombinePerformer.Instructions = instructions;
 		}
 		#endregion

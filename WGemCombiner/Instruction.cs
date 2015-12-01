@@ -15,30 +15,40 @@
 
 	public class Instruction
 	{
-		#region private Constants
-		private const int InstructionDuplicate = -99;
-		private const int InstructionUpgrade = -98;
-		#endregion
-
 		#region Constructors
-		public Instruction(ActionType type, int from)
+		public Instruction(ActionType action, int from)
+			: this(action, from, from)
 		{
-			this.Action = type;
-			this.From = from;
-			if (type == ActionType.Upgrade)
+		}
+
+		public Instruction(ActionType action, int from, int to)
+		{
+			if (from < 0)
 			{
-				this.From = from;
-				this.To = InstructionUpgrade;
+				throw new ArgumentOutOfRangeException(nameof(from), "Invalid slot in instruction.");
+			}
+
+			if (to < 0)
+			{
+				throw new ArgumentOutOfRangeException(nameof(to), "Invalid slot in instruction.");
+			}
+
+			if (action == ActionType.Upgrade)
+			{
+				if (from != to)
+				{
+					throw new ArgumentException("From and to parameters are not equal in an Upgrade instruction.");
+				}
 			}
 			else
 			{
-				throw new ArgumentOutOfRangeException(nameof(type), "You can only use this constructor for the Upgrade instruction.");
+				if (from == to)
+				{
+					throw new ArgumentException("From and to parameters cannot be equal except in an Upgrade instruction.");
+				}
 			}
-		}
 
-		public Instruction(ActionType type, int from, int to)
-		{
-			this.Action = type;
+			this.Action = action;
 			this.From = from;
 			this.To = to;
 		}
@@ -99,6 +109,17 @@
 				default:
 					return "Combine " + fromSlot + "→" + SlotName(this.To);
 			}
+		}
+		#endregion
+
+		#region Internal Methods
+		internal void Swap()
+		{
+			// Action type is not checked here because this is internal, but this should obviously only be used on combines or moves.
+			var temp = this.From;
+			this.From = this.To;
+			this.To = temp;
+
 		}
 		#endregion
 	}

@@ -36,6 +36,7 @@
 			foreach (var component in this.Components)
 			{
 				this.Color |= component.Color;
+				this.IsSpec |= component.IsSpec || component.Color != this.Color;
 				component.UseCount++;
 			}
 
@@ -75,9 +76,9 @@
 		#endregion
 
 		#region Public Properties
-		public GemColors Color { get; protected set; }
+		public double Coefficient => this.IsSpec ? this.Cost / Math.Pow(this.Power, this.Growth) : this.Growth;
 
-		public string CombineTitle => string.Format(CultureInfo.CurrentCulture, "{0:0000000} ({1:0.00000}){2}", this.Cost, this.Growth, IsPowerOfTwo(this.Cost) ? "-" : string.Empty);
+		public GemColors Color { get; protected set; }
 
 		public IReadOnlyList<Gem> Components { get; }
 
@@ -88,6 +89,8 @@
 		public double Growth { get; }
 
 		public bool IsBaseGem { get; protected set; } = false;
+
+		public bool IsSpec { get; protected set; }
 
 		public bool IsNeeded => this.Slot < 0 && this.UseCount > 0; // This has the side-effect of also ruling out base gems automatically
 
@@ -131,6 +134,8 @@
 		}
 
 		public int Slot { get; set; }
+
+		public string Title => string.Format(CultureInfo.CurrentCulture, "{0:0000000} ({1:0.00000}){2}", this.Cost, this.Coefficient, IsPowerOfTwo(this.Cost) ? "-" : string.Empty);
 
 		public int UseCount { get; set; }
 		#endregion
