@@ -13,7 +13,7 @@
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new GemCombiner());
+			Application.Run(new GemCombiner());
         }
     }
 }

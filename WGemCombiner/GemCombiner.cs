@@ -17,14 +17,14 @@
 	{
 		#region Static Fields
 		private static string exePath = Application.StartupPath;
-		private static Dictionary<GemColors, string> gemGroups = new Dictionary<GemColors, string>()
+		private static Dictionary<GemColors, string> gemEffectNames = new Dictionary<GemColors, string>()
 		{
-			[GemColors.Black] = "Bloodbound (Black)",
+			[GemColors.Black] = "Bloodbound",
 			[GemColors.Kill] = "Kill",
 			[GemColors.Mana] = "Mana",
-			[GemColors.Orange] = "Leech (Orange)",
-			[GemColors.Red] = "Multi Hit (Red)",
-			[GemColors.Yellow] = "Critical Hit (Yellow)"
+			[GemColors.Orange] = "Leech",
+			[GemColors.Red] = "Chain Hit",
+			[GemColors.Yellow] = "Critical Hit"
 		};
 		#endregion
 
@@ -108,7 +108,10 @@
 			var combine = this.recipes[this.colorComboBox.Text][this.combineComboBox.Text];
 			// this.formulaInputRichTextBox.Text = combine.Gem.Recipe();
 			this.CreateInstructions(combine);
-			this.combineButton.PerformClick(); // Auto-load the combine button so all u have to press is "9" over the gem
+			if (Settings.Default.AutoCombine)
+			{
+				this.combineButton.PerformClick(); // Auto-load the combine button so all u have to press is "9" over the gem
+			}
 		}
 
 		private void CopyList_Click(object sender, EventArgs e)
@@ -274,12 +277,16 @@
 		{
 			var gem = combine.Gem;
 			string gemGroup;
-			if (!gemGroups.TryGetValue(gem.Color, out gemGroup))
+			if (Settings.Default.UseColors)
+			{
+				gemGroup = gem.Color.ToString();
+			}
+			else if (!gemEffectNames.TryGetValue(gem.Color, out gemGroup))
 			{
 				gemGroup = "Other";
 			}
 
-			gemGroup += " Gem " + (combine.Gem.IsSpec ? "Spec" : "Combine");
+			gemGroup += " " + (combine.Gem.IsSpec ? "Spec" : "Combine");
 			if (!this.recipes.ContainsKey(gemGroup))
 			{
 				this.recipes[gemGroup] = new RecipeCollection();

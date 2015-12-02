@@ -34,19 +34,11 @@
 
 		private void BordersCheckBox_CheckedChanged(object sender, EventArgs e) => SettingsHandler.ChangeBorders(!this.bordersCheckBox.Checked);
 
-		private void HidePanelsCheckBox_CheckedChanged(object sender, EventArgs e)
-		{
-			Settings.Default.HidePanels = this.hidePanelsCheckBox.Checked;
-		}
+		private void CloseButton_Click(object sender, EventArgs e) => this.Close();
 
-		private void CloseButton_Click(object sender, EventArgs e)
-		{
-			this.Close();
-		}
+		private void HellrageSkinButton_CheckedChanged(object sender, EventArgs e) => SettingsHandler.ChangeSkin(Skin.Hellrages);
 
-		private void HellrageSkinButton_Click(object sender, EventArgs e) => SettingsHandler.ChangeSkin(Skin.Hellrages);
-
-		private void WinFormsSkinButton_Click(object sender, EventArgs e) => SettingsHandler.ChangeSkin(Skin.WindowsForms);
+		private void HidePanelsCheckBox_CheckedChanged(object sender, EventArgs e) => Settings.Default.HidePanels = this.hidePanelsCheckBox.Checked;
 
 		private void HotkeyTextBox_KeyDown(object sender, KeyEventArgs e)
 		{
@@ -98,8 +90,13 @@
 			SettingsHandler.BordersChanged += this.ApplyBorders;
 			this.bordersCheckBox.Checked = !Settings.Default.Borderless;
 			this.alwaysOnTopCheckBox.Checked = Settings.Default.TopMost;
+			this.autoCombineCheckBox.Checked = Settings.Default.AutoCombine;
+			this.hellrageSkinButton.Checked = (Skin)Settings.Default.Skin == Skin.Hellrages;
 			this.hidePanelsCheckBox.Checked = Settings.Default.HidePanels;
 			this.hotkeyTextBox.Text = SettingsHandler.HotkeyText;
+			this.useColorsButton.Checked = Settings.Default.UseColors;
+			this.useEffectsButton.Checked = !Settings.Default.UseColors;
+			this.winFormsSkinButton.Checked = (Skin)Settings.Default.Skin == Skin.WindowsForms;
 		}
 
 		private void Options_MouseDown(object sender, MouseEventArgs e)
@@ -110,6 +107,8 @@
 				SendMessage(this.Handle, WmNclButtonDown, HtCaption, IntPtr.Zero);
 			}
 		}
+
+		private void WinFormsButton_CheckChanged(object sender, EventArgs e) => SettingsHandler.ChangeSkin(Skin.WindowsForms);
 		#endregion
 
 		#region Private Methods
@@ -126,6 +125,10 @@
 		}
 
 		private void SetRecommendationVisible() => this.recommendedLabel.Visible = (Skin)Settings.Default.Skin == Skin.Hellrages ? !Settings.Default.Borderless : false;
+
+		private void UseColorsButton_CheckedChanged(object sender, EventArgs e) => Settings.Default.UseColors = true;
+
+		private void UseEffectsButton_CheckedChanged(object sender, EventArgs e) => Settings.Default.UseColors = false;
 		#endregion
 	}
 }

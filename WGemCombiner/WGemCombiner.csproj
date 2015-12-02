@@ -118,6 +118,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseGem.cs" />
+    <Compile Include="BufferedGroupBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="BufferedTableLayoutPanel.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -133,6 +136,11 @@
     <Compile Include="Globals.cs" />
     <Compile Include="Instruction.cs" />
     <Compile Include="InstructionCollection.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="RecipeCollection.cs" />
     <Compile Include="SettingsHandler.cs" />
     <Compile Include="HelpForm.cs">
@@ -171,6 +179,10 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Options.resx">
       <DependentUpon>Options.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\Messages.resx">
       <Generator>ResXFileCodeGenerator</Generator>

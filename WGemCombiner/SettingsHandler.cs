@@ -116,9 +116,27 @@
 		#region Private Methods
 		private static void ApplyHellragesSkin(Control controlToSkin)
 		{
+			if (controlToSkin is Form)
+			{
+				var size = controlToSkin.Size;
+				size.Height += 20;
+				size.Width += 20;
+				controlToSkin.Size = size;
+				size = controlToSkin.MinimumSize;
+				size.Height += 20;
+				size.Width += 20;
+				controlToSkin.MinimumSize = size;
+				controlToSkin.Padding = new Padding(10);
+			}
+
 			// Changed to iterate over the Controls collection only once.
 			foreach (Control control in controlToSkin.Controls)
 			{
+				if ((string)control.Tag == "NoSkin")
+				{
+					continue;
+				}
+
 				if (control is TextBox || control is RichTextBox || control is ComboBox || control is ListBox || control is NumericUpDown)
 				{
 					control.BackColor = SystemColors.InactiveCaptionText;
@@ -145,9 +163,17 @@
 					continue;
 				}
 
+				if (control is GroupBox)
+				{
+					control.BackColor = Color.Transparent;
+					control.ForeColor = Color.DarkOrange;
+					ApplyHellragesSkin(control);
+					continue;
+				}
+
 				if (control is TableLayoutPanel)
 				{
-					control.BackColor = Color.Transparent; // SystemColors.InactiveCaptionText;
+					control.BackColor = Color.Transparent;
 					ApplyHellragesSkin(control);
 					// continue;
 				}
@@ -156,8 +182,26 @@
 
 		private static void ApplyWinFormsSkin(Control controlToSkin)
 		{
+			if (controlToSkin is Form)
+			{
+				controlToSkin.Padding = new Padding(0);
+				var size = controlToSkin.Size;
+				size.Height -= 20;
+				size.Width -= 20;
+				controlToSkin.Size = size;
+				size = controlToSkin.MinimumSize;
+				size.Height -= 20;
+				size.Width -= 20;
+				controlToSkin.MinimumSize = size;
+			}
+
 			foreach (Control control in controlToSkin.Controls)
 			{
+				if ((string)control.Tag == "NoSkin")
+				{
+					continue;
+				}
+
 				if (control is TextBox || control is RichTextBox || control is ComboBox || control is ListBox || control is NumericUpDown)
 				{
 					control.BackColor = SystemColors.Window;
@@ -183,7 +227,15 @@
 					continue;
 				}
 
-				if (control is Panel)
+				if (control is GroupBox)
+				{
+					control.BackColor = SystemColors.Control;
+					control.ForeColor = SystemColors.ControlText;
+					ApplyWinFormsSkin(control);
+					continue;
+				}
+
+				if (control is TableLayoutPanel)
 				{
 					control.BackColor = SystemColors.Window;
 					ApplyWinFormsSkin(control);
