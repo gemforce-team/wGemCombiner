@@ -148,7 +148,6 @@
 			this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
 			this.Text = "Help";
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.HelpForm_FormClosing);
-			this.Load += new System.EventHandler(this.HelpForm_Load);
 			this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.HelpForm_MouseDown);
 			this.bufferedTableLayoutPanel1.ResumeLayout(false);
 			this.ResumeLayout(false);

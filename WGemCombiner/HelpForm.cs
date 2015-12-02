@@ -19,6 +19,12 @@
 		public HelpForm()
 		{
 			this.InitializeComponent();
+			this.SettingsHandler_SkinChanged(null, null);
+			this.SettingsHandler_BordersChanged(null, null);
+			SettingsHandler.SkinChanged += this.SettingsHandler_SkinChanged;
+			SettingsHandler.BordersChanged += this.SettingsHandler_BordersChanged;
+			this.FillHelpMessages();
+			this.UpdateTextBox();
 		}
 		#endregion
 
@@ -27,16 +33,6 @@
 		private void CloseHelpButton_Click(object sender, EventArgs e)
 		{
 			this.Close();
-		}
-
-		private void HelpForm_Load(object sender, EventArgs e)
-		{
-			this.ApplySkin(null, null);
-			this.ApplyBorders(null, null);
-			SettingsHandler.SkinChanged += this.ApplySkin;
-			SettingsHandler.BordersChanged += this.ApplyBorders;
-			this.FillHelpMessages();
-			this.UpdateTextBox();
 		}
 
 		private void HelpForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -49,8 +45,8 @@
 			else
 			{
 				// This will normally not run, since the help form just falls out of scope when the main form closes, but in case there's some unexpected close method, make sure we detach from the event properly.
-				SettingsHandler.BordersChanged -= this.ApplyBorders;
-				SettingsHandler.SkinChanged -= this.ApplySkin;
+				SettingsHandler.BordersChanged -= this.SettingsHandler_BordersChanged;
+				SettingsHandler.SkinChanged -= this.SettingsHandler_SkinChanged;
 			}
 		}
 
@@ -104,16 +100,6 @@
 			this.helpMessages.Add(string.Format(CultureInfo.CurrentCulture, message, parameters));
 		}
 
-		private void ApplyBorders(object sender, EventArgs e)
-		{
-			SettingsHandler.ApplyBorders(this);
-		}
-
-		private void ApplySkin(object sender, EventArgs e)
-		{
-			SettingsHandler.ApplySkin(this);
-		}
-
 		// This is the only function you need to make changes to when adding new help pages
 		private void FillHelpMessages()
 		{
@@ -127,6 +113,16 @@
 			var shortVersion = Application.ProductVersion;
 			shortVersion = shortVersion.Substring(0, shortVersion.LastIndexOf('.'));
 			this.AddHelpMessage(Messages.HelpCreditsTitle, Messages.HelpCreditsMessage, shortVersion);
+		}
+
+		private void SettingsHandler_BordersChanged(object sender, EventArgs e)
+		{
+			SettingsHandler.ApplyBorders(this);
+		}
+
+		private void SettingsHandler_SkinChanged(object sender, EventArgs e)
+		{
+			SettingsHandler.ApplySkin(this);
 		}
 
 		private void UpdateTextBox()

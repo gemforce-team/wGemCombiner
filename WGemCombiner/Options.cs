@@ -21,6 +21,10 @@
 		internal Options()
 		{
 			this.InitializeComponent();
+			this.SettingsHandler_SkinChanged(null, null);
+			this.SettingsHandler_BordersChanged(null, null);
+			SettingsHandler.SkinChanged += this.SettingsHandler_SkinChanged;
+			SettingsHandler.BordersChanged += this.SettingsHandler_BordersChanged;
 		}
 		#endregion
 
@@ -77,17 +81,13 @@
 			// Modal forms are automatically hidden, not closed/disposed, so there's no need to cancel and hide here like there is on HelpForm. The FormClosing event still fires, however, so we have to check why it's closing and react appropriately.
 			if (e.CloseReason != CloseReason.UserClosing)
 			{
-				SettingsHandler.BordersChanged -= this.ApplyBorders;
-				SettingsHandler.SkinChanged -= this.ApplySkin;
+				SettingsHandler.BordersChanged -= this.SettingsHandler_BordersChanged;
+				SettingsHandler.SkinChanged -= this.SettingsHandler_SkinChanged;
 			}
 		}
 
 		private void Options_Load(object sender, EventArgs e)
 		{
-			this.ApplySkin(null, null);
-			this.ApplyBorders(null, null);
-			SettingsHandler.SkinChanged += this.ApplySkin;
-			SettingsHandler.BordersChanged += this.ApplyBorders;
 			this.bordersCheckBox.Checked = !Settings.Default.Borderless;
 			this.alwaysOnTopCheckBox.Checked = Settings.Default.TopMost;
 			this.autoCombineCheckBox.Checked = Settings.Default.AutoCombine;
@@ -112,19 +112,19 @@
 		#endregion
 
 		#region Private Methods
-		private void ApplyBorders(object sender, EventArgs e)
+		private void SetRecommendationVisible() => this.recommendedLabel.Visible = (Skin)Settings.Default.Skin == Skin.Hellrages ? !Settings.Default.Borderless : false;
+
+		private void SettingsHandler_BordersChanged(object sender, EventArgs e)
 		{
 			SettingsHandler.ApplyBorders(this);
 			this.SetRecommendationVisible();
 		}
 
-		private void ApplySkin(object sender, EventArgs e)
+		private void SettingsHandler_SkinChanged(object sender, EventArgs e)
 		{
 			SettingsHandler.ApplySkin(this);
 			this.SetRecommendationVisible();
 		}
-
-		private void SetRecommendationVisible() => this.recommendedLabel.Visible = (Skin)Settings.Default.Skin == Skin.Hellrages ? !Settings.Default.Borderless : false;
 
 		private void UseColorsButton_CheckedChanged(object sender, EventArgs e) => Settings.Default.UseColors = true;
 

@@ -40,8 +40,22 @@
 		{
 			this.AddResourceRecipe("leech");
 			this.AddTextFileRecipes(exePath + @"\recipes.txt");
-
 			this.InitializeComponent();
+			this.SettingsHandler_BordersChanged(null, null);
+			this.SettingsHandler_SkinChanged(null, null);
+			CombinePerformer.StepComplete += this.CombinePerformer_StepComplete;
+			SettingsHandler.SkinChanged += this.SettingsHandler_SkinChanged;
+			SettingsHandler.BordersChanged += this.SettingsHandler_BordersChanged;
+			this.TopMost = Settings.Default.TopMost;
+
+			var cb = this.colorComboBox.Items;
+			foreach (var key in this.recipes.Keys)
+			{
+				cb.Add(key);
+			}
+
+			this.colorComboBox.SelectedIndex = 0;
+			CombinePerformer.Enabled = true;
 		}
 		#endregion
 
@@ -137,27 +151,9 @@
 		{
 			CombinePerformer.Enabled = false;
 			Settings.Default.Save();
-			SettingsHandler.BordersChanged -= this.ApplyBorders;
-			SettingsHandler.SkinChanged -= this.ApplySkin;
-		}
-
-		private void GemCombiner_Load(object sender, EventArgs e)
-		{
-			CombinePerformer.StepComplete += this.CombinePerformer_StepComplete;
-			this.ApplySkin(null, null);
-			this.ApplyBorders(null, null);
-			SettingsHandler.SkinChanged += this.ApplySkin;
-			SettingsHandler.BordersChanged += this.ApplyBorders;
-			this.TopMost = Settings.Default.TopMost;
-
-			var cb = this.colorComboBox.Items;
-			foreach (var key in this.recipes.Keys)
-			{
-				cb.Add(key);
-			}
-
-			this.colorComboBox.SelectedIndex = 0;
-			CombinePerformer.Enabled = true;
+			CombinePerformer.StepComplete -= this.CombinePerformer_StepComplete;
+			SettingsHandler.BordersChanged -= this.SettingsHandler_BordersChanged;
+			SettingsHandler.SkinChanged -= this.SettingsHandler_SkinChanged;
 		}
 
 		private void GemCombiner_MouseDown(object sender, MouseEventArgs e)
@@ -258,8 +254,8 @@
 			using (Stream stream = Assembly.GetManifestResourceStream(resourceName))
 			using (StreamReader reader = new StreamReader(stream))
 			{
-				var file = reader.ReadToEnd();
-				var lines = file.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
+				var file = reader.ReadToEnd().Replace("\r\n", "\n").Replace('\r', '\n');
+				var lines = file.Split('\n');
 				this.AddFromLines(lines);
 			}
 		}
@@ -300,16 +296,6 @@
 			}
 		}
 
-		private void ApplyBorders(object sender, EventArgs e)
-		{
-			SettingsHandler.ApplyBorders(this);
-		}
-
-		private void ApplySkin(object sender, EventArgs e)
-		{
-			SettingsHandler.ApplySkin(this);
-		}
-
 		private void CombinePerformer_StepComplete(object sender, int stepID)
 		{
 			Application.DoEvents();
@@ -341,6 +327,16 @@
 			this.stepNumeric.Minimum = instructions.Count == 0 ? 0 : 1;
 			this.stepNumeric.Maximum = instructions.Count;
 			CombinePerformer.Instructions = instructions;
+		}
+
+		private void SettingsHandler_BordersChanged(object sender, EventArgs e)
+		{
+			SettingsHandler.ApplyBorders(this);
+		}
+
+		private void SettingsHandler_SkinChanged(object sender, EventArgs e)
+		{
+			SettingsHandler.ApplySkin(this);
 		}
 		#endregion
 	}

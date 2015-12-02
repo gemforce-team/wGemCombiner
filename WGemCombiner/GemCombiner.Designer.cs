@@ -322,7 +322,6 @@
 			this.Name = "GemCombiner";
 			this.Text = "Gem Combiner";
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.GemCombiner_FormClosing);
-			this.Load += new System.EventHandler(this.GemCombiner_Load);
 			this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.GemCombiner_MouseDown);
 			((System.ComponentModel.ISupportInitialize)(this.delayNumeric)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.stepNumeric)).EndInit();

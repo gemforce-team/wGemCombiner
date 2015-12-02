@@ -53,6 +53,7 @@
 				return;
 			}
 
+			ChangeFormSize(form); // No difference in functionality, but separating out logic for easier debugging
 			switch ((Skin)Settings.Default.Skin)
 			{
 				case Skin.Hellrages:
@@ -66,6 +67,31 @@
 					ApplyWinFormsSkin(form);
 					break;
 			}
+		}
+
+		public static void ChangeFormSize(Form form)
+		{
+			var minSize = form.MinimumSize;
+			var size = form.Size;
+			if (((Skin)Settings.Default.Skin) == Skin.Hellrages)
+			{
+				minSize.Height += 20;
+				minSize.Width += 20;
+				size.Height += 20;
+				size.Width += 20;
+				form.Padding = new Padding(10);
+			}
+			else
+			{
+				minSize.Height -= 20;
+				minSize.Width -= 20;
+				size.Height -= 20;
+				size.Width -= 20;
+				form.Padding = new Padding(0);
+			}
+
+			form.MinimumSize = minSize;
+			form.Size = size;
 		}
 
 		// Could have been a toggle, but in practice, it was easier to have the option to set it specifically.
@@ -116,19 +142,6 @@
 		#region Private Methods
 		private static void ApplyHellragesSkin(Control controlToSkin)
 		{
-			if (controlToSkin is Form)
-			{
-				var size = controlToSkin.Size;
-				size.Height += 20;
-				size.Width += 20;
-				controlToSkin.Size = size;
-				size = controlToSkin.MinimumSize;
-				size.Height += 20;
-				size.Width += 20;
-				controlToSkin.MinimumSize = size;
-				controlToSkin.Padding = new Padding(10);
-			}
-
 			// Changed to iterate over the Controls collection only once.
 			foreach (Control control in controlToSkin.Controls)
 			{
@@ -182,19 +195,6 @@
 
 		private static void ApplyWinFormsSkin(Control controlToSkin)
 		{
-			if (controlToSkin is Form)
-			{
-				controlToSkin.Padding = new Padding(0);
-				var size = controlToSkin.Size;
-				size.Height -= 20;
-				size.Width -= 20;
-				controlToSkin.Size = size;
-				size = controlToSkin.MinimumSize;
-				size.Height -= 20;
-				size.Width -= 20;
-				controlToSkin.MinimumSize = size;
-			}
-
 			foreach (Control control in controlToSkin.Controls)
 			{
 				if ((string)control.Tag == "NoSkin")
