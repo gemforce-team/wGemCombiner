@@ -86,6 +86,14 @@
 
 			var slot2 = this.DuplicateIfNeeded(parentGem.Components[1]);
 			var slot1 = this.DuplicateIfNeeded(parentGem.Components[0]);
+			if (slot2 > slot1)
+			{
+				// Dupe auto-sorts when both calls duplicate, but if they don't, we still need to choose the lowest manually.
+				var temp = slot1;
+				slot1 = slot2;
+				slot2 = temp;
+			}
+
 			this.instructions.Add(new Instruction(ActionType.Combine, slot1, slot2));
 			this.Empties.Add(slot1);
 			parentGem.Slot = slot2;
@@ -116,11 +124,7 @@
 			if (this.Count > 0)
 			{
 				var lastInstruction = this[this.Count - 1];
-				if (lastInstruction.Action == ActionType.Combine && lastInstruction.From == Slot1A)
-				{
-					lastInstruction.Swap();
-				}
-				else if (lastInstruction.To != Slot1A)
+				if (lastInstruction.To != Slot1A)
 				{
 					this.instructions.Add(new Instruction(ActionType.Move, lastInstruction.To, Slot1A));
 				}
@@ -224,11 +228,13 @@
 			foreach (var gem in baseGems)
 			{
 				var index = this.instructions.FindLastIndex(g => g.From == gem.Slot && g.Action == ActionType.Duplicate);
-				var oldLocation = this[index].To;
+				var oldLocation = this.instructions[index].To;
 				this.instructions.RemoveAt(index);
 				for (int index2 = index; index2 < this.Count; index2++)
 				{
-					this[index2].Translate(oldLocation, gem.Slot);
+					var oldInstruction = this.instructions[index2];
+					this.instructions.RemoveAt(index2);
+					this.instructions.Insert(index2, new Instruction(oldInstruction.Action, oldLocation, gem.Slot));
 				}
 			}
 		}

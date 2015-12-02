@@ -13,7 +13,7 @@
 	}
 	#endregion
 
-	public class Instruction
+	public struct Instruction
 	{
 		#region Constructors
 		public Instruction(ActionType action, int from)
@@ -63,34 +63,19 @@
 		#region Public Properties
 		public ActionType Action { get; }
 
-		public int From { get; private set; }
+		public int From { get; }
 
-		public int To { get; private set; }
+		public int To { get; }
 		#endregion
 
 		#region Public Static Methods
-		public static bool Equals(Instruction first, Instruction second) => first?.From == second?.From && first?.To == second?.To;
+		public static bool Equals(Instruction first, Instruction second) => first.From == second.From && first.To == second.To;
 
 		public static string SlotName(int slot)
 		{
 			int row = (slot / 3) + 1;
 			int column = slot % 3;
 			return row.ToString(CultureInfo.CurrentCulture) + "ABC".Substring(column, 1);
-		}
-		#endregion
-
-		#region Public Methods
-		public void Translate(int oldLocation, int newLocation)
-		{
-			if (this.From == oldLocation)
-			{
-				this.From = newLocation;
-			}
-
-			if (this.To == oldLocation)
-			{
-				this.To = newLocation;
-			}
 		}
 		#endregion
 
@@ -109,16 +94,6 @@
 				default:
 					return "Combine " + fromSlot + "→" + SlotName(this.To);
 			}
-		}
-		#endregion
-
-		#region Internal Methods
-		internal void Swap()
-		{
-			// Action type is not checked here because this is internal, but this should obviously only be used on combines or moves.
-			var temp = this.From;
-			this.From = this.To;
-			this.To = temp;
 		}
 		#endregion
 	}
