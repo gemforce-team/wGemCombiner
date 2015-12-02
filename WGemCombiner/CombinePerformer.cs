@@ -1,9 +1,8 @@
 ﻿namespace WGemCombiner
 {
 	using System;
-	using System.Collections.Generic;
+	using System.Diagnostics;
 	using System.Drawing;
-	using System.Text.RegularExpressions;
 	using System.Threading;
 	using System.Windows.Forms;
 	using Properties;
@@ -134,7 +133,7 @@
 						break;
 					case ActionType.Combine:
 						// PressKey(KeyG);
-						// Do NOT use the G key here. At least in the Steam version, combining gems without a sufficient delay will fail with they key, where the mouse moves appear to be buffered and will succeed.
+						// Do NOT use the G key here. At least in the Steam version, combining gems without a sufficient delay will fail with the key, where the mouse moves appear to be buffered and will succeed.
 						MoveCursorToSlot(-1);
 						PressMouse();
 						ReleaseMouse();

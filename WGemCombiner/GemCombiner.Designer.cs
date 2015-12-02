@@ -124,10 +124,20 @@
 			// delayNumeric
 			// 
 			this.delayNumeric.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.delayNumeric.Increment = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
 			this.delayNumeric.Location = new System.Drawing.Point(12, 343);
 			this.delayNumeric.Margin = new System.Windows.Forms.Padding(3, 3, 6, 3);
 			this.delayNumeric.Maximum = new decimal(new int[] {
-            1000,
+            2000,
+            0,
+            0,
+            0});
+			this.delayNumeric.Minimum = new decimal(new int[] {
+            10,
             0,
             0,
             0});

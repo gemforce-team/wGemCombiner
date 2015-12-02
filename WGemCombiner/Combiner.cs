@@ -23,21 +23,58 @@
 		#region Constructors
 		public Combiner(string recipe)
 		{
-			this.BaseGems = new List<Gem>(1);
 			this.AddRecipe(recipe);
 		}
 
 		public Combiner(IEnumerable<string> equations)
 		{
-			this.BaseGems = new List<Gem>(1);
 			this.AddEquations(equations);
 		}
 
-		public Combiner(Gem parentGem, IList<Gem> baseGems)
+		public Combiner(Gem parentGem, IReadOnlyList<Gem> gemList)
 		{
-			ThrowNull(baseGems, nameof(baseGems));
+			ThrowNull(parentGem, nameof(parentGem));
 			this.Gem = parentGem;
-			this.BaseGems = baseGems;
+			foreach (var gem in gemList)
+			{
+				gem.UseCount = 0;
+			}
+
+			// Only update UseCount for gems actually used in this combiner even though all gems are inherited from parent.
+			// First, determine which gems are actually part of this combine. Hijacking UseCount as a marker, since we're going to be resetting it right after this anyway (and those in the base list don't matter).
+			this.Gem.UseCount = -1;
+			bool changesMade;
+			do
+			{
+				changesMade = false;
+				for (int i = gemList.Count - 1; i >= 0; i--)
+				{
+					var gem = gemList[i];
+					if (gem.UseCount == -1 && !gem.IsBaseGem)
+					{
+						foreach (var component in gem.Components)
+						{
+							if (component.UseCount != -1)
+							{
+								changesMade = true;
+								component.UseCount = -1;
+							}
+						}
+					}
+				}
+			}
+			while (changesMade);
+
+			this.gems = new List<Gem>();
+			foreach (var gem in gemList)
+			{
+				if (gem.UseCount == -1)
+				{
+					this.gems.Add(gem);
+				}
+			}
+
+			this.ResetUseCount(true);
 		}
 		#endregion
 
@@ -48,7 +85,19 @@
 		#endregion
 
 		#region Public Properties
-		public IList<Gem> BaseGems { get; }
+		public IEnumerable<Gem> BaseGems
+		{
+			get
+			{
+				foreach (var gem in this.gems)
+				{
+					if (gem.IsBaseGem)
+					{
+						yield return gem;
+					}
+				}
+			}
+		}
 
 		public Gem Gem { get; private set; }
 		#endregion
@@ -173,7 +222,7 @@
 #if DEBUG
 			try
 			{
-				this.SlotBaseGems();
+				this.SlotGems();
 				instructions.Verify(this.BaseGems, 1, -1);
 			}
 			catch (InvalidOperationException e)
@@ -278,7 +327,6 @@
 				{
 					var baseGem = new BaseGem(letter[0]);
 					this.gems.Add(baseGem);
-					this.BaseGems.Add(baseGem);
 				}
 				else
 				{
@@ -376,13 +424,11 @@
 		private void Clear()
 		{
 			this.gems.Clear();
-			this.BaseGems.Clear();
 		}
 
 		private InstructionCollection CondenseSlots(ICollection<Gem> gemsToIgnore)
 		{
-			var combine1 = new Combiner(this.Gem.Components[0], this.BaseGems);
-			combine1.SetupForSlotCondenser(this.gems);
+			var combine1 = new Combiner(this.Gem.Components[0], this.gems);
 			combine1.Gem.UseCount++;
 			var instructions1 = new InstructionCollection(gemsToIgnore);
 			combine1.BuildGem(combine1.Gem, instructions1, true);
@@ -393,8 +439,7 @@
 			}
 
 			gemsToIgnore.Add(combine1.Gem);
-			var combine2 = new Combiner(this.Gem.Components[1], this.BaseGems);
-			combine2.SetupForSlotCondenser(this.gems);
+			var combine2 = new Combiner(this.Gem.Components[1], this.gems);
 			combine2.Gem.UseCount++;
 			var instructions2 = new InstructionCollection(gemsToIgnore);
 			combine2.BuildGem(combine2.Gem, instructions2, true);
@@ -441,7 +486,7 @@
 
 		private void ResetUseCount(bool preserveBaseGems)
 		{
-			this.SlotBaseGems();
+			this.SlotGems();
 			foreach (var gem in this.gems)
 			{
 				gem.UseCount = gem.IsBaseGem && preserveBaseGems ? 1 : 0;
@@ -457,64 +502,26 @@
 			}
 		}
 
-		private void SetupForSlotCondenser(List<Gem> gemList)
+		private void SlotGems()
 		{
-			foreach (var gem in this.gems)
-			{
-				gem.UseCount = 0;
-			}
-
-			// Only update UseCount for gems actually used in this combiner even though all gems are inherited from parent.
-			// First, determine which gems are actually part of this combine. Hijacking UseCount as a marker, since we're going to be resetting it right after this anyway (and those in the base list don't matter).
-			this.Gem.UseCount = -1;
-			bool changesMade;
-			do
-			{
-				changesMade = false;
-				for (int i = gemList.Count - 1; i >= 0; i--)
-				{
-					var gem = gemList[i];
-					if (gem.UseCount == -1 && !gem.IsBaseGem)
-					{
-						foreach (var component in gem.Components)
-						{
-							if (component.UseCount != -1)
-							{
-								changesMade = true;
-								component.UseCount = -1;
-							}
-						}
-					}
-				}
-			}
-			while (changesMade);
-
-			this.gems = new List<Gem>();
-			foreach (var gem in gemList)
-			{
-				if (gem.UseCount == -1)
-				{
-					this.gems.Add(gem);
-				}
-			}
-
-			this.ResetUseCount(true);
-		}
-
-		private void SlotBaseGems()
-		{
-			var slot = 0;
+			var baseGems = new List<Gem>();
 			foreach (var gem in this.gems)
 			{
 				if (gem.IsBaseGem)
 				{
-					gem.Slot = slot;
-					slot++;
+					baseGems.Add(gem);
 				}
 				else
 				{
 					gem.Slot = NotSlotted;
 				}
+			}
+
+			// Ensure slot order consistency whether we get 0=r; 1=y; 2=0+1 or 0=y; 1=r; 2=0+1.
+			baseGems.Sort((g1, g2) => g1.Color.CompareTo(g2.Color));
+			for (int slot = 0; slot < baseGems.Count; slot++)
+			{
+				baseGems[slot].Slot = slot;
 			}
 		}
 		#endregion

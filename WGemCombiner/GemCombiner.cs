@@ -317,9 +317,11 @@
 			this.resultLabel.Text = combine.Gem.DisplayInfo(false, instructions.SlotsRequired);
 
 			this.baseGemsListBox.Items.Clear();
-			for (int ngem = 0; ngem < combine.BaseGems.Count; ngem++)
+			var baseGems = new List<Gem>(combine.BaseGems);
+			baseGems.Sort((g1, g2) => g1.Slot.CompareTo(g2.Slot));
+			foreach (var gem in baseGems)
 			{
-				this.baseGemsListBox.Items.Add(SlotName(ngem) + ": " + combine.BaseGems[ngem].Color.ToString());
+				this.baseGemsListBox.Items.Add(SlotName(gem.Slot) + ": " + gem.Color.ToString());
 			}
 
 			this.instructionsListBox.Items.Clear();
