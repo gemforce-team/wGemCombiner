@@ -42,7 +42,11 @@
 			this.AddTextFileRecipes(exePath + @"\recipes.txt");
 			this.InitializeComponent();
 			this.SettingsHandler_BordersChanged(null, null);
-			this.SettingsHandler_SkinChanged(null, null);
+			if ((Skin)Settings.Default.Skin == Skin.Hellrages)
+			{
+				this.SettingsHandler_SkinChanged(null, null);
+			}
+
 			CombinePerformer.StepComplete += this.CombinePerformer_StepComplete;
 			SettingsHandler.SkinChanged += this.SettingsHandler_SkinChanged;
 			SettingsHandler.BordersChanged += this.SettingsHandler_BordersChanged;
@@ -329,13 +333,11 @@
 			CombinePerformer.Instructions = instructions;
 		}
 
-		private void SettingsHandler_BordersChanged(object sender, EventArgs e)
-		{
-			SettingsHandler.ApplyBorders(this);
-		}
+		private void SettingsHandler_BordersChanged(object sender, EventArgs e) => SettingsHandler.ApplyBorders(this);
 
 		private void SettingsHandler_SkinChanged(object sender, EventArgs e)
 		{
+			SettingsHandler.ChangeFormSize(this);
 			SettingsHandler.ApplySkin(this);
 		}
 		#endregion

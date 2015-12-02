@@ -4,6 +4,7 @@
 	using System.Collections.Generic;
 	using System.Globalization;
 	using System.Windows.Forms;
+	using Properties;
 	using Resources;
 	using static NativeMethods;
 
@@ -19,8 +20,12 @@
 		public HelpForm()
 		{
 			this.InitializeComponent();
-			this.SettingsHandler_SkinChanged(null, null);
 			this.SettingsHandler_BordersChanged(null, null);
+			if ((Skin)Settings.Default.Skin == Skin.Hellrages)
+			{
+				this.SettingsHandler_SkinChanged(null, null);
+			}
+
 			SettingsHandler.SkinChanged += this.SettingsHandler_SkinChanged;
 			SettingsHandler.BordersChanged += this.SettingsHandler_BordersChanged;
 			this.FillHelpMessages();
@@ -115,13 +120,11 @@
 			this.AddHelpMessage(Messages.HelpCreditsTitle, Messages.HelpCreditsMessage, shortVersion);
 		}
 
-		private void SettingsHandler_BordersChanged(object sender, EventArgs e)
-		{
-			SettingsHandler.ApplyBorders(this);
-		}
+		private void SettingsHandler_BordersChanged(object sender, EventArgs e) => SettingsHandler.ApplyBorders(this);
 
 		private void SettingsHandler_SkinChanged(object sender, EventArgs e)
 		{
+			SettingsHandler.ChangeFormSize(this);
 			SettingsHandler.ApplySkin(this);
 		}
 

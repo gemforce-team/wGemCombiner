@@ -21,8 +21,13 @@
 		internal Options()
 		{
 			this.InitializeComponent();
-			this.SettingsHandler_SkinChanged(null, null);
 			this.SettingsHandler_BordersChanged(null, null);
+			if ((Skin)Settings.Default.Skin == Skin.Hellrages)
+			{
+				this.SettingsHandler_SkinChanged(null, null);
+			}
+
+			this.SetRecommendationVisible();
 			SettingsHandler.SkinChanged += this.SettingsHandler_SkinChanged;
 			SettingsHandler.BordersChanged += this.SettingsHandler_BordersChanged;
 		}
@@ -122,6 +127,7 @@
 
 		private void SettingsHandler_SkinChanged(object sender, EventArgs e)
 		{
+			SettingsHandler.ChangeFormSize(this);
 			SettingsHandler.ApplySkin(this);
 			this.SetRecommendationVisible();
 		}

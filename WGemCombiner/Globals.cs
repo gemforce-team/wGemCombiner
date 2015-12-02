@@ -2,6 +2,7 @@
 {
 	using System;
 	using System.Reflection;
+
 	public static class Globals
 	{
 		#region Public Properties

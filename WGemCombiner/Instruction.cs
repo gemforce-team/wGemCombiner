@@ -13,7 +13,7 @@
 	}
 	#endregion
 
-	public struct Instruction
+	public struct Instruction : IEquatable<Instruction>
 	{
 		#region Constructors
 		public Instruction(ActionType action, int from)
@@ -68,9 +68,13 @@
 		public int To { get; }
 		#endregion
 
-		#region Public Static Methods
-		public static bool Equals(Instruction first, Instruction second) => first.From == second.From && first.To == second.To;
+		#region Operators
+		public static bool operator ==(Instruction lhs, Instruction rhs) => Equals(lhs, rhs);
 
+		public static bool operator !=(Instruction lhs, Instruction rhs) => !Equals(lhs, rhs);
+		#endregion
+
+		#region Public Static Methods
 		public static string SlotName(int slot)
 		{
 			int row = (slot / 3) + 1;
@@ -79,7 +83,15 @@
 		}
 		#endregion
 
+		#region Public Methods
+		public bool Equals(Instruction other) => Equals(this, other);
+		#endregion
+
 		#region Public Override Methods
+		public override bool Equals(object obj) => obj is Instruction ? this.Equals((Instruction)obj) : false;
+
+		public override int GetHashCode() => this.Action.GetHashCode() ^ this.From.GetHashCode() ^ this.To.GetHashCode();
+
 		public override string ToString()
 		{
 			var fromSlot = SlotName(this.From);
@@ -95,6 +107,10 @@
 					return "Combine " + fromSlot + "→" + SlotName(this.To);
 			}
 		}
+		#endregion
+
+		#region Private Static Methods
+		private static bool Equals(Instruction lhs, Instruction rhs) => ReferenceEquals(lhs, rhs) || (lhs.Action == rhs.Action && lhs.From == rhs.From && lhs.To == rhs.To);
 		#endregion
 	}
 }

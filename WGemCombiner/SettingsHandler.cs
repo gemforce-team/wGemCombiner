@@ -53,7 +53,6 @@
 				return;
 			}
 
-			ChangeFormSize(form); // No difference in functionality, but separating out logic for easier debugging
 			switch ((Skin)Settings.Default.Skin)
 			{
 				case Skin.Hellrages:
@@ -237,7 +236,7 @@
 
 				if (control is TableLayoutPanel)
 				{
-					control.BackColor = SystemColors.Window;
+					control.BackColor = SystemColors.Control;
 					ApplyWinFormsSkin(control);
 					// continue;
 				}
