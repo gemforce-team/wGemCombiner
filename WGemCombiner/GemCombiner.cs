@@ -259,7 +259,7 @@
 			using (StreamReader reader = new StreamReader(stream))
 			{
 				var file = reader.ReadToEnd();
-				var lines = file.Split('\n', '\r');
+				var lines = file.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
 				this.AddFromLines(lines);
 			}
 		}
