@@ -88,9 +88,9 @@
 		#endregion
 
 		#region Public Override Methods
-		public override bool Equals(object obj) => obj is Instruction ? this.Equals((Instruction)obj) : false;
+		public override bool Equals(object obj) => obj is Instruction ? Equals(this, (Instruction)obj) : false;
 
-		public override int GetHashCode() => this.Action.GetHashCode() ^ this.From.GetHashCode() ^ this.To.GetHashCode();
+		public override int GetHashCode() => ((int)this.Action * 36 * 36) ^ (this.From * 36) ^ this.To;
 
 		public override string ToString()
 		{
