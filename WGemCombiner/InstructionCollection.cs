@@ -3,7 +3,6 @@
 	using System;
 	using System.Collections;
 	using System.Collections.Generic;
-	using System.Collections.ObjectModel;
 	using System.Globalization;
 	using static Globals;
 
@@ -230,11 +229,19 @@
 				var index = this.instructions.FindLastIndex(g => g.From == gem.Slot && g.Action == ActionType.Duplicate);
 				var oldLocation = this.instructions[index].To;
 				this.instructions.RemoveAt(index);
-				for (int index2 = index; index2 < this.Count; index2++)
+				for (int index2 = index; index2 < this.instructions.Count; index2++)
 				{
-					var oldInstruction = this.instructions[index2];
-					this.instructions.RemoveAt(index2);
-					this.instructions.Insert(index2, new Instruction(oldInstruction.Action, oldLocation, gem.Slot));
+					var instruction = this.instructions[index2];
+					if (instruction.From == oldLocation)
+					{
+						this.instructions.RemoveAt(index2);
+						this.instructions.Insert(index2, new Instruction(instruction.Action, gem.Slot, instruction.Action == ActionType.Upgrade ? gem.Slot : instruction.To));
+					}
+					else if (instruction.To == oldLocation)
+					{
+						this.instructions.RemoveAt(index2);
+						this.instructions.Insert(index2, new Instruction(instruction.Action, instruction.From, gem.Slot));
+					}
 				}
 			}
 		}
