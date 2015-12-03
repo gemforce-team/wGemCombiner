@@ -34,14 +34,16 @@
 		public Combiner(Gem parentGem, IReadOnlyList<Gem> gemList)
 		{
 			ThrowNull(parentGem, nameof(parentGem));
+			ThrowNull(gemList, nameof(gemList));
 			this.Gem = parentGem;
+
+			// Only update UseCount for gems actually used in this combiner.
+			// First, determine which gems are actually part of this combine. Hijacking UseCount as a marker, since we're going to be resetting it right after this anyway (and those in the base list don't matter anymore).
 			foreach (var gem in gemList)
 			{
 				gem.UseCount = 0;
 			}
 
-			// Only update UseCount for gems actually used in this combiner even though all gems are inherited from parent.
-			// First, determine which gems are actually part of this combine. Hijacking UseCount as a marker, since we're going to be resetting it right after this anyway (and those in the base list don't matter).
 			this.Gem.UseCount = -1;
 			bool changesMade;
 			do
@@ -217,8 +219,6 @@
 				instructions.OptimizeCondensedBaseGems(this.BaseGems);
 			}
 
-			instructions.Move1A(this.Gem);
-
 #if DEBUG
 			try
 			{
@@ -230,6 +230,8 @@
 				MessageBox.Show(e.Message, "Verification failed", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 			}
 #endif
+
+			instructions.Move1A(this.Gem);
 
 			return instructions;
 		}
@@ -408,13 +410,13 @@
 			this.BuildGem(gem2, instructions, true);
 
 			// Re-check if gem is needed in case gem was already built during optimization routine for component gems.
-			if (gem.IsNeeded)
+			if (gem.IsNeeded && instructions.SlotsRequired <= SlotLimit)
 			{
 				gem1.UseCount--;
 				gem2.UseCount--;
 				doPostScan &= gem.IsUpgrade ? instructions.Upgrade(gem) : instructions.Combine(gem);
 
-				while (doPostScan)
+				while (doPostScan && instructions.SlotsRequired <= SlotLimit)
 				{
 					doPostScan = this.OptimizeLastGems(instructions) || this.OptimizeSingleUseGems(instructions);
 				}

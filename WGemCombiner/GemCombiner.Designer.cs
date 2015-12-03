@@ -49,6 +49,7 @@
 			this.resultLabel = new System.Windows.Forms.Label();
 			this.formulaInputRichTextBox = new System.Windows.Forms.RichTextBox();
 			this.baseGemsListBox = new System.Windows.Forms.ListBox();
+			this.combineProgressBar = new WGemCombiner.TextProgressBar();
 			((System.ComponentModel.ISupportInitialize)(this.delayNumeric)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.stepNumeric)).BeginInit();
 			this.SuspendLayout();
@@ -105,7 +106,7 @@
 			this.combineButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
 			this.combineButton.Location = new System.Drawing.Point(12, 369);
 			this.combineButton.Name = "combineButton";
-			this.combineButton.Size = new System.Drawing.Size(126, 23);
+			this.combineButton.Size = new System.Drawing.Size(103, 23);
 			this.combineButton.TabIndex = 23;
 			this.combineButton.Text = "Combine";
 			this.combineButton.Click += new System.EventHandler(this.CombineButton_Click);
@@ -149,6 +150,7 @@
             0,
             0,
             0});
+			this.delayNumeric.ValueChanged += new System.EventHandler(this.DelayNumeric_ValueChanged);
 			// 
 			// stepLabel
 			// 
@@ -202,11 +204,11 @@
 			// 
 			// exitButton
 			// 
-			this.exitButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.exitButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.exitButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
-			this.exitButton.Location = new System.Drawing.Point(218, 369);
+			this.exitButton.Location = new System.Drawing.Point(299, 369);
 			this.exitButton.Name = "exitButton";
-			this.exitButton.Size = new System.Drawing.Size(75, 23);
+			this.exitButton.Size = new System.Drawing.Size(68, 23);
 			this.exitButton.TabIndex = 31;
 			this.exitButton.Text = "Exit";
 			this.exitButton.Click += new System.EventHandler(this.ExitButton_Click);
@@ -300,12 +302,29 @@
 			this.baseGemsListBox.Size = new System.Drawing.Size(149, 43);
 			this.baseGemsListBox.TabIndex = 42;
 			// 
+			// combineProgressBar
+			// 
+			this.combineProgressBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.combineProgressBar.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.combineProgressBar.Location = new System.Drawing.Point(122, 369);
+			this.combineProgressBar.Minimum = 1;
+			this.combineProgressBar.Name = "combineProgressBar";
+			this.combineProgressBar.Size = new System.Drawing.Size(171, 23);
+			this.combineProgressBar.Step = 1;
+			this.combineProgressBar.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
+			this.combineProgressBar.TabIndex = 43;
+			this.combineProgressBar.Text = "Hello";
+			this.combineProgressBar.TextColor = System.Drawing.SystemColors.HighlightText;
+			this.combineProgressBar.Value = 1;
+			// 
 			// GemCombiner
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
 			this.ClientSize = new System.Drawing.Size(384, 404);
+			this.Controls.Add(this.combineProgressBar);
 			this.Controls.Add(this.baseGemsListBox);
 			this.Controls.Add(this.formulaInputRichTextBox);
 			this.Controls.Add(this.resultLabel);
@@ -362,6 +381,7 @@
         private System.Windows.Forms.Label resultLabel;
         private System.Windows.Forms.RichTextBox formulaInputRichTextBox;
         private System.Windows.Forms.ListBox baseGemsListBox;
+		private WGemCombiner.TextProgressBar combineProgressBar;
 	}
 }
 

@@ -175,6 +175,14 @@
 					continue;
 				}
 
+				var progressBar = control as TextProgressBar;
+				if (progressBar != null)
+				{
+					progressBar.BackColor = SystemColors.InactiveCaptionText;
+					progressBar.ForeColor = Color.FromArgb(0xff, 0x7f, 0x46, 0x00); // Color.DarkOrange with values cut in half to make orange text easier to read;
+					progressBar.TextColor = Color.DarkOrange;
+				}
+
 				if (control is GroupBox)
 				{
 					control.BackColor = Color.Transparent;
@@ -224,6 +232,14 @@
 					button.FlatStyle = FlatStyle.System;
 					button.Cursor = Cursors.Default;
 					continue;
+				}
+
+				var progressBar = control as TextProgressBar;
+				if (progressBar != null)
+				{
+					progressBar.BackColor = SystemColors.Control;
+					progressBar.ForeColor = SystemColors.Highlight;
+					progressBar.TextColor = SystemColors.HighlightText;
 				}
 
 				if (control is GroupBox)

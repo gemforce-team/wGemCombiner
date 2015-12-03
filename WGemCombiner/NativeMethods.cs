@@ -47,6 +47,9 @@
 		[DllImport("user32.dll")]
 		[return: MarshalAs(UnmanagedType.Bool)]
 		public static extern bool SetForegroundWindow(IntPtr hWnd); // set focus to the window
+
+		[DllImport("uxtheme.dll", CharSet = CharSet.Unicode)]
+		public static extern int SetWindowTheme(IntPtr hWnd, string appname, string idlist);
 		#endregion
 	}
 }

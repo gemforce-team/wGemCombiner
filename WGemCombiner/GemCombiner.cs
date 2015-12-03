@@ -2,6 +2,7 @@
 {
 	using System;
 	using System.Collections.Generic;
+	using System.Diagnostics;
 	using System.Drawing;
 	using System.Globalization;
 	using System.IO;
@@ -33,6 +34,7 @@
 		private Options optionsForm = new Options();
 		private bool asyncWaiting = false;
 		private Dictionary<string, RecipeCollection> recipes = new Dictionary<string, RecipeCollection>();
+		private Stopwatch stopwatch = new Stopwatch();
 		#endregion
 
 		#region Constructors
@@ -112,12 +114,20 @@
 			this.asyncWaiting = false;
 			this.combineButton.Text = "Working...";
 			CombinePerformer.SleepTime = (int)this.delayNumeric.Value;
+			this.stopwatch.Reset();
+			this.stopwatch.Start();
+			this.combineProgressBar.Maximum = CombinePerformer.Instructions.Count;
 			CombinePerformer.PerformCombine((int)this.stepNumeric.Value);
 			if (!CombinePerformer.CancelCombine)
 			{
+				this.combineProgressBar.Value = this.combineProgressBar.Minimum;
+				this.GuessEta();
 				this.combineButton.Text = "Combine";
 				Thread.Sleep(500); // guess give it 0.5sec before going again
-				this.combineButton.PerformClick(); // guess its finished, click the "combine" again
+				if (Settings.Default.AutoCombine)
+				{
+					this.combineButton.PerformClick(); // guess its finished, click the "combine" again
+				}
 			}
 		}
 
@@ -145,6 +155,8 @@
 				Clipboard.SetText(sb.ToString());
 			}
 		}
+
+		private void DelayNumeric_ValueChanged(object sender, EventArgs e) => this.GuessEta();
 
 		private void ExitButton_Click(object sender, EventArgs e)
 		{
@@ -213,6 +225,7 @@
 			var style = this.stepNumeric.Value == 1 ? FontStyle.Regular : FontStyle.Bold;
 			this.stepNumeric.Font = new Font(this.stepNumeric.Font, style);
 			this.stepLabel.Font = new Font(this.stepNumeric.Font, style);
+			this.GuessEta();
 		}
 		#endregion
 
@@ -300,7 +313,7 @@
 			}
 		}
 
-		private void CombinePerformer_StepComplete(object sender, int stepID)
+		private void CombinePerformer_StepComplete(object sender, int step)
 		{
 			Application.DoEvents();
 			if (GetAsyncKeyState(Keys.Escape) != 0)
@@ -308,7 +321,9 @@
 				CombinePerformer.CancelCombine = true;
 			}
 
-			this.combineButton.Text = stepID.ToString(CultureInfo.CurrentCulture);
+			this.combineButton.Text = step.ToString(CultureInfo.CurrentCulture);
+			this.combineProgressBar.Value = step;
+			this.GetRealEta(step);
 		}
 
 		private void CreateInstructions(Combiner combine)
@@ -332,7 +347,30 @@
 
 			this.stepNumeric.Minimum = instructions.Count == 0 ? 0 : 1;
 			this.stepNumeric.Maximum = instructions.Count;
+
 			CombinePerformer.Instructions = instructions;
+			this.GuessEta();
+		}
+
+		private void FormatEta(TimeSpan eta)
+		{
+			string separator = CultureInfo.CurrentCulture.DateTimeFormat.TimeSeparator;
+			string format = "h\\" + separator + "mm\\" + separator + "ss";
+			this.combineProgressBar.Text = "ETA: " + eta.ToString(format, CultureInfo.CurrentCulture);
+		}
+
+		private void GetRealEta(int step)
+		{
+			var time = this.stopwatch.ElapsedMilliseconds;
+			var eta = ((time * CombinePerformer.Instructions.Count) / step) - time;
+			this.FormatEta(new TimeSpan(0, 0, 0, 0, (int)eta));
+		}
+
+		private void GuessEta()
+		{
+			// Overhead beyond the delay time is usually around 2.5-3ms, so be safe and use 3.
+			double eta = CombinePerformer.Instructions == null ? 0 : ((double)this.delayNumeric.Value + 3) * (CombinePerformer.Instructions.Count - ((int)this.stepNumeric.Value - 1));
+			this.FormatEta(new TimeSpan(0, 0, 0, 0, (int)eta));
 		}
 
 		private void SettingsHandler_BordersChanged(object sender, EventArgs e) => SettingsHandler.ApplyBorders(this);

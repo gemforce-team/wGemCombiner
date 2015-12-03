@@ -111,6 +111,7 @@
 			for (int i = mSteps; i < Instructions.Count; i++)
 			{
 				var instruction = Instructions[i];
+				Debug.WriteLine(instruction);
 				Thread.Sleep(SleepTime);
 				switch (instruction.Action)
 				{
@@ -123,6 +124,7 @@
 						PressKey(KeyU);
 						break;
 					case ActionType.Move:
+						SleepTime = 1000;
 						// Move gem (only used when slots are compressed)
 						MoveCursorToSlot(instruction.From);
 						PressMouse();

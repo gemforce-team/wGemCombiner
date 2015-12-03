@@ -169,6 +169,9 @@
       <DependentUpon>Images.resx</DependentUpon>
     </Compile>
     <Compile Include="Settings.cs" />
+    <Compile Include="TextProgressBar.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <EmbeddedResource Include="GemCombiner.resx">
       <DependentUpon>GemCombiner.cs</DependentUpon>
       <SubType>Designer</SubType>
