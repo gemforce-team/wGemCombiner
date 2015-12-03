@@ -145,14 +145,6 @@
 			}
 		}
 
-		private void CopyList_Click(object sender, EventArgs e)
-		{
-			if (this.instructionsTextBox.TextLength > 0)
-			{
-				Clipboard.SetText(this.instructionsTextBox.Text);
-			}
-		}
-
 		private void DelayNumeric_ValueChanged(object sender, EventArgs e) => this.GuessEta();
 
 		private void ExitButton_Click(object sender, EventArgs e)
