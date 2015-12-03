@@ -1,33 +1,33 @@
 ﻿namespace WGemCombiner
 {
-    partial class GemCombiner
-    {
-        /// <summary>
-        /// Required designer variable.
-        /// </summary>
-        private System.ComponentModel.IContainer components = null;
+	partial class GemCombiner
+	{
+		/// <summary>
+		/// Required designer variable.
+		/// </summary>
+		private System.ComponentModel.IContainer components = null;
 
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing && (components != null))
-            {
-                components.Dispose();
-            }
-            base.Dispose(disposing);
-        }
+		/// <summary>
+		/// Clean up any resources being used.
+		/// </summary>
+		/// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+		protected override void Dispose(bool disposing)
+		{
+			if (disposing && (components != null))
+			{
+				components.Dispose();
+			}
+			base.Dispose(disposing);
+		}
 
-        #region Windows Form Designer generated code
+		#region Windows Form Designer generated code
 
-        /// <summary>
-        /// Required method for Designer support - do not modify
-        /// the contents of this method with the code editor.
-        /// </summary>
-        private void InitializeComponent()
-        {
+		/// <summary>
+		/// Required method for Designer support - do not modify
+		/// the contents of this method with the code editor.
+		/// </summary>
+		private void InitializeComponent()
+		{
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GemCombiner));
 			this.schemeLabel = new System.Windows.Forms.Label();
 			this.parseRecipeButton = new System.Windows.Forms.Button();
@@ -81,8 +81,8 @@
 			// 
 			// instructionsLabel
 			// 
-			this.instructionsLabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+			this.instructionsLabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+			| System.Windows.Forms.AnchorStyles.Right)));
 			this.instructionsLabel.AutoSize = true;
 			this.instructionsLabel.Location = new System.Drawing.Point(215, 12);
 			this.instructionsLabel.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
@@ -117,36 +117,36 @@
 			// 
 			this.delayNumeric.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.delayNumeric.Increment = new decimal(new int[] {
-            5,
-            0,
-            0,
-            0});
+			5,
+			0,
+			0,
+			0});
 			this.delayNumeric.Location = new System.Drawing.Point(12, 343);
 			this.delayNumeric.Maximum = new decimal(new int[] {
-            2000,
-            0,
-            0,
-            0});
+			2000,
+			0,
+			0,
+			0});
 			this.delayNumeric.Minimum = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
+			10,
+			0,
+			0,
+			0});
 			this.delayNumeric.Name = "delayNumeric";
 			this.delayNumeric.Size = new System.Drawing.Size(57, 20);
 			this.delayNumeric.TabIndex = 26;
 			this.delayNumeric.Value = new decimal(new int[] {
-            50,
-            0,
-            0,
-            0});
+			50,
+			0,
+			0,
+			0});
 			this.delayNumeric.ValueChanged += new System.EventHandler(this.DelayNumeric_ValueChanged);
 			// 
 			// stepLabel
 			// 
 			this.stepLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.stepLabel.AutoSize = true;
-			this.stepLabel.Location = new System.Drawing.Point(72, 327);
+			this.stepLabel.Location = new System.Drawing.Point(78, 327);
 			this.stepLabel.Name = "stepLabel";
 			this.stepLabel.Size = new System.Drawing.Size(67, 13);
 			this.stepLabel.TabIndex = 25;
@@ -155,12 +155,12 @@
 			// stepNumeric
 			// 
 			this.stepNumeric.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.stepNumeric.Location = new System.Drawing.Point(75, 343);
+			this.stepNumeric.Location = new System.Drawing.Point(81, 343);
 			this.stepNumeric.Maximum = new decimal(new int[] {
-            1000,
-            0,
-            0,
-            0});
+			1000,
+			0,
+			0,
+			0});
 			this.stepNumeric.Name = "stepNumeric";
 			this.stepNumeric.Size = new System.Drawing.Size(57, 20);
 			this.stepNumeric.TabIndex = 26;
@@ -214,12 +214,12 @@
 			// 
 			// combineComboBox
 			// 
-			this.combineComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
+			this.combineComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+			| System.Windows.Forms.AnchorStyles.Left)));
 			this.combineComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.combineComboBox.Font = new System.Drawing.Font("Consolas", 9.75F);
 			this.combineComboBox.Items.AddRange(new object[] {
-            "Paste"});
+			"Paste"});
 			this.combineComboBox.Location = new System.Drawing.Point(12, 57);
 			this.combineComboBox.Name = "combineComboBox";
 			this.combineComboBox.Size = new System.Drawing.Size(170, 23);
@@ -229,8 +229,8 @@
 			// 
 			// colorComboBox
 			// 
-			this.colorComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
+			this.colorComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+			| System.Windows.Forms.AnchorStyles.Left)));
 			this.colorComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.colorComboBox.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.colorComboBox.Location = new System.Drawing.Point(12, 28);
@@ -246,8 +246,8 @@
 			// 
 			// gemLocationsLabel
 			// 
-			this.gemLocationsLabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+			this.gemLocationsLabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
+			| System.Windows.Forms.AnchorStyles.Right)));
 			this.gemLocationsLabel.AutoSize = true;
 			this.gemLocationsLabel.Location = new System.Drawing.Point(215, 275);
 			this.gemLocationsLabel.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
@@ -271,8 +271,8 @@
 			// formulaInputRichTextBox
 			// 
 			this.formulaInputRichTextBox.AcceptsTab = true;
-			this.formulaInputRichTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
+			this.formulaInputRichTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+			| System.Windows.Forms.AnchorStyles.Left)));
 			this.formulaInputRichTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.formulaInputRichTextBox.Location = new System.Drawing.Point(12, 86);
 			this.formulaInputRichTextBox.Name = "formulaInputRichTextBox";
@@ -282,8 +282,8 @@
 			// 
 			// baseGemsListBox
 			// 
-			this.baseGemsListBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+			this.baseGemsListBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
+			| System.Windows.Forms.AnchorStyles.Right)));
 			this.baseGemsListBox.FormattingEnabled = true;
 			this.baseGemsListBox.Location = new System.Drawing.Point(218, 291);
 			this.baseGemsListBox.Name = "baseGemsListBox";
@@ -295,23 +295,23 @@
 			this.slotLimitUpDown.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.slotLimitUpDown.Location = new System.Drawing.Point(138, 343);
 			this.slotLimitUpDown.Maximum = new decimal(new int[] {
-            36,
-            0,
-            0,
-            0});
+			36,
+			0,
+			0,
+			0});
 			this.slotLimitUpDown.Minimum = new decimal(new int[] {
-            5,
-            0,
-            0,
-            0});
+			5,
+			0,
+			0,
+			0});
 			this.slotLimitUpDown.Name = "slotLimitUpDown";
 			this.slotLimitUpDown.Size = new System.Drawing.Size(57, 20);
 			this.slotLimitUpDown.TabIndex = 45;
 			this.slotLimitUpDown.Value = new decimal(new int[] {
-            36,
-            0,
-            0,
-            0});
+			36,
+			0,
+			0,
+			0});
 			this.slotLimitUpDown.ValueChanged += new System.EventHandler(this.SlotLimitUpDown_ValueChanged);
 			// 
 			// slotLimitLabel
@@ -326,9 +326,9 @@
 			// 
 			// instructionsTextBox
 			// 
-			this.instructionsTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+			this.instructionsTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+			| System.Windows.Forms.AnchorStyles.Left)
+			| System.Windows.Forms.AnchorStyles.Right)));
 			this.instructionsTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.instructionsTextBox.DetectUrls = false;
 			this.instructionsTextBox.Location = new System.Drawing.Point(218, 28);
@@ -341,8 +341,8 @@
 			// 
 			// combineProgressBar
 			// 
-			this.combineProgressBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+			this.combineProgressBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
+			| System.Windows.Forms.AnchorStyles.Right)));
 			this.combineProgressBar.BackColor = System.Drawing.SystemColors.Window;
 			this.combineProgressBar.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.combineProgressBar.Location = new System.Drawing.Point(122, 369);
@@ -387,7 +387,7 @@
 			this.DoubleBuffered = true;
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.MaximizeBox = false;
-			this.MinimumSize = new System.Drawing.Size(380, 392);
+			this.MinimumSize = new System.Drawing.Size(400, 392);
 			this.Name = "GemCombiner";
 			this.Text = "Gem Combiner";
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.GemCombiner_FormClosing);
@@ -398,33 +398,32 @@
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
-        }
+		}
 
-        #endregion
+		#endregion
 
-        private System.Windows.Forms.Label schemeLabel;
-        private System.Windows.Forms.Button parseRecipeButton;
-        private System.Windows.Forms.Label instructionsLabel;
-        private System.Windows.Forms.Button combineButton;
-        private System.Windows.Forms.Label delayLabel;
-        private System.Windows.Forms.NumericUpDown delayNumeric;
-        private System.Windows.Forms.Label stepLabel;
-        private System.Windows.Forms.NumericUpDown stepNumeric;
-        private System.Windows.Forms.Button copyListButton;
-        private System.Windows.Forms.Button helpButton;
-        private System.Windows.Forms.Button exitButton;
-        private System.Windows.Forms.Button optionsButton;
-        private System.Windows.Forms.ComboBox combineComboBox;
-        private System.Windows.Forms.ComboBox colorComboBox;
-        private System.Windows.Forms.OpenFileDialog importFileDialog;
-        private System.Windows.Forms.Label gemLocationsLabel;
-        private System.Windows.Forms.Label resultLabel;
-        private System.Windows.Forms.RichTextBox formulaInputRichTextBox;
-        private System.Windows.Forms.ListBox baseGemsListBox;
+		private System.Windows.Forms.Label schemeLabel;
+		private System.Windows.Forms.Button parseRecipeButton;
+		private System.Windows.Forms.Label instructionsLabel;
+		private System.Windows.Forms.Button combineButton;
+		private System.Windows.Forms.Label delayLabel;
+		private System.Windows.Forms.NumericUpDown delayNumeric;
+		private System.Windows.Forms.Label stepLabel;
+		private System.Windows.Forms.NumericUpDown stepNumeric;
+		private System.Windows.Forms.Button copyListButton;
+		private System.Windows.Forms.Button helpButton;
+		private System.Windows.Forms.Button exitButton;
+		private System.Windows.Forms.Button optionsButton;
+		private System.Windows.Forms.ComboBox combineComboBox;
+		private System.Windows.Forms.ComboBox colorComboBox;
+		private System.Windows.Forms.OpenFileDialog importFileDialog;
+		private System.Windows.Forms.Label gemLocationsLabel;
+		private System.Windows.Forms.Label resultLabel;
+		private System.Windows.Forms.RichTextBox formulaInputRichTextBox;
+		private System.Windows.Forms.ListBox baseGemsListBox;
 		private WGemCombiner.TextProgressBar combineProgressBar;
 		private System.Windows.Forms.NumericUpDown slotLimitUpDown;
 		private System.Windows.Forms.Label slotLimitLabel;
 		private System.Windows.Forms.RichTextBox instructionsTextBox;
 	}
 }
-
