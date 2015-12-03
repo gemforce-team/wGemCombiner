@@ -88,12 +88,10 @@
 				return; // there was already a thread waiting for hotkey
 			}
 
-			if (GetAsyncKeyState((Keys)Settings.Default.Hotkey) != 0)
+			while (GetAsyncKeyState((Keys)Settings.Default.Hotkey) != 0)
 			{
-				////MessageBox.Show("Key detection failed, or you were already holding hotkey. Try again.");
+				// MessageBox.Show("Key detection failed, or you were already holding hotkey. Try again.");
 				Thread.Sleep(500);
-				this.combineButton.PerformClick(); // ignore holding hotkey error and try again.
-				return;
 			}
 
 			this.combineButton.Text = "Press " + SettingsHandler.HotkeyText + " on A1"; // hotkey
@@ -115,22 +113,20 @@
 
 			// User pressed hotkey
 			this.asyncWaiting = false;
-			this.combineButton.Text = "Working...";
 			CombinePerformer.SleepTime = (int)this.delayNumeric.Value;
 			this.stopwatch.Reset();
 			this.stopwatch.Start();
 			this.combineProgressBar.Maximum = CombinePerformer.Instructions.Count;
 			CombinePerformer.PerformCombine((int)this.stepNumeric.Value);
-			if (!CombinePerformer.CancelCombine)
+
+			// Combine finished
+			this.combineProgressBar.Value = this.combineProgressBar.Minimum;
+			this.GuessEta();
+			this.combineButton.Text = "Combine";
+			if (Settings.Default.AutoCombine)
 			{
-				this.combineProgressBar.Value = this.combineProgressBar.Minimum;
-				this.GuessEta();
-				this.combineButton.Text = "Combine";
 				Thread.Sleep(500); // guess give it 0.5sec before going again
-				if (Settings.Default.AutoCombine)
-				{
-					this.combineButton.PerformClick(); // guess its finished, click the "combine" again
-				}
+				this.combineButton.PerformClick(); // guess it's finished, click the "combine" again
 			}
 		}
 
