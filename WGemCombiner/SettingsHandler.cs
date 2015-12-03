@@ -237,9 +237,9 @@
 				var progressBar = control as TextProgressBar;
 				if (progressBar != null)
 				{
-					progressBar.BackColor = SystemColors.Control;
+					progressBar.BackColor = SystemColors.Window;
 					progressBar.ForeColor = SystemColors.Highlight;
-					progressBar.TextColor = SystemColors.HighlightText;
+					progressBar.TextColor = SystemColors.ControlText;
 				}
 
 				if (control is GroupBox)

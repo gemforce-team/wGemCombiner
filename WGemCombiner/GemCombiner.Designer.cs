@@ -306,6 +306,7 @@
 			// 
 			this.combineProgressBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+			this.combineProgressBar.BackColor = System.Drawing.SystemColors.Window;
 			this.combineProgressBar.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.combineProgressBar.Location = new System.Drawing.Point(122, 369);
 			this.combineProgressBar.Minimum = 1;
@@ -315,7 +316,7 @@
 			this.combineProgressBar.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
 			this.combineProgressBar.TabIndex = 43;
 			this.combineProgressBar.Text = "Hello";
-			this.combineProgressBar.TextColor = System.Drawing.SystemColors.HighlightText;
+			this.combineProgressBar.TextColor = System.Drawing.SystemColors.ControlText;
 			this.combineProgressBar.Value = 1;
 			// 
 			// GemCombiner
