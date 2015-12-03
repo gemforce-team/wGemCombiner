@@ -42,7 +42,6 @@
 			this.optionsButton = new System.Windows.Forms.Button();
 			this.combineComboBox = new System.Windows.Forms.ComboBox();
 			this.colorComboBox = new System.Windows.Forms.ComboBox();
-			this.importFileDialog = new System.Windows.Forms.OpenFileDialog();
 			this.gemLocationsLabel = new System.Windows.Forms.Label();
 			this.resultLabel = new System.Windows.Forms.Label();
 			this.formulaInputRichTextBox = new System.Windows.Forms.RichTextBox();
@@ -228,10 +227,6 @@
 			this.colorComboBox.TabIndex = 34;
 			this.colorComboBox.SelectedIndexChanged += new System.EventHandler(this.ColorComboBox_SelectedIndexChanged);
 			// 
-			// importFileDialog
-			// 
-			this.importFileDialog.Filter = "Text files|*.txt";
-			// 
 			// gemLocationsLabel
 			// 
 			this.gemLocationsLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
@@ -402,7 +397,6 @@
 		private System.Windows.Forms.Button optionsButton;
 		private System.Windows.Forms.ComboBox combineComboBox;
 		private System.Windows.Forms.ComboBox colorComboBox;
-		private System.Windows.Forms.OpenFileDialog importFileDialog;
 		private System.Windows.Forms.Label gemLocationsLabel;
 		private System.Windows.Forms.Label resultLabel;
 		private System.Windows.Forms.RichTextBox formulaInputRichTextBox;
