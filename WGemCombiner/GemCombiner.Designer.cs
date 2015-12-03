@@ -81,10 +81,9 @@
 			// 
 			// instructionsLabel
 			// 
-			this.instructionsLabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+			this.instructionsLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.instructionsLabel.AutoSize = true;
-			this.instructionsLabel.Location = new System.Drawing.Point(215, 12);
+			this.instructionsLabel.Location = new System.Drawing.Point(216, 12);
 			this.instructionsLabel.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
 			this.instructionsLabel.Name = "instructionsLabel";
 			this.instructionsLabel.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
@@ -172,7 +171,7 @@
 			// 
 			this.copyListButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.copyListButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
-			this.copyListButton.Location = new System.Drawing.Point(301, 5);
+			this.copyListButton.Location = new System.Drawing.Point(302, 4);
 			this.copyListButton.Name = "copyListButton";
 			this.copyListButton.Size = new System.Drawing.Size(66, 21);
 			this.copyListButton.TabIndex = 27;
@@ -185,7 +184,7 @@
 			this.helpButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.helpButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
 			this.helpButton.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-			this.helpButton.Location = new System.Drawing.Point(299, 340);
+			this.helpButton.Location = new System.Drawing.Point(300, 340);
 			this.helpButton.Name = "helpButton";
 			this.helpButton.Size = new System.Drawing.Size(68, 23);
 			this.helpButton.TabIndex = 28;
@@ -196,7 +195,7 @@
 			// 
 			this.exitButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.exitButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
-			this.exitButton.Location = new System.Drawing.Point(299, 369);
+			this.exitButton.Location = new System.Drawing.Point(300, 369);
 			this.exitButton.Name = "exitButton";
 			this.exitButton.Size = new System.Drawing.Size(68, 23);
 			this.exitButton.TabIndex = 31;
@@ -205,9 +204,9 @@
 			// 
 			// optionsButton
 			// 
-			this.optionsButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.optionsButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.optionsButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
-			this.optionsButton.Location = new System.Drawing.Point(218, 340);
+			this.optionsButton.Location = new System.Drawing.Point(219, 340);
 			this.optionsButton.Name = "optionsButton";
 			this.optionsButton.Size = new System.Drawing.Size(75, 23);
 			this.optionsButton.TabIndex = 32;
@@ -248,10 +247,9 @@
 			// 
 			// gemLocationsLabel
 			// 
-			this.gemLocationsLabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+			this.gemLocationsLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.gemLocationsLabel.AutoSize = true;
-			this.gemLocationsLabel.Location = new System.Drawing.Point(215, 275);
+			this.gemLocationsLabel.Location = new System.Drawing.Point(216, 275);
 			this.gemLocationsLabel.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
 			this.gemLocationsLabel.Name = "gemLocationsLabel";
 			this.gemLocationsLabel.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
@@ -273,10 +271,11 @@
 			// formulaInputRichTextBox
 			// 
 			this.formulaInputRichTextBox.AcceptsTab = true;
-			this.formulaInputRichTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
+			this.formulaInputRichTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.formulaInputRichTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.formulaInputRichTextBox.Location = new System.Drawing.Point(12, 86);
+			this.formulaInputRichTextBox.Location = new System.Drawing.Point(12, 87);
 			this.formulaInputRichTextBox.Name = "formulaInputRichTextBox";
 			this.formulaInputRichTextBox.Size = new System.Drawing.Size(170, 108);
 			this.formulaInputRichTextBox.TabIndex = 40;
@@ -284,10 +283,9 @@
 			// 
 			// baseGemsListBox
 			// 
-			this.baseGemsListBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+			this.baseGemsListBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.baseGemsListBox.FormattingEnabled = true;
-			this.baseGemsListBox.Location = new System.Drawing.Point(218, 291);
+			this.baseGemsListBox.Location = new System.Drawing.Point(219, 291);
 			this.baseGemsListBox.Name = "baseGemsListBox";
 			this.baseGemsListBox.Size = new System.Drawing.Size(149, 43);
 			this.baseGemsListBox.TabIndex = 42;
@@ -329,12 +327,12 @@
 			// 
 			// instructionsTextBox
 			// 
-			this.instructionsTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+			this.instructionsTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
+			this.instructionsTextBox.BackColor = System.Drawing.SystemColors.Window;
 			this.instructionsTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.instructionsTextBox.DetectUrls = false;
-			this.instructionsTextBox.Location = new System.Drawing.Point(218, 28);
+			this.instructionsTextBox.Location = new System.Drawing.Point(219, 29);
 			this.instructionsTextBox.Name = "instructionsTextBox";
 			this.instructionsTextBox.ReadOnly = true;
 			this.instructionsTextBox.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
@@ -351,7 +349,7 @@
 			this.combineProgressBar.Location = new System.Drawing.Point(122, 369);
 			this.combineProgressBar.Minimum = 1;
 			this.combineProgressBar.Name = "combineProgressBar";
-			this.combineProgressBar.Size = new System.Drawing.Size(171, 23);
+			this.combineProgressBar.Size = new System.Drawing.Size(172, 23);
 			this.combineProgressBar.Step = 1;
 			this.combineProgressBar.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
 			this.combineProgressBar.TabIndex = 43;
@@ -364,7 +362,7 @@
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-			this.ClientSize = new System.Drawing.Size(384, 404);
+			this.ClientSize = new System.Drawing.Size(380, 404);
 			this.Controls.Add(this.slotLimitUpDown);
 			this.Controls.Add(this.slotLimitLabel);
 			this.Controls.Add(this.combineProgressBar);
@@ -390,7 +388,7 @@
 			this.DoubleBuffered = true;
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.MaximizeBox = false;
-			this.MinimumSize = new System.Drawing.Size(400, 392);
+			this.MinimumSize = new System.Drawing.Size(396, 392);
 			this.Name = "GemCombiner";
 			this.Text = "Gem Combiner";
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.GemCombiner_FormClosing);
