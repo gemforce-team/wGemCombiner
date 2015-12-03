@@ -54,12 +54,6 @@
 		}
 		#endregion
 
-		#region Public Static Properties
-		public static int Slot1A { get; } = 0;
-
-		public static int Slot12C { get; } = 35;
-		#endregion
-
 		#region Public Properties
 		public ActionType Action { get; }
 

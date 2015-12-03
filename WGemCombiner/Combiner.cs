@@ -399,7 +399,7 @@
 
 		private void BuildGem(Gem gem, InstructionCollection instructions, bool doPostScan)
 		{
-			if (!gem.IsNeeded)
+			if (!gem.IsNeeded || instructions.SlotsRequired > SlotLimit)
 			{
 				return;
 			}
@@ -435,6 +435,11 @@
 			var instructions1 = new InstructionCollection(gemsToIgnore);
 			combine1.BuildGem(combine1.Gem, instructions1, true);
 			combine1.Gem.UseCount--;
+			if (gemsToIgnore.Count >= SlotLimit)
+			{
+				throw new InvalidOperationException(string.Format(CultureInfo.CurrentCulture, "You cannot build this gem with {0} slots.", SlotLimit));
+			}
+
 			if (instructions1.SlotsRequired > SlotLimit)
 			{
 				instructions1 = combine1.CondenseSlots(gemsToIgnore);
@@ -446,6 +451,11 @@
 			var instructions2 = new InstructionCollection(gemsToIgnore);
 			combine2.BuildGem(combine2.Gem, instructions2, true);
 			combine2.Gem.UseCount--;
+			if (gemsToIgnore.Count >= SlotLimit)
+			{
+				throw new InvalidOperationException(string.Format(CultureInfo.CurrentCulture, "You cannot build this gem with {0} slots.", SlotLimit));
+			}
+
 			if (instructions2.SlotsRequired > SlotLimit)
 			{
 				instructions2 = combine2.CondenseSlots(gemsToIgnore);

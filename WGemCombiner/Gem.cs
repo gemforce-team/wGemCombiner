@@ -159,12 +159,12 @@
 		#endregion
 
 		#region Public Methods
-		public string DisplayInfo(bool showAll, int slots)
+		public string DisplayInfo(bool showAll)
 		{
-			var retval = string.Format(CultureInfo.CurrentCulture, "Grade: +{0}\r\nCost: {1}x\r\nGrowth: {2:0.0####}\r\nSlots: {3}", this.Grade, this.Cost, this.Growth, slots);
+			var retval = string.Format(CultureInfo.CurrentCulture, "Grade: +{0}\r\nCost: {1}x\r\nGrowth: {2:0.0####}\r\nPower: {3:0.0####}\r\nDamage: {4:0.0####}", this.Grade, this.Cost, this.Growth, this.Power, this.Damage);
 			if (showAll)
 			{
-				retval += string.Format(CultureInfo.CurrentCulture, "\r\nPower: {0:0.0####}\r\nDamage: {1:0.0####}\r\nLeech: {2:0.0####}\r\nCrit: {3:0.0####}\r\nBbound: {4:0.0####}", this.Power, this.Damage, this.Leech, this.CriticalMultiplier, this.Blood);
+				retval += string.Format(CultureInfo.CurrentCulture, "\r\nLeech: {0:0.0####}\r\nCrit: {1:0.0####}\r\nBbound: {2:0.0####}", this.Leech, this.CriticalMultiplier, this.Blood);
 			}
 
 			return retval;

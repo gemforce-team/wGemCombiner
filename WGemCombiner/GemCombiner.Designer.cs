@@ -31,7 +31,6 @@
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GemCombiner));
 			this.schemeLabel = new System.Windows.Forms.Label();
 			this.parseRecipeButton = new System.Windows.Forms.Button();
-			this.instructionsListBox = new System.Windows.Forms.ListBox();
 			this.instructionsLabel = new System.Windows.Forms.Label();
 			this.combineButton = new System.Windows.Forms.Button();
 			this.delayLabel = new System.Windows.Forms.Label();
@@ -49,9 +48,13 @@
 			this.resultLabel = new System.Windows.Forms.Label();
 			this.formulaInputRichTextBox = new System.Windows.Forms.RichTextBox();
 			this.baseGemsListBox = new System.Windows.Forms.ListBox();
+			this.slotLimitUpDown = new System.Windows.Forms.NumericUpDown();
+			this.slotLimitLabel = new System.Windows.Forms.Label();
+			this.instructionsTextBox = new System.Windows.Forms.RichTextBox();
 			this.combineProgressBar = new WGemCombiner.TextProgressBar();
 			((System.ComponentModel.ISupportInitialize)(this.delayNumeric)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.stepNumeric)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.slotLimitUpDown)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// schemeLabel
@@ -75,17 +78,6 @@
 			this.parseRecipeButton.TabIndex = 2;
 			this.parseRecipeButton.Text = "Parse custom recipe";
 			this.parseRecipeButton.Click += new System.EventHandler(this.ParseRecipeButton_Click);
-			// 
-			// instructionsListBox
-			// 
-			this.instructionsListBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-			this.instructionsListBox.FormattingEnabled = true;
-			this.instructionsListBox.Location = new System.Drawing.Point(218, 28);
-			this.instructionsListBox.Name = "instructionsListBox";
-			this.instructionsListBox.Size = new System.Drawing.Size(149, 238);
-			this.instructionsListBox.TabIndex = 21;
 			// 
 			// instructionsLabel
 			// 
@@ -116,7 +108,6 @@
 			this.delayLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.delayLabel.AutoSize = true;
 			this.delayLabel.Location = new System.Drawing.Point(12, 327);
-			this.delayLabel.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
 			this.delayLabel.Name = "delayLabel";
 			this.delayLabel.Size = new System.Drawing.Size(37, 13);
 			this.delayLabel.TabIndex = 25;
@@ -131,7 +122,6 @@
             0,
             0});
 			this.delayNumeric.Location = new System.Drawing.Point(12, 343);
-			this.delayNumeric.Margin = new System.Windows.Forms.Padding(3, 3, 6, 3);
 			this.delayNumeric.Maximum = new decimal(new int[] {
             2000,
             0,
@@ -156,8 +146,7 @@
 			// 
 			this.stepLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.stepLabel.AutoSize = true;
-			this.stepLabel.Location = new System.Drawing.Point(78, 327);
-			this.stepLabel.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
+			this.stepLabel.Location = new System.Drawing.Point(72, 327);
 			this.stepLabel.Name = "stepLabel";
 			this.stepLabel.Size = new System.Drawing.Size(67, 13);
 			this.stepLabel.TabIndex = 25;
@@ -166,8 +155,7 @@
 			// stepNumeric
 			// 
 			this.stepNumeric.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.stepNumeric.Location = new System.Drawing.Point(81, 343);
-			this.stepNumeric.Margin = new System.Windows.Forms.Padding(6, 3, 3, 3);
+			this.stepNumeric.Location = new System.Drawing.Point(75, 343);
 			this.stepNumeric.Maximum = new decimal(new int[] {
             1000,
             0,
@@ -302,6 +290,55 @@
 			this.baseGemsListBox.Size = new System.Drawing.Size(149, 43);
 			this.baseGemsListBox.TabIndex = 42;
 			// 
+			// slotLimitUpDown
+			// 
+			this.slotLimitUpDown.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.slotLimitUpDown.Location = new System.Drawing.Point(138, 343);
+			this.slotLimitUpDown.Maximum = new decimal(new int[] {
+            36,
+            0,
+            0,
+            0});
+			this.slotLimitUpDown.Minimum = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
+			this.slotLimitUpDown.Name = "slotLimitUpDown";
+			this.slotLimitUpDown.Size = new System.Drawing.Size(57, 20);
+			this.slotLimitUpDown.TabIndex = 45;
+			this.slotLimitUpDown.Value = new decimal(new int[] {
+            36,
+            0,
+            0,
+            0});
+			this.slotLimitUpDown.ValueChanged += new System.EventHandler(this.SlotLimitUpDown_ValueChanged);
+			// 
+			// slotLimitLabel
+			// 
+			this.slotLimitLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.slotLimitLabel.AutoSize = true;
+			this.slotLimitLabel.Location = new System.Drawing.Point(135, 327);
+			this.slotLimitLabel.Name = "slotLimitLabel";
+			this.slotLimitLabel.Size = new System.Drawing.Size(48, 13);
+			this.slotLimitLabel.TabIndex = 44;
+			this.slotLimitLabel.Text = "Slot limit:";
+			// 
+			// instructionsTextBox
+			// 
+			this.instructionsTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.instructionsTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.instructionsTextBox.DetectUrls = false;
+			this.instructionsTextBox.Location = new System.Drawing.Point(218, 28);
+			this.instructionsTextBox.Name = "instructionsTextBox";
+			this.instructionsTextBox.ReadOnly = true;
+			this.instructionsTextBox.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
+			this.instructionsTextBox.Size = new System.Drawing.Size(149, 238);
+			this.instructionsTextBox.TabIndex = 46;
+			this.instructionsTextBox.Text = "";
+			// 
 			// combineProgressBar
 			// 
 			this.combineProgressBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
@@ -315,7 +352,7 @@
 			this.combineProgressBar.Step = 1;
 			this.combineProgressBar.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
 			this.combineProgressBar.TabIndex = 43;
-			this.combineProgressBar.Text = "Hello";
+			this.combineProgressBar.Text = null;
 			this.combineProgressBar.TextColor = System.Drawing.SystemColors.ControlText;
 			this.combineProgressBar.Value = 1;
 			// 
@@ -325,6 +362,8 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
 			this.ClientSize = new System.Drawing.Size(384, 404);
+			this.Controls.Add(this.slotLimitUpDown);
+			this.Controls.Add(this.slotLimitLabel);
 			this.Controls.Add(this.combineProgressBar);
 			this.Controls.Add(this.baseGemsListBox);
 			this.Controls.Add(this.formulaInputRichTextBox);
@@ -341,20 +380,21 @@
 			this.Controls.Add(this.delayLabel);
 			this.Controls.Add(this.combineButton);
 			this.Controls.Add(this.instructionsLabel);
-			this.Controls.Add(this.instructionsListBox);
 			this.Controls.Add(this.parseRecipeButton);
 			this.Controls.Add(this.schemeLabel);
 			this.Controls.Add(this.copyListButton);
+			this.Controls.Add(this.instructionsTextBox);
 			this.DoubleBuffered = true;
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.MaximizeBox = false;
-			this.MinimumSize = new System.Drawing.Size(400, 392);
+			this.MinimumSize = new System.Drawing.Size(380, 392);
 			this.Name = "GemCombiner";
 			this.Text = "Gem Combiner";
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.GemCombiner_FormClosing);
 			this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.GemCombiner_MouseDown);
 			((System.ComponentModel.ISupportInitialize)(this.delayNumeric)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.stepNumeric)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.slotLimitUpDown)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -364,7 +404,6 @@
 
         private System.Windows.Forms.Label schemeLabel;
         private System.Windows.Forms.Button parseRecipeButton;
-        private System.Windows.Forms.ListBox instructionsListBox;
         private System.Windows.Forms.Label instructionsLabel;
         private System.Windows.Forms.Button combineButton;
         private System.Windows.Forms.Label delayLabel;
@@ -383,6 +422,9 @@
         private System.Windows.Forms.RichTextBox formulaInputRichTextBox;
         private System.Windows.Forms.ListBox baseGemsListBox;
 		private WGemCombiner.TextProgressBar combineProgressBar;
+		private System.Windows.Forms.NumericUpDown slotLimitUpDown;
+		private System.Windows.Forms.Label slotLimitLabel;
+		private System.Windows.Forms.RichTextBox instructionsTextBox;
 	}
 }
 

@@ -17,7 +17,6 @@
 	public partial class GemCombiner : Form
 	{
 		#region Static Fields
-		private static string exePath = Application.StartupPath;
 		private static Dictionary<GemColors, string> gemEffectNames = new Dictionary<GemColors, string>()
 		{
 			[GemColors.Black] = "Bloodbound",
@@ -27,6 +26,10 @@
 			[GemColors.Red] = "Chain Hit",
 			[GemColors.Yellow] = "Critical Hit"
 		};
+		#endregion
+
+		#region Constants
+		private const int RidiculousInstructionCount = 200000;
 		#endregion
 
 		#region Fields
@@ -41,7 +44,7 @@
 		public GemCombiner()
 		{
 			this.AddResourceRecipe("leech");
-			this.AddTextFileRecipes(exePath + @"\recipes.txt");
+			this.AddTextFileRecipes(ExePath + @"\recipes.txt");
 			this.InitializeComponent();
 			this.SettingsHandler_BordersChanged(null, null);
 			if ((Skin)Settings.Default.Skin == Skin.Hellrages)
@@ -144,15 +147,9 @@
 
 		private void CopyList_Click(object sender, EventArgs e)
 		{
-			if (this.instructionsListBox.Items.Count > 0)
+			if (this.instructionsTextBox.TextLength > 0)
 			{
-				var sb = new StringBuilder();
-				foreach (var instruction in this.instructionsListBox.Items)
-				{
-					sb.AppendLine((string)instruction);
-				}
-
-				Clipboard.SetText(sb.ToString());
+				Clipboard.SetText(this.instructionsTextBox.Text);
 			}
 		}
 
@@ -328,28 +325,40 @@
 
 		private void CreateInstructions(Combiner combine)
 		{
-			var instructions = combine.CreateInstructions();
-			this.resultLabel.Text = combine.Gem.DisplayInfo(false, instructions.SlotsRequired);
-
-			this.baseGemsListBox.Items.Clear();
-			var baseGems = new List<Gem>(combine.BaseGems);
-			baseGems.Sort((g1, g2) => g1.Slot.CompareTo(g2.Slot));
-			foreach (var gem in baseGems)
+			try
 			{
-				this.baseGemsListBox.Items.Add(SlotName(gem.Slot) + ": " + gem.Color.ToString());
-			}
+				var instructions = combine.CreateInstructions();
+				if (instructions.Count > RidiculousInstructionCount)
+				{
+					throw new InvalidOperationException(string.Format(CultureInfo.CurrentCulture, "Creating this gem in {0} slots would require an excessive number of steps ({1}).", Combiner.SlotLimit, instructions.Count));
+				}
 
-			this.instructionsListBox.Items.Clear();
-			for (int i = 1; i <= instructions.Count; i++)
+				this.resultLabel.Text = combine.Gem.DisplayInfo(false) + string.Format(CultureInfo.CurrentCulture, "\r\nSlots: {0}\r\nSteps: {1}", instructions.SlotsRequired, instructions.Count);
+				this.baseGemsListBox.Items.Clear();
+				var baseGems = new List<Gem>(combine.BaseGems);
+				baseGems.Sort((g1, g2) => g1.Slot.CompareTo(g2.Slot));
+				foreach (var gem in baseGems)
+				{
+					this.baseGemsListBox.Items.Add(SlotName(gem.Slot) + ": " + gem.Color.ToString());
+				}
+
+				var sb = new StringBuilder();
+				for (int i = 1; i <= instructions.Count; i++)
+				{
+					sb.AppendLine(i.ToString(CultureInfo.CurrentCulture) + ": " + instructions[i - 1].ToString());
+				}
+
+				this.instructionsTextBox.Text = sb.ToString();
+				this.stepNumeric.Minimum = instructions.Count == 0 ? 0 : 1;
+				this.stepNumeric.Maximum = instructions.Count;
+
+				CombinePerformer.Instructions = instructions;
+				this.GuessEta();
+			}
+			catch (InvalidOperationException ex)
 			{
-				this.instructionsListBox.Items.Add(i.ToString(CultureInfo.CurrentCulture) + ": " + instructions[i - 1].ToString());
+				MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
-
-			this.stepNumeric.Minimum = instructions.Count == 0 ? 0 : 1;
-			this.stepNumeric.Maximum = instructions.Count;
-
-			CombinePerformer.Instructions = instructions;
-			this.GuessEta();
 		}
 
 		private void FormatEta(TimeSpan eta)
@@ -381,5 +390,10 @@
 			SettingsHandler.ApplySkin(this);
 		}
 		#endregion
+
+		private void SlotLimitUpDown_ValueChanged(object sender, EventArgs e)
+		{
+			Combiner.SlotLimit = (int)this.slotLimitUpDown.Value;
+		}
 	}
 }
