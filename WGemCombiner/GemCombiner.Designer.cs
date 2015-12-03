@@ -37,7 +37,6 @@
 			this.delayNumeric = new System.Windows.Forms.NumericUpDown();
 			this.stepLabel = new System.Windows.Forms.Label();
 			this.stepNumeric = new System.Windows.Forms.NumericUpDown();
-			this.copyListButton = new System.Windows.Forms.Button();
 			this.helpButton = new System.Windows.Forms.Button();
 			this.exitButton = new System.Windows.Forms.Button();
 			this.optionsButton = new System.Windows.Forms.Button();
@@ -166,18 +165,6 @@
 			this.stepNumeric.Size = new System.Drawing.Size(57, 20);
 			this.stepNumeric.TabIndex = 26;
 			this.stepNumeric.ValueChanged += new System.EventHandler(this.StepNumeric_ValueChanged);
-			// 
-			// copyListButton
-			// 
-			this.copyListButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.copyListButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
-			this.copyListButton.Location = new System.Drawing.Point(302, 4);
-			this.copyListButton.Name = "copyListButton";
-			this.copyListButton.Size = new System.Drawing.Size(66, 21);
-			this.copyListButton.TabIndex = 27;
-			this.copyListButton.Text = "Copy List";
-			this.copyListButton.UseVisualStyleBackColor = false;
-			this.copyListButton.Click += new System.EventHandler(this.CopyList_Click);
 			// 
 			// helpButton
 			// 
@@ -383,7 +370,6 @@
 			this.Controls.Add(this.instructionsLabel);
 			this.Controls.Add(this.parseRecipeButton);
 			this.Controls.Add(this.schemeLabel);
-			this.Controls.Add(this.copyListButton);
 			this.Controls.Add(this.instructionsTextBox);
 			this.DoubleBuffered = true;
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -411,7 +397,6 @@
 		private System.Windows.Forms.NumericUpDown delayNumeric;
 		private System.Windows.Forms.Label stepLabel;
 		private System.Windows.Forms.NumericUpDown stepNumeric;
-		private System.Windows.Forms.Button copyListButton;
 		private System.Windows.Forms.Button helpButton;
 		private System.Windows.Forms.Button exitButton;
 		private System.Windows.Forms.Button optionsButton;
