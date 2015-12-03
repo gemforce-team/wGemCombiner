@@ -187,6 +187,7 @@
 			this.autoCombineCheckBox.TabIndex = 9;
 			this.autoCombineCheckBox.Text = "Automatically enter\r\ncombine mode";
 			this.autoCombineCheckBox.UseVisualStyleBackColor = true;
+			this.autoCombineCheckBox.CheckedChanged += new System.EventHandler(this.AutoCombineCheckBox_CheckedChanged);
 			// 
 			// namingBufferedGroupBox
 			// 

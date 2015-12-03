@@ -136,5 +136,7 @@
 
 		private void UseEffectsButton_CheckedChanged(object sender, EventArgs e) => Settings.Default.UseColors = false;
 		#endregion
+
+		private void AutoCombineCheckBox_CheckedChanged(object sender, EventArgs e) => Settings.Default.AutoCombine = this.autoCombineCheckBox.Checked;
 	}
 }
