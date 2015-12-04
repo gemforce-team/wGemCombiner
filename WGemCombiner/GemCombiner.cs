@@ -168,6 +168,17 @@
 			}
 		}
 
+		private void HelpButton_Click(object sender, EventArgs e)
+		{
+			this.helpForm.Show();
+		}
+
+		private void OptionsButton_Click(object sender, EventArgs e)
+		{
+			// Open modally or we can trigger the combine while setting the hotkey. Could be worked around in other ways, but it's unlikely that a user will want to leave the Options screen open for any reason.
+			this.optionsForm.ShowDialog(this);
+		}
+
 		private void ParseRecipeButton_Click(object sender, EventArgs e)
 		{
 			var parsedText = this.formulaInputRichTextBox.Text;
@@ -195,15 +206,9 @@
 			}
 		}
 
-		private void HelpButton_Click(object sender, EventArgs e)
+		private void SlotLimitUpDown_ValueChanged(object sender, EventArgs e)
 		{
-			this.helpForm.Show();
-		}
-
-		private void OptionsButton_Click(object sender, EventArgs e)
-		{
-			// Open modally or we can trigger the combine while setting the hotkey. Could be worked around in other ways, but it's unlikely that a user will want to leave the Options screen open for any reason.
-			this.optionsForm.ShowDialog(this);
+			Combiner.SlotLimit = (int)this.slotLimitUpDown.Value;
 		}
 
 		private void StepNumeric_ValueChanged(object sender, EventArgs e)
@@ -383,10 +388,5 @@
 			SettingsHandler.ApplySkin(this);
 		}
 		#endregion
-
-		private void SlotLimitUpDown_ValueChanged(object sender, EventArgs e)
-		{
-			Combiner.SlotLimit = (int)this.slotLimitUpDown.Value;
-		}
 	}
 }
