@@ -74,6 +74,8 @@
 			{
 				this.Growth = Math.Log(this.Power, this.Cost);
 			}
+
+			this.IsPureUpgrade = this.Components[0] == this.Components[1] && this.Components[0].IsPureUpgrade && this.Components[1].IsPureUpgrade;
 		}
 
 		protected Gem()
@@ -96,7 +98,7 @@
 
 		public bool IsNeeded => this.Slot == Combiner.NotSlotted && this.UseCount > 0; // This has the side-effect of also ruling out base gems automatically
 
-		public virtual bool IsPureUpgrade => this.IsUpgrade && this.Components[0].IsPureUpgrade && this.Components[1].IsPureUpgrade;
+		public virtual bool IsPureUpgrade { get; } // Set in constructor rather than climbing through the entire tree at every call - better speed at the cost of a slight memory increase per gem
 
 		public virtual bool IsUpgrade => this.Components[0] == this.Components[1];
 
@@ -134,6 +136,9 @@
 			}
 		}
 
+		public virtual string PureRecipe => this.IsPureUpgrade ? (this.Grade + 1).ToString(CultureInfo.CurrentCulture) + this.Components[0].PureRecipe[this.Components[0].PureRecipe.Length - 1] : null; // TODO: Getting the last letter this way is fugly, maybe find something better? Could implement PureLetter as Components[0].PureLetter, which would only climb through a single branch
+
+
 		public int Slot { get; set; }
 
 		public string Title => string.Format(CultureInfo.CurrentCulture, "{0:0000000} ({1:0.000000}){2}", this.Cost, this.Growth, IsPowerOfTwo(this.Cost) ? "-" : string.Empty);
@@ -167,7 +172,7 @@
 			return retval;
 		}
 
-		public virtual string Recipe() => "(" + this.Components[0].Recipe() + "+" + this.Components[1].Recipe() + ")";
+		public virtual string Recipe() => this.PureRecipe ?? "(" + this.Components[0].Recipe() + "+" + this.Components[1].Recipe() + ")";
 		#endregion
 
 		#region Public Override Methods

@@ -64,6 +64,8 @@
 		public override bool IsPureUpgrade => true;
 
 		public override bool IsUpgrade => false;
+
+		public override string PureRecipe => this.letter;
 		#endregion
 
 		#region Public Override Methods

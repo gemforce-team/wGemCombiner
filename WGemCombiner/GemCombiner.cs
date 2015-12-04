@@ -68,8 +68,6 @@
 
 			this.colorComboBox.SelectedIndex = 0;
 			CombinePerformer.Enabled = true;
-
-			this.SetCustomRecipePlaceholder();
 		}
 		#endregion
 
@@ -138,8 +136,17 @@
 		private void CombineComboBox_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			var combine = this.recipes[this.colorComboBox.Text][this.combineComboBox.Text];
-			// this.formulaInputRichTextBox.Text = combine.Gem.Recipe();
 			this.CreateInstructions(combine);
+			if (CombinePerformer.Instructions.Count < 50)
+			{
+				// Based on instruction count rather than cost as that's more likely to reflect the actual length of the recipe (e.g., near pure upgrades will have short instruction counts, but high costs)
+				this.SetCustomRecipeContent(combine.Gem.Recipe());
+			}
+			else
+			{
+				this.SetCustomRecipePlaceholder();
+			}
+
 			if (Settings.Default.AutoCombine)
 			{
 				this.combineButton.PerformClick(); // Auto-load the combine button so all u have to press is "9" over the gem
