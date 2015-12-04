@@ -271,8 +271,8 @@
 			using (StreamReader reader = new StreamReader(stream))
 			{
 				var file = reader.ReadToEnd().Replace("\r\n", "\n");
-				var recipes = file.Split(new string[] { @"\n\n" }, StringSplitOptions.RemoveEmptyEntries);
-				foreach (var recipe in recipes)
+				var fileRecipes = file.Split(new string[] { "\n\n" }, StringSplitOptions.RemoveEmptyEntries);
+				foreach (var recipe in fileRecipes)
 				{
 					this.AddRecipe(new Combiner(recipe.Split('\n')));
 				}
