@@ -137,7 +137,7 @@
 		{
 			var combine = this.recipes[this.colorComboBox.Text][this.combineComboBox.Text];
 			this.CreateInstructions(combine);
-			this.SetCustomRecipeContent(combine.Gem.Recipe());
+			this.recipeInputRichTextBox.Text = combine.Gem.Recipe();
 			if (Settings.Default.AutoCombine)
 			{
 				this.combineButton.PerformClick(); // Auto-load the combine button so all u have to press is "9" over the gem
@@ -389,12 +389,6 @@
 		{
 			SettingsHandler.ChangeFormSize(this);
 			SettingsHandler.ApplySkin(this);
-		}
-
-		private void SetCustomRecipeContent(string text)
-		{
-			this.recipeInputRichTextBox.Text = text;
-			this.recipeInputRichTextBox.Font = new Font(this.recipeInputRichTextBox.Font, this.recipeInputRichTextBox.Font.Style & ~FontStyle.Italic);
 		}
 		#endregion
 	}
