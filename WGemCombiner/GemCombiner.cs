@@ -354,7 +354,7 @@
 				baseGems.Sort((g1, g2) => g1.Slot.CompareTo(g2.Slot));
 				foreach (var gem in baseGems)
 				{
-					if (gem.Slot != Combiner.NotSlotted)
+					if (gem.OriginalSlot != Combiner.NotSlotted)
 					{
 						this.baseGemsListBox.Items.Add(SlotName(gem.OriginalSlot) + ": " + gem.Color.ToString());
 					}
