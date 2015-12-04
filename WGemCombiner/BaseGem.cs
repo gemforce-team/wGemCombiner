@@ -61,11 +61,13 @@
 		#endregion
 
 		#region Public Override Properties
-		public override bool IsPureUpgrade => true;
-
 		public override bool IsUpgrade => false;
+		#endregion
 
-		public override string PureRecipe => this.letter;
+		#region Protected Override Properties
+		protected override bool IsPureUpgrade => true;
+
+		protected override string PureRecipe => this.letter;
 		#endregion
 
 		#region Public Override Methods

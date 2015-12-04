@@ -9,14 +9,19 @@
 
 	public class TextProgressBar : ProgressBar
 	{
+		#region Fields
 		private string text;
+		#endregion
 
+		#region Constructors
 		public TextProgressBar()
 		{
 			this.SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
 			this.DoubleBuffered = true;
 		}
+		#endregion
 
+		#region Public Properties
 		[Browsable(true)]
 		public override Font Font
 		{
@@ -52,7 +57,9 @@
 		[Description("Selects the text color.")]
 		[Editor("System.Windows.Forms.ColorEditor", typeof(UITypeEditor))]
 		public Color TextColor { get; set; }
+		#endregion
 
+		#region Protected Override Methods
 		protected override void OnHandleCreated(EventArgs e)
 		{
 			if (SetWindowTheme(this.Handle, string.Empty, string.Empty) == 0)
@@ -76,5 +83,6 @@
 				}
 			}
 		}
+		#endregion
 	}
 }

@@ -99,7 +99,6 @@
 				*/
 			}
 
-			// In limited experiments, the mouse drag operations seemed to be the most prone to failure when Gemcraft was laggy, so I originally added a bit of extra sleep time both before and after the mouse moves. This may not be necessary, per the note at case ActionType.Combine. Needs further testing.
 			CancelCombine = false;
 			cursorStart = Cursor.Position;
 			if (Settings.Default.HidePanels)
@@ -124,16 +123,13 @@
 						PressKey(KeyU);
 						break;
 					case ActionType.Combine:
-						// PressKey(KeyG);
 						// Do NOT use the G key here. At least in the Steam version, combining gems without a sufficient delay will fail with the key, where the mouse moves appear to be buffered and will succeed.
 						MoveCursorToSlot(-1);
 						PressMouse();
 						ReleaseMouse();
 						MoveCursorToSlot(instruction.From);
 						PressMouse();
-						// Thread.Sleep(this.SleepTime / 2); // Extra sleep for mouse drag
 						MoveCursorToSlot(instruction.To);
-						// Thread.Sleep(this.SleepTime / 2);
 						ReleaseMouse();
 						break;
 				}

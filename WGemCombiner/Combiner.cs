@@ -31,7 +31,7 @@
 			this.AddEquations(equations);
 		}
 
-		public Combiner(Gem parentGem, IReadOnlyList<Gem> gemList, bool lastRun)
+		private Combiner(Gem parentGem, IReadOnlyList<Gem> gemList, bool lastRun)
 		{
 			ThrowNull(parentGem, nameof(parentGem));
 			ThrowNull(gemList, nameof(gemList));
@@ -83,7 +83,7 @@
 		#region Public Static Properties
 		public static int NotSlotted { get; } = -1;
 
-		public static int SlotLimit { get; set; } = 36; // Unlike previous combiner, this does not change as the slot condenser progresses.
+		public static int SlotLimit { get; set; } = 36;
 		#endregion
 
 		#region Public Properties

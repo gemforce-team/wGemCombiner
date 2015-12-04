@@ -10,6 +10,7 @@
 	{
 		#region Fields
 		private List<Instruction> instructions = new List<Instruction>();
+		private SortedSet<int> empties = new SortedSet<int>();
 		#endregion
 
 		#region Constructors
@@ -32,12 +33,12 @@
 			var highestSlot = slotsToIgnore[slotsToIgnore.Count - 1];
 			for (int i = 0; i < highestSlot; i++)
 			{
-				this.Empties.Add(i);
+				this.empties.Add(i);
 			}
 
 			foreach (var slot in slotsToIgnore)
 			{
-				this.Empties.Remove(slot);
+				this.empties.Remove(slot);
 				this.SlotsRequired = slot + 1;
 			}
 		}
@@ -56,9 +57,7 @@
 		#region Public Properties
 		public int Count => this.instructions.Count;
 
-		public SortedSet<int> Empties { get; } = new SortedSet<int>();
-
-		public int SlotsRequired { get; internal set; }
+		public int SlotsRequired { get; private set; }
 		#endregion
 
 		#region Public Indexers
@@ -80,7 +79,7 @@
 			}
 
 			this.instructions.Add(new Instruction(ActionType.Combine, slot1, slot2));
-			this.Empties.Add(slot1);
+			this.empties.Add(slot1);
 			parentGem.Slot = slot2;
 
 			bool dupeHappened = false;
@@ -190,15 +189,15 @@
 			int slot;
 			if (gem.UseCount > 0)
 			{
-				if (this.Empties.Count == 0)
+				if (this.empties.Count == 0)
 				{
 					slot = this.SlotsRequired;
 					this.SlotsRequired++;
 				}
 				else
 				{
-					slot = this.Empties.Min;
-					this.Empties.Remove(slot);
+					slot = this.empties.Min;
+					this.empties.Remove(slot);
 				}
 
 				this.instructions.Add(new Instruction(ActionType.Duplicate, gem.Slot, slot));

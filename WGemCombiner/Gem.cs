@@ -88,21 +88,41 @@
 
 		public IReadOnlyList<Gem> Components { get; }
 
-		public int Cost { get; protected set; }
-
-		public int Grade { get; }
-
-		public double Growth { get; }
-
 		public bool IsSpec { get; protected set; }
 
 		public bool IsNeeded => this.Slot == Combiner.NotSlotted && this.UseCount > 0; // This has the side-effect of also ruling out base gems automatically
 
-		public virtual bool IsPureUpgrade { get; } // Set in constructor rather than climbing through the entire tree at every call - better speed at the cost of a slight memory increase per gem
-
 		public virtual bool IsUpgrade => this.Components[0] == this.Components[1];
 
-		public double Power
+		public int Slot { get; set; }
+
+		public string Title => string.Format(CultureInfo.CurrentCulture, "{0:0000000} ({1:0.000000}){2}", this.Cost, this.Growth, IsPowerOfTwo(this.Cost) ? "-" : string.Empty);
+
+		public int UseCount { get; set; }
+		#endregion
+
+		#region Internal Static Properties
+		internal static string GemInitializer { get; } = "oykmgbr";
+		#endregion
+
+		#region Protected Properties
+		protected double Blood { get; set; }
+
+		protected int Cost { get; set; }
+
+		protected double CriticalMultiplier { get; set; }
+
+		protected double Damage { get; set; } // max damage
+
+		protected int Grade { get; }
+
+		protected double Growth { get; }
+
+		protected virtual bool IsPureUpgrade { get; } // Set in constructor rather than climbing through the entire tree at every call - better speed at the cost of a slight memory increase per gem
+
+		protected double Leech { get; set; }
+
+		protected double Power
 		{
 			get
 			{
@@ -136,27 +156,7 @@
 			}
 		}
 
-		public virtual string PureRecipe => this.IsPureUpgrade ? (this.Grade + 1).ToString(CultureInfo.CurrentCulture) + this.Components[0].PureRecipe[this.Components[0].PureRecipe.Length - 1] : null; // TODO: Getting the last letter this way is fugly, maybe find something better? Could implement PureLetter as Components[0].PureLetter, which would only climb through a single branch
-
-		public int Slot { get; set; }
-
-		public string Title => string.Format(CultureInfo.CurrentCulture, "{0:0000000} ({1:0.000000}){2}", this.Cost, this.Growth, IsPowerOfTwo(this.Cost) ? "-" : string.Empty);
-
-		public int UseCount { get; set; }
-		#endregion
-
-		#region Internal Static Properties
-		internal static string GemInitializer { get; } = "oykmgbr";
-		#endregion
-
-		#region Protected Properties
-		protected double Blood { get; set; }
-
-		protected double CriticalMultiplier { get; set; }
-
-		protected double Damage { get; set; } // max damage
-
-		protected double Leech { get; set; }
+		protected virtual string PureRecipe => this.IsPureUpgrade ? (this.Grade + 1).ToString(CultureInfo.CurrentCulture) + this.Components[0].PureRecipe[this.Components[0].PureRecipe.Length - 1] : null; // TODO: Getting the last letter this way is fugly, maybe find something better? Could implement PureLetter as Components[0].PureLetter, which would only climb through a single branch
 		#endregion
 
 		#region Public Methods
