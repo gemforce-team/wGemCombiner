@@ -349,6 +349,7 @@
 				}
 
 				this.instructionsTextBox.Text = sb.ToString();
+				this.instructionsTextBox.SelectionStart = 0;
 				this.stepNumeric.Minimum = instructions.Count == 0 ? 0 : 1;
 				this.stepNumeric.Maximum = instructions.Count;
 
@@ -394,7 +395,6 @@
 		{
 			this.recipeInputRichTextBox.Text = text;
 			this.recipeInputRichTextBox.Font = new Font(this.recipeInputRichTextBox.Font, this.recipeInputRichTextBox.Font.Style & ~FontStyle.Italic);
-			this.parseRecipeButton.Enabled = true;
 		}
 		#endregion
 	}
