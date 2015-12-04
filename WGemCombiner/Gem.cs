@@ -117,11 +117,6 @@
 					power *= this.Blood;
 				}
 
-				if (this.Color.HasFlag(GemColors.Orange))
-				{
-					power *= this.Leech;
-				}
-
 				if (this.Color.HasFlag(GemColors.Yellow))
 				{
 					power *= this.Damage * this.CriticalMultiplier;
@@ -131,6 +126,10 @@
 						// blood is squared here
 						power *= this.Blood;
 					}
+				}
+				else if (this.Color.HasFlag(GemColors.Orange))
+				{
+					power *= this.Leech;
 				}
 
 				return power;
