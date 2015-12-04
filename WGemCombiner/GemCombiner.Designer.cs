@@ -50,6 +50,7 @@
 			this.slotLimitLabel = new System.Windows.Forms.Label();
 			this.instructionsTextBox = new System.Windows.Forms.RichTextBox();
 			this.combineProgressBar = new WGemCombiner.TextProgressBar();
+			this.testAllButton = new System.Windows.Forms.Button();
 			((System.ComponentModel.ISupportInitialize)(this.delayNumeric)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.stepNumeric)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.slotLimitUpDown)).BeginInit();
@@ -339,12 +340,25 @@
 			this.combineProgressBar.TextColor = System.Drawing.SystemColors.ControlText;
 			this.combineProgressBar.Value = 1;
 			// 
+			// testAllButton
+			// 
+			this.testAllButton.AutoSize = true;
+			this.testAllButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.testAllButton.Location = new System.Drawing.Point(316, 4);
+			this.testAllButton.Name = "testAllButton";
+			this.testAllButton.Size = new System.Drawing.Size(52, 23);
+			this.testAllButton.TabIndex = 47;
+			this.testAllButton.Text = "Test All";
+			this.testAllButton.UseVisualStyleBackColor = true;
+			this.testAllButton.Click += new System.EventHandler(this.TestAll_Click);
+			// 
 			// GemCombiner
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
 			this.ClientSize = new System.Drawing.Size(380, 404);
+			this.Controls.Add(this.testAllButton);
 			this.Controls.Add(this.slotLimitUpDown);
 			this.Controls.Add(this.slotLimitLabel);
 			this.Controls.Add(this.combineProgressBar);
@@ -405,5 +419,6 @@
 		private System.Windows.Forms.NumericUpDown slotLimitUpDown;
 		private System.Windows.Forms.Label slotLimitLabel;
 		private System.Windows.Forms.RichTextBox instructionsTextBox;
+		private System.Windows.Forms.Button testAllButton;
 	}
 }

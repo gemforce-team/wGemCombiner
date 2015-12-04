@@ -219,19 +219,6 @@
 				instructions = this.CondenseSlots(new List<Gem>(this.BaseGems), true);
 			}
 
-#if DEBUG
-			try
-			{
-				instructions.Verify(this.BaseGems, 1, -1);
-			}
-			catch (InvalidOperationException e)
-			{
-				MessageBox.Show(e.Message, "Verification failed", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-			}
-#endif
-
-			instructions.Move1A(this.Gem);
-
 			return instructions;
 		}
 		#endregion

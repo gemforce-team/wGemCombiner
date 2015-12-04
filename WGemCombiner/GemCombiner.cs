@@ -55,6 +55,11 @@
 				this.SettingsHandler_SkinChanged(null, null);
 			}
 
+#if DEBUG
+#else
+			this.testAllButton.Visible = false;
+#endif
+
 			CombinePerformer.StepComplete += this.CombinePerformer_StepComplete;
 			SettingsHandler.SkinChanged += this.SettingsHandler_SkinChanged;
 			SettingsHandler.BordersChanged += this.SettingsHandler_BordersChanged;
@@ -389,6 +394,32 @@
 		{
 			SettingsHandler.ChangeFormSize(this);
 			SettingsHandler.ApplySkin(this);
+		}
+
+		private void TestAll_Click(object sender, EventArgs e)
+		{
+			foreach (var kvp in this.recipes)
+			{
+				foreach (var combine in kvp.Value)
+				{
+					var instructions = combine.CreateInstructions();
+					try
+					{
+						instructions.Verify(combine.BaseGems, 1, -1);
+					}
+					catch (InvalidOperationException ex)
+					{
+						MessageBox.Show(ex.Message, "Verification failed", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+					}
+
+					if (combine.Gem.Slot != 0)
+					{
+						MessageBox.Show(string.Format(CultureInfo.CurrentCulture, "{0} recipe {1} did not end at Slot1A.", kvp.Key, combine.Gem), "Verification failed", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+					}
+				}
+			}
+
+			MessageBox.Show("Testing complete!", "Done", MessageBoxButtons.OK, MessageBoxIcon.Information);
 		}
 		#endregion
 	}
