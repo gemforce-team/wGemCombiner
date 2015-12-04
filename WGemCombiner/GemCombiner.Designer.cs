@@ -262,8 +262,6 @@
 			this.recipeInputRichTextBox.Size = new System.Drawing.Size(170, 108);
 			this.recipeInputRichTextBox.TabIndex = 40;
 			this.recipeInputRichTextBox.Text = "";
-			this.recipeInputRichTextBox.Enter += new System.EventHandler(this.RecipeInputRichTextBox_Enter);
-			this.recipeInputRichTextBox.Leave += new System.EventHandler(this.RecipeInputRichTextBox_Leave);
 			// 
 			// baseGemsListBox
 			// 

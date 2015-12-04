@@ -137,16 +137,7 @@
 		{
 			var combine = this.recipes[this.colorComboBox.Text][this.combineComboBox.Text];
 			this.CreateInstructions(combine);
-			if (CombinePerformer.Instructions.Count < 50)
-			{
-				// Based on instruction count rather than cost as that's more likely to reflect the actual length of the recipe (e.g., near pure upgrades will have short instruction counts, but high costs)
-				this.SetCustomRecipeContent(combine.Gem.Recipe());
-			}
-			else
-			{
-				this.SetCustomRecipePlaceholder();
-			}
-
+			this.SetCustomRecipeContent(combine.Gem.Recipe());
 			if (Settings.Default.AutoCombine)
 			{
 				this.combineButton.PerformClick(); // Auto-load the combine button so all u have to press is "9" over the gem
@@ -228,22 +219,6 @@
 			this.stepNumeric.Font = new Font(this.stepNumeric.Font, style);
 			this.stepLabel.Font = new Font(this.stepNumeric.Font, style);
 			this.GuessEta();
-		}
-
-		private void RecipeInputRichTextBox_Enter(object sender, EventArgs e)
-		{
-			if (this.recipeInputRichTextBox.Text == CustomRecipePlaceholder)
-			{
-				this.SetCustomRecipeContent(string.Empty);
-			}
-		}
-
-		private void RecipeInputRichTextBox_Leave(object sender, EventArgs e)
-		{
-			if (string.IsNullOrEmpty(this.recipeInputRichTextBox.Text))
-			{
-				this.SetCustomRecipePlaceholder();
-			}
 		}
 		#endregion
 
@@ -413,13 +388,6 @@
 		{
 			SettingsHandler.ChangeFormSize(this);
 			SettingsHandler.ApplySkin(this);
-		}
-
-		private void SetCustomRecipePlaceholder()
-		{
-			this.recipeInputRichTextBox.Text = CustomRecipePlaceholder;
-			this.recipeInputRichTextBox.Font = new Font(this.recipeInputRichTextBox.Font, this.recipeInputRichTextBox.Font.Style | FontStyle.Italic);
-			this.parseRecipeButton.Enabled = false;
 		}
 
 		private void SetCustomRecipeContent(string text)

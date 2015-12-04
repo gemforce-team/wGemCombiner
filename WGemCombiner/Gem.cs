@@ -138,7 +138,6 @@
 
 		public virtual string PureRecipe => this.IsPureUpgrade ? (this.Grade + 1).ToString(CultureInfo.CurrentCulture) + this.Components[0].PureRecipe[this.Components[0].PureRecipe.Length - 1] : null; // TODO: Getting the last letter this way is fugly, maybe find something better? Could implement PureLetter as Components[0].PureLetter, which would only climb through a single branch
 
-
 		public int Slot { get; set; }
 
 		public string Title => string.Format(CultureInfo.CurrentCulture, "{0:0000000} ({1:0.000000}){2}", this.Cost, this.Growth, IsPowerOfTwo(this.Cost) ? "-" : string.Empty);
