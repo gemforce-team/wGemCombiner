@@ -55,8 +55,7 @@
 				this.SettingsHandler_SkinChanged(null, null);
 			}
 
-#if DEBUG
-#else
+#if !DEBUG
 			this.testAllButton.Visible = false;
 #endif
 
