@@ -46,6 +46,7 @@
 		{
 			this.AddResourceRecipe("leech");
 			this.AddResourceRecipe("bbound");
+			this.AddResourceRecipe("mgcomb-exact");
 			this.AddTextFileRecipes(ExePath + @"\recipes.txt");
 			this.InitializeComponent();
 			this.SettingsHandler_BordersChanged(null, null);
@@ -276,7 +277,7 @@
 
 		private void AddResourceRecipe(string name)
 		{
-			var resourceName = "WGemCombiner.Resources." + name + ".txt";
+			var resourceName = "WGemCombiner.Resources.recipes." + name + ".txt";
 
 			using (Stream stream = Assembly.GetManifestResourceStream(resourceName))
 			using (StreamReader reader = new StreamReader(stream))

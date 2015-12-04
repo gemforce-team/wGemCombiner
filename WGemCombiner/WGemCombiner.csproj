@@ -232,9 +232,10 @@
   </ItemGroup>
   <ItemGroup>
     <CodeAnalysisDictionary Include="CustomDictionary.xml" />
-    <EmbeddedResource Include="Resources\bbound.txt" />
+    <EmbeddedResource Include="Resources\recipes\mgcomb-exact.txt" />
+    <EmbeddedResource Include="Resources\recipes\bbound.txt" />
     <None Include="GCIcon.ico" />
-    <EmbeddedResource Include="Resources\leech.txt" />
+    <EmbeddedResource Include="Resources\recipes\leech.txt" />
     <Content Include="recipes.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

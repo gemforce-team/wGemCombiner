@@ -138,7 +138,7 @@
 
 		public int Slot { get; set; }
 
-		public string Title => string.Format(CultureInfo.CurrentCulture, "{0:0000000} ({1:0.00000}){2}", this.Cost, this.Growth, IsPowerOfTwo(this.Cost) ? "-" : string.Empty);
+		public string Title => string.Format(CultureInfo.CurrentCulture, "{0:0000000} ({1:0.000000}){2}", this.Cost, this.Growth, IsPowerOfTwo(this.Cost) ? "-" : string.Empty);
 
 		public int UseCount { get; set; }
 		#endregion
