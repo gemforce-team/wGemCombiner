@@ -350,13 +350,13 @@
 				this.resultLabel.Text = combine.Gem.DisplayInfo(false) + string.Format(CultureInfo.CurrentCulture, "\r\nSlots: {0}\r\nSteps: {1}", instructions.SlotsRequired, instructions.Count);
 				this.baseGemsListBox.Items.Clear();
 
-				var baseGems = new List<Gem>(combine.SlottedBaseGems());
+				var baseGems = new List<BaseGem>(combine.BaseGems);
 				baseGems.Sort((g1, g2) => g1.Slot.CompareTo(g2.Slot));
 				foreach (var gem in baseGems)
 				{
-					if (gem.Slot >= 0)
+					if (gem.Slot != Combiner.NotSlotted)
 					{
-						this.baseGemsListBox.Items.Add(SlotName(gem.Slot) + ": " + gem.Color.ToString());
+						this.baseGemsListBox.Items.Add(SlotName(gem.OriginalSlot) + ": " + gem.Color.ToString());
 					}
 				}
 

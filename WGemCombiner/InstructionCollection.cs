@@ -23,7 +23,7 @@
 			var slotsToIgnore = new List<int>();
 			foreach (var gem in gemsToIgnore)
 			{
-				if (gem.Slot < 0)
+				if (gem.Slot == Combiner.NotSlotted)
 				{
 					throw new InvalidOperationException("Instruction collection told to ignore an un-slotted gem.");
 				}
@@ -151,13 +151,13 @@
 		}
 
 		// TODO: Update to handle multiple condenser gems
-		public void Verify(IEnumerable<Gem> baseGems, int expectedGemCount, int condenserGemSlot)
+		public void Verify(IEnumerable<BaseGem> baseGems, int expectedGemCount, int condenserGemSlot)
 		{
 			ThrowNull(baseGems, nameof(baseGems));
 			bool[] slots = new bool[36];
 			foreach (var gem in baseGems)
 			{
-				slots[gem.Slot] = true;
+				slots[gem.OriginalSlot] = true;
 			}
 
 			for (int i = 0; i < this.Count; i++)

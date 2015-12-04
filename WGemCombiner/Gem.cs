@@ -92,11 +92,9 @@
 
 		public double Growth { get; }
 
-		public bool IsBaseGem { get; protected set; } = false;
-
 		public bool IsSpec { get; protected set; }
 
-		public bool IsNeeded => this.Slot < 0 && this.UseCount > 0; // This has the side-effect of also ruling out base gems automatically
+		public bool IsNeeded => this.Slot == Combiner.NotSlotted && this.UseCount > 0; // This has the side-effect of also ruling out base gems automatically
 
 		public virtual bool IsPureUpgrade => this.IsUpgrade && this.Components[0].IsPureUpgrade && this.Components[1].IsPureUpgrade;
 

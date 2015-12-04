@@ -52,7 +52,7 @@
 				for (int i = gemList.Count - 1; i >= 0; i--)
 				{
 					var gem = gemList[i];
-					if (gem.UseCount == -1 && !gem.IsBaseGem)
+					if (gem.UseCount == -1 && !(gem is BaseGem))
 					{
 						foreach (var component in gem.Components)
 						{
@@ -87,23 +87,22 @@
 		#endregion
 
 		#region Public Properties
-		public Gem Gem { get; private set; }
-		#endregion
-
-		#region Private Properties
-		private IEnumerable<Gem> BaseGems
+		public IEnumerable<BaseGem> BaseGems
 		{
 			get
 			{
 				foreach (var gem in this.gems)
 				{
-					if (gem.IsBaseGem)
+					var baseGem = gem as BaseGem;
+					if (baseGem != null)
 					{
-						yield return gem;
+						yield return baseGem;
 					}
-}
+				}
 			}
 		}
+
+		public Gem Gem { get; private set; }
 		#endregion
 
 		#region Public Static Methods
@@ -223,7 +222,6 @@
 #if DEBUG
 			try
 			{
-				this.SlotGems();
 				instructions.Verify(this.BaseGems, 1, -1);
 			}
 			catch (InvalidOperationException e)
@@ -235,12 +233,6 @@
 			instructions.Move1A(this.Gem);
 
 			return instructions;
-		}
-
-		public IEnumerable<Gem> SlottedBaseGems()
-		{
-			this.SlotGems();
-			return this.BaseGems;
 		}
 		#endregion
 
@@ -482,7 +474,7 @@
 			var optimized = false;
 			foreach (var gem in this.gems)
 			{
-				if (gem.IsNeeded && gem.Components[0].Slot >= 0 && gem.Components[1].Slot >= 0 && (gem.IsUpgrade && gem.Components[0].UseCount == 2 || gem.Components[0].UseCount == 1 && gem.Components[1].UseCount == 1))
+				if (gem.IsNeeded && gem.Components[0].Slot != Combiner.NotSlotted && gem.Components[1].Slot != Combiner.NotSlotted && (gem.IsUpgrade && gem.Components[0].UseCount == 2 || gem.Components[0].UseCount == 1 && gem.Components[1].UseCount == 1))
 				{
 					optimized = true;
 					this.BuildGem(gem, instructions, false);
@@ -497,7 +489,7 @@
 			var optimized = false;
 			foreach (var gem in this.gems)
 			{
-				if (gem.IsNeeded && gem.Components[0].Slot >= 0 && gem.Components[1].Slot >= 0 && (gem.Components[0].UseCount == 1 || gem.Components[1].UseCount == 1))
+				if (gem.IsNeeded && gem.Components[0].Slot != Combiner.NotSlotted && gem.Components[1].Slot != Combiner.NotSlotted && (gem.Components[0].UseCount == 1 || gem.Components[1].UseCount == 1))
 				{
 					optimized = true;
 					this.BuildGem(gem, instructions, false);
@@ -512,12 +504,12 @@
 			this.SlotGems();
 			foreach (var gem in this.gems)
 			{
-				gem.UseCount = gem.IsBaseGem && preserveBaseGems ? 1 : 0;
+				gem.UseCount = gem is BaseGem && preserveBaseGems ? 1 : 0;
 			}
 
 			foreach (var gem in this.gems)
 			{
-				if (!gem.IsBaseGem)
+				if (!(gem is BaseGem))
 				{
 					gem.Components[0].UseCount++;
 					gem.Components[1].UseCount++;
@@ -527,12 +519,13 @@
 
 		private void SlotGems()
 		{
-			var baseGems = new List<Gem>();
+			var baseGems = new List<BaseGem>();
 			foreach (var gem in this.gems)
 			{
-				if (gem.IsBaseGem)
+				var baseGem = gem as BaseGem;
+				if (baseGem != null)
 				{
-					baseGems.Add(gem);
+					baseGems.Add(baseGem);
 				}
 				else
 				{
@@ -544,7 +537,9 @@
 			baseGems.Sort((g1, g2) => g1.Color.CompareTo(g2.Color));
 			for (int slot = 0; slot < baseGems.Count; slot++)
 			{
-				baseGems[slot].Slot = slot;
+				var gem = baseGems[slot];
+				gem.Slot = slot;
+				gem.OriginalSlot = slot;
 			}
 		}
 		#endregion

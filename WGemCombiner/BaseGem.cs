@@ -45,8 +45,7 @@
 
 			this.Color = color;
 			this.Cost = 1;
-			this.IsBaseGem = true;
-			this.Slot = -1;
+			this.Slot = Combiner.NotSlotted;
 
 			this.Blood = color.HasFlag(GemColors.Black) ? 1 : 0;
 			this.CriticalMultiplier = color.HasFlag(GemColors.Yellow) ? 1 : 0;
@@ -55,6 +54,10 @@
 
 			this.letter = letter.ToString();
 		}
+		#endregion
+
+		#region Public Properties
+		public int OriginalSlot { get; set; }
 		#endregion
 
 		#region Public Override Properties
