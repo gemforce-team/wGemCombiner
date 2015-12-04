@@ -11,7 +11,7 @@
 	public class Combiner
 	{
 		#region Static Fields
-		private static Regex equationParser = new Regex(@"(?<index>\d+)\s*=\s*((?<lhs>\d+)\s*\+\s*(?<rhs>\d+)|g?\d*\s*(?<letter>[a-z]))", RegexOptions.Compiled | RegexOptions.ExplicitCapture | RegexOptions.IgnoreCase);
+		private static Regex equationParser = new Regex(@"((?<index>\d+)\s*=)?\s*((?<lhs>\d+)\s*\+\s*(?<rhs>\d+)|g?\d*\s*(?<letter>[a-z]))", RegexOptions.Compiled | RegexOptions.ExplicitCapture | RegexOptions.IgnoreCase);
 		private static Regex gemPower = new Regex(@"g?(?<num>[0-9]+)\s*(?<color>([a-z]|\([a-z]+\)))", RegexOptions.Compiled | RegexOptions.ExplicitCapture | RegexOptions.IgnoreCase);
 		private static Regex invalidLetterFinder = new Regex(@"[a-z][^\+\)]", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 		#endregion
@@ -303,14 +303,17 @@
 					throw new ArgumentException("Invalid equation: " + line);
 				}
 
-				var index = int.Parse(match.Groups["index"].Value, CultureInfo.InvariantCulture);
-				if (index != this.gems.Count)
+				var indexGroup = match.Groups["index"];
+				if (indexGroup.Success)
 				{
-					throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, "Index in equation {0} does not match current gem count of {1}.", index, this.gems.Count));
+					var index = int.Parse(indexGroup.Value, CultureInfo.InvariantCulture);
+					if (index != this.gems.Count)
+					{
+						throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, "Index in equation {0} does not match current gem count of {1}.", index, this.gems.Count));
+					}
 				}
 
 				var letter = match.Groups["letter"].Value;
-
 				if (letter.Length != 0)
 				{
 					var baseGem = new BaseGem(letter[0]);

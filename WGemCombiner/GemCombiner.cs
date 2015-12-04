@@ -270,9 +270,12 @@
 			using (Stream stream = Assembly.GetManifestResourceStream(resourceName))
 			using (StreamReader reader = new StreamReader(stream))
 			{
-				var file = reader.ReadToEnd().Replace("\r\n", "\n").Replace('\r', '\n');
-				var lines = file.Split('\n');
-				this.AddFromLines(lines);
+				var file = reader.ReadToEnd();
+				var recipes = file.Split(new string[] { @"\n\n" }, StringSplitOptions.RemoveEmptyEntries);
+				foreach (var recipe in recipes)
+				{
+					this.AddRecipe(new Combiner(recipe.Split('\n')));
+				}
 			}
 		}
 
