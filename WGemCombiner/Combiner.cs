@@ -336,22 +336,6 @@
 				}
 			}
 
-			/*
-			GemColors gemColor = gemList[gemList.Count - 1].Color;
-			switch (gemColor)
-			{
-				// case GemColors.Black:
-				case GemColors.Kill:
-				case GemColors.Mana:
-				case GemColors.Orange:
-				// case GemColors.Red:
-				case GemColors.Yellow:
-					break;
-				default:
-					throw new ArgumentException("Invalid color or combination for base gems: " + gemColor.ToString());
-			}
-			*/
-
 			if (this.gems.Count > 0)
 			{
 				foreach (var gem in this.gems)
