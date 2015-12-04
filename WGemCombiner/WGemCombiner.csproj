@@ -232,6 +232,8 @@
   </ItemGroup>
   <ItemGroup>
     <CodeAnalysisDictionary Include="CustomDictionary.xml" />
+    <EmbeddedResource Include="Resources\recipes\mgcomb-leech.txt" />
+    <EmbeddedResource Include="Resources\recipes\mgcomb.txt" />
     <EmbeddedResource Include="Resources\recipes\mgcomb-exact.txt" />
     <EmbeddedResource Include="Resources\recipes\bbound.txt" />
     <None Include="GCIcon.ico" />
