@@ -87,7 +87,7 @@
 		#endregion
 
 		#region Public Properties
-		public IEnumerable<Gem> BaseGems
+		private IEnumerable<Gem> BaseGems
 		{
 			get
 			{
@@ -234,6 +234,12 @@
 			instructions.Move1A(this.Gem);
 
 			return instructions;
+		}
+
+		public IEnumerable<Gem> SlottedBaseGems()
+		{
+			this.SlotGems();
+			return this.BaseGems;
 		}
 		#endregion
 

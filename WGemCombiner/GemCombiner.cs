@@ -327,11 +327,15 @@
 
 				this.resultLabel.Text = combine.Gem.DisplayInfo(false) + string.Format(CultureInfo.CurrentCulture, "\r\nSlots: {0}\r\nSteps: {1}", instructions.SlotsRequired, instructions.Count);
 				this.baseGemsListBox.Items.Clear();
-				var baseGems = new List<Gem>(combine.BaseGems);
+
+				var baseGems = new List<Gem>(combine.SlottedBaseGems());
 				baseGems.Sort((g1, g2) => g1.Slot.CompareTo(g2.Slot));
 				foreach (var gem in baseGems)
 				{
-					this.baseGemsListBox.Items.Add(SlotName(gem.Slot) + ": " + gem.Color.ToString());
+					if (gem.Slot >= 0)
+					{
+						this.baseGemsListBox.Items.Add(SlotName(gem.Slot) + ": " + gem.Color.ToString());
+					}
 				}
 
 				var sb = new StringBuilder();
