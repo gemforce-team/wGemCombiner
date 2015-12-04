@@ -44,7 +44,7 @@
 			this.colorComboBox = new System.Windows.Forms.ComboBox();
 			this.gemLocationsLabel = new System.Windows.Forms.Label();
 			this.resultLabel = new System.Windows.Forms.Label();
-			this.formulaInputRichTextBox = new System.Windows.Forms.RichTextBox();
+			this.recipeInputRichTextBox = new System.Windows.Forms.RichTextBox();
 			this.baseGemsListBox = new System.Windows.Forms.ListBox();
 			this.slotLimitUpDown = new System.Windows.Forms.NumericUpDown();
 			this.slotLimitLabel = new System.Windows.Forms.Label();
@@ -250,18 +250,20 @@
 			this.resultLabel.TabIndex = 39;
 			this.resultLabel.Text = "Result Here\r\n(Grade + Cost)";
 			// 
-			// formulaInputRichTextBox
+			// recipeInputRichTextBox
 			// 
-			this.formulaInputRichTextBox.AcceptsTab = true;
-			this.formulaInputRichTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+			this.recipeInputRichTextBox.AcceptsTab = true;
+			this.recipeInputRichTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.formulaInputRichTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.formulaInputRichTextBox.Location = new System.Drawing.Point(12, 87);
-			this.formulaInputRichTextBox.Name = "formulaInputRichTextBox";
-			this.formulaInputRichTextBox.Size = new System.Drawing.Size(170, 108);
-			this.formulaInputRichTextBox.TabIndex = 40;
-			this.formulaInputRichTextBox.Text = "";
+			this.recipeInputRichTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.recipeInputRichTextBox.Location = new System.Drawing.Point(12, 87);
+			this.recipeInputRichTextBox.Name = "recipeInputRichTextBox";
+			this.recipeInputRichTextBox.Size = new System.Drawing.Size(170, 108);
+			this.recipeInputRichTextBox.TabIndex = 40;
+			this.recipeInputRichTextBox.Text = "";
+			this.recipeInputRichTextBox.Enter += new System.EventHandler(this.RecipeInputRichTextBox_Enter);
+			this.recipeInputRichTextBox.Leave += new System.EventHandler(this.RecipeInputRichTextBox_Leave);
 			// 
 			// baseGemsListBox
 			// 
@@ -349,7 +351,7 @@
 			this.Controls.Add(this.slotLimitLabel);
 			this.Controls.Add(this.combineProgressBar);
 			this.Controls.Add(this.baseGemsListBox);
-			this.Controls.Add(this.formulaInputRichTextBox);
+			this.Controls.Add(this.recipeInputRichTextBox);
 			this.Controls.Add(this.resultLabel);
 			this.Controls.Add(this.gemLocationsLabel);
 			this.Controls.Add(this.combineComboBox);
@@ -399,7 +401,7 @@
 		private System.Windows.Forms.ComboBox colorComboBox;
 		private System.Windows.Forms.Label gemLocationsLabel;
 		private System.Windows.Forms.Label resultLabel;
-		private System.Windows.Forms.RichTextBox formulaInputRichTextBox;
+		private System.Windows.Forms.RichTextBox recipeInputRichTextBox;
 		private System.Windows.Forms.ListBox baseGemsListBox;
 		private WGemCombiner.TextProgressBar combineProgressBar;
 		private System.Windows.Forms.NumericUpDown slotLimitUpDown;

@@ -30,6 +30,7 @@
 
 		#region Constants
 		private const int RidiculousInstructionCount = 200000;
+		private const string CustomRecipePlaceholder = "Insert custom recipe here";
 		#endregion
 
 		#region Fields
@@ -44,7 +45,7 @@
 		public GemCombiner()
 		{
 			this.AddResourceRecipe("leech");
-            this.AddResourceRecipe("bbound");
+			this.AddResourceRecipe("bbound");
 			this.AddTextFileRecipes(ExePath + @"\recipes.txt");
 			this.InitializeComponent();
 			this.SettingsHandler_BordersChanged(null, null);
@@ -66,6 +67,8 @@
 
 			this.colorComboBox.SelectedIndex = 0;
 			CombinePerformer.Enabled = true;
+
+			this.SetCustomRecipePlaceholder();
 		}
 		#endregion
 
@@ -181,7 +184,7 @@
 
 		private void ParseRecipeButton_Click(object sender, EventArgs e)
 		{
-			var parsedText = this.formulaInputRichTextBox.Text;
+			var parsedText = this.recipeInputRichTextBox.Text;
 			if (parsedText.Contains("-combine:"))
 			{
 				// Remove X-combine: tag
@@ -217,6 +220,22 @@
 			this.stepNumeric.Font = new Font(this.stepNumeric.Font, style);
 			this.stepLabel.Font = new Font(this.stepNumeric.Font, style);
 			this.GuessEta();
+		}
+
+		private void RecipeInputRichTextBox_Enter(object sender, EventArgs e)
+		{
+			if (this.recipeInputRichTextBox.Text == CustomRecipePlaceholder)
+			{
+				this.SetCustomRecipeContent(string.Empty);
+			}
+		}
+
+		private void RecipeInputRichTextBox_Leave(object sender, EventArgs e)
+		{
+			if (string.IsNullOrEmpty(this.recipeInputRichTextBox.Text))
+			{
+				this.SetCustomRecipePlaceholder();
+			}
 		}
 		#endregion
 
@@ -386,6 +405,20 @@
 		{
 			SettingsHandler.ChangeFormSize(this);
 			SettingsHandler.ApplySkin(this);
+		}
+
+		private void SetCustomRecipePlaceholder()
+		{
+			this.recipeInputRichTextBox.Text = CustomRecipePlaceholder;
+			this.recipeInputRichTextBox.Font = new Font(this.recipeInputRichTextBox.Font, this.recipeInputRichTextBox.Font.Style | FontStyle.Italic);
+			this.parseRecipeButton.Enabled = false;
+		}
+
+		private void SetCustomRecipeContent(string text)
+		{
+			this.recipeInputRichTextBox.Text = text;
+			this.recipeInputRichTextBox.Font = new Font(this.recipeInputRichTextBox.Font, this.recipeInputRichTextBox.Font.Style & ~FontStyle.Italic);
+			this.parseRecipeButton.Enabled = true;
 		}
 		#endregion
 	}
