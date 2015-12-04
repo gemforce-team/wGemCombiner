@@ -8,7 +8,6 @@
 	{
 		Combine,
 		Duplicate,
-		Move,
 		Upgrade
 	}
 	#endregion
@@ -95,8 +94,6 @@
 					return "Dupe " + fromSlot + (this.To >= 0 ? "→" + SlotName(this.To) : string.Empty);
 				case ActionType.Upgrade:
 					return "Upgrade " + fromSlot;
-				case ActionType.Move:
-					return "Move " + fromSlot + "→" + SlotName(this.To);
 				default:
 					return "Combine " + fromSlot + "→" + SlotName(this.To);
 			}

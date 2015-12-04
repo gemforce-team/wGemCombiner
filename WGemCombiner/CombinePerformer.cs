@@ -123,16 +123,6 @@
 						MoveCursorToSlot(instruction.From);
 						PressKey(KeyU);
 						break;
-					case ActionType.Move:
-						SleepTime = 1000;
-						// Move gem (only used when slots are compressed)
-						MoveCursorToSlot(instruction.From);
-						PressMouse();
-						// Thread.Sleep(this.SleepTime / 2); // Extra sleep for mouse drag.
-						MoveCursorToSlot(instruction.To);
-						// Thread.Sleep(this.SleepTime / 2);
-						ReleaseMouse();
-						break;
 					case ActionType.Combine:
 						// PressKey(KeyG);
 						// Do NOT use the G key here. At least in the Steam version, combining gems without a sufficient delay will fail with the key, where the mouse moves appear to be buffered and will succeed.

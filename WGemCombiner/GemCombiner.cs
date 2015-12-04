@@ -404,16 +404,11 @@
 					var instructions = combine.CreateInstructions();
 					try
 					{
-						instructions.Verify(combine.BaseGems, 1, -1);
+						instructions.Verify(combine.BaseGems);
 					}
 					catch (InvalidOperationException ex)
 					{
 						MessageBox.Show(ex.Message, "Verification failed", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-					}
-
-					if (combine.Gem.Slot != 0)
-					{
-						MessageBox.Show(string.Format(CultureInfo.CurrentCulture, "{0} recipe {1} did not end at Slot1A.", kvp.Key, combine.Gem), "Verification failed", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 					}
 				}
 			}

@@ -8,10 +8,6 @@
 
 	public class InstructionCollection : IReadOnlyList<Instruction>
 	{
-		#region Constants
-		private const int Slot1A = 0;
-		#endregion
-
 		#region Fields
 		private List<Instruction> instructions = new List<Instruction>();
 		#endregion
@@ -117,19 +113,6 @@
 
 		IEnumerator IEnumerable.GetEnumerator() => this.instructions.GetEnumerator();
 
-		public void Move1A(Gem gem)
-		{
-			ThrowNull(gem, nameof(gem));
-			if (this.Count > 0)
-			{
-				var lastInstruction = this[this.Count - 1];
-				if (lastInstruction.To != Slot1A)
-				{
-					this.instructions.Add(new Instruction(ActionType.Move, lastInstruction.To, Slot1A));
-				}
-			}
-		}
-
 		public bool Upgrade(Gem gem)
 		{
 			ThrowNull(gem, nameof(gem));
@@ -150,8 +133,7 @@
 			return true;
 		}
 
-		// TODO: Update to handle multiple condenser gems
-		public void Verify(IEnumerable<BaseGem> baseGems, int expectedGemCount, int condenserGemSlot)
+		public void Verify(IEnumerable<BaseGem> baseGems)
 		{
 			ThrowNull(baseGems, nameof(baseGems));
 			bool[] slots = new bool[36];
@@ -181,26 +163,22 @@
 						}
 
 						break;
-					case ActionType.Move:
-						slots[instruction.From] = false;
-						if (slots[instruction.To])
-						{
-							throw new InvalidOperationException(string.Format(CultureInfo.CurrentCulture, "The instruction {0} at offset {1} tried to move to an occupied slot.", instruction, i));
-						}
-						else
-						{
-							slots[instruction.To] = true;
-						}
-
-						break;
 					default:
 						break;
 				}
 
+				/*
+				Code disabled, since slot condenser now working as expected. If re-enabled, must be made to work with gemsToIgnore variable rather than a single slot.
 				if (condenserGemSlot >= 0 && slots[condenserGemSlot])
 				{
 					throw new InvalidOperationException("Condenser gem slot was used, when it should always be ignored!");
 				}
+				*/
+			}
+
+			if (!slots[0])
+			{
+				throw new InvalidOperationException("No gem in 1A at the end of the run.");
 			}
 
 			var gemList = new List<string>();
@@ -212,9 +190,9 @@
 				}
 			}
 
-			if (gemList.Count != expectedGemCount)
+			if (gemList.Count != 1)
 			{
-				throw new InvalidOperationException("At the end of the run, there were gems in slots: " + string.Join(", ", gemList));
+				throw new InvalidOperationException("More than one gem left at the end of the run. Occupied slots: " + string.Join(", ", gemList));
 			}
 		}
 		#endregion
