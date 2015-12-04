@@ -61,11 +61,6 @@
 		public int SlotsRequired { get; internal set; }
 		#endregion
 
-		#region Private Static Properties
-		// Static property rather than const so it doesn't trigger unreachable code warnings.
-		private static bool UseOldBehavior { get; }
-		#endregion
-
 		#region Public Indexers
 		public Instruction this[int index] => this.instructions[index];
 		#endregion
@@ -74,11 +69,6 @@
 		public bool Combine(Gem parentGem)
 		{
 			ThrowNull(parentGem, nameof(parentGem));
-			if (UseOldBehavior)
-			{
-				return this.CombineOld(parentGem);
-			}
-
 			var slot2 = this.DuplicateIfNeeded(parentGem.Components[1]);
 			var slot1 = this.DuplicateIfNeeded(parentGem.Components[0]);
 			if (slot2 > slot1)
@@ -116,11 +106,6 @@
 		public bool Upgrade(Gem gem)
 		{
 			ThrowNull(gem, nameof(gem));
-			if (UseOldBehavior)
-			{
-				return this.UpgradeOld(gem);
-			}
-
 			var slot = this.DuplicateIfNeeded(gem.Components[0]);
 			this.instructions.Add(new Instruction(ActionType.Upgrade, slot));
 			gem.Slot = slot;
@@ -198,20 +183,6 @@
 		#endregion
 
 		#region Private Methods
-		private bool CombineOld(Gem parentGem)
-		{
-			var slot1 = this.DuplicateIfNeeded(parentGem.Components[0]);
-			var slot2 = this.DuplicateIfNeeded(parentGem.Components[1]);
-			var dupeHappened = parentGem.Components[0].UseCount != 0 || parentGem.Components[1].UseCount != 0;
-			this.instructions.Add(new Instruction(ActionType.Combine, parentGem.Components[0].Slot, parentGem.Components[1].Slot));
-			this.Empties.Add(parentGem.Components[0].Slot);
-			parentGem.Slot = parentGem.Components[1].Slot;
-			parentGem.Components[0].Slot = parentGem.Components[0].UseCount == 0 ? -1 : slot1;
-			parentGem.Components[1].Slot = parentGem.Components[1].UseCount == 0 ? -1 : slot2;
-
-			return dupeHappened;
-		}
-
 		private int DuplicateIfNeeded(Gem gem)
 		{
 			// Dupe if not the last use
@@ -238,17 +209,6 @@
 			}
 
 			return slot;
-		}
-
-		private bool UpgradeOld(Gem gem)
-		{
-			var slot = this.DuplicateIfNeeded(gem.Components[0]);
-			var dupeHappened = gem.Components[0].UseCount == 0;
-			this.instructions.Add(new Instruction(ActionType.Upgrade, gem.Components[0].Slot));
-			gem.Slot = gem.Components[0].Slot;
-			gem.Components[0].Slot = slot;
-
-			return dupeHappened;
 		}
 		#endregion
 	}
