@@ -31,7 +31,7 @@
 			this.AddEquations(equations);
 		}
 
-		public Combiner(Gem parentGem, IReadOnlyList<Gem> gemList)
+		public Combiner(Gem parentGem, IReadOnlyList<Gem> gemList, bool lastRun)
 		{
 			ThrowNull(parentGem, nameof(parentGem));
 			ThrowNull(gemList, nameof(gemList));
@@ -76,7 +76,7 @@
 				}
 			}
 
-			this.ResetUseCount(true);
+			this.ResetUseCount(!lastRun);
 		}
 		#endregion
 
@@ -87,6 +87,10 @@
 		#endregion
 
 		#region Public Properties
+		public Gem Gem { get; private set; }
+		#endregion
+
+		#region Private Properties
 		private IEnumerable<Gem> BaseGems
 		{
 			get
@@ -97,11 +101,9 @@
 					{
 						yield return gem;
 					}
-				}
+}
 			}
 		}
-
-		public Gem Gem { get; private set; }
 		#endregion
 
 		#region Public Static Methods
@@ -215,8 +217,7 @@
 			this.BuildGem(this.Gem, instructions, true);
 			if (instructions.SlotsRequired > SlotLimit)
 			{
-				instructions = this.CondenseSlots(new List<Gem>(this.BaseGems));
-				instructions.OptimizeCondensedBaseGems(this.BaseGems);
+				instructions = this.CondenseSlots(new List<Gem>(this.BaseGems), true);
 			}
 
 #if DEBUG
@@ -434,9 +435,13 @@
 			this.gems.Clear();
 		}
 
-		private InstructionCollection CondenseSlots(ICollection<Gem> gemsToIgnore)
+		/// <summary>Attempts to create individual gems in the tree from the base gem, then combines them into the larger one. This allows combining larger gems that won't fit into 36 slots all at once, at the cost of increasing the number of instructions necessary to do so.</summary>
+		/// <param name="gemsToIgnore">A list of gems that are already slotted from previous runs. The base call to CondenseSlots should pass the base gems only.</param>
+		/// <param name="lastRun">Indicates whether or not this is the last node in the tree. The base call to CondenseSlots should always pass true. Internally, this is always passed as false for the first node of a gem, and passed as the parent value for the second node. Thus, it will be true only for the second node of the second node of the second node...etc.</param>
+		/// <returns>The list of instructions to create the costliest possible gem in the number of slots allowed.</returns>
+		private InstructionCollection CondenseSlots(ICollection<Gem> gemsToIgnore, bool lastRun)
 		{
-			var combine1 = new Combiner(this.Gem.Components[0], this.gems);
+			var combine1 = new Combiner(this.Gem.Components[0], this.gems, false);
 			combine1.Gem.UseCount++;
 			var instructions1 = new InstructionCollection(gemsToIgnore);
 			combine1.BuildGem(combine1.Gem, instructions1, true);
@@ -448,14 +453,14 @@
 
 			if (instructions1.SlotsRequired > SlotLimit)
 			{
-				instructions1 = combine1.CondenseSlots(gemsToIgnore);
+				instructions1 = combine1.CondenseSlots(gemsToIgnore, false);
 			}
 
 			gemsToIgnore.Add(combine1.Gem);
-			var combine2 = new Combiner(this.Gem.Components[1], this.gems);
+			var combine2 = new Combiner(this.Gem.Components[1], this.gems, lastRun);
 			combine2.Gem.UseCount++;
 			var instructions2 = new InstructionCollection(gemsToIgnore);
-			combine2.BuildGem(combine2.Gem, instructions2, true);
+			combine2.BuildGem(combine2.Gem, instructions2, lastRun);
 			combine2.Gem.UseCount--;
 			if (gemsToIgnore.Count >= SlotLimit)
 			{
@@ -464,7 +469,7 @@
 
 			if (instructions2.SlotsRequired > SlotLimit)
 			{
-				instructions2 = combine2.CondenseSlots(gemsToIgnore);
+				instructions2 = combine2.CondenseSlots(gemsToIgnore, lastRun);
 			}
 
 			gemsToIgnore.Remove(combine1.Gem);

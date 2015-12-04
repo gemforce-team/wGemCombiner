@@ -219,58 +219,6 @@
 		}
 		#endregion
 
-		#region Internal Methods
-		internal void OptimizeCondensedBaseGems(IEnumerable<Gem> baseGems)
-		{
-			// Optimize last dupes of base gems so we don't leave the base gems hanging around.
-			// For example, if the final Dupe 1A dupes to 3A, that instruction gets remove. All subsequent 3A instructions are updated to use 1A, and all instructions above 3A are bumped down by a slot.
-			foreach (var gem in baseGems)
-			{
-				// TODO: Re-examine this logic. Works, but kinda messy.
-				var index = this.instructions.FindLastIndex(g => g.From == gem.Slot && g.Action == ActionType.Duplicate);
-				var oldLocation = this.instructions[index].To;
-				this.instructions.RemoveAt(index);
-				for (int index2 = index; index2 < this.instructions.Count; index2++)
-				{
-					var instruction = this.instructions[index2];
-					if (instruction.From >= oldLocation || instruction.To >= oldLocation)
-					{
-						this.instructions.RemoveAt(index2);
-						int newFrom = -1;
-						int newTo = -1;
-						if (instruction.From == oldLocation)
-						{
-							newFrom = gem.Slot;
-						}
-						else if (instruction.From > oldLocation)
-						{
-							newFrom = instruction.From - 1;
-						}
-						else
-						{
-							newFrom = instruction.From;
-						}
-
-						if (instruction.To == oldLocation)
-						{
-							newTo = gem.Slot;
-						}
-						else if (instruction.To > oldLocation)
-						{
-							newTo = instruction.To - 1;
-						}
-						else
-						{
-							newTo = instruction.To;
-						}
-
-						this.instructions.Insert(index2, new Instruction(instruction.Action, newFrom, newTo));
-					}
-				}
-			}
-		}
-		#endregion
-
 		#region Private Methods
 		private bool CombineOld(Gem parentGem)
 		{
