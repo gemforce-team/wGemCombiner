@@ -44,6 +44,7 @@
 		public GemCombiner()
 		{
 			this.AddResourceRecipe("leech");
+            this.AddResourceRecipe("bbound");
 			this.AddTextFileRecipes(ExePath + @"\recipes.txt");
 			this.InitializeComponent();
 			this.SettingsHandler_BordersChanged(null, null);
