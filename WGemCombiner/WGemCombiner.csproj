@@ -232,6 +232,7 @@
   </ItemGroup>
   <ItemGroup>
     <CodeAnalysisDictionary Include="CustomDictionary.xml" />
+    <EmbeddedResource Include="Resources\bbound.txt" />
     <None Include="GCIcon.ico" />
     <EmbeddedResource Include="Resources\leech.txt" />
     <Content Include="recipes.txt">

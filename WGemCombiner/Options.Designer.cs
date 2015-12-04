@@ -73,7 +73,7 @@
 			// closeButton
 			// 
 			this.closeButton.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-			this.closeButton.Location = new System.Drawing.Point(110, 249);
+			this.closeButton.Location = new System.Drawing.Point(108, 242);
 			this.closeButton.Margin = new System.Windows.Forms.Padding(3, 9, 3, 3);
 			this.closeButton.Name = "closeButton";
 			this.closeButton.Size = new System.Drawing.Size(44, 23);
@@ -246,7 +246,7 @@
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-			this.ClientSize = new System.Drawing.Size(261, 282);
+			this.ClientSize = new System.Drawing.Size(261, 277);
 			this.Controls.Add(this.namingBufferedGroupBox);
 			this.Controls.Add(this.autoCombineCheckBox);
 			this.Controls.Add(this.hellrageSkinButton);
@@ -264,7 +264,7 @@
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
-			this.MinimumSize = new System.Drawing.Size(277, 250);
+			this.MinimumSize = new System.Drawing.Size(277, 315);
 			this.Name = "Options";
 			this.ShowInTaskbar = false;
 			this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
