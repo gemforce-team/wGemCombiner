@@ -351,8 +351,8 @@
 					sb.AppendLine(i.ToString(CultureInfo.CurrentCulture) + ": " + instructions[i - 1].ToString());
 				}
 
+				this.instructionsTextBox.Text = string.Empty;
 				this.instructionsTextBox.Text = sb.ToString();
-				this.instructionsTextBox.SelectionStart = 0;
 				this.stepNumeric.Minimum = instructions.Count == 0 ? 0 : 1;
 				this.stepNumeric.Maximum = instructions.Count;
 
