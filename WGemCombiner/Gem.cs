@@ -162,10 +162,10 @@
 		#region Public Methods
 		public string DisplayInfo(bool showAll)
 		{
-			var retval = string.Format(CultureInfo.CurrentCulture, "Grade: +{0}\r\nCost: {1}x\r\nGrowth: {2:0.0####}\r\nPower: {3:0.0####}\r\nDamage: {4:0.0####}", this.Grade, this.Cost, this.Growth, this.Power, this.Damage);
+			var retval = string.Format(CultureInfo.CurrentCulture, "Grade: +{0}\r\nCost: {1}x\r\nGrowth: {2:0.0####}\r\nPower: {3:0.0####}", this.Grade, this.Cost, this.Growth, this.Power);
 			if (showAll)
 			{
-				retval += string.Format(CultureInfo.CurrentCulture, "\r\nLeech: {0:0.0####}\r\nCrit: {1:0.0####}\r\nBbound: {2:0.0####}", this.Leech, this.CriticalMultiplier, this.Blood);
+				retval += string.Format(CultureInfo.CurrentCulture, "\r\nLeech: {0:0.0####}\r\nCrit: {1:0.0####}\r\nDamage: {2:0.0####}\r\nBbound: {3:0.0####}", this.Leech, this.CriticalMultiplier, this.Damage, this.Blood);
 			}
 
 			return retval;

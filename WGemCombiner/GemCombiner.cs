@@ -16,6 +16,11 @@
 
 	public partial class GemCombiner : Form
 	{
+		#region Constants
+		private const int RidiculousInstructionCount = 200000;
+		private const string CustomRecipePlaceholder = "Insert custom recipe here";
+		#endregion
+
 		#region Static Fields
 		private static Dictionary<GemColors, string> gemEffectNames = new Dictionary<GemColors, string>()
 		{
@@ -26,11 +31,6 @@
 			[GemColors.Red] = "Chain Hit",
 			[GemColors.Yellow] = "Critical Hit"
 		};
-		#endregion
-
-		#region Constants
-		private const int RidiculousInstructionCount = 200000;
-		private const string CustomRecipePlaceholder = "Insert custom recipe here";
 		#endregion
 
 		#region Fields
