@@ -18,7 +18,6 @@
 	{
 		#region Constants
 		private const int RidiculousInstructionCount = 200000;
-		private const string CustomRecipePlaceholder = "Insert custom recipe here";
 		#endregion
 
 		#region Static Fields
@@ -229,40 +228,6 @@
 		#endregion
 
 		#region Private Methods
-		private void AddFromLines(IEnumerable<string> lines)
-		{
-			var recipe = new List<string>();
-			foreach (var line in lines)
-			{
-				if (!line.StartsWith("#", StringComparison.Ordinal) && !line.StartsWith("//", StringComparison.Ordinal))
-				{
-					var trimmedLine = line.Trim();
-					if (trimmedLine.Length == 0)
-					{
-						if (recipe.Count > 0)
-						{
-							this.AddRecipe(new Combiner(recipe));
-							recipe.Clear();
-						}
-					}
-					else if (line.Contains("="))
-					{
-						recipe.Add(line);
-					}
-					else
-					{
-						this.AddRecipe(new Combiner(trimmedLine));
-					}
-				}
-			}
-
-			if (recipe.Count > 0)
-			{
-				this.AddRecipe(new Combiner(recipe));
-				recipe.Clear();
-			}
-		}
-
 		private void AddResourceRecipe(string name)
 		{
 			var resourceName = "WGemCombiner.Resources.recipes." + name + ".txt";
@@ -284,7 +249,36 @@
 			if (File.Exists(filename))
 			{
 				var lines = File.ReadAllLines(filename);
-				this.AddFromLines(lines);
+				var recipe = new List<string>();
+				foreach (var line in lines)
+				{
+					if (!line.StartsWith("#", StringComparison.Ordinal) && !line.StartsWith("//", StringComparison.Ordinal))
+					{
+						var trimmedLine = line.Trim();
+						if (trimmedLine.Length == 0)
+						{
+							if (recipe.Count > 0)
+							{
+								this.AddRecipe(new Combiner(recipe));
+								recipe.Clear();
+							}
+						}
+						else if (line.Contains("="))
+						{
+							recipe.Add(line);
+						}
+						else
+						{
+							this.AddRecipe(new Combiner(trimmedLine));
+						}
+					}
+				}
+
+				if (recipe.Count > 0)
+				{
+					this.AddRecipe(new Combiner(recipe));
+					recipe.Clear();
+				}
 			}
 		}
 
