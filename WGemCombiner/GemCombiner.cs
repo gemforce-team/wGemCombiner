@@ -48,6 +48,9 @@
 			this.AddResourceRecipe("mgcomb-exact");
 			this.AddResourceRecipe("mgcomb");
 			this.AddResourceRecipe("mgcomb-leech");
+			this.AddResourceRecipe("kgcomb-exact");
+			this.AddResourceRecipe("kgcomb");
+			this.AddResourceRecipe("kgcomb-bbound");
 			this.AddTextFileRecipes(ExePath + @"\recipes.txt");
 			this.InitializeComponent();
 			this.SettingsHandler_BordersChanged(null, null);

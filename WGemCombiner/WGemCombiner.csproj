@@ -232,6 +232,9 @@
   </ItemGroup>
   <ItemGroup>
     <CodeAnalysisDictionary Include="CustomDictionary.xml" />
+    <EmbeddedResource Include="Resources\recipes\kgcomb-bbound.txt" />
+    <EmbeddedResource Include="Resources\recipes\kgcomb-exact.txt" />
+    <EmbeddedResource Include="Resources\recipes\kgcomb.txt" />
     <EmbeddedResource Include="Resources\recipes\mgcomb-leech.txt" />
     <EmbeddedResource Include="Resources\recipes\mgcomb.txt" />
     <EmbeddedResource Include="Resources\recipes\mgcomb-exact.txt" />
