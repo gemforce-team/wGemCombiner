@@ -49,8 +49,8 @@
 			this.slotLimitUpDown = new System.Windows.Forms.NumericUpDown();
 			this.slotLimitLabel = new System.Windows.Forms.Label();
 			this.instructionsTextBox = new System.Windows.Forms.RichTextBox();
-			this.combineProgressBar = new WGemCombiner.TextProgressBar();
 			this.testAllButton = new System.Windows.Forms.Button();
+			this.combineProgressBar = new WGemCombiner.TextProgressBar();
 			((System.ComponentModel.ISupportInitialize)(this.delayNumeric)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.stepNumeric)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.slotLimitUpDown)).BeginInit();
@@ -75,7 +75,7 @@
 			this.parseRecipeButton.Name = "parseRecipeButton";
 			this.parseRecipeButton.Size = new System.Drawing.Size(170, 23);
 			this.parseRecipeButton.TabIndex = 2;
-			this.parseRecipeButton.Text = "Parse custom recipe";
+			this.parseRecipeButton.Text = "Parse recipe";
 			this.parseRecipeButton.Click += new System.EventHandler(this.ParseRecipeButton_Click);
 			// 
 			// instructionsLabel
@@ -208,7 +208,7 @@
 			this.combineComboBox.Font = new System.Drawing.Font("Consolas", 9.75F);
 			this.combineComboBox.Items.AddRange(new object[] {
             "Paste"});
-			this.combineComboBox.Location = new System.Drawing.Point(12, 57);
+			this.combineComboBox.Location = new System.Drawing.Point(12, 55);
 			this.combineComboBox.Name = "combineComboBox";
 			this.combineComboBox.Size = new System.Drawing.Size(170, 23);
 			this.combineComboBox.Sorted = true;
@@ -220,10 +220,9 @@
 			this.colorComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
 			this.colorComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.colorComboBox.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.colorComboBox.Location = new System.Drawing.Point(12, 28);
 			this.colorComboBox.Name = "colorComboBox";
-			this.colorComboBox.Size = new System.Drawing.Size(170, 23);
+			this.colorComboBox.Size = new System.Drawing.Size(170, 21);
 			this.colorComboBox.Sorted = true;
 			this.colorComboBox.TabIndex = 34;
 			this.colorComboBox.SelectedIndexChanged += new System.EventHandler(this.ColorComboBox_SelectedIndexChanged);
@@ -243,13 +242,14 @@
 			// resultLabel
 			// 
 			this.resultLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.resultLabel.Font = new System.Drawing.Font("Consolas", 9F);
 			this.resultLabel.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.resultLabel.Location = new System.Drawing.Point(12, 229);
 			this.resultLabel.Margin = new System.Windows.Forms.Padding(3);
 			this.resultLabel.Name = "resultLabel";
-			this.resultLabel.Size = new System.Drawing.Size(170, 92);
+			this.resultLabel.Size = new System.Drawing.Size(198, 92);
 			this.resultLabel.TabIndex = 39;
-			this.resultLabel.Text = "Result Here\r\n(Grade + Cost)";
+			this.resultLabel.Text = "Result Here";
 			// 
 			// recipeInputRichTextBox
 			// 
@@ -258,9 +258,9 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.recipeInputRichTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.recipeInputRichTextBox.Location = new System.Drawing.Point(12, 87);
+			this.recipeInputRichTextBox.Location = new System.Drawing.Point(12, 84);
 			this.recipeInputRichTextBox.Name = "recipeInputRichTextBox";
-			this.recipeInputRichTextBox.Size = new System.Drawing.Size(170, 108);
+			this.recipeInputRichTextBox.Size = new System.Drawing.Size(170, 111);
 			this.recipeInputRichTextBox.TabIndex = 40;
 			this.recipeInputRichTextBox.Text = "";
 			// 
@@ -323,6 +323,18 @@
 			this.instructionsTextBox.TabIndex = 46;
 			this.instructionsTextBox.Text = "";
 			// 
+			// testAllButton
+			// 
+			this.testAllButton.AutoSize = true;
+			this.testAllButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.testAllButton.Location = new System.Drawing.Point(316, 4);
+			this.testAllButton.Name = "testAllButton";
+			this.testAllButton.Size = new System.Drawing.Size(52, 23);
+			this.testAllButton.TabIndex = 47;
+			this.testAllButton.Text = "Test All";
+			this.testAllButton.UseVisualStyleBackColor = true;
+			this.testAllButton.Click += new System.EventHandler(this.TestAll_Click);
+			// 
 			// combineProgressBar
 			// 
 			this.combineProgressBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
@@ -339,18 +351,6 @@
 			this.combineProgressBar.Text = null;
 			this.combineProgressBar.TextColor = System.Drawing.SystemColors.ControlText;
 			this.combineProgressBar.Value = 1;
-			// 
-			// testAllButton
-			// 
-			this.testAllButton.AutoSize = true;
-			this.testAllButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.testAllButton.Location = new System.Drawing.Point(316, 4);
-			this.testAllButton.Name = "testAllButton";
-			this.testAllButton.Size = new System.Drawing.Size(52, 23);
-			this.testAllButton.TabIndex = 47;
-			this.testAllButton.Text = "Test All";
-			this.testAllButton.UseVisualStyleBackColor = true;
-			this.testAllButton.Click += new System.EventHandler(this.TestAll_Click);
 			// 
 			// GemCombiner
 			// 
