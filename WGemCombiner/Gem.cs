@@ -1,6 +1,7 @@
 ﻿namespace WGemCombiner
 {
 	using System;
+	using System.Collections;
 	using System.Collections.Generic;
 	using System.Globalization;
 	using static Globals;
@@ -20,19 +21,18 @@
 	}
 	#endregion
 
-	public class Gem
+	[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix", Justification = "Not a collection in any meaningful way.")]
+	public class Gem : IEnumerable<Gem>
 	{
 		#region Constructors
 		public Gem(Gem gem1, Gem gem2)
 		{
 			ThrowNull(gem1, nameof(gem1));
 			ThrowNull(gem2, nameof(gem2));
-			var components = new List<Gem>(2);
-			components.Add(gem1);
-			components.Add(gem2);
-			this.Components = components;
+			this.Component1 = gem1;
+			this.Component2 = gem2;
 
-			foreach (var component in this.Components)
+			foreach (var component in this)
 			{
 				this.Color |= component.Color;
 				this.IsSpec |= component.IsSpec || component.Color != this.Color;
@@ -75,7 +75,7 @@
 				this.Growth = Math.Log(this.Power, this.Cost);
 			}
 
-			this.IsPureUpgrade = this.Components[0] == this.Components[1] && this.Components[0].IsPureUpgrade && this.Components[1].IsPureUpgrade;
+			this.IsPureUpgrade = this.Component1 == this.Component2 && this.Component1.IsPureUpgrade && this.Component2.IsPureUpgrade;
 		}
 
 		protected Gem()
@@ -86,13 +86,15 @@
 		#region Public Properties
 		public GemColors Color { get; protected set; }
 
-		public IReadOnlyList<Gem> Components { get; }
+		public Gem Component1 { get; }
+
+		public Gem Component2 { get; }
 
 		public bool IsSpec { get; protected set; }
 
 		public bool IsNeeded => this.Slot == Combiner.NotSlotted && this.UseCount > 0; // This has the side-effect of also ruling out base gems automatically
 
-		public virtual bool IsUpgrade => this.Components[0] == this.Components[1];
+		public virtual bool IsUpgrade => this.Component1 == this.Component2;
 
 		public int Slot { get; set; }
 
@@ -156,7 +158,7 @@
 			}
 		}
 
-		protected virtual string PureRecipe => this.IsPureUpgrade ? (this.Grade + 1).ToString(CultureInfo.CurrentCulture) + this.Components[0].PureRecipe[this.Components[0].PureRecipe.Length - 1] : null; // TODO: Getting the last letter this way is fugly, maybe find something better? Could implement PureLetter as Components[0].PureLetter, which would only climb through a single branch
+		protected virtual string PureRecipe => this.IsPureUpgrade ? (this.Grade + 1).ToString(CultureInfo.CurrentCulture) + this.Component1.PureRecipe[this.Component1.PureRecipe.Length - 1] : null; // TODO: Getting the last letter this way is fugly, maybe find something better? Could implement PureLetter as Components[0].PureLetter, which would only climb through a single branch
 		#endregion
 
 		#region Public Methods
@@ -171,7 +173,15 @@
 			return retval;
 		}
 
-		public virtual string Recipe() => this.PureRecipe ?? "(" + this.Components[0].Recipe() + "+" + this.Components[1].Recipe() + ")";
+		public IEnumerator<Gem> GetEnumerator()
+		{
+			yield return this.Component1;
+			yield return this.Component2;
+		}
+
+		IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
+
+		public virtual string Recipe() => this.PureRecipe ?? "(" + this.Component1.Recipe() + "+" + this.Component2.Recipe() + ")";
 		#endregion
 
 		#region Public Override Methods

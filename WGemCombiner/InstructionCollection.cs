@@ -68,8 +68,8 @@
 		public bool Combine(Gem parentGem)
 		{
 			ThrowNull(parentGem, nameof(parentGem));
-			var slot2 = this.DuplicateIfNeeded(parentGem.Components[1]);
-			var slot1 = this.DuplicateIfNeeded(parentGem.Components[0]);
+			var slot2 = this.DuplicateIfNeeded(parentGem.Component2);
+			var slot1 = this.DuplicateIfNeeded(parentGem.Component1);
 			if (slot2 > slot1)
 			{
 				// Dupe auto-sorts when both calls duplicate, but if they don't, we still need to choose the lowest manually.
@@ -83,7 +83,7 @@
 			parentGem.Slot = slot2;
 
 			bool dupeHappened = false;
-			foreach (var gem in parentGem.Components)
+			foreach (var gem in parentGem)
 			{
 				if (gem.UseCount == 0)
 				{
@@ -105,12 +105,12 @@
 		public bool Upgrade(Gem gem)
 		{
 			ThrowNull(gem, nameof(gem));
-			var slot = this.DuplicateIfNeeded(gem.Components[0]);
+			var slot = this.DuplicateIfNeeded(gem.Component1);
 			this.instructions.Add(new Instruction(ActionType.Upgrade, slot));
 			gem.Slot = slot;
-			if (gem.Components[0].UseCount == 0)
+			if (gem.Component1.UseCount == 0)
 			{
-				gem.Components[0].Slot = Combiner.NotSlotted;
+				gem.Component1.Slot = Combiner.NotSlotted;
 				return false;
 			}
 

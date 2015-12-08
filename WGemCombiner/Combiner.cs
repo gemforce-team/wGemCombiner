@@ -54,7 +54,7 @@
 					var gem = gemList[i];
 					if (gem.UseCount == -1 && !(gem is BaseGem))
 					{
-						foreach (var component in gem.Components)
+						foreach (var component in gem)
 						{
 							if (component.UseCount != -1)
 							{
@@ -377,8 +377,8 @@
 				return;
 			}
 
-			var gem1 = gem.Components[0];
-			var gem2 = gem.Components[1];
+			var gem1 = gem.Component1;
+			var gem2 = gem.Component2;
 			this.BuildGem(gem1, instructions, true);
 			this.BuildGem(gem2, instructions, true);
 
@@ -407,7 +407,7 @@
 		/// <returns>The list of instructions to create the costliest possible gem in the number of slots allowed.</returns>
 		private InstructionCollection CondenseSlots(ICollection<Gem> gemsToIgnore, bool lastRun)
 		{
-			var combine1 = new Combiner(this.Gem.Components[0], this.gems, false);
+			var combine1 = new Combiner(this.Gem.Component1, this.gems, false);
 			combine1.Gem.UseCount++;
 			var instructions1 = new InstructionCollection(gemsToIgnore);
 			combine1.BuildGem(combine1.Gem, instructions1, true);
@@ -423,7 +423,7 @@
 			}
 
 			gemsToIgnore.Add(combine1.Gem);
-			var combine2 = new Combiner(this.Gem.Components[1], this.gems, lastRun);
+			var combine2 = new Combiner(this.Gem.Component2, this.gems, lastRun);
 			combine2.Gem.UseCount++;
 			var instructions2 = new InstructionCollection(gemsToIgnore);
 			combine2.BuildGem(combine2.Gem, instructions2, lastRun);
@@ -448,7 +448,7 @@
 			var optimized = false;
 			foreach (var gem in this.gems)
 			{
-				if (gem.IsNeeded && gem.Components[0].Slot != Combiner.NotSlotted && gem.Components[1].Slot != Combiner.NotSlotted && (gem.IsUpgrade && gem.Components[0].UseCount == 2 || gem.Components[0].UseCount == 1 && gem.Components[1].UseCount == 1))
+				if (gem.IsNeeded && gem.Component1.Slot != Combiner.NotSlotted && gem.Component2.Slot != Combiner.NotSlotted && (gem.IsUpgrade && gem.Component1.UseCount == 2 || gem.Component1.UseCount == 1 && gem.Component2.UseCount == 1))
 				{
 					optimized = true;
 					this.BuildGem(gem, instructions, false);
@@ -463,7 +463,7 @@
 			var optimized = false;
 			foreach (var gem in this.gems)
 			{
-				if (gem.IsNeeded && gem.Components[0].Slot != Combiner.NotSlotted && gem.Components[1].Slot != Combiner.NotSlotted && (gem.Components[0].UseCount == 1 || gem.Components[1].UseCount == 1))
+				if (gem.IsNeeded && gem.Component1.Slot != Combiner.NotSlotted && gem.Component2.Slot != Combiner.NotSlotted && (gem.Component1.UseCount == 1 || gem.Component2.UseCount == 1))
 				{
 					optimized = true;
 					this.BuildGem(gem, instructions, false);
@@ -485,8 +485,8 @@
 			{
 				if (!(gem is BaseGem))
 				{
-					gem.Components[0].UseCount++;
-					gem.Components[1].UseCount++;
+					gem.Component1.UseCount++;
+					gem.Component2.UseCount++;
 				}
 			}
 		}
