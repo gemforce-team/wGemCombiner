@@ -33,8 +33,6 @@
 
 		public static bool Enabled { get; set; }
 
-		public static bool IEFix { get; set; }
-
 		public static InstructionCollection Instructions { get; set; }
 
 		public static int SleepTime { get; set; } = 33;
@@ -173,7 +171,7 @@
 
 		private static void PressKey(byte keyCode)
 		{
-			if (IEFix)
+			if (Settings.Default.IEFix)
 			{
 				PressMouse();
 				ReleaseMouse();

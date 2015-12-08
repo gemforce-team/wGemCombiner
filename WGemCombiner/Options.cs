@@ -85,7 +85,7 @@
 
 		private void IEFix_CheckChanged(object sender, EventArgs e)
 		{
-			Settings.Default.IEFix = this.alwaysOnTopCheckBox.Checked;
+			Settings.Default.IEFix = this.ieFixCheckBox.Checked;
 		}
 
 		private void Options_FormClosing(object sender, FormClosingEventArgs e)
@@ -106,6 +106,7 @@
 			this.hellrageSkinButton.Checked = (Skin)Settings.Default.Skin == Skin.Hellrages;
 			this.hidePanelsCheckBox.Checked = Settings.Default.HidePanels;
 			this.hotkeyTextBox.Text = SettingsHandler.HotkeyText;
+			this.ieFixCheckBox.Checked = Settings.Default.IEFix;
 			this.useColorsButton.Checked = Settings.Default.UseColors;
 			this.useEffectsButton.Checked = !Settings.Default.UseColors;
 			this.winFormsSkinButton.Checked = (Skin)Settings.Default.Skin == Skin.WindowsForms;
