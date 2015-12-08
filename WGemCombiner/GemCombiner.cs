@@ -51,6 +51,8 @@
 			this.AddResourceRecipe("kgcomb-exact");
 			this.AddResourceRecipe("kgcomb");
 			this.AddResourceRecipe("kgcomb-bbound");
+			this.AddResourceRecipe("kgspec");
+			this.AddResourceRecipe("mgspec");
 			this.AddTextFileRecipes(ExePath + @"\recipes.txt");
 			this.InitializeComponent();
 			this.SettingsHandler_BordersChanged(null, null);

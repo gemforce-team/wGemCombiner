@@ -3,6 +3,7 @@
 	using System;
 	using System.Collections.Generic;
 
+	[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix", Justification = "Not a collection in any meaningful way.")]
 	public class BaseGem : Gem
 	{
 		#region Static Fields

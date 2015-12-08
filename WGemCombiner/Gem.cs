@@ -90,9 +90,9 @@
 
 		public Gem Component2 { get; }
 
-		public bool IsSpec { get; protected set; }
-
 		public bool IsNeeded => this.Slot == Combiner.NotSlotted && this.UseCount > 0; // This has the side-effect of also ruling out base gems automatically
+
+		public bool IsSpec { get; protected set; }
 
 		public virtual bool IsUpgrade => this.Component1 == this.Component2;
 
@@ -193,6 +193,5 @@
 
 		private static bool IsPowerOfTwo(int cost) => (cost != 0) && (cost & (cost - 1)) == 0;
 		#endregion
-
 	}
 }

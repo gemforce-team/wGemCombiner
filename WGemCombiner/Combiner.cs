@@ -5,13 +5,12 @@
 	using System.Globalization;
 	using System.Text;
 	using System.Text.RegularExpressions;
-	using System.Windows.Forms;
 	using static Globals;
 
 	public class Combiner
 	{
 		#region Static Fields
-		private static Regex equationParser = new Regex(@"((?<index>\d+)\s*=)?\s*((?<lhs>\d+)\s*\+\s*(?<rhs>\d+)|g?\d*\s*(?<letter>[a-z]))", RegexOptions.Compiled | RegexOptions.ExplicitCapture | RegexOptions.IgnoreCase);
+		private static Regex equationParser = new Regex(@"((\(val=\d+\))?(?<index>\d+)=)?((?<lhs>\d+)\+(?<rhs>\d+)|g?\d*(?<letter>[a-z]))", RegexOptions.Compiled | RegexOptions.ExplicitCapture | RegexOptions.IgnoreCase);
 		private static Regex gemPower = new Regex(@"g?(?<num>[0-9]+)\s*(?<color>([a-z]|\([a-z]+\)))", RegexOptions.Compiled | RegexOptions.ExplicitCapture | RegexOptions.IgnoreCase);
 		private static Regex invalidLetterFinder = new Regex(@"[a-z][^\+\)]", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 		#endregion
@@ -289,9 +288,10 @@
 		{
 			this.Clear();
 			var dupeCheck = new HashSet<int>();
-			foreach (var line in equations)
+			foreach (var spacedLine in equations)
 			{
-				if (string.IsNullOrWhiteSpace(line))
+				var line = new Regex(@"\s+").Replace(spacedLine, string.Empty); // Remove all whitespace.
+				if (string.IsNullOrEmpty(line))
 				{
 					// Allow blank lines at this level, even though at file level, a blank line indicates a break between recipes. Allows that someone else might not want to conform to this particular standard.
 					continue;
