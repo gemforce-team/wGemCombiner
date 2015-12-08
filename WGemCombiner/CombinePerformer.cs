@@ -1,7 +1,6 @@
 ﻿namespace WGemCombiner
 {
 	using System;
-	using System.Diagnostics;
 	using System.Drawing;
 	using System.Threading;
 	using System.Windows.Forms;
@@ -33,6 +32,8 @@
 		public static bool CancelCombine { get; set; }
 
 		public static bool Enabled { get; set; }
+
+		public static bool IEFix { get; set; }
 
 		public static InstructionCollection Instructions { get; set; }
 
@@ -110,7 +111,6 @@
 			for (int i = mSteps; i < Instructions.Count; i++)
 			{
 				var instruction = Instructions[i];
-				Debug.WriteLine(instruction);
 				Thread.Sleep(SleepTime);
 				switch (instruction.Action)
 				{
@@ -173,6 +173,12 @@
 
 		private static void PressKey(byte keyCode)
 		{
+			if (IEFix)
+			{
+				PressMouse();
+				ReleaseMouse();
+			}
+
 			keybd_event(keyCode, 0, 0, UIntPtr.Zero);
 			Thread.Sleep(3);
 			keybd_event(keyCode, 0, KeyEventFKeyUp, UIntPtr.Zero);

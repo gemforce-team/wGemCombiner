@@ -111,6 +111,7 @@
 			var shortVersion = Application.ProductVersion;
 			shortVersion = shortVersion.Substring(0, shortVersion.LastIndexOf('.'));
 			this.AddHelpMessage(Messages.HelpCombinerTitle, Messages.HelpCombinerMessage, SettingsHandler.HotkeyText);
+			this.AddHelpMessage(Messages.HelpCombiner2Title, Messages.HelpCombiner2Message, SettingsHandler.HotkeyText);
 			this.AddHelpMessage(Messages.HelpInputFormatTitle, Messages.HelpInputFormatMessage);
 			this.AddHelpMessage(Messages.HelpPresetsTitle, Messages.HelpPresetsMessage);
 			this.AddHelpMessage(Messages.HelpImportingPresetsTitle, Messages.HelpImportingPresetsMessage);

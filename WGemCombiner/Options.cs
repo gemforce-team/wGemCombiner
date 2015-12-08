@@ -41,6 +41,8 @@
 			Settings.Default.TopMost = this.alwaysOnTopCheckBox.Checked;
 		}
 
+		private void AutoCombineCheckBox_CheckedChanged(object sender, EventArgs e) => Settings.Default.AutoCombine = this.autoCombineCheckBox.Checked;
+
 		private void BordersCheckBox_CheckedChanged(object sender, EventArgs e) => SettingsHandler.ChangeBorders(!this.bordersCheckBox.Checked);
 
 		private void CloseButton_Click(object sender, EventArgs e) => this.Close();
@@ -79,6 +81,11 @@
 					e.IsInputKey = true;
 					break;
 			}
+		}
+
+		private void IEFix_CheckChanged(object sender, EventArgs e)
+		{
+			Settings.Default.IEFix = this.alwaysOnTopCheckBox.Checked;
 		}
 
 		private void Options_FormClosing(object sender, FormClosingEventArgs e)
@@ -136,7 +143,5 @@
 
 		private void UseEffectsButton_CheckedChanged(object sender, EventArgs e) => Settings.Default.UseColors = false;
 		#endregion
-
-		private void AutoCombineCheckBox_CheckedChanged(object sender, EventArgs e) => Settings.Default.AutoCombine = this.autoCombineCheckBox.Checked;
 	}
 }

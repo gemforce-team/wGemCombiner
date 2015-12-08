@@ -106,5 +106,17 @@ namespace WGemCombiner.Properties {
                 this["UseColors"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool IEFix {
+            get {
+                return ((bool)(this["IEFix"]));
+            }
+            set {
+                this["IEFix"] = value;
+            }
+        }
     }
 }

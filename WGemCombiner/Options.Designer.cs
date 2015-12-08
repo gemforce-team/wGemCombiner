@@ -44,6 +44,7 @@
 			this.RestartLabel = new System.Windows.Forms.Label();
 			this.useColorsButton = new System.Windows.Forms.RadioButton();
 			this.useEffectsButton = new System.Windows.Forms.RadioButton();
+			this.ieFixCheckBox = new System.Windows.Forms.CheckBox();
 			this.namingBufferedGroupBox.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -73,7 +74,7 @@
 			// closeButton
 			// 
 			this.closeButton.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-			this.closeButton.Location = new System.Drawing.Point(108, 242);
+			this.closeButton.Location = new System.Drawing.Point(108, 268);
 			this.closeButton.Margin = new System.Windows.Forms.Padding(3, 9, 3, 3);
 			this.closeButton.Name = "closeButton";
 			this.closeButton.Size = new System.Drawing.Size(44, 23);
@@ -109,10 +110,10 @@
 			this.hotkeyTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.hotkeyTextBox.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
-			this.hotkeyTextBox.Location = new System.Drawing.Point(137, 217);
+			this.hotkeyTextBox.Location = new System.Drawing.Point(139, 236);
 			this.hotkeyTextBox.MaxLength = 1;
 			this.hotkeyTextBox.Name = "hotkeyTextBox";
-			this.hotkeyTextBox.Size = new System.Drawing.Size(111, 20);
+			this.hotkeyTextBox.Size = new System.Drawing.Size(110, 20);
 			this.hotkeyTextBox.TabIndex = 11;
 			this.hotkeyTextBox.Text = "9";
 			this.hotkeyTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -123,7 +124,7 @@
 			// 
 			this.hotkeyLabel.AutoSize = true;
 			this.hotkeyLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.hotkeyLabel.Location = new System.Drawing.Point(10, 220);
+			this.hotkeyLabel.Location = new System.Drawing.Point(12, 239);
 			this.hotkeyLabel.Name = "hotkeyLabel";
 			this.hotkeyLabel.Size = new System.Drawing.Size(121, 13);
 			this.hotkeyLabel.TabIndex = 10;
@@ -198,9 +199,9 @@
 			this.namingBufferedGroupBox.Controls.Add(this.useColorsButton);
 			this.namingBufferedGroupBox.Controls.Add(this.useEffectsButton);
 			this.namingBufferedGroupBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.namingBufferedGroupBox.Location = new System.Drawing.Point(12, 139);
+			this.namingBufferedGroupBox.Location = new System.Drawing.Point(12, 162);
 			this.namingBufferedGroupBox.Name = "namingBufferedGroupBox";
-			this.namingBufferedGroupBox.Size = new System.Drawing.Size(236, 72);
+			this.namingBufferedGroupBox.Size = new System.Drawing.Size(236, 68);
 			this.namingBufferedGroupBox.TabIndex = 13;
 			this.namingBufferedGroupBox.TabStop = false;
 			this.namingBufferedGroupBox.Text = "Naming Convention";
@@ -209,7 +210,7 @@
 			// 
 			this.RestartLabel.AutoSize = true;
 			this.RestartLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.RestartLabel.Location = new System.Drawing.Point(45, 43);
+			this.RestartLabel.Location = new System.Drawing.Point(45, 39);
 			this.RestartLabel.Name = "RestartLabel";
 			this.RestartLabel.Size = new System.Drawing.Size(147, 13);
 			this.RestartLabel.TabIndex = 3;
@@ -241,12 +242,24 @@
 			this.useEffectsButton.UseVisualStyleBackColor = true;
 			this.useEffectsButton.CheckedChanged += new System.EventHandler(this.UseEffectsButton_CheckedChanged);
 			// 
+			// ieFixCheckBox
+			// 
+			this.ieFixCheckBox.AutoSize = true;
+			this.ieFixCheckBox.Location = new System.Drawing.Point(12, 139);
+			this.ieFixCheckBox.Name = "ieFixCheckBox";
+			this.ieFixCheckBox.Size = new System.Drawing.Size(133, 17);
+			this.ieFixCheckBox.TabIndex = 14;
+			this.ieFixCheckBox.Text = "Using Internet Explorer";
+			this.ieFixCheckBox.UseVisualStyleBackColor = true;
+			this.ieFixCheckBox.CheckedChanged += new System.EventHandler(this.IEFix_CheckChanged);
+			// 
 			// Options
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-			this.ClientSize = new System.Drawing.Size(261, 277);
+			this.ClientSize = new System.Drawing.Size(261, 303);
+			this.Controls.Add(this.ieFixCheckBox);
 			this.Controls.Add(this.namingBufferedGroupBox);
 			this.Controls.Add(this.autoCombineCheckBox);
 			this.Controls.Add(this.hellrageSkinButton);
@@ -296,5 +309,6 @@
 		private System.Windows.Forms.Label RestartLabel;
 		private System.Windows.Forms.RadioButton useColorsButton;
 		private System.Windows.Forms.RadioButton useEffectsButton;
+		private System.Windows.Forms.CheckBox ieFixCheckBox;
 	}
 }

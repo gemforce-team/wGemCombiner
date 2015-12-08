@@ -61,11 +61,31 @@ namespace WGemCombiner.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to To have the program perform the spec/combine:
+        ///- Place the base gem(s) in the bottom-right inventory slot(s), following the base gems box instructions.
+        ///- Empty the inventory up to as many slots as the combine requires. If you need to save a specific amount of space, lower the Slot Limit box, though this will require more moves to complete the same combine, sometimes significantly.
+        ///- Press the &apos;Combine&apos; button (displays the hotkey to press if in automatic mode or already pressed).
+        ///- Hover your cursor over [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string HelpCombiner2Message {
+            get {
+                return ResourceManager.GetString("HelpCombiner2Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Working with the combiner(2).
+        /// </summary>
+        internal static string HelpCombiner2Title {
+            get {
+                return ResourceManager.GetString("HelpCombiner2Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Paste gem combining equations or parenthesis formula into the text box, then click the &apos;Parse custom recipe&apos; button.
         ///
-        ///Set the &apos;delay&apos; to at LEAST as many milliseconds as a frame on GC2 is taking. Usually, 45-50 milliseconds is good, but lag varies greatly when there are more monsters on-screen. Web versions typically run 10-75ms, while Steam versions typically run 30-200ms. Setting the value too low could cause combine errors in long recipes and may cause the combine to use too much mana.
-        ///
-        ///Game gem info [rest of string was truncated]&quot;;.
+        ///Set the &apos;delay&apos; to at LEAST as many milliseconds as a frame on GC2 is taking. Usually, 45-50 milliseconds is good, but lag varies greatly when there are more monsters on-screen. Web versions typically run 30-100ms. Steam versions typically run slower, though Steam buffers mouse moves to a point, making this less important. Setting the value too low could cause combine errors in long recipe [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string HelpCombinerMessage {
             get {
@@ -74,7 +94,7 @@ namespace WGemCombiner.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Working with the combiner.
+        ///   Looks up a localized string similar to Working with the combiner (1).
         /// </summary>
         internal static string HelpCombinerTitle {
             get {
