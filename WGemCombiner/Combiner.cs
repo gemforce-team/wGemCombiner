@@ -20,14 +20,79 @@
 		#endregion
 
 		#region Constructors
-		public Combiner(string recipe)
-		{
-			this.AddRecipe(recipe);
-		}
-
 		public Combiner(IEnumerable<string> equations)
 		{
-			this.AddEquations(equations);
+			ThrowNull(equations, nameof(equations));
+			this.Clear();
+			var dupeCheck = new HashSet<int>();
+			foreach (var spacedLine in equations)
+			{
+				var line = new Regex(@"\s+").Replace(spacedLine, string.Empty); // Remove all whitespace.
+				if (string.IsNullOrEmpty(line))
+				{
+					// Allow blank lines at this level, even though at file level, a blank line indicates a break between recipes. Allows that someone else might not want to conform to this particular standard.
+					continue;
+				}
+
+				var match = equationParser.Match(line);
+				if (!match.Success)
+				{
+					throw new ArgumentException("Invalid equation: " + line);
+				}
+
+				var indexGroup = match.Groups["index"];
+				if (indexGroup.Success)
+				{
+					var index = int.Parse(indexGroup.Value, CultureInfo.InvariantCulture);
+					if (index != this.gems.Count)
+					{
+						throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, "Index in equation {0} does not match current gem count of {1}.", index, this.gems.Count));
+					}
+				}
+
+				var letter = match.Groups["letter"].Value;
+				if (letter.Length != 0)
+				{
+					var baseGem = new BaseGem(letter[0]);
+					this.gems.Add(baseGem);
+				}
+				else
+				{
+					var lhs = int.Parse(match.Groups["lhs"].Value, CultureInfo.InvariantCulture);
+					var rhs = int.Parse(match.Groups["rhs"].Value, CultureInfo.InvariantCulture);
+					if (lhs > this.gems.Count - 1 || rhs > this.gems.Count - 1)
+					{
+						throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, "Gem values in equation {0} must be less than {1}.", line, this.gems.Count));
+					}
+
+					this.gems.Add(new Gem(this.gems[lhs], this.gems[rhs]));
+					if (!dupeCheck.Add((lhs << 16) + rhs))
+					{
+						throw new ArgumentException(string.Format(CultureInfo.InvariantCulture, "The equation {0}+{1} appears more than once.", lhs, rhs));
+					}
+				}
+			}
+
+			if (this.gems.Count > 0)
+			{
+				foreach (var gem in this.gems)
+				{
+					if (gem.UseCount == 0)
+					{
+						var index = this.gems.IndexOf(gem);
+						if (index != this.gems.Count - 1)
+						{
+							throw new ArgumentException(string.Format(CultureInfo.InvariantCulture, "Equation {0} is unused.", index));
+						}
+					}
+				}
+
+				this.Gem = this.gems[this.gems.Count - 1];
+			}
+			else
+			{
+				this.Gem = null;
+			}
 		}
 
 		private Combiner(Gem parentGem, IReadOnlyList<Gem> gemList, bool lastRun)
@@ -276,100 +341,6 @@
 		#endregion
 
 		#region Private Methods
-		private void AddEquations(string equations)
-		{
-			if (!string.IsNullOrWhiteSpace(equations))
-			{
-				this.AddEquations(equations.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries));
-			}
-		}
-
-		private void AddEquations(IEnumerable<string> equations)
-		{
-			this.Clear();
-			var dupeCheck = new HashSet<int>();
-			foreach (var spacedLine in equations)
-			{
-				var line = new Regex(@"\s+").Replace(spacedLine, string.Empty); // Remove all whitespace.
-				if (string.IsNullOrEmpty(line))
-				{
-					// Allow blank lines at this level, even though at file level, a blank line indicates a break between recipes. Allows that someone else might not want to conform to this particular standard.
-					continue;
-				}
-
-				var match = equationParser.Match(line);
-				if (!match.Success)
-				{
-					throw new ArgumentException("Invalid equation: " + line);
-				}
-
-				var indexGroup = match.Groups["index"];
-				if (indexGroup.Success)
-				{
-					var index = int.Parse(indexGroup.Value, CultureInfo.InvariantCulture);
-					if (index != this.gems.Count)
-					{
-						throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, "Index in equation {0} does not match current gem count of {1}.", index, this.gems.Count));
-					}
-				}
-
-				var letter = match.Groups["letter"].Value;
-				if (letter.Length != 0)
-				{
-					var baseGem = new BaseGem(letter[0]);
-					this.gems.Add(baseGem);
-				}
-				else
-				{
-					var lhs = int.Parse(match.Groups["lhs"].Value, CultureInfo.InvariantCulture);
-					var rhs = int.Parse(match.Groups["rhs"].Value, CultureInfo.InvariantCulture);
-					if (lhs > this.gems.Count - 1 || rhs > this.gems.Count - 1)
-					{
-						throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, "Gem values in equation {0} must be less than {1}.", line, this.gems.Count));
-					}
-
-					this.gems.Add(new Gem(this.gems[lhs], this.gems[rhs]));
-					if (!dupeCheck.Add((lhs << 16) + rhs))
-					{
-						throw new ArgumentException(string.Format(CultureInfo.InvariantCulture, "The equation {0}+{1} appears more than once.", lhs, rhs));
-					}
-				}
-			}
-
-			if (this.gems.Count > 0)
-			{
-				foreach (var gem in this.gems)
-				{
-					if (gem.UseCount == 0)
-					{
-						var index = this.gems.IndexOf(gem);
-						if (index != this.gems.Count - 1)
-						{
-							throw new ArgumentException(string.Format(CultureInfo.InvariantCulture, "Equation {0} is unused.", index));
-						}
-					}
-				}
-
-				this.Gem = this.gems[this.gems.Count - 1];
-			}
-			else
-			{
-				this.Gem = null;
-			}
-		}
-
-		private void AddRecipe(string recipe)
-		{
-			if (!recipe.Contains("="))
-			{
-				this.AddEquations(EquationsFromParentheses(recipe));
-			}
-			else
-			{
-				this.AddEquations(recipe);
-			}
-		}
-
 		private void BuildGem(Gem gem, InstructionCollection instructions, bool doPostScan)
 		{
 			if (!gem.IsNeeded || instructions.SlotsRequired > SlotLimit)

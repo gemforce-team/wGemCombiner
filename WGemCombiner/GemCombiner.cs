@@ -188,18 +188,31 @@
 
 		private void ParseRecipeButton_Click(object sender, EventArgs e)
 		{
-			var parsedText = this.recipeInputRichTextBox.Text;
-			if (parsedText.Contains("-combine:"))
+			var lines = this.recipeInputRichTextBox.Lines;
+			var newLines = new List<string>();
+			bool equations = false;
+			foreach (var line in lines)
 			{
-				// Remove X-combine: tag
-				int tagEnd = parsedText.IndexOf(':') + 1;
-				parsedText = parsedText.Substring(tagEnd).Trim();
+				if (!line.StartsWith("#", StringComparison.CurrentCulture) && !line.StartsWith("//", StringComparison.CurrentCulture))
+				{
+					newLines.Add(line);
+					equations |= line.Contains("=");
+				}
 			}
 
 			Combiner combine;
 			try
 			{
-				combine = new Combiner(parsedText);
+				if (equations)
+				{
+					combine = new Combiner(newLines);
+				}
+				else
+				{
+					var recipe = Combiner.EquationsFromParentheses(string.Join(string.Empty, newLines)); // Join in case someone uses line breaks for formatting
+					this.recipeInputRichTextBox.Text = string.Join(Environment.NewLine, recipe); // Do we want this always? Useful if people want to convert to equations for custom recipes, but should maybe be on a separate button.
+					combine = new Combiner(recipe);
+				}
 			}
 			catch (ArgumentException ex)
 			{
@@ -269,7 +282,15 @@
 						}
 						else
 						{
-							this.AddRecipe(new Combiner(trimmedLine));
+							try
+							{
+								this.AddRecipe(new Combiner(Combiner.EquationsFromParentheses(trimmedLine)));
+							}
+							catch (ArgumentException ex)
+							{
+								MessageBox.Show(ex.Message, "Error in " + filename, MessageBoxButtons.OK, MessageBoxIcon.Error);
+								return;
+							}
 						}
 					}
 				}

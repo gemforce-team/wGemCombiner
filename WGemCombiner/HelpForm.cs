@@ -109,7 +109,6 @@
 		private void FillHelpMessages()
 		{
 			this.AddHelpMessage(Messages.HelpCombinerTitle, Messages.HelpCombinerMessage, SettingsHandler.HotkeyText);
-			this.AddHelpMessage(Messages.HelpSpeccingTitle, Messages.HelpSpeccingMessage, SettingsHandler.HotkeyText);
 			this.AddHelpMessage(Messages.HelpInputFormatTitle, Messages.HelpInputFormatMessage);
 			this.AddHelpMessage(Messages.HelpPresetsTitle, Messages.HelpPresetsMessage);
 #if DEBUG
