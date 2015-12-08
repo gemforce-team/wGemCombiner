@@ -43,16 +43,11 @@
 		#region Constructors
 		public GemCombiner()
 		{
-			this.AddResourceRecipe("leech");
-			this.AddResourceRecipe("bbound");
-			this.AddResourceRecipe("mgcomb-exact");
-			this.AddResourceRecipe("mgcomb");
-			this.AddResourceRecipe("mgcomb-leech");
-			this.AddResourceRecipe("kgcomb-exact");
-			this.AddResourceRecipe("kgcomb");
-			this.AddResourceRecipe("kgcomb-bbound");
-			this.AddResourceRecipe("kgspec");
-			this.AddResourceRecipe("mgspec");
+			foreach (var file in new string[] { "bbound", "kgcomb", "kgcomb-bbound", "kgcomb-exact", "kgspec", "leech", "mgcomb", "mgcomb-exact", "mgcomb-leech", "mgspec" })
+			{
+				this.AddResourceRecipe(file);
+			}
+
 			this.AddTextFileRecipes(ExePath + @"\recipes.txt");
 			this.InitializeComponent();
 			this.SettingsHandler_BordersChanged(null, null);
