@@ -108,14 +108,12 @@
 		// This is the only function you need to make changes to when adding new help pages
 		private void FillHelpMessages()
 		{
+			var shortVersion = Application.ProductVersion;
+			shortVersion = shortVersion.Substring(0, shortVersion.LastIndexOf('.'));
 			this.AddHelpMessage(Messages.HelpCombinerTitle, Messages.HelpCombinerMessage, SettingsHandler.HotkeyText);
 			this.AddHelpMessage(Messages.HelpInputFormatTitle, Messages.HelpInputFormatMessage);
 			this.AddHelpMessage(Messages.HelpPresetsTitle, Messages.HelpPresetsMessage);
-#if DEBUG
 			this.AddHelpMessage(Messages.HelpImportingPresetsTitle, Messages.HelpImportingPresetsMessage);
-#endif
-			var shortVersion = Application.ProductVersion;
-			shortVersion = shortVersion.Substring(0, shortVersion.LastIndexOf('.'));
 			this.AddHelpMessage(Messages.HelpCreditsTitle, Messages.HelpCreditsMessage, shortVersion);
 		}
 

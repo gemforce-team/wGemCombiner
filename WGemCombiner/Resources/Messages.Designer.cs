@@ -63,10 +63,9 @@ namespace WGemCombiner.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Paste gem combining equations or parenthesis formula into the text box, then click the &apos;Parse custom recipe&apos; button.
         ///
-        ///Set the &apos;delay&apos; to at LEAST as many milliseconds as a frame on GC2 is taking. Usually, 45-50 milliseconds is good, but lag varies greatly when there are more monsters on-screen. Web versions typically run 10-75ms, while Steam versions typically run 30-200ms.
+        ///Set the &apos;delay&apos; to at LEAST as many milliseconds as a frame on GC2 is taking. Usually, 45-50 milliseconds is good, but lag varies greatly when there are more monsters on-screen. Web versions typically run 10-75ms, while Steam versions typically run 30-200ms. Setting the value too low could cause combine errors in long recipes and may cause the combine to use too much mana.
         ///
-        ///Game gem info tooltips have to be hidden during the combine.
-        ///The combiner will automatically hide them and reshow after the combi [rest of string was truncated]&quot;;.
+        ///Game gem info [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string HelpCombinerMessage {
             get {
@@ -75,7 +74,7 @@ namespace WGemCombiner.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Working with the combiner - custom recipes.
+        ///   Looks up a localized string similar to Working with the combiner.
         /// </summary>
         internal static string HelpCombinerTitle {
             get {

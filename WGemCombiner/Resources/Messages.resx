@@ -120,12 +120,11 @@
   <data name="HelpCombinerMessage" xml:space="preserve">
     <value>Paste gem combining equations or parenthesis formula into the text box, then click the 'Parse custom recipe' button.
 
-Set the 'delay' to at LEAST as many milliseconds as a frame on GC2 is taking. Usually, 45-50 milliseconds is good, but lag varies greatly when there are more monsters on-screen. Web versions typically run 10-75ms, while Steam versions typically run 30-200ms.
+Set the 'delay' to at LEAST as many milliseconds as a frame on GC2 is taking. Usually, 45-50 milliseconds is good, but lag varies greatly when there are more monsters on-screen. Web versions typically run 10-75ms, while Steam versions typically run 30-200ms. Setting the value too low could cause combine errors in long recipes and may cause the combine to use too much mana.
 
-Game gem info tooltips have to be hidden during the combine.
-The combiner will automatically hide them and reshow after the combine ('.'), unless configured differently in the options.
+Game gem info tooltips have to be hidden during the combine. The combiner will automatically hide them and reshow after the combine ('.'), unless configured differently in the options.
 
-To have the program perform the combining method:
+To have the program perform the spec/combine:
 - Place the base gem(s) in the bottom-right inventory slot(s), following the base gems box instructions.
 - Empty the inventory up to as many slots as the combine requires. If you need to save a specific amount of space, lower the Slot Limit box, though this will require more moves to complete the same combine, sometimes significantly.
 - Press the 'Combine' button (displays the hotkey to press if in automatic mode or already pressed).
@@ -137,7 +136,7 @@ You can cancel the combine by pressing the 'Escape' key (you may have to hold it
 The displayed list of instructions should be pretty self-explanatory. 1A is bottom-right, 1C is bottom-left, 12C is top-left.</value>
   </data>
   <data name="HelpCombinerTitle" xml:space="preserve">
-    <value>Working with the combiner - custom recipes</value>
+    <value>Working with the combiner</value>
   </data>
   <data name="HelpCreditsMessage" xml:space="preserve">
     <value>Contributors (alphabetic order):
