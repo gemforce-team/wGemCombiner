@@ -43,7 +43,7 @@
 		#region Constructors
 		public GemCombiner()
 		{
-			foreach (var file in new string[] { "bbound", "kgcomb", "kgcomb-bbound", "kgcomb-exact", "kgspec", "leech", "mgcomb", "mgcomb-exact", "mgcomb-leech", "mgspec" })
+			foreach (var file in new string[] { "bbound", "kgcomb", "kgcomb-bbound", "kgcomb-exact", "kgspec", "leech", "mgcomb", "mgcomb-exact", "mgcomb-leech", "mgspec", "mgspec-exact", "mgspec-appr" })
 			{
 				this.AddResourceRecipe(file);
 			}
