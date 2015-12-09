@@ -73,7 +73,7 @@
 			// 
 			// closeButton
 			// 
-			this.closeButton.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+			this.closeButton.Anchor = System.Windows.Forms.AnchorStyles.Top;
 			this.closeButton.Location = new System.Drawing.Point(108, 268);
 			this.closeButton.Margin = new System.Windows.Forms.Padding(3, 9, 3, 3);
 			this.closeButton.Name = "closeButton";
@@ -277,7 +277,7 @@
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
-			this.MinimumSize = new System.Drawing.Size(277, 315);
+			this.MinimumSize = new System.Drawing.Size(277, 341);
 			this.Name = "Options";
 			this.ShowInTaskbar = false;
 			this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;

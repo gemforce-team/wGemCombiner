@@ -47,8 +47,8 @@
 			this.helpTitleTextBox.Location = new System.Drawing.Point(12, 12);
 			this.helpTitleTextBox.Name = "helpTitleTextBox";
 			this.helpTitleTextBox.ReadOnly = true;
-			this.helpTitleTextBox.Size = new System.Drawing.Size(352, 26);
-			this.helpTitleTextBox.TabIndex = 5;
+			this.helpTitleTextBox.Size = new System.Drawing.Size(362, 26);
+			this.helpTitleTextBox.TabIndex = 6;
 			this.helpTitleTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			// 
 			// helpMessageTextBox
@@ -61,8 +61,8 @@
 			this.helpMessageTextBox.Name = "helpMessageTextBox";
 			this.helpMessageTextBox.ReadOnly = true;
 			this.helpMessageTextBox.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-			this.helpMessageTextBox.Size = new System.Drawing.Size(352, 453);
-			this.helpMessageTextBox.TabIndex = 6;
+			this.helpMessageTextBox.Size = new System.Drawing.Size(362, 453);
+			this.helpMessageTextBox.TabIndex = 5;
 			this.helpMessageTextBox.Text = "";
 			this.helpMessageTextBox.LinkClicked += new System.Windows.Forms.LinkClickedEventHandler(this.HelpMessageTextBox_LinkClicked);
 			// 
@@ -85,15 +85,14 @@
 			this.bufferedTableLayoutPanel1.Name = "bufferedTableLayoutPanel1";
 			this.bufferedTableLayoutPanel1.RowCount = 1;
 			this.bufferedTableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.bufferedTableLayoutPanel1.Size = new System.Drawing.Size(352, 23);
+			this.bufferedTableLayoutPanel1.Size = new System.Drawing.Size(362, 23);
 			this.bufferedTableLayoutPanel1.TabIndex = 8;
 			// 
 			// closeHelpButton
 			// 
 			this.closeHelpButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-			this.closeHelpButton.Cursor = System.Windows.Forms.Cursors.Default;
-			this.closeHelpButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			this.closeHelpButton.Location = new System.Drawing.Point(137, 0);
+			this.closeHelpButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
+			this.closeHelpButton.Location = new System.Drawing.Point(143, 0);
 			this.closeHelpButton.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
 			this.closeHelpButton.Name = "closeHelpButton";
 			this.closeHelpButton.Size = new System.Drawing.Size(75, 23);
@@ -105,8 +104,8 @@
 			// leftButton
 			// 
 			this.leftButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-			this.leftButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			this.leftButton.Location = new System.Drawing.Point(10, 0);
+			this.leftButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
+			this.leftButton.Location = new System.Drawing.Point(13, 0);
 			this.leftButton.Margin = new System.Windows.Forms.Padding(0, 0, 3, 0);
 			this.leftButton.Name = "leftButton";
 			this.leftButton.Size = new System.Drawing.Size(111, 23);
@@ -118,8 +117,8 @@
 			// rightButton
 			// 
 			this.rightButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-			this.rightButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			this.rightButton.Location = new System.Drawing.Point(228, 0);
+			this.rightButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
+			this.rightButton.Location = new System.Drawing.Point(237, 0);
 			this.rightButton.Margin = new System.Windows.Forms.Padding(3, 0, 0, 0);
 			this.rightButton.Name = "rightButton";
 			this.rightButton.Size = new System.Drawing.Size(111, 23);
@@ -134,7 +133,7 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.SystemColors.Control;
 			this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-			this.ClientSize = new System.Drawing.Size(376, 539);
+			this.ClientSize = new System.Drawing.Size(386, 539);
 			this.Controls.Add(this.bufferedTableLayoutPanel1);
 			this.Controls.Add(this.helpMessageTextBox);
 			this.Controls.Add(this.helpTitleTextBox);
