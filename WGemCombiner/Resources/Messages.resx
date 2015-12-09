@@ -120,9 +120,9 @@
   <data name="HelpCombiner2Message" xml:space="preserve">
     <value>To have the program perform the spec/combine:
 - Place the base gem(s) in the bottom-right inventory slot(s), following the base gems box instructions.
-- Empty the inventory up to as many slots as the combine requires. If you need to save a specific amount of space, lower the Slot Limit box, though this will require more moves to complete the same combine, sometimes significantly.
+- Empty the inventory up to as many slots as the combine requires. If you need to save a specific amount of space on the top, lower the Slot Limit box, though this will require more moves to complete the same combine, sometimes significantly.
 - Press the 'Combine' button (displays the hotkey to press if in automatic mode or already pressed).
-- Hover your cursor over the right-most base gem.
+- Hover your cursor over the right-most base gem (slot 1A).
 - Press the '{0}' key.
 
 You can cancel the combine by pressing the 'Escape' key (you may have to hold it for a second with lag). Using a delay lower than GC2's frame time will cause input to be ahead of what you see happening, and so canceling may appear to not work. If your cursor has stopped moving, the program has stopped.
@@ -133,7 +133,7 @@ The displayed list of instructions should be pretty self-explanatory. 1A is bott
     <value>Working with the combiner(2)</value>
   </data>
   <data name="HelpCombinerMessage" xml:space="preserve">
-    <value>Paste gem combining equations or parenthesis formula into the text box, then click the 'Parse custom recipe' button.
+    <value>Paste gem combining equations or a parenthesis formula into the text box, then click the 'Parse recipe' button.
 
 Set the 'delay' to at LEAST as many milliseconds as a frame on GC2 is taking. Usually, 45-50 milliseconds is good, but lag varies greatly when there are more monsters on-screen. Web versions typically run 30-100ms. Steam versions typically run slower, though Steam buffers mouse moves to a point, making this less important. Setting the value too low could cause combine errors in long recipes and may cause the combine to use too much mana.
 
@@ -165,7 +165,8 @@ https://github.com/gemforce-team/wGemCombiner#credits
     <value>Credits</value>
   </data>
   <data name="HelpImportingPresetsMessage" xml:space="preserve">
-    <value>To import new recipes, open or create the "recipes.txt" file in the same folder as your executable. Either parenthetical or equation recipes can be used, with equation recipes requiring a blank line between them. Comments can also be inserted on separate lines beginning with # or //.</value>
+    <value>To import new recipes, open or create the "recipes.txt" file in the same folder as your executable. Either parenthetical or equation recipes can be used, with equation recipes requiring a blank line between them.
+Comments can also be inserted on separate lines beginning with # or //.</value>
   </data>
   <data name="HelpImportingPresetsTitle" xml:space="preserve">
     <value>Adding New Recipes</value>
@@ -192,9 +193,13 @@ After selecting a color + combine/spec, the second drop-down list will display t
 
 Selecting a preset will display the recipe in the custom parser box. If desired, you can change the recipe and click the 'Parse recipe' button to generate a new set of equations and instructions to be used.
 
-Kill/Yellow and Mana/Orange combines are set to both use the same number of base gems, so that they can be used easily for gem and amps.
+The specces are optimized for a gem and 6/8 amplifiers with the correct proportions (-3/-4 grades, the exact matching numbers can be found on gemforce repo).
 
-FIXME - Note that the preset combines are optimized for different combines between gem and amps, the optimal combines for a whole setup aren't included, but will be very similar to the gem ones.</value>
+The combines are optimized to be used both on a gem and its amps, the high leech combines are provided to grant a smaller extra edge over this.
+
+Recipes come from the *-combine and *-amps series of gemforce 1.8.0:
+http://github.com/gemforce-team/gemforce#readme
+</value>
   </data>
   <data name="HelpPresetsTitle" xml:space="preserve">
     <value>Presets</value>
