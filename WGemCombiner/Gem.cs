@@ -90,6 +90,8 @@
 
 		public Gem Component2 { get; }
 
+		public int Cost { get; protected set; }
+
 		public bool IsNeeded => this.Slot == Combiner.NotSlotted && this.UseCount > 0; // This has the side-effect of also ruling out base gems automatically
 
 		public bool IsSpec { get; protected set; }
@@ -109,8 +111,6 @@
 
 		#region Protected Properties
 		protected double Blood { get; set; }
-
-		protected int Cost { get; set; }
 
 		protected double CriticalMultiplier { get; set; }
 

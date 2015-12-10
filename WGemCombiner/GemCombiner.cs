@@ -43,7 +43,7 @@
 		#region Constructors
 		public GemCombiner()
 		{
-			foreach (var file in new string[] { "bbound", "kgcomb", "kgcomb-bbound", "kgcomb-exact", "kgspec", "leech", "mgcomb", "mgcomb-exact", "mgcomb-leech", "mgspec", "mgspec-exact", "mgspec-appr" })
+			foreach (var file in new string[] { "bbound", "crithit", "kgcomb", "kgcomb-bbound", "kgcomb-exact", "kgspec", "leech", "mgcomb", "mgcomb-exact", "mgcomb-leech", "mgspec", "mgspec-exact", "mgspec-appr" })
 			{
 				this.AddResourceRecipe(file);
 			}
@@ -284,7 +284,16 @@
 						{
 							try
 							{
-								this.AddRecipe(new Combiner(Combiner.EquationsFromParentheses(trimmedLine)));
+								var equations = Combiner.EquationsFromParentheses(trimmedLine);
+								var newCombiner = new Combiner(equations);
+								this.AddRecipe(newCombiner);
+#if DEBUG
+								Debug.WriteLine("{3}# {0} {1}, Cost={2}", newCombiner.Gem.Color, newCombiner.Gem.IsSpec ? "Spec" : "Combine", newCombiner.Gem.Cost, Environment.NewLine);
+								foreach (var equation in equations)
+								{
+									Debug.WriteLine(equation.Substring(equation.IndexOf('=') + 1));
+								}
+#endif
 							}
 							catch (ArgumentException ex)
 							{
