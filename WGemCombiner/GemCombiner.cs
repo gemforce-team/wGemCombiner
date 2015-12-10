@@ -257,9 +257,11 @@
 			{
 				var file = reader.ReadToEnd().Replace("\r\n", "\n");
 				var fileRecipes = file.Split(new string[] { "\n\n" }, StringSplitOptions.RemoveEmptyEntries);
-				foreach (var recipe in fileRecipes)
+				for (int i = 0; i < fileRecipes.Length; i += 2)
 				{
-					this.AddCombo(new Combiner(recipe.Split('\n')), counter);
+					var gemRecipe = fileRecipes[i];
+					var ampRecipe = fileRecipes[i + 1];
+					this.AddCombo(new Combiner(gemRecipe.Split('\n')), new Combiner(ampRecipe.Split('\n')));
 				}
 			}
 		}
@@ -335,10 +337,10 @@
 			}
 		}
 
-		private void AddCombo(Combiner combine, int comboNumber)
+		private void AddCombo(Combiner gemCombine, Combiner ampCombine)
 		{
-			var gemGroup = "Combo " + comboNumber.ToString(CultureInfo.CurrentCulture);
-			var gem = combine.Gem;
+			var gemGroup = string.Format(CultureInfo.CurrentCulture, "Combo ({0}/{1})", gemCombine.Gem.Cost, ampCombine.Gem.Cost);
+			var gem = gemCombine.Gem;
 			string gemTitle;
 			if (Settings.Default.UseColors)
 			{
@@ -349,7 +351,20 @@
 				gemTitle = "Other";
 			}
 
-			gem.Title = gemTitle + " " + combine.Gem.SpecWord;
+			gem.Title = gemTitle + " " + gemCombine.Gem.SpecWord;
+
+			var amp = ampCombine.Gem;
+			string ampTitle;
+			if (Settings.Default.UseColors)
+			{
+				ampTitle = amp.Color.ToString();
+			}
+			else if (!gemEffectNames.TryGetValue(amp.Color, out ampTitle))
+			{
+				ampTitle = "Other";
+			}
+
+			amp.Title = ampTitle + " " + ampCombine.Gem.SpecWord;
 			if (!this.recipes.ContainsKey(gemGroup))
 			{
 				this.recipes[gemGroup] = new RecipeCollection();
@@ -357,9 +372,8 @@
 
 			if (!this.recipes[gemGroup].Contains(gem.Title))
 			{
-				// TODO: Consider some other method of checking if these truly are duplicates or not.
-				// Ignores gems with identical Titles. Given that Titles are now more flexible and more or less independent of the gem itself, this whole Title thing needs to be re-thought at some point.
-				this.recipes[gemGroup].Add(combine);
+				this.recipes[gemGroup].Add(gemCombine);
+				this.recipes[gemGroup].Add(ampCombine);
 			}
 		}
 
