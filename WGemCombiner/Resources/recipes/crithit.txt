@@ -1,31 +1,9 @@
-'WGemCombiner.vshost.exe' (CLR v4.0.30319: WGemCombiner.vshost.exe): Loaded 'C:\WINDOWS\Microsoft.Net\assembly\GAC_32\mscorlib\v4.0_4.0.0.0__b77a5c561934e089\mscorlib.dll'. Symbols loaded.
-'WGemCombiner.vshost.exe' (CLR v4.0.30319: WGemCombiner.vshost.exe): Loaded 'C:\WINDOWS\assembly\GAC_MSIL\Microsoft.VisualStudio.HostingProcess.Utilities\14.0.0.0__b03f5f7f11d50a3a\Microsoft.VisualStudio.HostingProcess.Utilities.dll'. Symbols loaded.
-'WGemCombiner.vshost.exe' (CLR v4.0.30319: WGemCombiner.vshost.exe): Loaded 'C:\WINDOWS\Microsoft.Net\assembly\GAC_MSIL\System.Windows.Forms\v4.0_4.0.0.0__b77a5c561934e089\System.Windows.Forms.dll'. Symbols loaded.
-'WGemCombiner.vshost.exe' (CLR v4.0.30319: WGemCombiner.vshost.exe): Loaded 'C:\WINDOWS\Microsoft.Net\assembly\GAC_MSIL\System\v4.0_4.0.0.0__b77a5c561934e089\System.dll'. Symbols loaded.
-'WGemCombiner.vshost.exe' (CLR v4.0.30319: WGemCombiner.vshost.exe): Loaded 'C:\WINDOWS\Microsoft.Net\assembly\GAC_MSIL\System.Drawing\v4.0_4.0.0.0__b03f5f7f11d50a3a\System.Drawing.dll'. Symbols loaded.
-'WGemCombiner.vshost.exe' (CLR v4.0.30319: WGemCombiner.vshost.exe): Loaded 'C:\WINDOWS\assembly\GAC_MSIL\Microsoft.VisualStudio.HostingProcess.Utilities.Sync\14.0.0.0__b03f5f7f11d50a3a\Microsoft.VisualStudio.HostingProcess.Utilities.Sync.dll'. Symbols loaded.
-'WGemCombiner.vshost.exe' (CLR v4.0.30319: WGemCombiner.vshost.exe): Loaded 'C:\WINDOWS\assembly\GAC_MSIL\Microsoft.VisualStudio.Debugger.Runtime\14.0.0.0__b03f5f7f11d50a3a\Microsoft.VisualStudio.Debugger.Runtime.dll'. 
-'WGemCombiner.vshost.exe' (CLR v4.0.30319: WGemCombiner.vshost.exe): Loaded 'C:\Users\rmorl\Documents\GitHubVisualStudio\wGemCombiner\WGemCombiner\bin\x86\Debug\WGemCombiner.vshost.exe'. Symbols loaded.
-'WGemCombiner.vshost.exe' (CLR v4.0.30319: WGemCombiner.vshost.exe): Loaded 'C:\WINDOWS\Microsoft.Net\assembly\GAC_MSIL\System.Configuration\v4.0_4.0.0.0__b03f5f7f11d50a3a\System.Configuration.dll'. Symbols loaded.
-'WGemCombiner.vshost.exe' (CLR v4.0.30319: WGemCombiner.vshost.exe): Loaded 'C:\WINDOWS\Microsoft.Net\assembly\GAC_MSIL\System.Core\v4.0_4.0.0.0__b77a5c561934e089\System.Core.dll'. Symbols loaded.
-'WGemCombiner.vshost.exe' (CLR v4.0.30319: WGemCombiner.vshost.exe): Loaded 'C:\WINDOWS\Microsoft.Net\assembly\GAC_MSIL\System.Web.Extensions\v4.0_4.0.0.0__31bf3856ad364e35\System.Web.Extensions.dll'. Symbols loaded.
-'WGemCombiner.vshost.exe' (CLR v4.0.30319: WGemCombiner.vshost.exe): Loaded 'C:\WINDOWS\Microsoft.Net\assembly\GAC_MSIL\System.Xml.Linq\v4.0_4.0.0.0__b77a5c561934e089\System.Xml.Linq.dll'. Symbols loaded.
-'WGemCombiner.vshost.exe' (CLR v4.0.30319: WGemCombiner.vshost.exe): Loaded 'C:\WINDOWS\Microsoft.Net\assembly\GAC_MSIL\System.Data.DataSetExtensions\v4.0_4.0.0.0__b77a5c561934e089\System.Data.DataSetExtensions.dll'. Symbols loaded.
-'WGemCombiner.vshost.exe' (CLR v4.0.30319: WGemCombiner.vshost.exe): Loaded 'C:\WINDOWS\Microsoft.Net\assembly\GAC_MSIL\Microsoft.CSharp\v4.0_4.0.0.0__b03f5f7f11d50a3a\Microsoft.CSharp.dll'. Symbols loaded.
-'WGemCombiner.vshost.exe' (CLR v4.0.30319: WGemCombiner.vshost.exe): Loaded 'C:\WINDOWS\Microsoft.Net\assembly\GAC_32\System.Data\v4.0_4.0.0.0__b77a5c561934e089\System.Data.dll'. Symbols loaded.
-'WGemCombiner.vshost.exe' (CLR v4.0.30319: WGemCombiner.vshost.exe): Loaded 'C:\WINDOWS\Microsoft.Net\assembly\GAC_MSIL\System.Xml\v4.0_4.0.0.0__b77a5c561934e089\System.Xml.dll'. Symbols loaded.
-The thread 0x1948 has exited with code 0 (0x0).
-The thread 0x1a14 has exited with code 0 (0x0).
-'WGemCombiner.vshost.exe' (CLR v4.0.30319: WGemCombiner.vshost.exe): Loaded 'C:\Users\rmorl\Documents\GitHubVisualStudio\wGemCombiner\WGemCombiner\bin\x86\Debug\WGemCombiner.exe'. Symbols loaded.
-
-# Yellow Combine, Cost=6
 y
 0+0
 1+0
 2+0
 3+1
 
-# Yellow Combine, Cost=8
 y
 0+0
 1+0
@@ -34,7 +12,6 @@ y
 4+0
 5+1
 
-# Yellow Combine, Cost=12
 y
 0+0
 1+0
@@ -45,7 +22,6 @@ y
 1+1
 6+7
 
-# Yellow Combine, Cost=16
 y
 0+0
 1+0
@@ -57,7 +33,6 @@ y
 2+1
 7+8
 
-# Yellow Combine, Cost=25
 y
 0+0
 1+0
@@ -72,7 +47,6 @@ y
 8+10
 9+11
 
-# Yellow Combine, Cost=28
 y
 0+0
 1+0
@@ -87,7 +61,6 @@ y
 8+10
 9+11
 
-# Yellow Combine, Cost=32
 y
 0+0
 1+0
@@ -104,7 +77,6 @@ y
 11+12
 10+13
 
-# Yellow Combine, Cost=54
 y
 0+0
 1+0
@@ -124,7 +96,6 @@ y
 13+15
 14+16
 
-# Yellow Combine, Cost=64
 y
 0+0
 1+0
@@ -148,7 +119,6 @@ y
 18+19
 16+20
 
-# Yellow Combine, Cost=107
 y
 0+0
 1+0
@@ -172,7 +142,6 @@ y
 16+19
 17+20
 
-# Yellow Combine, Cost=107
 y
 0+0
 1+0
@@ -201,7 +170,6 @@ y
 22+24
 19+25
 
-# Yellow Combine, Cost=108
 y
 0+0
 1+0
@@ -227,7 +195,6 @@ y
 18+21
 19+22
 
-# Yellow Combine, Cost=128
 y
 0+0
 1+0
@@ -260,7 +227,6 @@ y
 24+28
 25+29
 
-# Yellow Combine, Cost=256
 y
 0+0
 1+0
@@ -297,7 +263,6 @@ y
 29+32
 30+33
 
-# Yellow Combine, Cost=512
 y
 0+0
 1+0
@@ -344,7 +309,6 @@ y
 38+42
 39+43
 
-# Yellow Combine, Cost=1024
 y
 0+0
 1+0
@@ -412,7 +376,6 @@ y
 60+63
 59+64
 
-# Yellow Combine, Cost=4096
 y
 0+0
 1+0

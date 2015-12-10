@@ -43,9 +43,15 @@
 		#region Constructors
 		public GemCombiner()
 		{
-			foreach (var file in new string[] { "bbound", "crithit", "kgcomb", "kgcomb-bbound", "kgcomb-exact", "kgspec", "leech", "mgcomb", "mgcomb-exact", "mgcomb-leech", "mgspec", "mgspec-exact", "mgspec-appr" })
+			foreach (var file in new string[] { "bbound", "crithit", "kgcomb", "kgcomb-bbound", "kgcomb-exact", "kgspec", "leech", "mgcomb", "mgcomb-exact", "mgcomb-leech", "mgspec", "mgspec-exact" })
 			{
 				this.AddResourceRecipe(file);
+			}
+
+			var combos = new string[] { "mgspec-appr" };
+			for (int counter = 0; counter < combos.Length; counter++)
+			{
+				this.AddResourceCombo(combos[counter], counter + 1);
 			}
 
 			this.AddTextFileRecipes(ExePath + @"\recipes.txt");
@@ -241,6 +247,23 @@
 		#endregion
 
 		#region Private Methods
+		// Separate functions with a lot of duplicate code for combos until we're sure how exactly we're handling them, then we can optimize it later if appropriate.
+		private void AddResourceCombo(string name, int counter)
+		{
+			var resourceName = "WGemCombiner.Resources.recipes." + name + ".txt";
+
+			using (Stream stream = Assembly.GetManifestResourceStream(resourceName))
+			using (StreamReader reader = new StreamReader(stream))
+			{
+				var file = reader.ReadToEnd().Replace("\r\n", "\n");
+				var fileRecipes = file.Split(new string[] { "\n\n" }, StringSplitOptions.RemoveEmptyEntries);
+				foreach (var recipe in fileRecipes)
+				{
+					this.AddCombo(new Combiner(recipe.Split('\n')), counter);
+				}
+			}
+		}
+
 		private void AddResourceRecipe(string name)
 		{
 			var resourceName = "WGemCombiner.Resources.recipes." + name + ".txt";
@@ -288,7 +311,7 @@
 								var newCombiner = new Combiner(equations);
 								this.AddRecipe(newCombiner);
 #if DEBUG
-								Debug.WriteLine("{3}# {0} {1}, Cost={2}", newCombiner.Gem.Color, newCombiner.Gem.IsSpec ? "Spec" : "Combine", newCombiner.Gem.Cost, Environment.NewLine);
+								Debug.WriteLine("{3}# {0} {1}, Cost={2}", newCombiner.Gem.Color, newCombiner.Gem.SpecWord, newCombiner.Gem.Cost, Environment.NewLine);
 								foreach (var equation in equations)
 								{
 									Debug.WriteLine(equation.Substring(equation.IndexOf('=') + 1));
@@ -312,9 +335,38 @@
 			}
 		}
 
+		private void AddCombo(Combiner combine, int comboNumber)
+		{
+			var gemGroup = "Combo " + comboNumber.ToString(CultureInfo.CurrentCulture);
+			var gem = combine.Gem;
+			string gemTitle;
+			if (Settings.Default.UseColors)
+			{
+				gemTitle = gem.Color.ToString();
+			}
+			else if (!gemEffectNames.TryGetValue(gem.Color, out gemTitle))
+			{
+				gemTitle = "Other";
+			}
+
+			gem.Title = gemTitle + " " + combine.Gem.SpecWord;
+			if (!this.recipes.ContainsKey(gemGroup))
+			{
+				this.recipes[gemGroup] = new RecipeCollection();
+			}
+
+			if (!this.recipes[gemGroup].Contains(gem.Title))
+			{
+				// TODO: Consider some other method of checking if these truly are duplicates or not.
+				// Ignores gems with identical Titles. Given that Titles are now more flexible and more or less independent of the gem itself, this whole Title thing needs to be re-thought at some point.
+				this.recipes[gemGroup].Add(combine);
+			}
+		}
+
 		private void AddRecipe(Combiner combine)
 		{
 			var gem = combine.Gem;
+			gem.Title = string.Format(CultureInfo.CurrentCulture, "{0:0000000} ({1:0.000000}){2}", gem.Cost, gem.Growth, IsPowerOfTwo(gem.Cost) ? "-" : string.Empty);
 			string gemGroup;
 			if (Settings.Default.UseColors)
 			{
@@ -325,7 +377,7 @@
 				gemGroup = "Other";
 			}
 
-			gemGroup += " " + (combine.Gem.IsSpec ? "Spec" : "Combine");
+			gemGroup += " " + combine.Gem.SpecWord;
 			if (!this.recipes.ContainsKey(gemGroup))
 			{
 				this.recipes[gemGroup] = new RecipeCollection();
@@ -362,7 +414,7 @@
 					throw new InvalidOperationException(string.Format(CultureInfo.CurrentCulture, "Creating this gem in {0} slots would require an excessive number of steps ({1}).", Combiner.SlotLimit, instructions.Count));
 				}
 
-				this.resultLabel.Text = combine.Gem.DisplayInfo(false) + string.Format(CultureInfo.CurrentCulture, "\r\nSlots:  {0}\r\nSteps:  {1}", instructions.SlotsRequired, instructions.Count);
+				this.resultLabel.Text = combine.Gem.DisplayInfo + string.Format(CultureInfo.CurrentCulture, "\r\nSlots:  {0}\r\nSteps:  {1}", instructions.SlotsRequired, instructions.Count);
 				this.baseGemsListBox.Items.Clear();
 
 				var baseGems = new List<BaseGem>(combine.BaseGems);

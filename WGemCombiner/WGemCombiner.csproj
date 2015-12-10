@@ -211,7 +211,9 @@
     <None Include="WGemCombiner.ruleset" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5">
@@ -232,6 +234,9 @@
   </ItemGroup>
   <ItemGroup>
     <CodeAnalysisDictionary Include="CustomDictionary.xml" />
+    <EmbeddedResource Include="Resources\recipes\crithit.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
     <EmbeddedResource Include="Resources\recipes\mgspec-appr.txt" />
     <EmbeddedResource Include="Resources\recipes\mgspec-exact.txt" />
     <EmbeddedResource Include="Resources\recipes\mgspec.txt" />

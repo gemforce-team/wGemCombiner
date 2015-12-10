@@ -92,39 +92,19 @@
 
 		public int Cost { get; protected set; }
 
+		public string DisplayInfo => string.Format(CultureInfo.CurrentCulture, "Grade:  +{0}\r\nCost:   {1}x\r\nGrowth: {2:0.0#####}\r\nPower:  {3:0.0####}x", this.Grade, this.Cost, this.Growth, this.Power);
+
+		public int Grade { get; }
+
+		public double Growth { get; }
+
 		public bool IsNeeded => this.Slot == Combiner.NotSlotted && this.UseCount > 0; // This has the side-effect of also ruling out base gems automatically
 
 		public bool IsSpec { get; protected set; }
 
 		public virtual bool IsUpgrade => this.Component1 == this.Component2;
 
-		public int Slot { get; set; }
-
-		public string Title => string.Format(CultureInfo.CurrentCulture, "{0:0000000} ({1:0.000000}){2}", this.Cost, this.Growth, IsPowerOfTwo(this.Cost) ? "-" : string.Empty);
-
-		public int UseCount { get; set; }
-		#endregion
-
-		#region Internal Static Properties
-		internal static string GemInitializer { get; } = "oykmgbr";
-		#endregion
-
-		#region Protected Properties
-		protected double Blood { get; set; }
-
-		protected double CriticalMultiplier { get; set; }
-
-		protected double Damage { get; set; } // max damage
-
-		protected int Grade { get; }
-
-		protected double Growth { get; }
-
-		protected virtual bool IsPureUpgrade { get; } // Set in constructor rather than climbing through the entire tree at every call - better speed at the cost of a slight memory increase per gem
-
-		protected double Leech { get; set; }
-
-		protected double Power
+		public double Power
 		{
 			get
 			{
@@ -158,21 +138,34 @@
 			}
 		}
 
+		public int Slot { get; set; }
+
+		public string SpecWord => this.IsSpec ? "Spec" : "Combine";
+
+		public string Title { get; set; }
+
+		public int UseCount { get; set; }
+		#endregion
+
+		#region Internal Static Properties
+		internal static string GemInitializer { get; } = "oykmgbr";
+		#endregion
+
+		#region Protected Properties
+		protected double Blood { get; set; }
+
+		protected double CriticalMultiplier { get; set; }
+
+		protected double Damage { get; set; } // max damage
+
+		protected virtual bool IsPureUpgrade { get; } // Set in constructor rather than climbing through the entire tree at every call - better speed at the cost of a slight memory increase per gem
+
+		protected double Leech { get; set; }
+
 		protected virtual string PureRecipe => this.IsPureUpgrade ? (this.Grade + 1).ToString(CultureInfo.CurrentCulture) + this.Component1.PureRecipe[this.Component1.PureRecipe.Length - 1] : null; // TODO: Getting the last letter this way is fugly, maybe find something better? Could implement PureLetter as Components[0].PureLetter, which would only climb through a single branch
 		#endregion
 
 		#region Public Methods
-		public string DisplayInfo(bool showAll)
-		{
-			var retval = string.Format(CultureInfo.CurrentCulture, "Grade:  +{0}\r\nCost:   {1}x\r\nGrowth: {2:0.0#####}\r\nPower:  {3:0.0####}x", this.Grade, this.Cost, this.Growth, this.Power);
-			if (showAll)
-			{
-				retval += string.Format(CultureInfo.CurrentCulture, "\r\nLeech:  {0:0.0####}x\r\nCrit:   {1:0.0####}x\r\nDamage: {2:0.0####}x\r\nBbound:  {3:0.0####}x", this.Leech, this.CriticalMultiplier, this.Damage, this.Blood);
-			}
-
-			return retval;
-		}
-
 		public IEnumerator<Gem> GetEnumerator()
 		{
 			yield return this.Component1;
@@ -185,13 +178,11 @@
 		#endregion
 
 		#region Public Override Methods
-		public override string ToString() => string.Format(CultureInfo.CurrentCulture, "Grade {0} {1} (cost={2})", this.Grade + 1, this.Color, this.Cost);
+		public override string ToString() => this.Title ?? string.Format(CultureInfo.CurrentCulture, "Grade {0} {1} {2} ({3:0000}/{4:0000})", this.Grade + 1, this.Color, this.SpecWord, this.Cost, this.Growth);
 		#endregion
 
 		#region Private Static Methods
 		private static double CombineCalc(double value1, double value2, double multHigh, double multLow) => value1 > value2 ? (multHigh * value1) + (multLow * value2) : (multHigh * value2) + (multLow * value1);
-
-		private static bool IsPowerOfTwo(int cost) => (cost != 0) && (cost & (cost - 1)) == 0;
 		#endregion
 	}
 }

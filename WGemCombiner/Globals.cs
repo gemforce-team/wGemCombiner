@@ -13,6 +13,8 @@
 		#endregion
 
 		#region Public Methods
+		public static bool IsPowerOfTwo(int cost) => (cost > 0) && (cost & (cost - 1)) == 0;
+
 		public static void ThrowNull(object value, string name)
 		{
 			if (ReferenceEquals(value, null))
