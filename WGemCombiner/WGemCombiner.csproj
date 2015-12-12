@@ -234,13 +234,13 @@
   </ItemGroup>
   <ItemGroup>
     <CodeAnalysisDictionary Include="CustomDictionary.xml" />
-    <EmbeddedResource Include="Resources\recipes\crithit.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\recipes\kgspec-appr.txt" />
+    <EmbeddedResource Include="Resources\recipes\kgspec-exact.txt" />
+    <EmbeddedResource Include="Resources\recipes\kgspec-kgssemi.txt" />
+    <EmbeddedResource Include="Resources\recipes\kgspec-mgsappr.txt" />
+    <EmbeddedResource Include="Resources\recipes\kgspec-mgsexact.txt" />
     <EmbeddedResource Include="Resources\recipes\mgspec-appr.txt" />
     <EmbeddedResource Include="Resources\recipes\mgspec-exact.txt" />
-    <EmbeddedResource Include="Resources\recipes\mgspec.txt" />
-    <EmbeddedResource Include="Resources\recipes\kgspec.txt" />
     <EmbeddedResource Include="Resources\recipes\kgcomb-bbound.txt" />
     <EmbeddedResource Include="Resources\recipes\kgcomb-exact.txt" />
     <EmbeddedResource Include="Resources\recipes\kgcomb.txt" />
