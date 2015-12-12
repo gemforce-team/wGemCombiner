@@ -204,8 +204,10 @@
 			// 
 			this.combineComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
+			this.combineComboBox.DropDownHeight = 242;
 			this.combineComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.combineComboBox.Font = new System.Drawing.Font("Consolas", 9.75F);
+			this.combineComboBox.IntegralHeight = false;
 			this.combineComboBox.Items.AddRange(new object[] {
             "Paste"});
 			this.combineComboBox.Location = new System.Drawing.Point(12, 55);
@@ -241,7 +243,8 @@
 			// 
 			// resultLabel
 			// 
-			this.resultLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.resultLabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.resultLabel.Font = new System.Drawing.Font("Consolas", 9F);
 			this.resultLabel.ImeMode = System.Windows.Forms.ImeMode.NoControl;
 			this.resultLabel.Location = new System.Drawing.Point(12, 229);
