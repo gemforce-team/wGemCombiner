@@ -192,7 +192,12 @@
 			this.optionsForm.ShowDialog(this);
 		}
 
-		private void ParseRecipeButton_Click(object sender, EventArgs e)
+		private void ParseRecipeParButton_Click(object sender, EventArgs e)
+		{
+			this.ParseRecipeEqsButton_Click(sender, e); // FIXME
+		}
+
+		private void ParseRecipeEqsButton_Click(object sender, EventArgs e)
 		{
 			var lines = this.recipeInputRichTextBox.Lines;
 			var newLines = new List<string>();

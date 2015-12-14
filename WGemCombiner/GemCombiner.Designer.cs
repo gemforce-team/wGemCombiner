@@ -30,7 +30,7 @@
 		{
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GemCombiner));
 			this.schemeLabel = new System.Windows.Forms.Label();
-			this.parseRecipeButton = new System.Windows.Forms.Button();
+			this.parseRecipeParButton = new System.Windows.Forms.Button();
 			this.instructionsLabel = new System.Windows.Forms.Label();
 			this.combineButton = new System.Windows.Forms.Button();
 			this.delayLabel = new System.Windows.Forms.Label();
@@ -50,6 +50,7 @@
 			this.slotLimitLabel = new System.Windows.Forms.Label();
 			this.instructionsTextBox = new System.Windows.Forms.RichTextBox();
 			this.testAllButton = new System.Windows.Forms.Button();
+			this.parseRecipeEqsButton = new System.Windows.Forms.Button();
 			this.combineProgressBar = new WGemCombiner.TextProgressBar();
 			((System.ComponentModel.ISupportInitialize)(this.delayNumeric)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.stepNumeric)).BeginInit();
@@ -66,17 +67,17 @@
 			this.schemeLabel.TabIndex = 0;
 			this.schemeLabel.Text = "Select the spec/combine recipe:";
 			// 
-			// parseRecipeButton
+			// parseRecipeParButton
 			// 
-			this.parseRecipeButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.parseRecipeButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
-			this.parseRecipeButton.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-			this.parseRecipeButton.Location = new System.Drawing.Point(12, 200);
-			this.parseRecipeButton.Name = "parseRecipeButton";
-			this.parseRecipeButton.Size = new System.Drawing.Size(170, 23);
-			this.parseRecipeButton.TabIndex = 2;
-			this.parseRecipeButton.Text = "Parse recipe";
-			this.parseRecipeButton.Click += new System.EventHandler(this.ParseRecipeButton_Click);
+			this.parseRecipeParButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.parseRecipeParButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
+			this.parseRecipeParButton.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+			this.parseRecipeParButton.Location = new System.Drawing.Point(12, 192);
+			this.parseRecipeParButton.Name = "parseRecipeParButton";
+			this.parseRecipeParButton.Size = new System.Drawing.Size(97, 36);
+			this.parseRecipeParButton.TabIndex = 2;
+			this.parseRecipeParButton.Text = "Parse recipe\r\n(show parenthesis)";
+			this.parseRecipeParButton.Click += new System.EventHandler(this.ParseRecipeParButton_Click);
 			// 
 			// instructionsLabel
 			// 
@@ -212,7 +213,7 @@
             "Paste"});
 			this.combineComboBox.Location = new System.Drawing.Point(12, 55);
 			this.combineComboBox.Name = "combineComboBox";
-			this.combineComboBox.Size = new System.Drawing.Size(170, 23);
+			this.combineComboBox.Size = new System.Drawing.Size(161, 23);
 			this.combineComboBox.Sorted = true;
 			this.combineComboBox.TabIndex = 33;
 			this.combineComboBox.SelectedIndexChanged += new System.EventHandler(this.CombineComboBox_SelectedIndexChanged);
@@ -224,7 +225,7 @@
 			this.colorComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.colorComboBox.Location = new System.Drawing.Point(12, 28);
 			this.colorComboBox.Name = "colorComboBox";
-			this.colorComboBox.Size = new System.Drawing.Size(170, 21);
+			this.colorComboBox.Size = new System.Drawing.Size(161, 21);
 			this.colorComboBox.Sorted = true;
 			this.colorComboBox.TabIndex = 34;
 			this.colorComboBox.SelectedIndexChanged += new System.EventHandler(this.ColorComboBox_SelectedIndexChanged);
@@ -247,12 +248,12 @@
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.resultLabel.Font = new System.Drawing.Font("Consolas", 9F);
 			this.resultLabel.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-			this.resultLabel.Location = new System.Drawing.Point(12, 229);
+			this.resultLabel.Location = new System.Drawing.Point(12, 234);
 			this.resultLabel.Margin = new System.Windows.Forms.Padding(3);
 			this.resultLabel.Name = "resultLabel";
-			this.resultLabel.Size = new System.Drawing.Size(198, 92);
+			this.resultLabel.Size = new System.Drawing.Size(198, 87);
 			this.resultLabel.TabIndex = 39;
-			this.resultLabel.Text = "Result Here";
+			this.resultLabel.Text = "Result Here\r\n|\r\n|\r\n|\r\n|\r\n|";
 			// 
 			// recipeInputRichTextBox
 			// 
@@ -263,7 +264,7 @@
 			this.recipeInputRichTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.recipeInputRichTextBox.Location = new System.Drawing.Point(12, 84);
 			this.recipeInputRichTextBox.Name = "recipeInputRichTextBox";
-			this.recipeInputRichTextBox.Size = new System.Drawing.Size(170, 111);
+			this.recipeInputRichTextBox.Size = new System.Drawing.Size(198, 102);
 			this.recipeInputRichTextBox.TabIndex = 40;
 			this.recipeInputRichTextBox.Text = "";
 			// 
@@ -338,16 +339,28 @@
 			this.testAllButton.UseVisualStyleBackColor = true;
 			this.testAllButton.Click += new System.EventHandler(this.TestAll_Click);
 			// 
+			// parseRecipeEqsButton
+			// 
+			this.parseRecipeEqsButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.parseRecipeEqsButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
+			this.parseRecipeEqsButton.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+			this.parseRecipeEqsButton.Location = new System.Drawing.Point(113, 192);
+			this.parseRecipeEqsButton.Name = "parseRecipeEqsButton";
+			this.parseRecipeEqsButton.Size = new System.Drawing.Size(97, 36);
+			this.parseRecipeEqsButton.TabIndex = 48;
+			this.parseRecipeEqsButton.Text = "Parse recipe\r\n(show equations)";
+			this.parseRecipeEqsButton.Click += new System.EventHandler(this.ParseRecipeEqsButton_Click);
+			// 
 			// combineProgressBar
 			// 
 			this.combineProgressBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.combineProgressBar.BackColor = System.Drawing.SystemColors.Window;
 			this.combineProgressBar.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.combineProgressBar.Location = new System.Drawing.Point(122, 369);
+			this.combineProgressBar.Location = new System.Drawing.Point(121, 369);
 			this.combineProgressBar.Minimum = 1;
 			this.combineProgressBar.Name = "combineProgressBar";
-			this.combineProgressBar.Size = new System.Drawing.Size(172, 23);
+			this.combineProgressBar.Size = new System.Drawing.Size(173, 23);
 			this.combineProgressBar.Step = 1;
 			this.combineProgressBar.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
 			this.combineProgressBar.TabIndex = 43;
@@ -361,6 +374,7 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
 			this.ClientSize = new System.Drawing.Size(380, 404);
+			this.Controls.Add(this.parseRecipeEqsButton);
 			this.Controls.Add(this.testAllButton);
 			this.Controls.Add(this.slotLimitUpDown);
 			this.Controls.Add(this.slotLimitLabel);
@@ -380,7 +394,7 @@
 			this.Controls.Add(this.delayLabel);
 			this.Controls.Add(this.combineButton);
 			this.Controls.Add(this.instructionsLabel);
-			this.Controls.Add(this.parseRecipeButton);
+			this.Controls.Add(this.parseRecipeParButton);
 			this.Controls.Add(this.schemeLabel);
 			this.Controls.Add(this.instructionsTextBox);
 			this.DoubleBuffered = true;
@@ -402,7 +416,7 @@
 		#endregion
 
 		private System.Windows.Forms.Label schemeLabel;
-		private System.Windows.Forms.Button parseRecipeButton;
+		private System.Windows.Forms.Button parseRecipeParButton;
 		private System.Windows.Forms.Label instructionsLabel;
 		private System.Windows.Forms.Button combineButton;
 		private System.Windows.Forms.Label delayLabel;
@@ -423,5 +437,6 @@
 		private System.Windows.Forms.Label slotLimitLabel;
 		private System.Windows.Forms.RichTextBox instructionsTextBox;
 		private System.Windows.Forms.Button testAllButton;
+		private System.Windows.Forms.Button parseRecipeEqsButton;
 	}
 }
