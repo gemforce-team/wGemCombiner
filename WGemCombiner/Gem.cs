@@ -92,7 +92,7 @@
 
 		public int Cost { get; protected set; }
 
-		public string DisplayInfo => string.Format(CultureInfo.CurrentCulture, "Grade:  +{0}\r\nCost:   {1}x\r\nGrowth: {2:0.0#####}\r\nPower:  {3:0.0####}x", this.Grade, this.Cost, this.Growth, this.Power);
+		public string DisplayInfo => string.Format(CultureInfo.CurrentCulture, "Grade:  +{0}\r\nCost:   {1}x\r\n{2}: {3:0.0#####}\r\nPower:  {4:0.0####}x", this.Grade, this.Cost, this.IsSpec ? "SCoeff" : "Growth", this.Growth, this.Power);
 
 		public int Grade { get; }
 
