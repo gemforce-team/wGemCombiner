@@ -437,7 +437,7 @@
 				this.baseGemsListBox.Items.Clear();
 
 				var baseGems = new List<BaseGem>(combine.BaseGems);
-				baseGems.Sort((g1, g2) => g1.Slot.CompareTo(g2.Slot));
+				baseGems.Sort((g1, g2) => g1.OriginalSlot.CompareTo(g2.OriginalSlot));
 				foreach (var gem in baseGems)
 				{
 					if (gem.OriginalSlot != Combiner.NotSlotted)
