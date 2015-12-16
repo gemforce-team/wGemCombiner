@@ -194,47 +194,12 @@
 
 		private void ParseRecipeParButton_Click(object sender, EventArgs e)
 		{
-			this.ParseRecipeEqsButton_Click(sender, e); // FIXME
+			this.recipeInputRichTextBox.Text = this.ParseRecipe(false);
 		}
 
 		private void ParseRecipeEqsButton_Click(object sender, EventArgs e)
 		{
-			var lines = this.recipeInputRichTextBox.Lines;
-			var newLines = new List<string>();
-			bool equations = false;
-			foreach (var line in lines)
-			{
-				if (!line.StartsWith("#", StringComparison.CurrentCulture) && !line.StartsWith("//", StringComparison.CurrentCulture))
-				{
-					newLines.Add(line);
-					equations |= line.Contains("=");
-				}
-			}
-
-			Combiner combine;
-			try
-			{
-				if (equations)
-				{
-					combine = new Combiner(newLines);
-				}
-				else
-				{
-					var recipe = Combiner.EquationsFromParentheses(string.Join(string.Empty, newLines)); // Join in case someone uses line breaks for formatting
-					this.recipeInputRichTextBox.Text = string.Join(Environment.NewLine, recipe); // Do we want this always? Useful if people want to convert to equations for custom recipes, but should maybe be on a separate button.
-					combine = new Combiner(recipe);
-				}
-			}
-			catch (ArgumentException ex)
-			{
-				MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-				return;
-			}
-
-			if (combine != null && combine.Gem != null)
-			{
-				this.CreateInstructions(combine);
-			}
+			this.recipeInputRichTextBox.Text = this.ParseRecipe(true);
 		}
 
 		private void SlotLimitUpDown_ValueChanged(object sender, EventArgs e)
@@ -487,6 +452,47 @@
 			// Overhead beyond the delay time is usually around 2.5-3ms, so be safe and use 3.
 			double eta = CombinePerformer.Instructions == null ? 0 : ((double)this.delayNumeric.Value + 3) * (CombinePerformer.Instructions.Count - ((int)this.stepNumeric.Value - 1));
 			this.FormatEta(new TimeSpan(0, 0, 0, 0, (int)eta));
+		}
+
+		private string ParseRecipe(bool asEquations)
+		{
+			var lines = this.recipeInputRichTextBox.Lines;
+			var newLines = new List<string>();
+			bool equations = false;
+			foreach (var line in lines)
+			{
+				if (!line.StartsWith("#", StringComparison.CurrentCulture) && !line.StartsWith("//", StringComparison.CurrentCulture))
+				{
+					newLines.Add(line);
+					equations |= line.Contains("=");
+				}
+			}
+
+			Combiner combine;
+			try
+			{
+				if (equations)
+				{
+					combine = new Combiner(newLines);
+				}
+				else
+				{
+					newLines = new List<string>(Combiner.EquationsFromParentheses(string.Join(string.Empty, newLines))); // Join in case someone uses line breaks for formatting
+					combine = new Combiner(newLines);
+				}
+			}
+			catch (ArgumentException ex)
+			{
+				MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				return null;
+			}
+
+			if (combine != null && combine.Gem != null)
+			{
+				this.CreateInstructions(combine);
+			}
+
+			return asEquations ? string.Join(Environment.NewLine, newLines) : combine.Gem.Recipe();
 		}
 
 		private void SettingsHandler_BordersChanged(object sender, EventArgs e) => SettingsHandler.ApplyBorders(this);
