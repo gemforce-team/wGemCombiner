@@ -447,7 +447,7 @@
 			catch (ArgumentException ex)
 			{
 				MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-				return null;
+				return string.Join(Environment.NewLine, lines);  // Give back the input
 			}
 
 			if (combine != null && combine.Gem != null)
