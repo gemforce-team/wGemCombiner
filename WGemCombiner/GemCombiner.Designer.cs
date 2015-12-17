@@ -208,6 +208,7 @@
             | System.Windows.Forms.AnchorStyles.Left)));
 			this.combineComboBox.DropDownHeight = 242;
 			this.combineComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.combineComboBox.DropDownWidth = 300;
 			this.combineComboBox.Font = new System.Drawing.Font("Consolas", 9.75F);
 			this.combineComboBox.IntegralHeight = false;
 			this.combineComboBox.Items.AddRange(new object[] {
@@ -215,7 +216,6 @@
 			this.combineComboBox.Location = new System.Drawing.Point(12, 55);
 			this.combineComboBox.Name = "combineComboBox";
 			this.combineComboBox.Size = new System.Drawing.Size(161, 23);
-			this.combineComboBox.Sorted = true;
 			this.combineComboBox.TabIndex = 33;
 			this.combineComboBox.SelectedIndexChanged += new System.EventHandler(this.CombineComboBox_SelectedIndexChanged);
 			// 

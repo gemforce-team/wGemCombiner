@@ -45,13 +45,19 @@
 		{
 			foreach (var file in new string[] { "bbound", "kgcomb", "kgcomb-bbound", "kgcomb-exact", "kgspec-appr", "kgspec-exact", "kgspec-kgssemi", "kgspec-mgsappr", "kgspec-mgsexact", "leech", "mgcomb", "mgcomb-exact", "mgcomb-leech", "mgspec-appr", "mgspec-exact" })
 			{
-				this.AddResourceRecipe(file);
+				this.AddResourceFile(file, null, 1);
 			}
 
-			var combos = new string[] { "mgspec-appr" };
-			for (int counter = 0; counter < combos.Length; counter++)
+			foreach (var file in new string[] { "mgspec-appr" })
 			{
-				this.AddResourceCombo(combos[counter], counter + 1);
+				// TODO: Eliminate loop if there will only ever be one
+				this.AddResourceFile(file, "Mana Gem Combos", 2);
+			}
+
+			foreach (var file in new string[] { "GESkgspec-exact" })
+			{
+				// TODO: Eliminate loop if there will only ever be one
+				this.AddResourceFile(file, "GES Combos", 2);
 			}
 
 			this.AddTextFileRecipes(ExePath + @"\recipes.txt");
@@ -217,26 +223,46 @@
 		#endregion
 
 		#region Private Methods
-		// Separate functions with a lot of duplicate code for combos until we're sure how exactly we're handling them, then we can optimize it later if appropriate.
-		private void AddResourceCombo(string name, int counter)
+		private void AddRecipe(IEnumerable<string> recipe)
 		{
-			var resourceName = "WGemCombiner.Resources.recipes." + name + ".txt";
-
-			using (Stream stream = Assembly.GetManifestResourceStream(resourceName))
-			using (StreamReader reader = new StreamReader(stream))
-			{
-				var file = reader.ReadToEnd().Replace("\r\n", "\n");
-				var fileRecipes = file.Split(new string[] { "\n\n" }, StringSplitOptions.RemoveEmptyEntries);
-				for (int i = 0; i < fileRecipes.Length; i += 2)
-				{
-					var gemRecipe = fileRecipes[i];
-					var ampRecipe = fileRecipes[i + 1];
-					this.AddCombo(new Combiner(gemRecipe.Split('\n')), new Combiner(ampRecipe.Split('\n')));
-				}
-			}
+			var combiner = new Combiner(recipe);
+			var gem = combiner.Gem;
+			gem.Title = string.Format(CultureInfo.CurrentCulture, "{0:0000000} ({1:0.000000}){2}", gem.Cost, gem.Growth, IsPowerOfTwo(gem.Cost) ? "-" : string.Empty);
+			this.AddRecipe(combiner, null);
 		}
 
-		private void AddResourceRecipe(string name)
+		private void AddRecipe(Combiner combine, string gemGroup)
+		{
+			var gem = combine.Gem;
+			if (gemGroup == null)
+			{
+				if (Settings.Default.UseColors)
+				{
+					gemGroup = gem.Color.ToString();
+				}
+				else if (!gemEffectNames.TryGetValue(gem.Color, out gemGroup))
+				{
+					gemGroup = "Other";
+				}
+
+				gemGroup += " " + gem.SpecWord;
+			}
+
+			if (!this.recipes.ContainsKey(gemGroup))
+			{
+				this.recipes[gemGroup] = new RecipeCollection();
+			}
+
+			if (this.recipes[gemGroup].Contains(gem.Title))
+			{
+				// TODO: Consider going back to stuffing whole objects into combo boxes and not caring if there are duplicates.
+				gem.Title = gem.Title + this.recipes[gemGroup].Count; // Temporary fix for need to duplicate recipes in combos
+			}
+
+			this.recipes[gemGroup].Add(combine);
+		}
+
+		private void AddResourceFile(string name, string gemGroup, int numRecipes)
 		{
 			var resourceName = "WGemCombiner.Resources.recipes." + name + ".txt";
 
@@ -245,15 +271,28 @@
 			{
 				var file = reader.ReadToEnd().Replace("\r\n", "\n");
 				var fileRecipes = file.Split(new string[] { "\n\n" }, StringSplitOptions.RemoveEmptyEntries);
-				foreach (var recipe in fileRecipes)
+				for (int recipeCounter = 0; recipeCounter < fileRecipes.Length; recipeCounter += numRecipes)
 				{
-					this.AddRecipe(new Combiner(recipe.Split('\n')));
+					for (int recipeOffset = 0; recipeOffset < numRecipes; recipeOffset++)
+					{
+						var combiner = new Combiner(fileRecipes[recipeCounter + recipeOffset].Split('\n'));
+						var gem = combiner.Gem;
+						gem.Title = string.Format(
+							CultureInfo.CurrentCulture,
+							"{0:0000000} ({1:0.000000}){3}{2}",
+							gem.Cost,
+							gem.Growth,
+							IsPowerOfTwo(gem.Cost) ? "-" : string.Empty,
+							numRecipes == 2 ? " (use with " + (recipeOffset == 0 ? "next" : "prev") + ")" : string.Empty);
+						this.AddRecipe(combiner, gemGroup);
+					}
 				}
 			}
 		}
 
 		private void AddTextFileRecipes(string filename)
 		{
+			// TODO: Add sorting
 			if (File.Exists(filename))
 			{
 				var lines = File.ReadAllLines(filename);
@@ -267,7 +306,7 @@
 						{
 							if (recipe.Count > 0)
 							{
-								this.AddRecipe(new Combiner(recipe));
+								this.AddRecipe(recipe);
 								recipe.Clear();
 							}
 						}
@@ -280,15 +319,7 @@
 							try
 							{
 								var equations = Combiner.EquationsFromParentheses(trimmedLine);
-								var newCombiner = new Combiner(equations);
-								this.AddRecipe(newCombiner);
-#if DEBUG
-								Debug.WriteLine("{3}# {0} {1}, Cost={2}", newCombiner.Gem.Color, newCombiner.Gem.SpecWord, newCombiner.Gem.Cost, Environment.NewLine);
-								foreach (var equation in equations)
-								{
-									Debug.WriteLine(equation.Substring(equation.IndexOf('=') + 1));
-								}
-#endif
+								this.AddRecipe(equations);
 							}
 							catch (ArgumentException ex)
 							{
@@ -301,77 +332,9 @@
 
 				if (recipe.Count > 0)
 				{
-					this.AddRecipe(new Combiner(recipe));
+					this.AddRecipe(recipe);
 					recipe.Clear();
 				}
-			}
-		}
-
-		private void AddCombo(Combiner gemCombine, Combiner ampCombine)
-		{
-			var gemGroup = string.Format(CultureInfo.CurrentCulture, "Combo ({0}/{1})", gemCombine.Gem.Cost, ampCombine.Gem.Cost);
-			var gem = gemCombine.Gem;
-			string gemTitle;
-			if (Settings.Default.UseColors)
-			{
-				gemTitle = gem.Color.ToString();
-			}
-			else if (!gemEffectNames.TryGetValue(gem.Color, out gemTitle))
-			{
-				gemTitle = "Other";
-			}
-
-			gem.Title = gemTitle + " " + gemCombine.Gem.SpecWord;
-
-			var amp = ampCombine.Gem;
-			string ampTitle;
-			if (Settings.Default.UseColors)
-			{
-				ampTitle = amp.Color.ToString();
-			}
-			else if (!gemEffectNames.TryGetValue(amp.Color, out ampTitle))
-			{
-				ampTitle = "Other";
-			}
-
-			amp.Title = ampTitle + " " + ampCombine.Gem.SpecWord;
-			if (!this.recipes.ContainsKey(gemGroup))
-			{
-				this.recipes[gemGroup] = new RecipeCollection();
-			}
-
-			if (!this.recipes[gemGroup].Contains(gem.Title))
-			{
-				this.recipes[gemGroup].Add(gemCombine);
-				this.recipes[gemGroup].Add(ampCombine);
-			}
-		}
-
-		private void AddRecipe(Combiner combine)
-		{
-			var gem = combine.Gem;
-			gem.Title = string.Format(CultureInfo.CurrentCulture, "{0:0000000} ({1:0.000000}){2}", gem.Cost, gem.Growth, IsPowerOfTwo(gem.Cost) ? "-" : string.Empty);
-			string gemGroup;
-			if (Settings.Default.UseColors)
-			{
-				gemGroup = gem.Color.ToString();
-			}
-			else if (!gemEffectNames.TryGetValue(gem.Color, out gemGroup))
-			{
-				gemGroup = "Other";
-			}
-
-			gemGroup += " " + combine.Gem.SpecWord;
-			if (!this.recipes.ContainsKey(gemGroup))
-			{
-				this.recipes[gemGroup] = new RecipeCollection();
-			}
-
-			if (!this.recipes[gemGroup].Contains(gem.Title))
-			{
-				// TODO: Consider some other method of checking if these truly are duplicates or not.
-				// Ignores gems with identical CombineTitles. Conceivably, there could be two different combines with identical titles, but I think this is fairly unlikely.
-				this.recipes[gemGroup].Add(combine);
 			}
 		}
 
