@@ -43,25 +43,31 @@
 		#region Constructors
 		public GemCombiner()
 		{
-			foreach (var file in new string[] { "bbound", "kgcomb", "kgcomb-bbound", "kgcomb-exact", "kgspec-appr", "kgspec-exact", "kgspec-kgssemi", "kgspec-mgsappr", "kgspec-mgsexact", "leech", "mgcomb", "mgcomb-exact", "mgcomb-leech", "mgspec-appr", "mgspec-exact" })
+			foreach (var file in new string[] { "bbound", "kgcomb", "kgcomb-bbound", "kgcomb-exact", "leech", "mgcomb", "mgcomb-exact", "mgcomb-leech" })
 			{
-				this.AddResourceFile(file, null, 1);
+				foreach (var combiner in GetResourceRecipes(file))
+				{
+					this.AddRecipe(combiner, GetListName(combiner.Gem));
+				}
 			}
 
-			foreach (var file in new string[] { "mgspec-appr" })
+			var orangeName = GetColorName(GemColors.Orange);
+			foreach (var file in new string[] { "mgspec-appr", "mgspec-exact" })
 			{
-				// TODO: Eliminate loop if there will only ever be one
-				this.AddResourceFile(file, "Mana Gem Combos", 2);
+				this.AddRecipes(GetResourceRecipes(file), "Mana Gems", orangeName + " Amps");
 			}
 
-			foreach (var file in new string[] { "GESkgspec-exact" })
+			var yellowName = GetColorName(GemColors.Yellow);
+			foreach (var file in new string[] { "kgspec-appr", "kgspec-exact", "kgspec-kgssemi", "kgspec-mgsappr", "kgspec-mgsexact" })
 			{
-				// TODO: Eliminate loop if there will only ever be one
-				this.AddResourceFile(file, "GES Combos", 2);
+				this.AddRecipes(GetResourceRecipes(file), "Kill Gems", yellowName + " Amps");
 			}
 
+			this.AddRecipes(GetResourceRecipes("GESkgspec-exact"), "GES Gems", "GES Amps");
 			this.AddTextFileRecipes(ExePath + @"\recipes.txt");
+
 			this.InitializeComponent();
+
 			this.SettingsHandler_BordersChanged(null, null);
 			if ((Skin)Settings.Default.Skin == Skin.Hellrages)
 			{
@@ -220,6 +226,73 @@
 			this.stepLabel.Font = new Font(this.stepNumeric.Font, style);
 			this.GuessEta();
 		}
+
+		private void TestAll_Click(object sender, EventArgs e)
+		{
+			foreach (var kvp in this.recipes)
+			{
+				foreach (var combine in kvp.Value)
+				{
+					var instructions = combine.CreateInstructions();
+					try
+					{
+						instructions.Verify(combine.BaseGems);
+					}
+					catch (InvalidOperationException ex)
+					{
+						MessageBox.Show(ex.Message, "Verification failed", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+					}
+				}
+			}
+
+			MessageBox.Show("Testing complete!", "Done", MessageBoxButtons.OK, MessageBoxIcon.Information);
+		}
+		#endregion
+
+		#region Private Static Methods
+		private static string GetColorName(GemColors gemColor)
+		{
+			string gemGroup;
+			if (Settings.Default.UseColors)
+			{
+				return gemColor.ToString();
+			}
+			else if (!gemEffectNames.TryGetValue(gemColor, out gemGroup))
+			{
+				return "Other";
+			}
+
+			return gemGroup;
+		}
+
+		private static string GetListName(Gem gem) => GetColorName(gem.Color) + " " + gem.SpecWord;
+
+		private static List<Combiner> GetResourceRecipes(string name)
+		{
+			var retval = new List<Combiner>();
+			var resourceName = "WGemCombiner.Resources.recipes." + name + ".txt";
+
+			using (Stream stream = Assembly.GetManifestResourceStream(resourceName))
+			using (StreamReader reader = new StreamReader(stream))
+			{
+				var file = reader.ReadToEnd().Replace("\r\n", "\n");
+				var fileRecipes = file.Split(new string[] { "\n\n" }, StringSplitOptions.RemoveEmptyEntries);
+				foreach (var recipe in fileRecipes)
+				{
+					var combiner = new Combiner(recipe.Split('\n'));
+					var gem = combiner.Gem;
+					gem.Title = string.Format(
+						CultureInfo.CurrentCulture,
+						"{0:0000000} ({1:0.000000}){2}",
+						gem.Cost,
+						gem.Growth,
+						IsPowerOfTwo(gem.Cost) ? "-" : string.Empty);
+					retval.Add(combiner);
+				}
+			}
+
+			return retval;
+		}
 		#endregion
 
 		#region Private Methods
@@ -228,64 +301,45 @@
 			var combiner = new Combiner(recipe);
 			var gem = combiner.Gem;
 			gem.Title = string.Format(CultureInfo.CurrentCulture, "{0:0000000} ({1:0.000000}){2}", gem.Cost, gem.Growth, IsPowerOfTwo(gem.Cost) ? "-" : string.Empty);
-			this.AddRecipe(combiner, null);
+			this.AddRecipe(combiner, GetListName(combiner.Gem));
 		}
 
-		private void AddRecipe(Combiner combine, string gemGroup)
+		private void AddRecipe(Combiner combiner, string gemGroup)
 		{
-			var gem = combine.Gem;
-			if (gemGroup == null)
-			{
-				if (Settings.Default.UseColors)
-				{
-					gemGroup = gem.Color.ToString();
-				}
-				else if (!gemEffectNames.TryGetValue(gem.Color, out gemGroup))
-				{
-					gemGroup = "Other";
-				}
-
-				gemGroup += " " + gem.SpecWord;
-			}
-
 			if (!this.recipes.ContainsKey(gemGroup))
 			{
 				this.recipes[gemGroup] = new RecipeCollection();
 			}
 
-			if (this.recipes[gemGroup].Contains(gem.Title))
+			if (!this.recipes[gemGroup].Contains(combiner.Gem.Title))
 			{
-				// TODO: Consider going back to stuffing whole objects into combo boxes and not caring if there are duplicates.
-				gem.Title = gem.Title + this.recipes[gemGroup].Count; // Temporary fix for need to duplicate recipes in combos
+				this.recipes[gemGroup].Add(combiner);
 			}
-
-			this.recipes[gemGroup].Add(combine);
 		}
 
-		private void AddResourceFile(string name, string gemGroup, int numRecipes)
+		private void AddRecipes(List<Combiner> combiners, params string[] gemGroups)
 		{
-			var resourceName = "WGemCombiner.Resources.recipes." + name + ".txt";
-
-			using (Stream stream = Assembly.GetManifestResourceStream(resourceName))
-			using (StreamReader reader = new StreamReader(stream))
+			Debug.Assert(gemGroups.Length == 1 || gemGroups.Length == 2, "Invalid number of gemGroups passed to AddRecipes()");
+			for (var recipeCounter = 0; recipeCounter < combiners.Count; recipeCounter += gemGroups.Length)
 			{
-				var file = reader.ReadToEnd().Replace("\r\n", "\n");
-				var fileRecipes = file.Split(new string[] { "\n\n" }, StringSplitOptions.RemoveEmptyEntries);
-				for (int recipeCounter = 0; recipeCounter < fileRecipes.Length; recipeCounter += numRecipes)
+				switch (gemGroups.Length)
 				{
-					for (int recipeOffset = 0; recipeOffset < numRecipes; recipeOffset++)
-					{
-						var combiner = new Combiner(fileRecipes[recipeCounter + recipeOffset].Split('\n'));
-						var gem = combiner.Gem;
-						gem.Title = string.Format(
-							CultureInfo.CurrentCulture,
-							"{0:0000000} ({1:0.000000}){3}{2}",
-							gem.Cost,
-							gem.Growth,
-							IsPowerOfTwo(gem.Cost) ? "-" : string.Empty,
-							numRecipes == 2 ? " (use with " + (recipeOffset == 0 ? "next" : "prev") + ")" : string.Empty);
-						this.AddRecipe(combiner, gemGroup);
-					}
+					case 1:
+						this.AddRecipe(combiners[recipeCounter], gemGroups[0]);
+						break;
+					case 2:
+						var mainCombiner = combiners[recipeCounter];
+						var ampCombiner = combiners[recipeCounter + 1];
+						var mainGem = mainCombiner.Gem;
+						var ampGem = ampCombiner.Gem;
+						mainGem.Title += string.Format(CultureInfo.CurrentCulture, " (use with {0}-{1:000000})", gemGroups[1], ampGem.Cost);
+						ampGem.Title += string.Format(CultureInfo.CurrentCulture, " (use with {0}-{1:000000})", gemGroups[0], mainGem.Cost);
+						this.AddRecipe(mainCombiner, gemGroups[0]);
+						this.AddRecipe(ampCombiner, gemGroups[1]);
+						break;
+					//// case 4:
+					////	TODO: Handle omnias
+					////	break;
 				}
 			}
 		}
@@ -464,27 +518,6 @@
 		{
 			SettingsHandler.ChangeFormSize(this);
 			SettingsHandler.ApplySkin(this);
-		}
-
-		private void TestAll_Click(object sender, EventArgs e)
-		{
-			foreach (var kvp in this.recipes)
-			{
-				foreach (var combine in kvp.Value)
-				{
-					var instructions = combine.CreateInstructions();
-					try
-					{
-						instructions.Verify(combine.BaseGems);
-					}
-					catch (InvalidOperationException ex)
-					{
-						MessageBox.Show(ex.Message, "Verification failed", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-					}
-				}
-			}
-
-			MessageBox.Show("Testing complete!", "Done", MessageBoxButtons.OK, MessageBoxIcon.Information);
 		}
 		#endregion
 	}
