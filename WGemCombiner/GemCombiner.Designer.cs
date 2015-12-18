@@ -209,7 +209,7 @@
             | System.Windows.Forms.AnchorStyles.Left)));
 			this.combineComboBox.DropDownHeight = 242;
 			this.combineComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.combineComboBox.DropDownWidth = 325;
+			this.combineComboBox.DropDownWidth = 350;
 			this.combineComboBox.Font = new System.Drawing.Font("Consolas", 9.75F);
 			this.combineComboBox.IntegralHeight = false;
 			this.combineComboBox.Items.AddRange(new object[] {
