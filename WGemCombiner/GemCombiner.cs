@@ -101,7 +101,7 @@
 			cb.Clear();
 			foreach (var item in this.recipes[this.colorComboBox.Text])
 			{
-				cb.Add(item.Gem.Title);
+				cb.Add(item.Title);
 			}
 
 			this.combineComboBox.SelectedIndex = 0; // Preselect the first in the box
@@ -281,7 +281,7 @@
 				{
 					var combiner = new Combiner(recipe.Split('\n'));
 					var gem = combiner.Gem;
-					gem.Title = string.Format(
+					combiner.Title = string.Format(
 						CultureInfo.CurrentCulture,
 						"{0:0000000} ({1:0.000000}){2}",
 						gem.Cost,
@@ -300,7 +300,7 @@
 		{
 			var combiner = new Combiner(recipe);
 			var gem = combiner.Gem;
-			gem.Title = string.Format(CultureInfo.CurrentCulture, "{0:0000000} ({1:0.000000}){2}", gem.Cost, gem.Growth, IsPowerOfTwo(gem.Cost) ? "-" : string.Empty);
+			combiner.Title = string.Format(CultureInfo.CurrentCulture, "{0:0000000} ({1:0.000000}){2}", gem.Cost, gem.Growth, IsPowerOfTwo(gem.Cost) ? "-" : string.Empty);
 			this.AddRecipe(combiner, GetListName(combiner.Gem));
 		}
 
@@ -311,7 +311,7 @@
 				this.recipes[gemGroup] = new RecipeCollection();
 			}
 
-			if (!this.recipes[gemGroup].Contains(combiner.Gem.Title))
+			if (!this.recipes[gemGroup].Contains(combiner.Title))
 			{
 				this.recipes[gemGroup].Add(combiner);
 			}
@@ -323,10 +323,8 @@
 			{
 				var mainCombiner = combiners[recipeCounter];
 				var ampCombiner = combiners[recipeCounter + 1];
-				var mainGem = mainCombiner.Gem;
-				var ampGem = ampCombiner.Gem;
-				mainGem.Title += string.Format(CultureInfo.CurrentCulture, " (use with {0}-{1:000000})", gemGroupAmp, ampGem.Cost);
-				ampGem.Title += string.Format(CultureInfo.CurrentCulture, " (use with {0}-{1:000000})", gemGroupMain, mainGem.Cost);
+				mainCombiner.Title += string.Format(CultureInfo.CurrentCulture, " (use with {0}-{1:000000})", gemGroupAmp, ampCombiner.Gem.Cost);
+				ampCombiner.Title += string.Format(CultureInfo.CurrentCulture, " (use with {0}-{1:000000})", gemGroupMain, mainCombiner.Gem.Cost);
 				this.AddRecipe(mainCombiner, gemGroupMain);
 				this.AddRecipe(ampCombiner, gemGroupAmp);
 			}

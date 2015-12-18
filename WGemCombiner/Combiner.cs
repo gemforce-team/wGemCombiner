@@ -167,6 +167,8 @@
 		}
 
 		public Gem Gem { get; private set; }
+
+		public string Title { get; set; }
 		#endregion
 
 		#region Public Static Methods

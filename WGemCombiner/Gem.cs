@@ -142,8 +142,6 @@
 
 		public string SpecWord => this.IsSpec ? "Spec" : "Combine";
 
-		public string Title { get; set; }
-
 		public int UseCount { get; set; }
 		#endregion
 
@@ -178,7 +176,7 @@
 		#endregion
 
 		#region Public Override Methods
-		public override string ToString() => this.Title ?? string.Format(CultureInfo.CurrentCulture, "Grade {0} {1} {2} ({3:0000}/{4:0000})", this.Grade + 1, this.Color, this.SpecWord, this.Cost, this.Growth);
+		public override string ToString() => string.Format(CultureInfo.CurrentCulture, "Grade {0} {1} {2} ({3:0000}/{4:0000})", this.Grade + 1, this.Color, this.SpecWord, this.Cost, this.Growth);
 		#endregion
 
 		#region Private Static Methods
