@@ -317,30 +317,18 @@
 			}
 		}
 
-		private void AddRecipes(List<Combiner> combiners, params string[] gemGroups)
+		private void AddRecipes(List<Combiner> combiners, string gemGroupMain, string gemGroupAmp)
 		{
-			Debug.Assert(gemGroups.Length == 1 || gemGroups.Length == 2, "Invalid number of gemGroups passed to AddRecipes()");
-			for (var recipeCounter = 0; recipeCounter < combiners.Count; recipeCounter += gemGroups.Length)
+			for (var recipeCounter = 0; recipeCounter < combiners.Count; recipeCounter += 2)
 			{
-				switch (gemGroups.Length)
-				{
-					case 1:
-						this.AddRecipe(combiners[recipeCounter], gemGroups[0]);
-						break;
-					case 2:
-						var mainCombiner = combiners[recipeCounter];
-						var ampCombiner = combiners[recipeCounter + 1];
-						var mainGem = mainCombiner.Gem;
-						var ampGem = ampCombiner.Gem;
-						mainGem.Title += string.Format(CultureInfo.CurrentCulture, " (use with {0}-{1:000000})", gemGroups[1], ampGem.Cost);
-						ampGem.Title += string.Format(CultureInfo.CurrentCulture, " (use with {0}-{1:000000})", gemGroups[0], mainGem.Cost);
-						this.AddRecipe(mainCombiner, gemGroups[0]);
-						this.AddRecipe(ampCombiner, gemGroups[1]);
-						break;
-					//// case 4:
-					////	TODO: Handle omnias
-					////	break;
-				}
+				var mainCombiner = combiners[recipeCounter];
+				var ampCombiner = combiners[recipeCounter + 1];
+				var mainGem = mainCombiner.Gem;
+				var ampGem = ampCombiner.Gem;
+				mainGem.Title += string.Format(CultureInfo.CurrentCulture, " (use with {0}-{1:000000})", gemGroupAmp, ampGem.Cost);
+				ampGem.Title += string.Format(CultureInfo.CurrentCulture, " (use with {0}-{1:000000})", gemGroupMain, mainGem.Cost);
+				this.AddRecipe(mainCombiner, gemGroupMain);
+				this.AddRecipe(ampCombiner, gemGroupAmp);
 			}
 		}
 
