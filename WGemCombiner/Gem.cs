@@ -68,7 +68,7 @@
 			this.Cost = gem1.Cost + gem2.Cost;
 			if (this.IsSpec)
 			{
-				this.Growth = this.Power / Math.Pow(this.Cost, this.Color == GemColors.Mana ? 0.627216 : 1.414061);
+				this.Growth = this.Power / Math.Pow(this.Cost, this.Color.HasFlag(GemColors.Orange) ? 0.627216 : 1.414061);
 			}
 			else
 			{
