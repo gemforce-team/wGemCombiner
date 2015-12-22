@@ -28,18 +28,21 @@
 				slotsToIgnore.Add(gem.Slot);
 			}
 
-			// slotsToIgnore should include both base gem slots and any slots the slot condenser has used along the way.
-			slotsToIgnore.Sort();
-			var highestSlot = slotsToIgnore[slotsToIgnore.Count - 1];
-			for (int i = 0; i < highestSlot; i++)
+			if (slotsToIgnore.Count > 0)
 			{
-				this.empties.Add(i);
-			}
+				// slotsToIgnore should include both base gem slots and any slots the slot condenser has used along the way.
+				slotsToIgnore.Sort();
+				var highestSlot = slotsToIgnore[slotsToIgnore.Count - 1];
+				for (int i = 0; i < highestSlot; i++)
+				{
+					this.empties.Add(i);
+				}
 
-			foreach (var slot in slotsToIgnore)
-			{
-				this.empties.Remove(slot);
-				this.SlotsRequired = slot + 1;
+				foreach (var slot in slotsToIgnore)
+				{
+					this.empties.Remove(slot);
+					this.SlotsRequired = slot + 1;
+				}
 			}
 		}
 

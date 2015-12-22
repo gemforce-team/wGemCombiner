@@ -160,10 +160,13 @@
 		{
 			var combine = this.recipes[this.colorComboBox.Text][this.combineComboBox.Text];
 			this.CreateInstructions(combine);
-			this.recipeInputRichTextBox.Text = combine.Gem.Recipe();
-			if (Settings.Default.AutoCombine)
+			if (combine.Gem != null)
 			{
-				this.combineButton.PerformClick(); // Auto-load the combine button so all u have to press is "9" over the gem
+				this.recipeInputRichTextBox.Text = combine.Gem.Recipe();
+				if (Settings.Default.AutoCombine)
+				{
+					this.combineButton.PerformClick(); // Auto-load the combine button so all u have to press is "9" over the gem
+				}
 			}
 		}
 
@@ -204,14 +207,51 @@
 			this.optionsForm.ShowDialog(this);
 		}
 
-		private void ParseRecipeParButton_Click(object sender, EventArgs e)
+		private void ParseRecipeButton_Click(object sender, EventArgs e)
 		{
-			this.recipeInputRichTextBox.Text = this.ParseRecipe(false);
-		}
+			try
+			{
+				// This approach assumes that there will be relatively few comments compared to recipe lines, and that therefore bulk adding and then removing will be faster than adding one-by-one.
+				var newLines = new List<string>(this.recipeInputRichTextBox.Lines);
+				for (int i = newLines.Count - 1; i >= 0; i--)
+				{
+					var line = newLines[i].Trim();
+					if (line.Length == 0 || line.StartsWith("#", StringComparison.CurrentCulture) || line.StartsWith("//", StringComparison.CurrentCulture))
+					{
+						newLines.RemoveAt(i);
+					}
+				}
 
-		private void ParseRecipeEqsButton_Click(object sender, EventArgs e)
-		{
-			this.recipeInputRichTextBox.Text = this.ParseRecipe(true);
+				bool equations = false;
+				foreach (var line in newLines)
+				{
+					if (line.Contains("="))
+					{
+						equations = true;
+						break;
+					}
+				}
+
+				if (!equations)
+				{
+					newLines = new List<string>(Combiner.EquationsFromParentheses(string.Join(string.Empty, newLines))); // Join rather than using newLines[0] in case someone uses line breaks for formatting
+				}
+
+				var combine = new Combiner(newLines);
+				this.CreateInstructions(combine);
+				if (((Control)sender).Tag == null)
+				{
+					this.recipeInputRichTextBox.Text = combine.Gem?.Recipe() ?? string.Empty;
+				}
+				else
+				{
+					this.recipeInputRichTextBox.Text = string.Join(Environment.NewLine, newLines);
+				}
+			}
+			catch (ArgumentException ex)
+			{
+				MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			}
 		}
 
 		private void SlotLimitUpDown_ValueChanged(object sender, EventArgs e)
@@ -401,7 +441,7 @@
 					throw new InvalidOperationException(string.Format(CultureInfo.CurrentCulture, "Creating this gem in {0} slots would require an excessive number of steps ({1}).", Combiner.SlotLimit, instructions.Count));
 				}
 
-				this.resultLabel.Text = combine.Gem.DisplayInfo + string.Format(CultureInfo.CurrentCulture, "\r\nSlots:  {0}\r\nSteps:  {1}", instructions.SlotsRequired, instructions.Count);
+				this.resultLabel.Text = combine.Gem == null ? "Empty recipe" : combine.Gem.DisplayInfo + string.Format(CultureInfo.CurrentCulture, "\r\nSlots:  {0}\r\nSteps:  {1}", instructions.SlotsRequired, instructions.Count);
 				this.baseGemsListBox.Items.Clear();
 
 				var baseGems = new List<BaseGem>(combine.BaseGems);
@@ -455,47 +495,6 @@
 			// Overhead beyond the delay time is usually around 2.5-3ms, so be safe and use 3.
 			double eta = CombinePerformer.Instructions == null ? 0 : ((double)this.delayNumeric.Value + 3) * (CombinePerformer.Instructions.Count - ((int)this.stepNumeric.Value - 1));
 			this.FormatEta(new TimeSpan(0, 0, 0, 0, (int)eta));
-		}
-
-		private string ParseRecipe(bool asEquations)
-		{
-			var lines = this.recipeInputRichTextBox.Lines;
-			var newLines = new List<string>();
-			bool equations = false;
-			foreach (var line in lines)
-			{
-				if (!line.StartsWith("#", StringComparison.CurrentCulture) && !line.StartsWith("//", StringComparison.CurrentCulture))
-				{
-					newLines.Add(line);
-					equations |= line.Contains("=");
-				}
-			}
-
-			Combiner combine;
-			try
-			{
-				if (equations)
-				{
-					combine = new Combiner(newLines);
-				}
-				else
-				{
-					newLines = new List<string>(Combiner.EquationsFromParentheses(string.Join(string.Empty, newLines))); // Join in case someone uses line breaks for formatting
-					combine = new Combiner(newLines);
-				}
-			}
-			catch (ArgumentException ex)
-			{
-				MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-				return string.Join(Environment.NewLine, lines);  // Give back the input
-			}
-
-			if (combine != null && combine.Gem != null)
-			{
-				this.CreateInstructions(combine);
-			}
-
-			return asEquations ? string.Join(Environment.NewLine, newLines) : combine.Gem.Recipe();
 		}
 
 		private void SettingsHandler_BordersChanged(object sender, EventArgs e) => SettingsHandler.ApplyBorders(this);

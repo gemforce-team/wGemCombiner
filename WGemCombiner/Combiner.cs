@@ -23,7 +23,6 @@
 		public Combiner(IEnumerable<string> equations)
 		{
 			ThrowNull(equations, nameof(equations));
-			this.Clear();
 			var dupeCheck = new HashSet<int>();
 			foreach (var spacedLine in equations)
 			{
@@ -278,7 +277,11 @@
 		{
 			this.ResetUseCount(false);
 			var instructions = new InstructionCollection(this.BaseGems);
-			this.Gem.UseCount = 1;
+			if (this.Gem != null)
+			{
+				this.Gem.UseCount = 1;
+			}
+
 			this.BuildGem(this.Gem, instructions, true);
 			if (instructions.SlotsRequired > SlotLimit)
 			{
@@ -345,7 +348,7 @@
 		#region Private Methods
 		private void BuildGem(Gem gem, InstructionCollection instructions, bool doPostScan)
 		{
-			if (!gem.IsNeeded || instructions.SlotsRequired > SlotLimit)
+			if (gem == null || !gem.IsNeeded || instructions.SlotsRequired > SlotLimit)
 			{
 				return;
 			}
@@ -367,11 +370,6 @@
 					doPostScan = this.OptimizeLastGems(instructions) || this.OptimizeSingleUseGems(instructions);
 				}
 			}
-		}
-
-		private void Clear()
-		{
-			this.gems.Clear();
 		}
 
 		/// <summary>Attempts to create individual gems in the tree from the base gem, then combines them into the larger one. This allows combining larger gems that won't fit into 36 slots all at once, at the cost of increasing the number of instructions necessary to do so.</summary>
@@ -448,24 +446,7 @@
 
 		private void ResetUseCount(bool preserveBaseGems)
 		{
-			this.SlotGems();
-			foreach (var gem in this.gems)
-			{
-				gem.UseCount = gem is BaseGem && preserveBaseGems ? 1 : 0;
-			}
-
-			foreach (var gem in this.gems)
-			{
-				if (!(gem is BaseGem))
-				{
-					gem.Component1.UseCount++;
-					gem.Component2.UseCount++;
-				}
-			}
-		}
-
-		private void SlotGems()
-		{
+			// Put base gems into slots; reset all others to not slotted
 			var baseGems = new List<BaseGem>();
 			foreach (var gem in this.gems)
 			{
@@ -487,6 +468,20 @@
 				var gem = baseGems[slot];
 				gem.Slot = slot;
 				gem.OriginalSlot = slot;
+			}
+
+			foreach (var gem in this.gems)
+			{
+				gem.UseCount = gem is BaseGem && preserveBaseGems ? 1 : 0;
+			}
+
+			foreach (var gem in this.gems)
+			{
+				if (!(gem is BaseGem))
+				{
+					gem.Component1.UseCount++;
+					gem.Component2.UseCount++;
+				}
 			}
 		}
 		#endregion

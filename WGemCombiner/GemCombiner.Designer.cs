@@ -79,7 +79,7 @@
 			this.parseRecipeParButton.Size = new System.Drawing.Size(76, 22);
 			this.parseRecipeParButton.TabIndex = 2;
 			this.parseRecipeParButton.Text = "Parenthesis";
-			this.parseRecipeParButton.Click += new System.EventHandler(this.ParseRecipeParButton_Click);
+			this.parseRecipeParButton.Click += new System.EventHandler(this.ParseRecipeButton_Click);
 			// 
 			// instructionsLabel
 			// 
@@ -353,8 +353,9 @@
 			this.parseRecipeEqsButton.Name = "parseRecipeEqsButton";
 			this.parseRecipeEqsButton.Size = new System.Drawing.Size(79, 22);
 			this.parseRecipeEqsButton.TabIndex = 48;
+			this.parseRecipeEqsButton.Tag = "true";
 			this.parseRecipeEqsButton.Text = "Equations";
-			this.parseRecipeEqsButton.Click += new System.EventHandler(this.ParseRecipeEqsButton_Click);
+			this.parseRecipeEqsButton.Click += new System.EventHandler(this.ParseRecipeButton_Click);
 			// 
 			// label1
 			// 
