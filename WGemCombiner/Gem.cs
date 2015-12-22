@@ -16,6 +16,7 @@
 		Yellow = 1 << 1,
 		Black = 1 << 2,
 		Red = 1 << 3,
+		HitFarm = Black | Red,
 		Mana = Orange | Black | Red,
 		Kill = Yellow | Black | Red
 	}

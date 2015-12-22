@@ -24,6 +24,7 @@
 		private static Dictionary<GemColors, string> gemEffectNames = new Dictionary<GemColors, string>()
 		{
 			[GemColors.Black] = "Bloodbound",
+			[GemColors.HitFarm] = "Hit Farm", // Do we need this here?
 			[GemColors.Kill] = "Kill",
 			[GemColors.Mana] = "Mana",
 			[GemColors.Orange] = "Leech",

@@ -12,6 +12,7 @@
 			// Percent damage for base gems compared to Yellow
 			[GemColors.Black] = 1.18181818181818,
 			[GemColors.Generic] = 0,
+			[GemColors.HitFarm] = 0,
 			[GemColors.Kill] = 1,
 			[GemColors.Mana] = 0,
 			[GemColors.Orange] = 0.7272727272727272,
@@ -23,6 +24,7 @@
 		{
 			['b'] = GemColors.Black,
 			['g'] = GemColors.Generic,
+			['h'] = GemColors.HitFarm,
 			['k'] = GemColors.Kill,
 			['m'] = GemColors.Mana,
 			['o'] = GemColors.Orange,
