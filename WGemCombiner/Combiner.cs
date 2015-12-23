@@ -7,7 +7,7 @@
 	using System.Text.RegularExpressions;
 	using static Globals;
 
-	/// <summary>The Combiner class represents a single recipe as a whole. This is normally the equivalent to an entire set of equations, though the slot condenser uses multiple combiners to create intermediate sets of instructions that are then combined into a larger set of instructions later on.</summary>
+	/// <summary>The Combiner class represents a single recipe as a whole. This is normally equivalent to an entire set of equations, though the slot condenser uses multiple combiners to create intermediate sets of instructions that are then combined into a larger set of instructions later on.</summary>
 	// TODO: Consider whether CreateInstructions/CondenseSlots belong here or in InstructionCollection, or whether the two should be entirely combined.
 	public class Combiner
 	{
