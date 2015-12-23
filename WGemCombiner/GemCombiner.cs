@@ -53,18 +53,18 @@
 			}
 
 			var orangeName = GetColorName(GemColors.Orange);
-			foreach (var file in new string[] { "mgspec-appr", "mgspec-exact" })
+			foreach (var file in new string[] { "mgspec-exact", "mgspec-appr" })
 			{
 				this.AddRecipes(GetResourceRecipes(file), "Mana Gems", orangeName + " Amps");
 			}
 
 			var yellowName = GetColorName(GemColors.Yellow);
-			foreach (var file in new string[] { "kgspec-appr", "kgspec-exact", "kgspec-kgssemi", "kgspec-mgsappr", "kgspec-mgsexact" })
+			foreach (var file in new string[] { "kgspec-exact", "kgspec-appr", "kgspec-mgsexact",  "kgspec-kgssemi", "kgspec-mgsappr" })
 			{
 				this.AddRecipes(GetResourceRecipes(file), "Kill Gems", yellowName + " Amps");
 			}
 
-			foreach (var file in new string[] { "GESkgspec-exact" })
+			foreach (var file in new string[] { "GESkgspec-exact", "GESkgspec-appr", "GESkgspec-mgsexact", "GESkgspec-kgssemi", "GESkgspec-mgspec" })
 			{
 				this.AddRecipes(GetResourceRecipes(file), "GES Gems", "GES Amps");
 			}

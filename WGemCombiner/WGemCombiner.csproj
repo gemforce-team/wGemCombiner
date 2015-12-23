@@ -234,6 +234,10 @@
   </ItemGroup>
   <ItemGroup>
     <CodeAnalysisDictionary Include="CustomDictionary.xml" />
+    <EmbeddedResource Include="Resources\recipes\GESkgspec-appr.txt" />
+    <EmbeddedResource Include="Resources\recipes\GESkgspec-kgssemi.txt" />
+    <EmbeddedResource Include="Resources\recipes\GESkgspec-mgsexact.txt" />
+    <EmbeddedResource Include="Resources\recipes\GESkgspec-mgspec.txt" />
     <EmbeddedResource Include="Resources\recipes\GESkgspec-exact.txt" />
     <EmbeddedResource Include="Resources\recipes\kgspec-appr.txt" />
     <EmbeddedResource Include="Resources\recipes\kgspec-exact.txt" />
