@@ -64,7 +64,11 @@
 				this.AddRecipes(GetResourceRecipes(file), "Kill Gems", yellowName + " Amps");
 			}
 
-			this.AddRecipes(GetResourceRecipes("GESkgspec-exact"), "GES Gems", "GES Amps");
+			foreach (var file in new string[] { "GESkgspec-exact" })
+			{
+				this.AddRecipes(GetResourceRecipes(file), "GES Gems", "GES Amps");
+			}
+
 			this.AddTextFileRecipes(ExePath + @"\recipes.txt");
 
 			this.InitializeComponent();

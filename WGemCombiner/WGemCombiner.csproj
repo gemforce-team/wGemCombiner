@@ -73,7 +73,7 @@
     <SignManifests>false</SignManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>GCIcon.ico</ApplicationIcon>
+    <ApplicationIcon>Resources\graphics\GCIcon.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
@@ -249,7 +249,7 @@
     <EmbeddedResource Include="Resources\recipes\mgcomb.txt" />
     <EmbeddedResource Include="Resources\recipes\mgcomb-exact.txt" />
     <EmbeddedResource Include="Resources\recipes\bbound.txt" />
-    <None Include="GCIcon.ico" />
+    <None Include="Resources\graphics\GCIcon.ico" />
     <EmbeddedResource Include="Resources\recipes\leech.txt" />
     <Content Include="recipes.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
