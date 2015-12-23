@@ -6,6 +6,7 @@
 	using System.Globalization;
 	using static Globals;
 
+	/// <summary>The InstructionCollection class represents the concrete set of instructions necessary to create a specific gem, as displayed on the main form. It also tracks how many slots are used by a specific set of instructions (or subset, in the case of the slot condenser).</summary>
 	public class InstructionCollection : IReadOnlyList<Instruction>
 	{
 		#region Fields

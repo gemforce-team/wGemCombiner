@@ -22,6 +22,7 @@
 	}
 	#endregion
 
+	/// <summary>The Gem class represents a single gem in a recipe. Conceptually, it's comparable to an equation in that it is either a base gem (see BaseGem.cs) or a combination of two components.</summary>
 	[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix", Justification = "Not a collection in any meaningful way.")]
 	public class Gem : IEnumerable<Gem>
 	{
