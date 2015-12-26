@@ -148,7 +148,11 @@
 			this.stopwatch.Reset();
 			this.stopwatch.Start();
 			this.combineProgressBar.Maximum = CombinePerformer.Instructions.Count;
-			CombinePerformer.PerformCombine((int)this.stepNumeric.Value);
+			// Don't combine if recipe is a simple g1
+			if (this.stepNumeric.Value > 0)
+			{
+				CombinePerformer.PerformCombine((int)this.stepNumeric.Value);
+			}
 
 			// Combine finished
 			this.combineProgressBar.Value = this.combineProgressBar.Minimum;
