@@ -122,7 +122,7 @@
 			while (GetAsyncKeyState((Keys)Settings.Default.Hotkey) != 0)
 			{
 				// MessageBox.Show("Key detection failed, or you were already holding hotkey. Try again.");
-				Thread.Sleep(500);
+				Thread.Sleep(200);
 			}
 
 			this.combineButton.Text = "Press " + SettingsHandler.HotkeyText + " on A1"; // hotkey
@@ -130,7 +130,7 @@
 			do
 			{
 				Application.DoEvents();
-				Thread.Sleep(10);
+				Thread.Sleep(50);
 
 				// [HR] Cancel before starting or if form is closing
 				if (GetAsyncKeyState(Keys.Escape) != 0 || !CombinePerformer.Enabled)
@@ -140,7 +140,7 @@
 					return;
 				}
 			}
-			while (GetAsyncKeyState((Keys)Settings.Default.Hotkey) == 0);
+			while (GetAsyncKeyState((Keys)Settings.Default.Hotkey) == 0 || Control.ModifierKeys != Keys.None);
 
 			// User pressed hotkey
 			this.asyncWaiting = false;
