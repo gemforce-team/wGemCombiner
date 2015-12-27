@@ -31,6 +31,14 @@
 			[GemColors.Red] = "Chain Hit",
 			[GemColors.Yellow] = "Critical Hit"
 		};
+
+		private static Dictionary<GemColors, string> gemSpecAmpShortNames = new Dictionary<GemColors, string>()
+		{
+			[GemColors.Kill] = "ks",
+			[GemColors.Mana] = "ms",
+			[GemColors.Orange] = "la",
+			[GemColors.Yellow] = "ca",
+		};
 		#endregion
 
 		#region Fields
@@ -55,18 +63,18 @@
 			var orangeName = GetColorName(GemColors.Orange);
 			foreach (var file in new string[] { "mgspec-exact", "mgspec-appr" })
 			{
-				this.AddRecipes(GetResourceRecipes(file), "Mana Gems", orangeName + " Amps");
+				this.AddRecipes(GetResourceRecipes(file), gemSpecAmpShortNames[GemColors.Mana], gemSpecAmpShortNames[GemColors.Orange], "Mana Specs", orangeName + " Amps");
 			}
 
 			var yellowName = GetColorName(GemColors.Yellow);
 			foreach (var file in new string[] { "kgspec-exact", "kgspec-appr", "kgspec-mgsexact",  "kgspec-kgssemi", "kgspec-mgsappr" })
 			{
-				this.AddRecipes(GetResourceRecipes(file), "Kill Gems", yellowName + " Amps");
+				this.AddRecipes(GetResourceRecipes(file), gemSpecAmpShortNames[GemColors.Kill], gemSpecAmpShortNames[GemColors.Yellow], "Kill Specs", yellowName + " Amps");
 			}
 
 			foreach (var file in new string[] { "GESkgspec-exact", "GESkgspec-appr", "GESkgspec-mgsexact", "GESkgspec-kgssemi", "GESkgspec-mgspec" })
 			{
-				this.AddRecipes(GetResourceRecipes(file), "GES Gems", "GES Amps");
+				this.AddRecipes(GetResourceRecipes(file), "Gs", "Ga", "GES Specs", "GES Amps");
 			}
 
 			this.AddTextFileRecipes(ExePath + @"\recipes.txt");
@@ -374,6 +382,19 @@
 				var ampCombiner = combiners[recipeCounter + 1];
 				mainCombiner.Title += string.Format(CultureInfo.CurrentCulture, " (use with {0}-{1:000000})", gemGroupAmp, ampCombiner.Gem.Cost);
 				ampCombiner.Title += string.Format(CultureInfo.CurrentCulture, " (use with {0}-{1:000000})", gemGroupMain, mainCombiner.Gem.Cost);
+				this.AddRecipe(mainCombiner, gemGroupMain);
+				this.AddRecipe(ampCombiner, gemGroupAmp);
+			}
+		}
+
+		private void AddRecipes(List<Combiner> combiners, string gemShortMain, string gemShortAmp, string gemGroupMain, string gemGroupAmp)
+		{
+			for (var recipeCounter = 0; recipeCounter < combiners.Count; recipeCounter += 2)
+			{
+				var mainCombiner = combiners[recipeCounter];
+				var ampCombiner = combiners[recipeCounter + 1];
+				mainCombiner.Title = string.Format(CultureInfo.CurrentCulture, "{0:0000} ({1:0.00000}){2} +{3}{4:0000}", mainCombiner.Gem.Cost, mainCombiner.Gem.Growth, IsPowerOfTwo(mainCombiner.Gem.Cost) ? "-" : " ", gemShortAmp, ampCombiner.Gem.Cost);
+				ampCombiner.Title = string.Format(CultureInfo.CurrentCulture, "{0:0000} +{1}{2:0000}", ampCombiner.Gem.Cost, gemShortMain, mainCombiner.Gem.Cost);
 				this.AddRecipe(mainCombiner, gemGroupMain);
 				this.AddRecipe(ampCombiner, gemGroupAmp);
 			}

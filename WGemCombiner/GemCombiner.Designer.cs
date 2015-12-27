@@ -74,9 +74,9 @@
 			this.parseRecipeParButton.AutoSize = true;
 			this.parseRecipeParButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
 			this.parseRecipeParButton.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-			this.parseRecipeParButton.Location = new System.Drawing.Point(12, 206);
+			this.parseRecipeParButton.Location = new System.Drawing.Point(12, 204);
 			this.parseRecipeParButton.Name = "parseRecipeParButton";
-			this.parseRecipeParButton.Size = new System.Drawing.Size(76, 22);
+			this.parseRecipeParButton.Size = new System.Drawing.Size(90, 22);
 			this.parseRecipeParButton.TabIndex = 2;
 			this.parseRecipeParButton.Text = "Parenthesis";
 			this.parseRecipeParButton.Click += new System.EventHandler(this.ParseRecipeButton_Click);
@@ -85,7 +85,7 @@
 			// 
 			this.instructionsLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.instructionsLabel.AutoSize = true;
-			this.instructionsLabel.Location = new System.Drawing.Point(193, 12);
+			this.instructionsLabel.Location = new System.Drawing.Point(204, 12);
 			this.instructionsLabel.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
 			this.instructionsLabel.Name = "instructionsLabel";
 			this.instructionsLabel.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
@@ -97,7 +97,7 @@
 			// 
 			this.combineButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.combineButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
-			this.combineButton.Location = new System.Drawing.Point(12, 369);
+			this.combineButton.Location = new System.Drawing.Point(12, 367);
 			this.combineButton.Name = "combineButton";
 			this.combineButton.Size = new System.Drawing.Size(103, 23);
 			this.combineButton.TabIndex = 23;
@@ -108,7 +108,7 @@
 			// 
 			this.delayLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.delayLabel.AutoSize = true;
-			this.delayLabel.Location = new System.Drawing.Point(12, 327);
+			this.delayLabel.Location = new System.Drawing.Point(12, 325);
 			this.delayLabel.Name = "delayLabel";
 			this.delayLabel.Size = new System.Drawing.Size(37, 13);
 			this.delayLabel.TabIndex = 25;
@@ -122,7 +122,7 @@
             0,
             0,
             0});
-			this.delayNumeric.Location = new System.Drawing.Point(15, 343);
+			this.delayNumeric.Location = new System.Drawing.Point(15, 341);
 			this.delayNumeric.Margin = new System.Windows.Forms.Padding(6, 3, 6, 3);
 			this.delayNumeric.Maximum = new decimal(new int[] {
             2000,
@@ -148,7 +148,7 @@
 			// 
 			this.stepLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.stepLabel.AutoSize = true;
-			this.stepLabel.Location = new System.Drawing.Point(70, 327);
+			this.stepLabel.Location = new System.Drawing.Point(70, 325);
 			this.stepLabel.Name = "stepLabel";
 			this.stepLabel.Size = new System.Drawing.Size(67, 13);
 			this.stepLabel.TabIndex = 25;
@@ -157,7 +157,7 @@
 			// stepNumeric
 			// 
 			this.stepNumeric.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.stepNumeric.Location = new System.Drawing.Point(73, 343);
+			this.stepNumeric.Location = new System.Drawing.Point(73, 341);
 			this.stepNumeric.Margin = new System.Windows.Forms.Padding(6, 3, 6, 3);
 			this.stepNumeric.Maximum = new decimal(new int[] {
             1000,
@@ -165,7 +165,7 @@
             0,
             0});
 			this.stepNumeric.Name = "stepNumeric";
-			this.stepNumeric.Size = new System.Drawing.Size(56, 20);
+			this.stepNumeric.Size = new System.Drawing.Size(64, 20);
 			this.stepNumeric.TabIndex = 26;
 			this.stepNumeric.ValueChanged += new System.EventHandler(this.StepNumeric_ValueChanged);
 			// 
@@ -174,7 +174,7 @@
 			this.helpButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.helpButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
 			this.helpButton.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-			this.helpButton.Location = new System.Drawing.Point(277, 340);
+			this.helpButton.Location = new System.Drawing.Point(288, 338);
 			this.helpButton.Name = "helpButton";
 			this.helpButton.Size = new System.Drawing.Size(68, 23);
 			this.helpButton.TabIndex = 28;
@@ -185,7 +185,7 @@
 			// 
 			this.exitButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.exitButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
-			this.exitButton.Location = new System.Drawing.Point(277, 369);
+			this.exitButton.Location = new System.Drawing.Point(288, 367);
 			this.exitButton.Name = "exitButton";
 			this.exitButton.Size = new System.Drawing.Size(68, 23);
 			this.exitButton.TabIndex = 31;
@@ -196,7 +196,7 @@
 			// 
 			this.optionsButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.optionsButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
-			this.optionsButton.Location = new System.Drawing.Point(196, 340);
+			this.optionsButton.Location = new System.Drawing.Point(207, 338);
 			this.optionsButton.Name = "optionsButton";
 			this.optionsButton.Size = new System.Drawing.Size(75, 23);
 			this.optionsButton.TabIndex = 32;
@@ -209,14 +209,13 @@
             | System.Windows.Forms.AnchorStyles.Left)));
 			this.combineComboBox.DropDownHeight = 242;
 			this.combineComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.combineComboBox.DropDownWidth = 350;
 			this.combineComboBox.Font = new System.Drawing.Font("Consolas", 9.75F);
 			this.combineComboBox.IntegralHeight = false;
 			this.combineComboBox.Items.AddRange(new object[] {
             "Paste"});
 			this.combineComboBox.Location = new System.Drawing.Point(12, 55);
 			this.combineComboBox.Name = "combineComboBox";
-			this.combineComboBox.Size = new System.Drawing.Size(161, 23);
+			this.combineComboBox.Size = new System.Drawing.Size(186, 23);
 			this.combineComboBox.Sorted = true;
 			this.combineComboBox.TabIndex = 33;
 			this.combineComboBox.SelectedIndexChanged += new System.EventHandler(this.CombineComboBox_SelectedIndexChanged);
@@ -228,7 +227,7 @@
 			this.colorComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.colorComboBox.Location = new System.Drawing.Point(12, 28);
 			this.colorComboBox.Name = "colorComboBox";
-			this.colorComboBox.Size = new System.Drawing.Size(161, 21);
+			this.colorComboBox.Size = new System.Drawing.Size(186, 21);
 			this.colorComboBox.Sorted = true;
 			this.colorComboBox.TabIndex = 34;
 			this.colorComboBox.SelectedIndexChanged += new System.EventHandler(this.ColorComboBox_SelectedIndexChanged);
@@ -237,7 +236,7 @@
 			// 
 			this.gemLocationsLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.gemLocationsLabel.AutoSize = true;
-			this.gemLocationsLabel.Location = new System.Drawing.Point(193, 275);
+			this.gemLocationsLabel.Location = new System.Drawing.Point(204, 273);
 			this.gemLocationsLabel.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
 			this.gemLocationsLabel.Name = "gemLocationsLabel";
 			this.gemLocationsLabel.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
@@ -251,10 +250,10 @@
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.resultLabel.Font = new System.Drawing.Font("Consolas", 9F);
 			this.resultLabel.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-			this.resultLabel.Location = new System.Drawing.Point(12, 234);
+			this.resultLabel.Location = new System.Drawing.Point(12, 232);
 			this.resultLabel.Margin = new System.Windows.Forms.Padding(3);
 			this.resultLabel.Name = "resultLabel";
-			this.resultLabel.Size = new System.Drawing.Size(175, 87);
+			this.resultLabel.Size = new System.Drawing.Size(189, 87);
 			this.resultLabel.TabIndex = 39;
 			this.resultLabel.Text = "Result Here\r\n|\r\n|\r\n|\r\n|\r\n|";
 			// 
@@ -267,7 +266,7 @@
 			this.recipeInputRichTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.recipeInputRichTextBox.Location = new System.Drawing.Point(12, 84);
 			this.recipeInputRichTextBox.Name = "recipeInputRichTextBox";
-			this.recipeInputRichTextBox.Size = new System.Drawing.Size(161, 102);
+			this.recipeInputRichTextBox.Size = new System.Drawing.Size(186, 100);
 			this.recipeInputRichTextBox.TabIndex = 40;
 			this.recipeInputRichTextBox.Text = "";
 			// 
@@ -275,7 +274,7 @@
 			// 
 			this.baseGemsListBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.baseGemsListBox.FormattingEnabled = true;
-			this.baseGemsListBox.Location = new System.Drawing.Point(196, 291);
+			this.baseGemsListBox.Location = new System.Drawing.Point(207, 289);
 			this.baseGemsListBox.Name = "baseGemsListBox";
 			this.baseGemsListBox.Size = new System.Drawing.Size(149, 43);
 			this.baseGemsListBox.TabIndex = 42;
@@ -283,7 +282,7 @@
 			// slotLimitUpDown
 			// 
 			this.slotLimitUpDown.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.slotLimitUpDown.Location = new System.Drawing.Point(141, 343);
+			this.slotLimitUpDown.Location = new System.Drawing.Point(149, 341);
 			this.slotLimitUpDown.Margin = new System.Windows.Forms.Padding(6, 3, 6, 3);
 			this.slotLimitUpDown.Maximum = new decimal(new int[] {
             36,
@@ -309,7 +308,7 @@
 			// 
 			this.slotLimitLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.slotLimitLabel.AutoSize = true;
-			this.slotLimitLabel.Location = new System.Drawing.Point(138, 327);
+			this.slotLimitLabel.Location = new System.Drawing.Point(146, 325);
 			this.slotLimitLabel.Name = "slotLimitLabel";
 			this.slotLimitLabel.Size = new System.Drawing.Size(48, 13);
 			this.slotLimitLabel.TabIndex = 44;
@@ -322,11 +321,11 @@
 			this.instructionsTextBox.BackColor = System.Drawing.SystemColors.Window;
 			this.instructionsTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.instructionsTextBox.DetectUrls = false;
-			this.instructionsTextBox.Location = new System.Drawing.Point(196, 29);
+			this.instructionsTextBox.Location = new System.Drawing.Point(207, 29);
 			this.instructionsTextBox.Name = "instructionsTextBox";
 			this.instructionsTextBox.ReadOnly = true;
 			this.instructionsTextBox.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-			this.instructionsTextBox.Size = new System.Drawing.Size(149, 238);
+			this.instructionsTextBox.Size = new System.Drawing.Size(149, 236);
 			this.instructionsTextBox.TabIndex = 46;
 			this.instructionsTextBox.Text = "";
 			// 
@@ -335,7 +334,7 @@
 			this.testAllButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.testAllButton.AutoSize = true;
 			this.testAllButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.testAllButton.Location = new System.Drawing.Point(293, 2);
+			this.testAllButton.Location = new System.Drawing.Point(304, 2);
 			this.testAllButton.Name = "testAllButton";
 			this.testAllButton.Size = new System.Drawing.Size(52, 23);
 			this.testAllButton.TabIndex = 47;
@@ -349,9 +348,9 @@
 			this.parseRecipeEqsButton.AutoSize = true;
 			this.parseRecipeEqsButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
 			this.parseRecipeEqsButton.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-			this.parseRecipeEqsButton.Location = new System.Drawing.Point(94, 206);
+			this.parseRecipeEqsButton.Location = new System.Drawing.Point(108, 204);
 			this.parseRecipeEqsButton.Name = "parseRecipeEqsButton";
-			this.parseRecipeEqsButton.Size = new System.Drawing.Size(79, 22);
+			this.parseRecipeEqsButton.Size = new System.Drawing.Size(90, 22);
 			this.parseRecipeEqsButton.TabIndex = 48;
 			this.parseRecipeEqsButton.Tag = "true";
 			this.parseRecipeEqsButton.Text = "Equations";
@@ -361,7 +360,7 @@
 			// 
 			this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(12, 192);
+			this.label1.Location = new System.Drawing.Point(12, 190);
 			this.label1.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(118, 13);
@@ -374,10 +373,10 @@
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.combineProgressBar.BackColor = System.Drawing.SystemColors.Window;
 			this.combineProgressBar.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.combineProgressBar.Location = new System.Drawing.Point(121, 369);
+			this.combineProgressBar.Location = new System.Drawing.Point(121, 367);
 			this.combineProgressBar.Minimum = 1;
 			this.combineProgressBar.Name = "combineProgressBar";
-			this.combineProgressBar.Size = new System.Drawing.Size(150, 23);
+			this.combineProgressBar.Size = new System.Drawing.Size(161, 23);
 			this.combineProgressBar.Step = 1;
 			this.combineProgressBar.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
 			this.combineProgressBar.TabIndex = 43;
@@ -390,7 +389,7 @@
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-			this.ClientSize = new System.Drawing.Size(357, 404);
+			this.ClientSize = new System.Drawing.Size(368, 402);
 			this.Controls.Add(this.label1);
 			this.Controls.Add(this.parseRecipeEqsButton);
 			this.Controls.Add(this.testAllButton);
@@ -418,7 +417,7 @@
 			this.DoubleBuffered = true;
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.MaximizeBox = false;
-			this.MinimumSize = new System.Drawing.Size(373, 392);
+			this.MinimumSize = new System.Drawing.Size(384, 392);
 			this.Name = "GemCombiner";
 			this.Text = "Gem Combiner";
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.GemCombiner_FormClosing);
