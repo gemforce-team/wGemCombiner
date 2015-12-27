@@ -58,7 +58,7 @@
 			this.closeButton.Focus(); // should force it to only use the 1 key when focus is lost
 
 			// key pressed, now validate it
-			if (this.usedKeys.Contains(e.KeyCode) || e.Shift || e.Control)
+			if (this.usedKeys.Contains(e.KeyCode) || e.Shift || e.Control || e.Alt)
 			{
 				MessageBox.Show("The hotkey '" + e.KeyCode.ToString() + "' is used by GemCraft."); // In-game hotkeys
 			}
