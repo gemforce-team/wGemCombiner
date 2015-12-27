@@ -450,7 +450,7 @@
 					throw new InvalidOperationException(string.Format(CultureInfo.CurrentCulture, "Creating this gem in {0} slots would require an excessive number of steps ({1}).", Combiner.SlotLimit, instructions.Count));
 				}
 
-				this.resultLabel.Text = combine.Gem == null ? "Empty recipe" : combine.Gem.DisplayInfo + string.Format(CultureInfo.CurrentCulture, "\r\nSlots:  {0}\r\nSteps:  {1}", instructions.SlotsRequired, instructions.Count);
+				this.resultLabel.Text = combine.Gem == null ? "Empty recipe" : combine.Gem.DisplayInfo + string.Format(CultureInfo.CurrentCulture, "\r\nSlots:  {0}{1}\r\nSteps:  {2}", instructions.SlotsRequired, instructions.WasCondensed ? "*" : string.Empty, instructions.Count);
 				this.baseGemsListBox.Items.Clear();
 
 				var baseGems = new List<BaseGem>(combine.BaseGems);

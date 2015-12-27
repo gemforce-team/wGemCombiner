@@ -62,6 +62,8 @@
 		public int Count => this.instructions.Count;
 
 		public int SlotsRequired { get; private set; }
+
+		public bool WasCondensed { get; set; }
 		#endregion
 
 		#region Public Indexers

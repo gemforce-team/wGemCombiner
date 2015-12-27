@@ -288,6 +288,11 @@
 			if (instructions.SlotsRequired > SlotLimit)
 			{
 				instructions = this.CondenseSlots(new List<Gem>(this.BaseGems), true);
+				instructions.WasCondensed = true;
+			}
+			else
+			{
+				instructions.WasCondensed = false;
 			}
 
 			return instructions;
