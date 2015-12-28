@@ -2,6 +2,7 @@
 {
 	using System;
 	using System.Collections.Generic;
+	using System.Diagnostics;
 	using System.Globalization;
 	using System.Text;
 	using System.Text.RegularExpressions;
@@ -22,10 +23,11 @@
 		#endregion
 
 		#region Constructors
-		public Combiner(IEnumerable<string> equations)
+		public Combiner(IEnumerable<string> equations, bool doGesFixup)
 		{
 			ThrowNull(equations, nameof(equations));
 			var dupeCheck = new HashSet<int>();
+			var redGemIndex = -1;
 			foreach (var spacedLine in equations)
 			{
 				var line = new Regex(@"\s+").Replace(spacedLine, string.Empty); // Remove all whitespace.
@@ -54,22 +56,54 @@
 				var letter = match.Groups["letter"].Value;
 				if (letter.Length != 0)
 				{
-					var baseGem = new BaseGem(letter[0]);
-					this.gems.Add(baseGem);
+					if (doGesFixup && letter[0] == 'r')
+					{
+						redGemIndex = this.gems.Count;
+						this.gems.Add(new BaseGem('h'));
+					}
+					else
+					{
+						this.gems.Add(new BaseGem(letter[0]));
+					}
 				}
 				else
 				{
 					var lhs = int.Parse(match.Groups["lhs"].Value, CultureInfo.InvariantCulture);
 					var rhs = int.Parse(match.Groups["rhs"].Value, CultureInfo.InvariantCulture);
-					if (lhs > this.gems.Count - 1 || rhs > this.gems.Count - 1)
+					bool parseLine = true;
+					if (doGesFixup && redGemIndex >= 0)
 					{
-						throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, "Gem values in equation {0} must be less than {1}.", line, this.gems.Count));
+						if (lhs == redGemIndex)
+						{
+							parseLine = false;
+						}
+						else if (lhs > redGemIndex)
+						{
+							lhs--;
+						}
+
+						if (rhs == redGemIndex)
+						{
+							parseLine = false;
+						}
+						else if (rhs > redGemIndex)
+						{
+							rhs--;
+						}
 					}
 
-					this.gems.Add(new Gem(this.gems[lhs], this.gems[rhs]));
-					if (!dupeCheck.Add((lhs << 16) + rhs))
+					if (parseLine)
 					{
-						throw new ArgumentException(string.Format(CultureInfo.InvariantCulture, "The equation {0}+{1} appears more than once.", lhs, rhs));
+						if (lhs > this.gems.Count - 1 || rhs > this.gems.Count - 1)
+						{
+							throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, "Gem values in equation {0} must be less than {1}.", line, this.gems.Count));
+						}
+
+						this.gems.Add(new Gem(this.gems[lhs], this.gems[rhs]));
+						if (!dupeCheck.Add((lhs << 16) + rhs))
+						{
+							throw new ArgumentException(string.Format(CultureInfo.InvariantCulture, "The equation {0}+{1} appears more than once.", lhs, rhs));
+						}
 					}
 				}
 			}

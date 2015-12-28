@@ -47,7 +47,8 @@
 			}
 
 			this.Color = color;
-			this.Cost = 1;
+			this.Cost = letter == 'h' ? 2 : 1;
+			this.Grade = this.Cost - 1;
 			this.Slot = Combiner.NotSlotted;
 
 			this.Blood = color.HasFlag(GemColors.Black) ? 1 : 0;

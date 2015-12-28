@@ -96,7 +96,7 @@
 
 		public string DisplayInfo => string.Format(CultureInfo.CurrentCulture, "Grade:  +{0}\r\nCost:   {1}x\r\n{2}: {3:0.0#####}\r\nPower:  {4:0.0####}x", this.Grade, this.Cost, this.IsSpec ? "SCoeff" : "Growth", this.Growth, this.Power);
 
-		public int Grade { get; }
+		public int Grade { get; protected set; }
 
 		public double Growth { get; }
 
@@ -148,7 +148,7 @@
 		#endregion
 
 		#region Internal Static Properties
-		internal static string GemInitializer { get; } = "oykmgbr";
+		internal static string GemInitializer { get; } = "oykmgbrh";
 		#endregion
 
 		#region Protected Properties
