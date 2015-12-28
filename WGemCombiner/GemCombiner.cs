@@ -46,7 +46,7 @@
 		{
 			foreach (var file in new string[] { "bbound", "kgcomb", "kgcomb-bbound", "kgcomb-exact", "leech", "mgcomb", "mgcomb-exact", "mgcomb-leech" })
 			{
-				foreach (var combiner in GetResourceRecipes(file))
+				foreach (var combiner in GetResourceRecipes(file, false))
 				{
 					this.AddRecipe(combiner, GetListName(combiner.Gem));
 				}
@@ -55,18 +55,18 @@
 			var orangeName = GetColorName(GemColors.Orange);
 			foreach (var file in new string[] { "mgspec-exact", "mgspec-appr" })
 			{
-				this.AddRecipes3(GetResourceRecipes(file), "Mana Spec | Coeff Amps", orangeName + " Amps | Spec");
+				this.AddRecipes3(GetResourceRecipes(file, false), "Mana Spec | Coeff Amps", orangeName + " Amps | Spec");
 			}
 
 			var yellowName = GetColorName(GemColors.Yellow);
 			foreach (var file in new string[] { "kgspec-exact", "kgspec-appr", "kgspec-mgsexact",  "kgspec-kgssemi", "kgspec-mgsappr" })
 			{
-				this.AddRecipes3(GetResourceRecipes(file), "Kill Spec | Coeff Amps", yellowName + " Amps | Spec");
+				this.AddRecipes3(GetResourceRecipes(file, false), "Kill Spec | Coeff Amps", yellowName + " Amps | Spec");
 			}
 
 			foreach (var file in new string[] { "GESkgspec-exact", "GESkgspec-appr", "GESkgspec-mgsexact", "GESkgspec-kgssemi", "GESkgspec-mgspec" })
 			{
-				this.AddRecipes3(GetResourceRecipes(file), "GES Spec  | Coeff Amps", "GES Amps  | Spec");
+				this.AddRecipes3(GetResourceRecipes(file, true), "GES Spec  | Coeff Amps", "GES Amps  | Spec");
 			}
 
 			this.AddTextFileRecipes(ExePath + @"\recipes.txt");
@@ -251,7 +251,7 @@
 					newLines = new List<string>(Combiner.EquationsFromParentheses(string.Join(string.Empty, newLines))); // Join rather than using newLines[0] in case someone uses line breaks for formatting
 				}
 
-				var combine = new Combiner(newLines);
+				var combine = new Combiner(newLines, false);
 				this.CreateInstructions(combine);
 				if (((Control)sender).Tag == null)
 				{
@@ -321,7 +321,7 @@
 
 		private static string GetListName(Gem gem) => GetColorName(gem.Color) + " " + gem.SpecWord;
 
-		private static List<Combiner> GetResourceRecipes(string name)
+		private static List<Combiner> GetResourceRecipes(string name, bool doGesFixup)
 		{
 			var retval = new List<Combiner>();
 			var resourceName = "WGemCombiner.Resources.recipes." + name + ".txt";
@@ -333,14 +333,14 @@
 				var fileRecipes = file.Split(new string[] { "\n\n" }, StringSplitOptions.RemoveEmptyEntries);
 				foreach (var recipe in fileRecipes)
 				{
-					var combiner = new Combiner(recipe.Split('\n'));
+					var combiner = new Combiner(recipe.Split('\n'), doGesFixup);
 					var gem = combiner.Gem;
 					combiner.Title = string.Format(
 						CultureInfo.CurrentCulture,
-						"{0:0000000}{1} {2:0.000000}",
+						"{0:0000000} ({1:0.000000}){2}",
 						gem.Cost,
-						IsPowerOfTwo(gem.Cost) ? "*" : " ",
-						gem.Growth);
+						gem.Growth,
+						IsPowerOfTwo(gem.Cost) ? "-" : string.Empty);
 					retval.Add(combiner);
 				}
 			}
@@ -352,7 +352,7 @@
 		#region Private Methods
 		private void AddRecipe(IEnumerable<string> recipe)
 		{
-			var combiner = new Combiner(recipe);
+			var combiner = new Combiner(recipe, false);
 			var gem = combiner.Gem;
 			combiner.Title = string.Format(CultureInfo.CurrentCulture, "{0:0000000}{1} {2:0.000000}", gem.Cost, IsPowerOfTwo(gem.Cost) ? "*" : " ", gem.Growth);
 			this.AddRecipe(combiner, GetListName(combiner.Gem));

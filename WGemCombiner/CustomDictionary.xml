@@ -4,6 +4,7 @@
     <Recognized>
       <Word>gemcraft</Word>
       <Word>gemforce-team</Word>
+      <Word>ges</Word>
       <Word>github</Word>
       <Word>globals</Word>
       <Word>hellrage</Word>
@@ -17,5 +18,8 @@
       <Word>suuper</Word>
       <Word>val</Word>
     </Recognized>
+    <DiscreteExceptions>
+      <Term>doGes</Term>
+    </DiscreteExceptions>
   </Words>
 </Dictionary>
