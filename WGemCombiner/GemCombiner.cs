@@ -385,8 +385,8 @@
 			{
 				var mainCombiner = combiners[recipeCounter];
 				var ampCombiner = combiners[recipeCounter + 1];
-				mainCombiner.Title += string.Format(CultureInfo.CurrentCulture, " {0:0000}", ampCombiner.Gem.Cost);
-				ampCombiner.Title = string.Format(CultureInfo.CurrentCulture, "{0:0000000}{1}  {2:0000}", ampCombiner.Gem.Cost, IsPowerOfTwo(ampCombiner.Gem.Cost) ? "*" : " ", mainCombiner.Gem.Cost);
+				mainCombiner.Title = string.Format(CultureInfo.CurrentCulture, "{0:0000000}{1}   {2:0.0000} {3:0000}", mainCombiner.Gem.Cost, IsPowerOfTwo(mainCombiner.Gem.Cost) ? "*" : " ", mainCombiner.Gem.Growth, ampCombiner.Gem.Cost);
+				ampCombiner.Title = string.Format(CultureInfo.CurrentCulture, "{0:0000000}      {1:0000}", ampCombiner.Gem.Cost, mainCombiner.Gem.Cost);
 				this.AddRecipe(mainCombiner, gemGroupMain);
 				this.AddRecipe(ampCombiner, gemGroupAmp);
 			}
