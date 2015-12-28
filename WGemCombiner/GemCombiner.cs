@@ -96,6 +96,11 @@
 
 			this.colorComboBox.SelectedIndex = 0;
 			CombinePerformer.Enabled = true;
+			if (Settings.Default.FirstTimeOpen)
+			{
+				this.helpForm.Show();
+				Settings.Default.FirstTimeOpen = false;
+			}
 		}
 		#endregion
 
