@@ -213,7 +213,7 @@
 			this.combineComboBox.IntegralHeight = false;
 			this.combineComboBox.Items.AddRange(new object[] {
             "Paste"});
-			this.combineComboBox.Location = new System.Drawing.Point(12, 55);
+			this.combineComboBox.Location = new System.Drawing.Point(12, 57);
 			this.combineComboBox.Name = "combineComboBox";
 			this.combineComboBox.Size = new System.Drawing.Size(186, 23);
 			this.combineComboBox.Sorted = true;
@@ -225,9 +225,10 @@
 			this.colorComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
 			this.colorComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.colorComboBox.Font = new System.Drawing.Font("Consolas", 9.75F);
 			this.colorComboBox.Location = new System.Drawing.Point(12, 28);
 			this.colorComboBox.Name = "colorComboBox";
-			this.colorComboBox.Size = new System.Drawing.Size(186, 21);
+			this.colorComboBox.Size = new System.Drawing.Size(186, 23);
 			this.colorComboBox.Sorted = true;
 			this.colorComboBox.TabIndex = 34;
 			this.colorComboBox.SelectedIndexChanged += new System.EventHandler(this.ColorComboBox_SelectedIndexChanged);
@@ -264,9 +265,9 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.recipeInputRichTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.recipeInputRichTextBox.Location = new System.Drawing.Point(12, 84);
+			this.recipeInputRichTextBox.Location = new System.Drawing.Point(12, 86);
 			this.recipeInputRichTextBox.Name = "recipeInputRichTextBox";
-			this.recipeInputRichTextBox.Size = new System.Drawing.Size(186, 100);
+			this.recipeInputRichTextBox.Size = new System.Drawing.Size(186, 98);
 			this.recipeInputRichTextBox.TabIndex = 40;
 			this.recipeInputRichTextBox.Text = "";
 			// 
