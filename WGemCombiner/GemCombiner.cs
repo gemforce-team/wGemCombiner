@@ -29,15 +29,7 @@
 			[GemColors.Mana] = "Mana",
 			[GemColors.Orange] = "Leech",
 			[GemColors.Red] = "Chain Hit",
-			[GemColors.Yellow] = "Critical Hit"
-		};
-
-		private static Dictionary<GemColors, string> gemSpecAmpShortNames = new Dictionary<GemColors, string>()
-		{
-			[GemColors.Kill] = "ks",
-			[GemColors.Mana] = "ms",
-			[GemColors.Orange] = "la",
-			[GemColors.Yellow] = "ca",
+			[GemColors.Yellow] = "Crit Hit"
 		};
 		#endregion
 
@@ -63,18 +55,18 @@
 			var orangeName = GetColorName(GemColors.Orange);
 			foreach (var file in new string[] { "mgspec-exact", "mgspec-appr" })
 			{
-				this.AddRecipes(GetResourceRecipes(file), gemSpecAmpShortNames[GemColors.Mana], gemSpecAmpShortNames[GemColors.Orange], "Mana Specs", orangeName + " Amps");
+				this.AddRecipes3(GetResourceRecipes(file), "Mana Spec | Coeff Amps", orangeName + " Amps | Spec");
 			}
 
 			var yellowName = GetColorName(GemColors.Yellow);
 			foreach (var file in new string[] { "kgspec-exact", "kgspec-appr", "kgspec-mgsexact",  "kgspec-kgssemi", "kgspec-mgsappr" })
 			{
-				this.AddRecipes(GetResourceRecipes(file), gemSpecAmpShortNames[GemColors.Kill], gemSpecAmpShortNames[GemColors.Yellow], "Kill Specs", yellowName + " Amps");
+				this.AddRecipes3(GetResourceRecipes(file), "Kill Spec | Coeff Amps", yellowName + " Amps | Spec");
 			}
 
 			foreach (var file in new string[] { "GESkgspec-exact", "GESkgspec-appr", "GESkgspec-mgsexact", "GESkgspec-kgssemi", "GESkgspec-mgspec" })
 			{
-				this.AddRecipes(GetResourceRecipes(file), "Gs", "Ga", "GES Specs", "GES Amps");
+				this.AddRecipes3(GetResourceRecipes(file), "GES Spec  | Coeff Amps", "GES Amps  | Spec");
 			}
 
 			this.AddTextFileRecipes(ExePath + @"\recipes.txt");
@@ -104,6 +96,11 @@
 
 			this.colorComboBox.SelectedIndex = 0;
 			CombinePerformer.Enabled = true;
+			if (Settings.Default.FirstTimeOpen)
+			{
+				this.helpForm.Show();
+				Settings.Default.FirstTimeOpen = false;
+			}
 		}
 		#endregion
 
@@ -340,10 +337,10 @@
 					var gem = combiner.Gem;
 					combiner.Title = string.Format(
 						CultureInfo.CurrentCulture,
-						"{0:0000000} ({1:0.000000}){2}",
+						"{0:0000000}{1} {2:0.000000}",
 						gem.Cost,
-						gem.Growth,
-						IsPowerOfTwo(gem.Cost) ? "-" : string.Empty);
+						IsPowerOfTwo(gem.Cost) ? "*" : " ",
+						gem.Growth);
 					retval.Add(combiner);
 				}
 			}
@@ -357,7 +354,7 @@
 		{
 			var combiner = new Combiner(recipe);
 			var gem = combiner.Gem;
-			combiner.Title = string.Format(CultureInfo.CurrentCulture, "{0:0000000} ({1:0.000000}){2}", gem.Cost, gem.Growth, IsPowerOfTwo(gem.Cost) ? "-" : string.Empty);
+			combiner.Title = string.Format(CultureInfo.CurrentCulture, "{0:0000000}{1} {2:0.000000}", gem.Cost, IsPowerOfTwo(gem.Cost) ? "*" : " ", gem.Growth);
 			this.AddRecipe(combiner, GetListName(combiner.Gem));
 		}
 
@@ -387,14 +384,14 @@
 			}
 		}
 
-		private void AddRecipes(List<Combiner> combiners, string gemShortMain, string gemShortAmp, string gemGroupMain, string gemGroupAmp)
+		private void AddRecipes3(List<Combiner> combiners, string gemGroupMain, string gemGroupAmp)
 		{
 			for (var recipeCounter = 0; recipeCounter < combiners.Count; recipeCounter += 2)
 			{
 				var mainCombiner = combiners[recipeCounter];
 				var ampCombiner = combiners[recipeCounter + 1];
-				mainCombiner.Title = string.Format(CultureInfo.CurrentCulture, "{0:0000} ({1:0.00000}){2} +{3}{4:0000}", mainCombiner.Gem.Cost, mainCombiner.Gem.Growth, IsPowerOfTwo(mainCombiner.Gem.Cost) ? "-" : " ", gemShortAmp, ampCombiner.Gem.Cost);
-				ampCombiner.Title = string.Format(CultureInfo.CurrentCulture, "{0:0000} +{1}{2:0000}", ampCombiner.Gem.Cost, gemShortMain, mainCombiner.Gem.Cost);
+				mainCombiner.Title = string.Format(CultureInfo.CurrentCulture, "{0:0000000}{1}   {2:0.0000} {3:0000}", mainCombiner.Gem.Cost, IsPowerOfTwo(mainCombiner.Gem.Cost) ? "*" : " ", mainCombiner.Gem.Growth, ampCombiner.Gem.Cost);
+				ampCombiner.Title = string.Format(CultureInfo.CurrentCulture, "{0:0000000}      {1:0000}", ampCombiner.Gem.Cost, mainCombiner.Gem.Cost);
 				this.AddRecipe(mainCombiner, gemGroupMain);
 				this.AddRecipe(ampCombiner, gemGroupAmp);
 			}
