@@ -118,26 +118,27 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="HelpCombiner2Message" xml:space="preserve">
-    <value>To have the program perform the spec/combine:
+    <value>You can cancel the combine by pressing the 'Escape' key (you may have to hold it for a second with lag). Using a delay lower than GC2's frame time will cause input to be ahead of what you see happening, and so canceling may appear to not work. If your cursor has stopped moving, the program has stopped.
+
+If you need to save a specific amount of space on the top, lower the Slot Limit box, though this will require more moves to complete the same combine, sometimes significantly.
+
+Game gem info tooltips have to be hidden during the combine. The combiner will automatically hide them and reshow after the combine (pressing '.' in-game), unless configured differently in the options.</value>
+  </data>
+  <data name="HelpCombiner2Title" xml:space="preserve">
+    <value>Working with the combiner (2)</value>
+  </data>
+  <data name="HelpCombinerMessage" xml:space="preserve">
+    <value>Select the desired kind of recipe ("Mana Spec" for a managem, etc...) and an affordable combine - the first number is the number of basegems used for the combine.
+After performing a Spec and an Amp recipe, you don't need to use that anymore, after this first step use only "Combine" recipes on these initially created gems. Again, the first number indicates the amount of basegems needed. You can use that to calculate the manacost.
+
+After choosing the recipe, you switch to the game and perform the following steps:
 - Place the base gem(s) in the bottom-right inventory slot(s), following the base gems box instructions.
-- Empty the inventory up to as many slots as the combine requires. If you need to save a specific amount of space on the top, lower the Slot Limit box, though this will require more moves to complete the same combine, sometimes significantly.
+- Empty the inventory up to at least as many slots as the combine requires.
 - Press the 'Combine' button (displays the hotkey to press if in automatic mode or already pressed).
 - Hover your cursor over the right-most base gem (slot 1A).
 - Press the '{0}' key.
 
-You can cancel the combine by pressing the 'Escape' key (you may have to hold it for a second with lag). Using a delay lower than GC2's frame time will cause input to be ahead of what you see happening, and so canceling may appear to not work. If your cursor has stopped moving, the program has stopped.
-
 The displayed list of instructions should be pretty self-explanatory. 1A is bottom-right, 1C is bottom-left, 12C is top-left.</value>
-  </data>
-  <data name="HelpCombiner2Title" xml:space="preserve">
-    <value>Working with the combiner(2)</value>
-  </data>
-  <data name="HelpCombinerMessage" xml:space="preserve">
-    <value>Paste gem combining equations or a parenthesis formula into the text box, then click the 'Parse recipe' button.
-
-Set the 'delay' to at LEAST as many milliseconds as a frame on GC2 is taking. Usually, 45-50 milliseconds is good, but lag varies greatly when there are more monsters on-screen. Web versions typically run 30-100ms. Steam versions typically run slower, though Steam buffers mouse moves to a point, making this less important. Setting the value too low could cause combine errors in long recipes and may cause the combine to use too much mana.
-
-Game gem info tooltips have to be hidden during the combine. The combiner will automatically hide them and reshow after the combine ('.'), unless configured differently in the options.</value>
     <comment>Standalone versions allow even smaller delays and they buffer mouse moves, but almost nobody will be using them, so not documenting it.</comment>
   </data>
   <data name="HelpCombinerTitle" xml:space="preserve">
@@ -172,7 +173,9 @@ Comments can also be inserted on separate lines beginning with # or //.</value>
     <value>Adding New Recipes</value>
   </data>
   <data name="HelpInputFormatMessage" xml:space="preserve">
-    <value>Example of equation format:
+    <value>You can also paste gem combining equations or a parenthesis formula into the text box, then click one of the 'Parse recipe' buttons.
+
+Example of equation format:
 0 = o
 1 = 0 + 0
 2 = 1 + 0
@@ -181,19 +184,19 @@ Comments can also be inserted on separate lines beginning with # or //.</value>
 Example of parenthesis format (same recipe as above):
 (2o+o)+o
 
-Formulas in parenthesis format will be converted to equations automatically when you hit the 'Parse recipe' button. Equations are faster to process, though this will only be noticeable with large recipes or large numbers of recipes in the recipes.txt file.</value>
+Equations are faster to process, though this will only be noticeable with large recipes or large numbers of recipes in the recipes.txt file.</value>
   </data>
   <data name="HelpInputFormatTitle" xml:space="preserve">
-    <value>Input Formats</value>
+    <value>Input recipes directly</value>
   </data>
   <data name="HelpPresetsMessage" xml:space="preserve">
     <value>To use one of the built-in recipes, first select a color + combine/spec from the top drop-down list.
 
-After selecting a color + combine/spec, the second drop-down list will display the preset options. The first number is number of base gems; the second number is the growth rate. Those marked with a '-' are 2^n combines, and are rarely the best for growth rate up to that cost. They are mostly included for convenience if you want easily comparable gem costs.
+After selecting a color + combine/spec, the second drop-down list will display the preset options. The first number is number of base gems; the second number is the growth rate. Those marked with a '*' are 2^n combines, and are rarely the best for growth rate up to that cost. They are mostly included for convenience if you want easily comparable gem costs.
 
 Selecting a preset will display the recipe in the custom parser box. If desired, you can change the recipe and click the 'Parse recipe' button to generate a new set of equations and instructions to be used.
 
-The specces are optimized for a gem and 6/8 amplifiers with the correct proportions (-3/-4 grades, the exact matching numbers can be found on gemforce repo).
+The specs are optimized for a gem and 6/8 amplifiers with the correct proportions (-3/-4 grades, the exact matching numbers can be found on gemforce repo).
 
 The combines are optimized to be used both on a gem and its amps, the high leech combines are provided to grant a smaller extra edge over this.
 

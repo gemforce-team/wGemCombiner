@@ -61,11 +61,11 @@ namespace WGemCombiner.Resources {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a To have the program perform the spec/combine:
-        ///- Place the base gem(s) in the bottom-right inventory slot(s), following the base gems box instructions.
-        ///- Empty the inventory up to as many slots as the combine requires. If you need to save a specific amount of space on the top, lower the Slot Limit box, though this will require more moves to complete the same combine, sometimes significantly.
-        ///- Press the &apos;Combine&apos; button (displays the hotkey to press if in automatic mode or already pressed).
-        ///- Hover your  [stringa troncata]&quot;;.
+        ///   Cerca una stringa localizzata simile a You can cancel the combine by pressing the &apos;Escape&apos; key (you may have to hold it for a second with lag). Using a delay lower than GC2&apos;s frame time will cause input to be ahead of what you see happening, and so canceling may appear to not work. If your cursor has stopped moving, the program has stopped.
+        ///
+        ///If you need to save a specific amount of space on the top, lower the Slot Limit box, though this will require more moves to complete the same combine, sometimes significantly.
+        ///
+        ///Game gem info tooltips hav [stringa troncata]&quot;;.
         /// </summary>
         internal static string HelpCombiner2Message {
             get {
@@ -74,7 +74,7 @@ namespace WGemCombiner.Resources {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Working with the combiner(2).
+        ///   Cerca una stringa localizzata simile a Working with the combiner (2).
         /// </summary>
         internal static string HelpCombiner2Title {
             get {
@@ -83,9 +83,10 @@ namespace WGemCombiner.Resources {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Paste gem combining equations or a parenthesis formula into the text box, then click the &apos;Parse recipe&apos; button.
+        ///   Cerca una stringa localizzata simile a Select the desired kind of recipe (&quot;Mana Spec&quot; for a managem, etc...) and an affordable combine - the first number is the number of basegems used for the combine.
+        ///After performing a Spec and an Amp recipe, you don&apos;t need to use that anymore, after this first step use only &quot;Combine&quot; recipes on these initially created gems. Again, the first number indicates the amount of basegems needed. You can use that to calculate the manacost.
         ///
-        ///Set the &apos;delay&apos; to at LEAST as many milliseconds as a frame on GC2 is taking. Usually, 45-50 milliseconds is good, but lag varies greatly when there are more monsters on-screen. Web versions typically run 30-100ms. Steam versions typically run slower, though Steam buffers mouse moves to a point, making this less important. Setting the value too low could cause combine errors in long recipes and [stringa troncata]&quot;;.
+        ///After choosing the recipe, you switch to the game and perform the following [stringa troncata]&quot;;.
         /// </summary>
         internal static string HelpCombinerMessage {
             get {
@@ -151,7 +152,9 @@ namespace WGemCombiner.Resources {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Example of equation format:
+        ///   Cerca una stringa localizzata simile a You can also paste gem combining equations or a parenthesis formula into the text box, then click one of the &apos;Parse recipe&apos; buttons.
+        ///
+        ///Example of equation format:
         ///0 = o
         ///1 = 0 + 0
         ///2 = 1 + 0
@@ -160,7 +163,7 @@ namespace WGemCombiner.Resources {
         ///Example of parenthesis format (same recipe as above):
         ///(2o+o)+o
         ///
-        ///Formulas in parenthesis format will be converted to equations automatically when you hit the &apos;Parse recipe&apos; button. Equations are faster to process, though this will only be noticeable with large recipes or large numbers of recipes in the recipes.txt file..
+        ///Equations are faster to process, though this will only be noticeable with large recipes or large numbers of recipes in the recipes.txt file..
         /// </summary>
         internal static string HelpInputFormatMessage {
             get {
@@ -169,7 +172,7 @@ namespace WGemCombiner.Resources {
         }
         
         /// <summary>
-        ///   Cerca una stringa localizzata simile a Input Formats.
+        ///   Cerca una stringa localizzata simile a Input recipes directly.
         /// </summary>
         internal static string HelpInputFormatTitle {
             get {
@@ -180,7 +183,7 @@ namespace WGemCombiner.Resources {
         /// <summary>
         ///   Cerca una stringa localizzata simile a To use one of the built-in recipes, first select a color + combine/spec from the top drop-down list.
         ///
-        ///After selecting a color + combine/spec, the second drop-down list will display the preset options. The first number is number of base gems; the second number is the growth rate. Those marked with a &apos;-&apos; are 2^n combines, and are rarely the best for growth rate up to that cost. They are mostly included for convenience if you want easily comparable gem costs.
+        ///After selecting a color + combine/spec, the second drop-down list will display the preset options. The first number is number of base gems; the second number is the growth rate. Those marked with a &apos;*&apos; are 2^n combines, and are rarely the best for growth rate up to that cost. They are mostly included for convenience if you want easily comparable gem costs.
         ///
         ///Selecting a preset will display the recipe in  [stringa troncata]&quot;;.
         /// </summary>
