@@ -7,7 +7,12 @@ In-game gem combiner bot for [Gemcraft 2: Chasing Shadows](http://gameinabottle.
 ### Get WGemCombiner:
 
 Head to the [Release page] (https://github.com/gemforce-team/wGemCombiner/releases) to download the last version of the program.  
-At the moment we only have a working Windows version.
+WGemCombiner depends on .NET framework >= 4.5, included on all the newer versions of Windows.
+
+#### Supported systems:
+
+* Windows: from Vista to 10 (sorry XP users, complain with Microsoft's .NET versions)
+* Others: Runs with Wine >= 1.6 (Tested on Linux Debian and Fedora)
 
 
 ### How To:
@@ -23,7 +28,7 @@ To report a bug with wGemCombiner look at the
 [Issues page on Github](https://github.com/gemforce-team/wGemCombiner/issues) if it was already reported.  
 If your bug isn't there open a [new issue](https://github.com/gemforce-team/wGemCombiner/issues/new).
 Be sure to include all the relevant information (OS, wGC version, etc...) and give a reliable way to reproduce the bug.
-A video of the combiner in action could also help immensely, but it's not necessary.
+A video of the combiner in action could help immensely for bugs related to interaction with the game.
 
 
 ### Credits:
