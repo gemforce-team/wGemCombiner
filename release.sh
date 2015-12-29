@@ -6,8 +6,6 @@
 # xbuild /p:win32icon=Resources/graphics/GCIcon.ico /p:Configuration=Release
 
 
-cflags="-O3 -lm -I ""include"" -std=gnu11"
-
 if [ ! -e "WGemCombiner.exe" ]; then
 	echo "No wGC executable found, aborting..."
 	exit 1
