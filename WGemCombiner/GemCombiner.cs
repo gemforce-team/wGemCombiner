@@ -135,7 +135,7 @@
 			do
 			{
 				Application.DoEvents();
-				Thread.Sleep(50);
+				Thread.Sleep(10);
 
 				// [HR] Cancel before starting or if form is closing
 				if (GetAsyncKeyState(Keys.Escape) != 0 || !CombinePerformer.Enabled)
@@ -165,7 +165,6 @@
 			this.combineButton.Text = "Combine";
 			if (Settings.Default.AutoCombine)
 			{
-				Thread.Sleep(500); // guess give it 0.5sec before going again
 				this.combineButton.PerformClick(); // guess it's finished, click the "combine" again
 			}
 		}
