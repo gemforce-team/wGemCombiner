@@ -337,10 +337,10 @@
 					var gem = combiner.Gem;
 					combiner.Title = string.Format(
 						CultureInfo.CurrentCulture,
-						"{0:0000000} ({1:0.000000}){2}",
+						"{0:0000000}{1} {2:0.000000}",
 						gem.Cost,
-						gem.Growth,
-						IsPowerOfTwo(gem.Cost) ? "-" : string.Empty);
+						IsPowerOfTwo(gem.Cost) ? "*" : " ",
+						gem.Growth);
 					retval.Add(combiner);
 				}
 			}
