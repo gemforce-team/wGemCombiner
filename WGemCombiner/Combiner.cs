@@ -2,7 +2,6 @@
 {
 	using System;
 	using System.Collections.Generic;
-	using System.Diagnostics;
 	using System.Globalization;
 	using System.Text;
 	using System.Text.RegularExpressions;
@@ -345,7 +344,7 @@
 				var num = int.Parse(match.Groups["num"].Value, CultureInfo.InvariantCulture);
 				if (num > 15)
 				{
-					throw new ArgumentException(match.Value + " is too high to be parsed via a recipe. Try converting your recipe to equations.");
+					throw new ArgumentException(match.Value + " is too high to be parsed via a parenthesis recipe. Try converting your recipe to equations.");
 				}
 
 				var color = match.Groups["color"].Value;
