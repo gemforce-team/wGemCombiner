@@ -420,7 +420,11 @@
 			this.MaximizeBox = false;
 			this.MinimumSize = new System.Drawing.Size(384, 392);
 			this.Name = "GemCombiner";
+#if DEBUG
+			this.Text = "Gem Combiner - DEBUG";
+#else
 			this.Text = "Gem Combiner";
+#endif
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.GemCombiner_FormClosing);
 			this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.GemCombiner_MouseDown);
 			((System.ComponentModel.ISupportInitialize)(this.delayNumeric)).EndInit();
