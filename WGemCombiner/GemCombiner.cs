@@ -96,6 +96,7 @@
 
 			this.colorComboBox.SelectedIndex = 0;
 			CombinePerformer.Enabled = true;
+			this.delayNumeric.Value = Settings.Default.Delay;
 			if (Settings.Default.FirstTimeOpen)
 			{
 				this.helpForm.Show();
@@ -183,7 +184,11 @@
 			}
 		}
 
-		private void DelayNumeric_ValueChanged(object sender, EventArgs e) => this.GuessEta();
+		private void DelayNumeric_ValueChanged(object sender, EventArgs e)
+		{
+			Settings.Default.Delay = this.delayNumeric.Value;
+			this.GuessEta();
+		}
 
 		private void ExitButton_Click(object sender, EventArgs e)
 		{
