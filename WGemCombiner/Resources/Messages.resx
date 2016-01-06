@@ -146,10 +146,10 @@ The displayed list of instructions should be pretty self-explanatory. 1A is bott
   </data>
   <data name="HelpCreditsMessage" xml:space="preserve">
     <value>Contributors (alphabetic order):
-- 12345ieee: some spec parsing, preset recipes
-- CooLTanG: automate the 'Get Instructions' &amp; 'Combine' steps, fix window size/resolution issues, customizable hotkey
+- 12345ieee: some spec parsing, GUI tweaks, preset recipes, general project management
+- CooLTanG: automate some steps, fix window size/resolution issues, customizable hotkey
 - Hellrage: some GUI tweaks, skin, small bug fixes, preset and resource management
-- RobinHood70: code cleaning and revamping; partial localization support
+- RobinHood70: code cleaning and revamping; partial localization support; improved recipe parsing
 - Suuper: original author, initial idea, main program logic
 
 

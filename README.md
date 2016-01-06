@@ -33,18 +33,19 @@ A video of the combiner in action could help immensely for bugs related to inter
 
 ### Credits:
 
-wGemCombiner author is:
+wGemCombiner contributors (alphabetic order):
 
-* Steam user 'SuuperW' aka AG user 'Suuper'  
+* AG and Steam user '12345ieee'
+* AG and Steam user 'CooLTanG'
+* AG user 'Hellrage'
+* FB user 'RobinHood70'
+* Steam user 'SuuperW' aka AG user 'Suuper'
 
-Other contributors:  
+Original author:
 
-* AG user 'Hellrage': GUI, bugfixes, testing  
-* AG and Steam user '12345ieee': Recipes, bugfixes, testing
-* AG and Steam user 'CooLTanG': Automate tasks, fix resolution issues
-* FB user 'RobinHood70': Now-primary developer
+* Steam user 'SuuperW' aka AG user 'Suuper'
 
-Current mantainer:
+Current maintainer:
 
 * FB user 'RobinHood70'
 

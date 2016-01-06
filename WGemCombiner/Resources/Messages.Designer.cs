@@ -105,17 +105,17 @@ namespace WGemCombiner.Resources {
         
         /// <summary>
         ///   Cerca una stringa localizzata simile a Contributors (alphabetic order):
-        ///- 12345ieee: some spec parsing, preset recipes
-        ///- CooLTanG: automate the &apos;Get Instructions&apos; &amp; &apos;Combine&apos; steps, fix window size/resolution issues, customizable hotkey
+        ///- 12345ieee: some spec parsing, GUI tweaks, preset recipes, general project management
+        ///- CooLTanG: automate some steps, fix window size/resolution issues, customizable hotkey
         ///- Hellrage: some GUI tweaks, skin, small bug fixes, preset and resource management
-        ///- RobinHood70: code cleaning and revamping; partial localization support
+        ///- RobinHood70: code cleaning and revamping; partial localization support; improved recipe parsing
         ///- Suuper: original author, initial idea, main program logic
         ///
         ///
         ///Release version: {0}
         ///
         ///To report a problem, see
-        ///https://github.com/gemforce-team/wGemC [stringa troncata]&quot;;.
+        ///htt [stringa troncata]&quot;;.
         /// </summary>
         internal static string HelpCreditsMessage {
             get {
