@@ -133,6 +133,30 @@ namespace WGemCombiner.Resources {
         }
         
         /// <summary>
+        ///   Cerca una stringa localizzata simile a When using the Gem Enhancement Shrine (GES), the optimal killgem building method is different from the usual.
+        ///
+        ///The best way is to use the GES repeatedly with a Yellow g1 (no need to enhance the Black gem at all) and to hitfarm with a Black-Red g2.
+        ///
+        ///The best specs and amps in this case are different than the normal killgem+amps ones, and are collected in a separate list, called GES Specs/Amps.
+        ///
+        ///Both GES Spec and Amps&apos; Yellow g1 have to be copies of the enhanced Yellow g1, while the Black gem can be a n [stringa troncata]&quot;;.
+        /// </summary>
+        internal static string HelpGESMessage {
+            get {
+                return ResourceManager.GetString("HelpGESMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a GES Killgem recipes.
+        /// </summary>
+        internal static string HelpGESTitle {
+            get {
+                return ResourceManager.GetString("HelpGESTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cerca una stringa localizzata simile a To import new recipes, open or create the &quot;recipes.txt&quot; file in the same folder as your executable. Either parenthetical or equation recipes can be used, with equation recipes requiring a blank line between them.
         ///Comments can also be inserted on separate lines beginning with # or //..
         /// </summary>

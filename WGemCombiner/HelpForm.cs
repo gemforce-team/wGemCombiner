@@ -115,6 +115,7 @@
 			this.AddHelpMessage(Messages.HelpInputFormatTitle, Messages.HelpInputFormatMessage);
 			this.AddHelpMessage(Messages.HelpPresetsTitle, Messages.HelpPresetsMessage);
 			this.AddHelpMessage(Messages.HelpImportingPresetsTitle, Messages.HelpImportingPresetsMessage);
+			this.AddHelpMessage(Messages.HelpGESTitle, Messages.HelpGESMessage);
 			this.AddHelpMessage(Messages.HelpCreditsTitle, Messages.HelpCreditsMessage, shortVersion);
 		}
 

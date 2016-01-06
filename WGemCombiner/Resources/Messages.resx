@@ -165,6 +165,22 @@ https://github.com/gemforce-team/wGemCombiner#credits
   <data name="HelpCreditsTitle" xml:space="preserve">
     <value>Credits</value>
   </data>
+  <data name="HelpGESMessage" xml:space="preserve">
+    <value>When using the Gem Enhancement Shrine (GES), the optimal killgem building method is different from the usual.
+
+The best way is to use the GES repeatedly with a Yellow g1 (no need to enhance the Black gem at all) and to hitfarm with a Black-Red g2.
+
+The best specs and amps in this case are different than the normal killgem+amps ones, and are collected in a separate list, called GES Specs/Amps.
+
+Both GES Spec and Amps' Yellow g1 have to be copies of the enhanced Yellow g1, while the Black gem can be a normal Black g1.
+GES Killgem specs contain a peculiar Hitfarm gem in place of the Red one, the gem required there is the Black-Red g2 used for hitfarming.
+
+These recipes grant up to x2 the kill power when using GES, compared to using normal killgem recipes.
+</value>
+  </data>
+  <data name="HelpGESTitle" xml:space="preserve">
+    <value>GES Killgem recipes</value>
+  </data>
   <data name="HelpImportingPresetsMessage" xml:space="preserve">
     <value>To import new recipes, open or create the "recipes.txt" file in the same folder as your executable. Either parenthetical or equation recipes can be used, with equation recipes requiring a blank line between them.
 Comments can also be inserted on separate lines beginning with # or //.</value>
