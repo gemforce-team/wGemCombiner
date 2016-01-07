@@ -174,6 +174,11 @@
 		{
 			var combine = this.recipes[this.colorComboBox.Text][this.combineComboBox.Text];
 			this.CreateInstructions(combine);
+			if (this.stepNumeric.Value > 1)
+			{
+				this.stepNumeric.Value = 1; // reset starting step if it was changed
+			}
+
 			if (combine.Gem != null)
 			{
 				this.recipeInputRichTextBox.Text = combine.Gem.Recipe();
