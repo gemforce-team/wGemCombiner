@@ -97,11 +97,6 @@
 			this.colorComboBox.SelectedIndex = 0;
 			CombinePerformer.Enabled = true;
 			this.delayNumeric.Value = Settings.Default.Delay;
-			if (Settings.Default.FirstTimeOpen)
-			{
-				this.helpForm.Show();
-				Settings.Default.FirstTimeOpen = false;
-			}
 		}
 		#endregion
 
@@ -263,11 +258,11 @@
 				var combine = new Combiner(newLines, false);
 				this.CreateInstructions(combine);
 				if (((Control)sender).Tag == null)
-				{
+				{ // parenthesis
 					this.recipeInputRichTextBox.Text = combine.Gem?.Recipe() ?? string.Empty;
 				}
 				else
-				{
+				{ // equations
 					this.recipeInputRichTextBox.Text = string.Join(Environment.NewLine, newLines);
 				}
 			}
@@ -541,5 +536,14 @@
 			SettingsHandler.ApplySkin(this);
 		}
 		#endregion
+
+		private void GemCombiner_Shown(object sender, EventArgs e)
+		{
+			if (Settings.Default.FirstTimeOpen)
+			{
+				this.helpForm.Show();
+				Settings.Default.FirstTimeOpen = false;
+			}
+		}
 	}
 }
