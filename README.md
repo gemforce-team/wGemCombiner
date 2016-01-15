@@ -12,7 +12,7 @@ WGemCombiner depends on .NET framework >= 4.5, included on all the newer version
 #### Supported systems:
 
 * Windows: from Vista to 10 (sorry XP users, complain with Microsoft's .NET versions)
-* Others: Runs with Wine >= 1.6 (Tested on Linux Debian and Fedora)
+* Others: compiles with mono 4.2+ but neither mono-runtime nor wine can still run it correctly
 
 
 ### How To:
@@ -20,6 +20,13 @@ WGemCombiner depends on .NET framework >= 4.5, included on all the newer version
 You give a gem recipe (or use one of the preset ones), put base gems on the correct starting slots
 and the program sends mouse/keyboard events to the system to perform it in game automatically.  
 There is an extensive help inside the program.
+
+
+### Administrator rights issue:
+
+The program works by sending keystrokes to the Gemcraft window.  
+In some systems this need **administrator rights**.
+If the program is not working try to run it as Administrator and check if that was the problem.
 
 
 ### Report bugs:
