@@ -133,6 +133,29 @@ namespace WGemCombiner.Resources {
         }
         
         /// <summary>
+        ///   Cerca una stringa localizzata simile a This seems to be the first time you opened WGemCombiner, so the Help section was opened automatically.
+        ///It is possible to reopen it manually from the program at any time.
+        ///
+        ///It is recommended to read at least the &quot;Working with the Combiner&quot; sections, to have a basic idea of how the program works.
+        ///
+        ///Have fun. .
+        /// </summary>
+        internal static string HelpFirstTimeMessage {
+            get {
+                return ResourceManager.GetString("HelpFirstTimeMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cerca una stringa localizzata simile a Welcome to WGemCombiner.
+        /// </summary>
+        internal static string HelpFirstTimeTitle {
+            get {
+                return ResourceManager.GetString("HelpFirstTimeTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cerca una stringa localizzata simile a When using the Gem Enhancement Shrine (GES), the optimal killgem building method is different from the usual.
         ///
         ///The best way is to use the GES repeatedly with a Yellow g1 (no need to enhance the Black gem at all) and to hitfarm with a Black-Red g2.

@@ -110,6 +110,11 @@
 		{
 			var shortVersion = Application.ProductVersion;
 			shortVersion = shortVersion.Substring(0, shortVersion.LastIndexOf('.'));
+			if (Settings.Default.FirstTimeOpen)
+			{
+				this.AddHelpMessage(Messages.HelpFirstTimeTitle, Messages.HelpFirstTimeMessage);
+			}
+
 			this.AddHelpMessage(Messages.HelpCombinerTitle, Messages.HelpCombinerMessage, SettingsHandler.HotkeyText);
 			this.AddHelpMessage(Messages.HelpCombiner2Title, Messages.HelpCombiner2Message, SettingsHandler.HotkeyText);
 			this.AddHelpMessage(Messages.HelpInputFormatTitle, Messages.HelpInputFormatMessage);

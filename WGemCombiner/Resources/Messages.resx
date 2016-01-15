@@ -165,6 +165,18 @@ https://github.com/gemforce-team/wGemCombiner#credits
   <data name="HelpCreditsTitle" xml:space="preserve">
     <value>Credits</value>
   </data>
+  <data name="HelpFirstTimeMessage" xml:space="preserve">
+    <value>This seems to be the first time you opened WGemCombiner, so the Help section was opened automatically.
+It is possible to reopen it manually from the program at any time.
+
+It is recommended to read at least the "Working with the Combiner" sections, to have a basic idea of how the program works.
+
+Have fun. </value>
+    <comment>This section is shown only at the first open</comment>
+  </data>
+  <data name="HelpFirstTimeTitle" xml:space="preserve">
+    <value>Welcome to WGemCombiner</value>
+  </data>
   <data name="HelpGESMessage" xml:space="preserve">
     <value>When using the Gem Enhancement Shrine (GES), the optimal killgem building method is different from the usual.
 
