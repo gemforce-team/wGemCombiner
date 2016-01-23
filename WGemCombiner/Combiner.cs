@@ -69,6 +69,7 @@
 				{
 					var lhs = int.Parse(match.Groups["lhs"].Value, CultureInfo.InvariantCulture);
 					var rhs = int.Parse(match.Groups["rhs"].Value, CultureInfo.InvariantCulture);
+
 					bool parseLine = true;
 					if (doGesFixup && redGemIndex >= 0)
 					{
@@ -281,17 +282,10 @@
 				id++;
 			}
 
-			bool replacedBrackets;
-			do
+			while (recipe.StartsWith("(", StringComparison.Ordinal) && recipe.EndsWith(")", StringComparison.Ordinal))
 			{
-				replacedBrackets = false;
-				if (recipe.StartsWith("(", StringComparison.Ordinal) && recipe.EndsWith(")", StringComparison.Ordinal))
-				{
-					recipe = recipe.Substring(1, recipe.Length - 2);
-					replacedBrackets = true;
-				}
+				recipe = recipe.Substring(1, recipe.Length - 2);
 			}
-			while (replacedBrackets);
 
 			if (recipe != newNum)
 			{
