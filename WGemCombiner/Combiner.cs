@@ -69,6 +69,12 @@
 				{
 					var lhs = int.Parse(match.Groups["lhs"].Value, CultureInfo.InvariantCulture);
 					var rhs = int.Parse(match.Groups["rhs"].Value, CultureInfo.InvariantCulture);
+					if (lhs < rhs)
+					{
+						var temp = lhs;
+						lhs = rhs;
+						rhs = temp;
+					}
 
 					bool parseLine = true;
 					if (doGesFixup && redGemIndex >= 0)
@@ -271,6 +277,7 @@
 
 					newNum = id.ToString(CultureInfo.InvariantCulture);
 					recipe = recipe.Replace("(" + thisCombine + ")", newNum);
+					recipe = recipe.Replace("(" + combineGems[1] + "+" + combineGems[0] + ")", newNum);
 					equations.Add(string.Format(CultureInfo.InvariantCulture, "{0}={1}+{2}", id, combineGems[0], combineGems[1]));
 				}
 				else
