@@ -167,6 +167,10 @@
 				cursorStart.X - (int)(cursorDestination.X * SlotSize * resolutionRatio),
 				cursorStart.Y - (int)(cursorDestination.Y * SlotSize * resolutionRatio));
 			Cursor.Position = scaledPoint;
+			if (Settings.Default.ExtremeLag)
+			{
+				Thread.Sleep(Settings.Default.Delay / 2);
+			}
 		}
 
 		private static void PressKey(byte keyCode)
