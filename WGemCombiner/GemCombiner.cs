@@ -186,7 +186,7 @@
 
 		private void DelayNumeric_ValueChanged(object sender, EventArgs e)
 		{
-			Settings.Default.Delay = this.delayNumeric.Value;
+			Settings.Default.Delay = (int)this.delayNumeric.Value;
 			this.GuessEta();
 		}
 

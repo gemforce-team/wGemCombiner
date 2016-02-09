@@ -169,7 +169,7 @@
 			Cursor.Position = scaledPoint;
 			if (Settings.Default.ExtremeLag)
 			{
-				Thread.Sleep(Settings.Default.Delay / 2);
+				Thread.Sleep(SleepTime / 2);
 			}
 		}
 
