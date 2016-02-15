@@ -530,7 +530,7 @@
 				var intDelay = (int)this.delayNumeric.Value;
 
 				// For accuracy, everything here is multiplied by 2, keeping all the math integer based, then only divided by two once at the end to account for the ExtremeLag option's half-delay.
-				for (var i = (int)this.stepNumeric.Value; i < CombinePerformer.Instructions.Count; i++)
+				for (var i = (int)this.stepNumeric.Value - 1; i < CombinePerformer.Instructions.Count; i++)
 				{
 					eta += (extremeLag ? 3 : 2) * intDelay;
 					if (CombinePerformer.Instructions[i].Action == ActionType.Combine)
