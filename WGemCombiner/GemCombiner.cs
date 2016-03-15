@@ -145,14 +145,15 @@
 
 			// User pressed hotkey
 			this.asyncWaiting = false;
-			CombinePerformer.SleepTime = (int)this.delayNumeric.Value;
+            CombinePerformer.SleepTime = (int)this.delayNumeric.Value;
 			this.stopwatch.Reset();
 			this.stopwatch.Start();
 			this.combineProgressBar.Maximum = CombinePerformer.Instructions.Count;
 			// Don't combine if recipe is a simple g1
 			if (this.stepNumeric.Value > 0)
 			{
-				CombinePerformer.PerformCombine((int)this.stepNumeric.Value);
+                CombinePerformer combinePerformer = new CombinePerformer();
+				combinePerformer.PerformCombine((int)this.stepNumeric.Value);
 			}
 
 			// Combine finished

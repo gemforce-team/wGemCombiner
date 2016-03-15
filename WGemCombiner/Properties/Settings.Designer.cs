@@ -133,7 +133,7 @@ namespace WGemCombiner.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("50")]
+        [global::System.Configuration.DefaultSettingValueAttribute("5")]
         public int Delay {
             get {
                 return ((int)(this["Delay"]));
