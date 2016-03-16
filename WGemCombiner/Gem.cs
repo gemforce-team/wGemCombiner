@@ -31,8 +31,16 @@
 		{
 			ThrowNull(gem1, nameof(gem1));
 			ThrowNull(gem2, nameof(gem2));
-			this.Component1 = gem1;
-			this.Component2 = gem2;
+			if (gem2.Cost > gem1.Cost || (gem2.Cost == gem1.Cost && gem2.Color < gem1.Color))
+			{
+				this.Component1 = gem2;
+				this.Component2 = gem1;
+			}
+			else
+			{
+				this.Component1 = gem1;
+				this.Component2 = gem2;
+			}
 
 			foreach (var component in this)
 			{
@@ -41,33 +49,33 @@
 				component.UseCount++;
 			}
 
-			if (gem1.Grade == gem2.Grade)
+			if (this.Component1.Grade == this.Component2.Grade)
 			{
-				this.Grade = gem1.Grade + 1;
-				this.Damage = CombineCalc(gem1.Damage, gem2.Damage, 0.87, 0.71);
-				this.Blood = CombineCalc(gem1.Blood, gem2.Blood, 0.78, 0.31);
-				this.CriticalMultiplier = CombineCalc(gem1.CriticalMultiplier, gem2.CriticalMultiplier, 0.88, 0.5);
-				this.Leech = CombineCalc(gem1.Leech, gem2.Leech, 0.88, 0.5);
+				this.Grade = this.Component1.Grade + 1;
+				this.Damage = CombineCalc(this.Component1.Damage, this.Component2.Damage, 0.87, 0.71);
+				this.Blood = CombineCalc(this.Component1.Blood, this.Component2.Blood, 0.78, 0.31);
+				this.CriticalMultiplier = CombineCalc(this.Component1.CriticalMultiplier, this.Component2.CriticalMultiplier, 0.88, 0.5);
+				this.Leech = CombineCalc(this.Component1.Leech, this.Component2.Leech, 0.88, 0.5);
 			}
-			else if (Math.Abs(gem1.Grade - gem2.Grade) == 1)
+			else if (Math.Abs(this.Component1.Grade - this.Component2.Grade) == 1)
 			{
-				this.Grade = gem1.Grade > gem2.Grade ? gem1.Grade : gem2.Grade;
-				this.Damage = CombineCalc(gem1.Damage, gem2.Damage, 0.86, 0.7);
-				this.Blood = CombineCalc(gem1.Blood, gem2.Blood, 0.79, 0.29);
-				this.CriticalMultiplier = CombineCalc(gem1.CriticalMultiplier, gem2.CriticalMultiplier, 0.88, 0.44);
-				this.Leech = CombineCalc(gem1.Leech, gem2.Leech, 0.89, 0.44);
+				this.Grade = this.Component1.Grade > this.Component2.Grade ? this.Component1.Grade : this.Component2.Grade;
+				this.Damage = CombineCalc(this.Component1.Damage, this.Component2.Damage, 0.86, 0.7);
+				this.Blood = CombineCalc(this.Component1.Blood, this.Component2.Blood, 0.79, 0.29);
+				this.CriticalMultiplier = CombineCalc(this.Component1.CriticalMultiplier, this.Component2.CriticalMultiplier, 0.88, 0.44);
+				this.Leech = CombineCalc(this.Component1.Leech, this.Component2.Leech, 0.89, 0.44);
 			}
 			else
 			{
-				this.Grade = gem1.Grade > gem2.Grade ? gem1.Grade : gem2.Grade;
-				this.Damage = CombineCalc(gem1.Damage, gem2.Damage, 0.85, 0.69);
-				this.Blood = CombineCalc(gem1.Blood, gem2.Blood, 0.8, 0.27);
-				this.CriticalMultiplier = CombineCalc(gem1.CriticalMultiplier, gem2.CriticalMultiplier, 0.88, 0.44);
-				this.Leech = CombineCalc(gem1.Leech, gem2.Leech, 0.9, 0.38);
+				this.Grade = this.Component1.Grade > this.Component2.Grade ? this.Component1.Grade : this.Component2.Grade;
+				this.Damage = CombineCalc(this.Component1.Damage, this.Component2.Damage, 0.85, 0.69);
+				this.Blood = CombineCalc(this.Component1.Blood, this.Component2.Blood, 0.8, 0.27);
+				this.CriticalMultiplier = CombineCalc(this.Component1.CriticalMultiplier, this.Component2.CriticalMultiplier, 0.88, 0.44);
+				this.Leech = CombineCalc(this.Component1.Leech, this.Component2.Leech, 0.9, 0.38);
 			}
 
-			this.Damage = Math.Max(this.Damage, Math.Max(gem1.Damage, gem2.Damage));
-			this.Cost = gem1.Cost + gem2.Cost;
+			this.Damage = Math.Max(this.Damage, Math.Max(this.Component1.Damage, this.Component2.Damage));
+			this.Cost = this.Component1.Cost + this.Component2.Cost;
 			if (this.IsSpec)
 			{
 				this.Growth = this.Power / Math.Pow(this.Cost, this.Color.HasFlag(GemColors.Orange) ? 0.627216 : 1.414061);

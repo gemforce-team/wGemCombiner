@@ -45,6 +45,7 @@
 			this.useColorsButton = new System.Windows.Forms.RadioButton();
 			this.useEffectsButton = new System.Windows.Forms.RadioButton();
 			this.ieFixCheckBox = new System.Windows.Forms.CheckBox();
+			this.extremeLagCheckBox = new System.Windows.Forms.CheckBox();
 			this.namingBufferedGroupBox.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -53,7 +54,7 @@
 			this.chooseSkinLabel.Anchor = System.Windows.Forms.AnchorStyles.Top;
 			this.chooseSkinLabel.BackColor = System.Drawing.Color.Transparent;
 			this.chooseSkinLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			this.chooseSkinLabel.Location = new System.Drawing.Point(12, 9);
+			this.chooseSkinLabel.Location = new System.Drawing.Point(22, 9);
 			this.chooseSkinLabel.Name = "chooseSkinLabel";
 			this.chooseSkinLabel.Size = new System.Drawing.Size(82, 13);
 			this.chooseSkinLabel.TabIndex = 2;
@@ -74,7 +75,7 @@
 			// closeButton
 			// 
 			this.closeButton.Anchor = System.Windows.Forms.AnchorStyles.Top;
-			this.closeButton.Location = new System.Drawing.Point(108, 268);
+			this.closeButton.Location = new System.Drawing.Point(118, 281);
 			this.closeButton.Margin = new System.Windows.Forms.Padding(3, 9, 3, 3);
 			this.closeButton.Name = "closeButton";
 			this.closeButton.Size = new System.Drawing.Size(44, 23);
@@ -110,10 +111,10 @@
 			this.hotkeyTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.hotkeyTextBox.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
-			this.hotkeyTextBox.Location = new System.Drawing.Point(139, 236);
+			this.hotkeyTextBox.Location = new System.Drawing.Point(139, 249);
 			this.hotkeyTextBox.MaxLength = 1;
 			this.hotkeyTextBox.Name = "hotkeyTextBox";
-			this.hotkeyTextBox.Size = new System.Drawing.Size(110, 20);
+			this.hotkeyTextBox.Size = new System.Drawing.Size(129, 20);
 			this.hotkeyTextBox.TabIndex = 11;
 			this.hotkeyTextBox.Text = "9";
 			this.hotkeyTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -124,7 +125,7 @@
 			// 
 			this.hotkeyLabel.AutoSize = true;
 			this.hotkeyLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.hotkeyLabel.Location = new System.Drawing.Point(12, 239);
+			this.hotkeyLabel.Location = new System.Drawing.Point(12, 252);
 			this.hotkeyLabel.Name = "hotkeyLabel";
 			this.hotkeyLabel.Size = new System.Drawing.Size(121, 13);
 			this.hotkeyLabel.TabIndex = 10;
@@ -134,7 +135,7 @@
 			// 
 			this.hidePanelsCheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.hidePanelsCheckBox.AutoSize = true;
-			this.hidePanelsCheckBox.Location = new System.Drawing.Point(133, 54);
+			this.hidePanelsCheckBox.Location = new System.Drawing.Point(152, 54);
 			this.hidePanelsCheckBox.Name = "hidePanelsCheckBox";
 			this.hidePanelsCheckBox.Size = new System.Drawing.Size(111, 43);
 			this.hidePanelsCheckBox.TabIndex = 8;
@@ -148,7 +149,7 @@
 			this.winFormsSkinButton.Appearance = System.Windows.Forms.Appearance.Button;
 			this.winFormsSkinButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
 			this.winFormsSkinButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-			this.winFormsSkinButton.Location = new System.Drawing.Point(12, 25);
+			this.winFormsSkinButton.Location = new System.Drawing.Point(22, 25);
 			this.winFormsSkinButton.Name = "winFormsSkinButton";
 			this.winFormsSkinButton.Size = new System.Drawing.Size(115, 23);
 			this.winFormsSkinButton.TabIndex = 3;
@@ -167,7 +168,7 @@
 			this.hellrageSkinButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
 			this.hellrageSkinButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
 			this.hellrageSkinButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
-			this.hellrageSkinButton.Location = new System.Drawing.Point(133, 25);
+			this.hellrageSkinButton.Location = new System.Drawing.Point(143, 25);
 			this.hellrageSkinButton.Name = "hellrageSkinButton";
 			this.hellrageSkinButton.Size = new System.Drawing.Size(115, 23);
 			this.hellrageSkinButton.TabIndex = 4;
@@ -182,7 +183,7 @@
 			// 
 			this.autoCombineCheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.autoCombineCheckBox.AutoSize = true;
-			this.autoCombineCheckBox.Location = new System.Drawing.Point(133, 103);
+			this.autoCombineCheckBox.Location = new System.Drawing.Point(152, 103);
 			this.autoCombineCheckBox.Name = "autoCombineCheckBox";
 			this.autoCombineCheckBox.Size = new System.Drawing.Size(115, 30);
 			this.autoCombineCheckBox.TabIndex = 9;
@@ -199,9 +200,9 @@
 			this.namingBufferedGroupBox.Controls.Add(this.useColorsButton);
 			this.namingBufferedGroupBox.Controls.Add(this.useEffectsButton);
 			this.namingBufferedGroupBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.namingBufferedGroupBox.Location = new System.Drawing.Point(12, 162);
+			this.namingBufferedGroupBox.Location = new System.Drawing.Point(12, 175);
 			this.namingBufferedGroupBox.Name = "namingBufferedGroupBox";
-			this.namingBufferedGroupBox.Size = new System.Drawing.Size(236, 68);
+			this.namingBufferedGroupBox.Size = new System.Drawing.Size(255, 68);
 			this.namingBufferedGroupBox.TabIndex = 13;
 			this.namingBufferedGroupBox.TabStop = false;
 			this.namingBufferedGroupBox.Text = "Naming Convention";
@@ -245,7 +246,7 @@
 			// ieFixCheckBox
 			// 
 			this.ieFixCheckBox.AutoSize = true;
-			this.ieFixCheckBox.Location = new System.Drawing.Point(12, 139);
+			this.ieFixCheckBox.Location = new System.Drawing.Point(12, 146);
 			this.ieFixCheckBox.Name = "ieFixCheckBox";
 			this.ieFixCheckBox.Size = new System.Drawing.Size(133, 17);
 			this.ieFixCheckBox.TabIndex = 14;
@@ -253,12 +254,24 @@
 			this.ieFixCheckBox.UseVisualStyleBackColor = true;
 			this.ieFixCheckBox.CheckedChanged += new System.EventHandler(this.IEFix_CheckChanged);
 			// 
+			// extremeLagCheckBox
+			// 
+			this.extremeLagCheckBox.AutoSize = true;
+			this.extremeLagCheckBox.Location = new System.Drawing.Point(152, 139);
+			this.extremeLagCheckBox.Name = "extremeLagCheckBox";
+			this.extremeLagCheckBox.Size = new System.Drawing.Size(102, 30);
+			this.extremeLagCheckBox.TabIndex = 15;
+			this.extremeLagCheckBox.Text = "Extra delay after\r\nmouse move";
+			this.extremeLagCheckBox.UseVisualStyleBackColor = true;
+			this.extremeLagCheckBox.CheckedChanged += new System.EventHandler(this.ExtremeLagCheckBox_CheckedChanged);
+			// 
 			// Options
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-			this.ClientSize = new System.Drawing.Size(261, 303);
+			this.ClientSize = new System.Drawing.Size(280, 313);
+			this.Controls.Add(this.extremeLagCheckBox);
 			this.Controls.Add(this.ieFixCheckBox);
 			this.Controls.Add(this.namingBufferedGroupBox);
 			this.Controls.Add(this.autoCombineCheckBox);
@@ -310,5 +323,6 @@
 		private System.Windows.Forms.RadioButton useColorsButton;
 		private System.Windows.Forms.RadioButton useEffectsButton;
 		private System.Windows.Forms.CheckBox ieFixCheckBox;
+		private System.Windows.Forms.CheckBox extremeLagCheckBox;
 	}
 }

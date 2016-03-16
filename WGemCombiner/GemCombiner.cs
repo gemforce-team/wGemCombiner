@@ -186,7 +186,7 @@
 
 		private void DelayNumeric_ValueChanged(object sender, EventArgs e)
 		{
-			Settings.Default.Delay = this.delayNumeric.Value;
+			Settings.Default.Delay = (int)this.delayNumeric.Value;
 			this.GuessEta();
 		}
 
@@ -510,7 +510,7 @@
 		private void FormatEta(TimeSpan eta)
 		{
 			string separator = CultureInfo.CurrentCulture.DateTimeFormat.TimeSeparator;
-			string format = "h\\" + separator + "mm\\" + separator + "ss";
+			var format = "'" + (eta.Days * 24 + eta.Hours).ToString() + "'\\" + separator + "mm\\" + separator + "ss";
 			this.combineProgressBar.Text = "ETA: " + eta.ToString(format, CultureInfo.CurrentCulture);
 		}
 
@@ -523,9 +523,33 @@
 
 		private void GuessEta()
 		{
-			// Overhead beyond the delay time is usually around 2.5-3ms, so be safe and use 3.
-			double eta = CombinePerformer.Instructions == null ? 0 : ((double)this.delayNumeric.Value + 3) * (CombinePerformer.Instructions.Count - ((int)this.stepNumeric.Value - 1));
-			this.FormatEta(new TimeSpan(0, 0, 0, 0, (int)eta));
+			int eta = 0;
+			if (CombinePerformer.Instructions != null)
+			{
+				bool extremeLag = Settings.Default.ExtremeLag;
+				var intDelay = (int)this.delayNumeric.Value;
+
+				// For accuracy, everything here is multiplied by 2, keeping all the math integer based, then only divided by two once at the end to account for the ExtremeLag option's half-delay.
+				for (var i = (int)this.stepNumeric.Value - 1; i < CombinePerformer.Instructions.Count; i++)
+				{
+					eta += (extremeLag ? 3 : 2) * intDelay;
+					if (CombinePerformer.Instructions[i].Action == ActionType.Combine)
+					{
+						if (extremeLag)
+						{
+							eta += intDelay;
+						}
+					}
+					else
+					{
+						eta += 6;
+					}
+				}
+
+				eta /= 2;
+			}
+
+			this.FormatEta(new TimeSpan(0, 0, 0, 0, eta));
 		}
 
 		private void SettingsHandler_BordersChanged(object sender, EventArgs e) => SettingsHandler.ApplyBorders(this);
