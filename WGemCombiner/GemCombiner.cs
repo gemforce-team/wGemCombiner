@@ -524,7 +524,7 @@
 		private void GuessEta()
 		{
 			int eta = 0;
-			if (CombinePerformer.Instructions != null)
+			if (CombinePerformer.Instructions != null && (int)this.stepNumeric.Value > 0)
 			{
 				bool extremeLag = Settings.Default.ExtremeLag;
 				var intDelay = (int)this.delayNumeric.Value;
