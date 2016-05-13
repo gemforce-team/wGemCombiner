@@ -47,8 +47,6 @@
 
         private void CloseButton_Click(object sender, EventArgs e) => this.Close();
 
-        private void ExtremeLagCheckBox_CheckedChanged(object sender, EventArgs e) => Settings.Default.ExtremeLag = this.extremeLagCheckBox.Checked;
-
         private void HellrageSkinButton_CheckedChanged(object sender, EventArgs e) => SettingsHandler.ChangeSkin(Skin.Hellrages);
 
         private void HidePanelsCheckBox_CheckedChanged(object sender, EventArgs e) => Settings.Default.HidePanels = this.hidePanelsCheckBox.Checked;
@@ -85,11 +83,6 @@
             }
         }
 
-        private void IEFix_CheckChanged(object sender, EventArgs e)
-        {
-            Settings.Default.IEFix = this.ieFixCheckBox.Checked;
-        }
-
         private void Options_FormClosing(object sender, FormClosingEventArgs e)
         {
             // Modal forms are automatically hidden, not closed/disposed, so there's no need to cancel and hide here like there is on HelpForm. The FormClosing event still fires, however, so we have to check why it's closing and react appropriately.
@@ -105,11 +98,9 @@
             this.alwaysOnTopCheckBox.Checked = Settings.Default.TopMost;
             this.autoCombineCheckBox.Checked = Settings.Default.AutoCombine;
             this.bordersCheckBox.Checked = !Settings.Default.Borderless;
-            this.extremeLagCheckBox.Checked = Settings.Default.ExtremeLag;
             this.hellrageSkinButton.Checked = (Skin)Settings.Default.Skin == Skin.Hellrages;
             this.hidePanelsCheckBox.Checked = Settings.Default.HidePanels;
             this.hotkeyTextBox.Text = SettingsHandler.HotkeyText;
-            this.ieFixCheckBox.Checked = Settings.Default.IEFix;
             this.useColorsButton.Checked = Settings.Default.UseColors;
             this.useEffectsButton.Checked = !Settings.Default.UseColors;
             this.winFormsSkinButton.Checked = (Skin)Settings.Default.Skin == Skin.WindowsForms;

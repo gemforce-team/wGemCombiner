@@ -44,8 +44,6 @@
             this.RestartLabel = new System.Windows.Forms.Label();
             this.useColorsButton = new System.Windows.Forms.RadioButton();
             this.useEffectsButton = new System.Windows.Forms.RadioButton();
-            this.ieFixCheckBox = new System.Windows.Forms.CheckBox();
-            this.extremeLagCheckBox = new System.Windows.Forms.CheckBox();
             this.namingBufferedGroupBox.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -243,36 +241,12 @@
             this.useEffectsButton.UseVisualStyleBackColor = true;
             this.useEffectsButton.CheckedChanged += new System.EventHandler(this.UseEffectsButton_CheckedChanged);
             // 
-            // ieFixCheckBox
-            // 
-            this.ieFixCheckBox.AutoSize = true;
-            this.ieFixCheckBox.Location = new System.Drawing.Point(12, 146);
-            this.ieFixCheckBox.Name = "ieFixCheckBox";
-            this.ieFixCheckBox.Size = new System.Drawing.Size(133, 17);
-            this.ieFixCheckBox.TabIndex = 14;
-            this.ieFixCheckBox.Text = "Using Internet Explorer";
-            this.ieFixCheckBox.UseVisualStyleBackColor = true;
-            this.ieFixCheckBox.CheckedChanged += new System.EventHandler(this.IEFix_CheckChanged);
-            // 
-            // extremeLagCheckBox
-            // 
-            this.extremeLagCheckBox.AutoSize = true;
-            this.extremeLagCheckBox.Location = new System.Drawing.Point(152, 139);
-            this.extremeLagCheckBox.Name = "extremeLagCheckBox";
-            this.extremeLagCheckBox.Size = new System.Drawing.Size(102, 30);
-            this.extremeLagCheckBox.TabIndex = 15;
-            this.extremeLagCheckBox.Text = "Extra delay after\r\nmouse move";
-            this.extremeLagCheckBox.UseVisualStyleBackColor = true;
-            this.extremeLagCheckBox.CheckedChanged += new System.EventHandler(this.ExtremeLagCheckBox_CheckedChanged);
-            // 
             // Options
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(280, 313);
-            this.Controls.Add(this.extremeLagCheckBox);
-            this.Controls.Add(this.ieFixCheckBox);
             this.Controls.Add(this.namingBufferedGroupBox);
             this.Controls.Add(this.autoCombineCheckBox);
             this.Controls.Add(this.hellrageSkinButton);
@@ -322,7 +296,5 @@
         private System.Windows.Forms.Label RestartLabel;
         private System.Windows.Forms.RadioButton useColorsButton;
         private System.Windows.Forms.RadioButton useEffectsButton;
-        private System.Windows.Forms.CheckBox ieFixCheckBox;
-        private System.Windows.Forms.CheckBox extremeLagCheckBox;
     }
 }

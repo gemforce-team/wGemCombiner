@@ -545,27 +545,12 @@
             int eta = 0;
             if (CombinePerformer.Instructions != null && (int)this.stepNumeric.Value > 0)
             {
-                bool extremeLag = Settings.Default.ExtremeLag;
                 var intDelay = (int)this.delayNumeric.Value;
 
-                // For accuracy, everything here is multiplied by 2, keeping all the math integer based, then only divided by two once at the end to account for the ExtremeLag option's half-delay.
                 for (var i = (int)this.stepNumeric.Value - 1; i < CombinePerformer.Instructions.Count; i++)
                 {
-                    eta += (extremeLag ? 3 : 2) * intDelay;
-                    if (CombinePerformer.Instructions[i].Action == ActionType.Combine)
-                    {
-                        if (extremeLag)
-                        {
-                            eta += intDelay;
-                        }
-                    }
-                    else
-                    {
-                        eta += 6;
-                    }
+                    eta += intDelay;
                 }
-
-                eta /= 2;
             }
 
             this.FormatEta(new TimeSpan(0, 0, 0, 0, eta));

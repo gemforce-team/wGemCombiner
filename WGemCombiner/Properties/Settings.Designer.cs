@@ -109,18 +109,6 @@ namespace WGemCombiner.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool IEFix {
-            get {
-                return ((bool)(this["IEFix"]));
-            }
-            set {
-                this["IEFix"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool FirstTimeOpen {
             get {
@@ -140,18 +128,6 @@ namespace WGemCombiner.Properties {
             }
             set {
                 this["Delay"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool ExtremeLag {
-            get {
-                return ((bool)(this["ExtremeLag"]));
-            }
-            set {
-                this["ExtremeLag"] = value;
             }
         }
     }
