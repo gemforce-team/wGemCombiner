@@ -134,7 +134,7 @@
 				Thread.Sleep(10);
 
 				// [HR] Cancel before starting or if form is closing
-				if (GetAsyncKeyState(Keys.Escape) != 0 || !CombinePerformer.Enabled)
+				if (GetAsyncKeyState(Keys.Escape) != 0 || !CombinePerformer.Enabled || this.asyncWaiting == false)
 				{
 					this.combineButton.Text = "Combine";
 					this.asyncWaiting = false;
@@ -145,14 +145,17 @@
 
 			// User pressed hotkey
 			this.asyncWaiting = false;
-			CombinePerformer.SleepTime = (int)this.delayNumeric.Value;
+            CombinePerformer.SleepTime = (int)this.delayNumeric.Value;
 			this.stopwatch.Reset();
 			this.stopwatch.Start();
 			this.combineProgressBar.Maximum = CombinePerformer.Instructions.Count;
 			// Don't combine if recipe is a simple g1
 			if (this.stepNumeric.Value > 0)
 			{
-				CombinePerformer.PerformCombine((int)this.stepNumeric.Value);
+                using (CombinePerformer combinePerformer = new CombinePerformer())
+                {
+                    combinePerformer.PerformCombine((int)this.stepNumeric.Value);
+                }
 			}
 
 			// Combine finished
@@ -187,6 +190,12 @@
 		private void DelayNumeric_ValueChanged(object sender, EventArgs e)
 		{
 			Settings.Default.Delay = (int)this.delayNumeric.Value;
+            // Abort "hotkey waiting mode" when DelayNumeric's value changes.  Pressing '9' to start
+            // the combining while the focus is still on the DelayNumeric control will insert a '9' into the field
+            // and create a race condition that might leave the combining to go very slow.
+            // Cancelling the "hotkey waiting mode" forces the user to press the 'combine' button, moving keyboard focus
+            // away from the DelayNumeric field whe he/she is ready.
+            this.asyncWaiting = false;
 			this.GuessEta();
 		}
 
@@ -274,7 +283,12 @@
 
 		private void SlotLimitUpDown_ValueChanged(object sender, EventArgs e)
 		{
-			Combiner.SlotLimit = (int)this.slotLimitUpDown.Value;
+            // Abort "hotkey waiting mode" when SlotLimitUpDown's value changes.  Pressing '9' to start
+            // the combining while the focus is still here will insert a '9' into the field
+            // Cancelling the "hotkey waiting mode" forces the user to press the 'combine' button, moving keyboard focus
+            // away from this field whe he/she is ready.
+            this.asyncWaiting = false;
+            Combiner.SlotLimit = (int)this.slotLimitUpDown.Value;
 		}
 
 		private void StepNumeric_ValueChanged(object sender, EventArgs e)
@@ -282,7 +296,12 @@
 			var style = this.stepNumeric.Value == 1 ? FontStyle.Regular : FontStyle.Bold;
 			this.stepNumeric.Font = new Font(this.stepNumeric.Font, style);
 			this.stepLabel.Font = new Font(this.stepNumeric.Font, style);
-			this.GuessEta();
+            // Abort "hotkey waiting mode" when StepNumeric's value changes.  Pressing '9' to start
+            // the combining while the focus is still here will insert a '9' into the field
+            // Cancelling the "hotkey waiting mode" forces the user to press the 'combine' button, moving keyboard focus
+            // away from this field whe he/she is ready.
+            this.asyncWaiting = false;
+            this.GuessEta();
 		}
 
 		private void TestAll_Click(object sender, EventArgs e)
@@ -510,7 +529,7 @@
 		private void FormatEta(TimeSpan eta)
 		{
 			string separator = CultureInfo.CurrentCulture.DateTimeFormat.TimeSeparator;
-			var format = "'" + (eta.Days * 24 + eta.Hours).ToString() + "'\\" + separator + "mm\\" + separator + "ss";
+			var format = "'" + (eta.Days * 24 + eta.Hours).ToString(CultureInfo.CurrentCulture) + "'\\" + separator + "mm\\" + separator + "ss";
 			this.combineProgressBar.Text = "ETA: " + eta.ToString(format, CultureInfo.CurrentCulture);
 		}
 
@@ -569,5 +588,9 @@
 				Settings.Default.FirstTimeOpen = false;
 			}
 		}
-	}
+
+        private void GemCombiner_Load(object sender, EventArgs e)
+        {
+        }
+    }
 }
