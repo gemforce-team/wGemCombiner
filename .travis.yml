@@ -1,0 +1,4 @@
+language: csharp
+solution: solution-name.sln
+script:
+	- xbuild /p:win32icon=Resources/graphics/GCIcon.ico /p:Configuration=Release
