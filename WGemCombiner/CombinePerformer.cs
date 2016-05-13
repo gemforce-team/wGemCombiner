@@ -1,25 +1,25 @@
 ﻿namespace WGemCombiner
 {
-	using System;
-	using System.Drawing;
-	using System.Threading;
-	using System.Windows.Forms;
-	using Properties;
-	using static NativeMethods;
+    using System;
+    using System.Drawing;
+    using System.Threading;
+    using System.Windows.Forms;
+    using Properties;
+    using static NativeMethods;
 
-	internal class CombinePerformer : IDisposable
-	{
+    internal class CombinePerformer : IDisposable
+    {
         #region Fields
         private static double resolutionRatio = 1;
         #endregion
 
         #region Private Constants
         private const string GemcraftClassName = "ApolloRuntimeContentWindow";
-		private const string GemcraftWindowName = "GemCraft Chasing Shadows";
-		private const uint KeyEventFKeyUp = 0x2;
-		private const double NativeScreenHeight = 612; // 1088 x 612 says spy++, 600 flash version
-		private const double NativeScreenWidth = 1088;
-		private const int SlotSize = 28;
+        private const string GemcraftWindowName = "GemCraft Chasing Shadows";
+        private const uint KeyEventFKeyUp = 0x2;
+        private const double NativeScreenHeight = 612; // 1088 x 612 says spy++, 600 flash version
+        private const double NativeScreenWidth = 1088;
+        private const int SlotSize = 28;
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2006:UseSafeHandleToEncapsulateNativeResources", Justification = "Window handles are unmanaged singltons")]
         private IntPtr gcNativeWindowHandle = IntPtr.Zero;
         private Point gcNativeClientPointStart = Point.Empty;
@@ -36,89 +36,89 @@
 
         #region Public Events
         public static event EventHandler<int> StepComplete = (null1, null2) => { };
-		#endregion
+        #endregion
 
-		#region Public Properties
-		public static bool CancelCombine { get; set; }
+        #region Public Properties
+        public static bool CancelCombine { get; set; }
 
-		public static bool Enabled { get; set; }
+        public static bool Enabled { get; set; }
 
-		public static InstructionCollection Instructions { get; set; }
+        public static InstructionCollection Instructions { get; set; }
 
-		public static int SleepTime { get; set; } = 0;
-		#endregion
+        public static int SleepTime { get; set; } = 0;
+        #endregion
 
-		#region Public Methods
-		public void PerformCombine(int mSteps)
-		{
+        #region Public Methods
+        public void PerformCombine(int mSteps)
+        {
             if (!Enabled)
-			{
-				return;
-			}
+            {
+                return;
+            }
 
             const ushort KeyD = 'D'; // = 0x44;
             const ushort KeyG = 'G'; // = 0x47;
             const ushort KeyU = 'U'; // = 0x55;
             const ushort KeyDot = 0xBE; // hide info box
 
-			Rectangle clientRect;
-			resolutionRatio = 1; // set the default ratio back to 1
+            Rectangle clientRect;
+            resolutionRatio = 1; // set the default ratio back to 1
 
-			IntPtr gemcraftHandle = FindWindow(GemcraftClassName, GemcraftWindowName);
+            IntPtr gemcraftHandle = FindWindow(GemcraftClassName, GemcraftWindowName);
 
             this.gcNativeClientPointStart = Cursor.Position;
             this.gcNativeWindowHandle = WindowFromPoint(this.gcNativeClientPointStart);
             ScreenToClient(this.gcNativeWindowHandle, ref this.gcNativeClientPointStart);
 
-			// Verify that Gemcraft is a running process.
-			if (gemcraftHandle == IntPtr.Zero)
-			{
+            // Verify that Gemcraft is a running process.
+            if (gemcraftHandle == IntPtr.Zero)
+            {
                 // Gemcraft Steam verison not running, defaulting back to flash version
                 // SetForegroundWindow(this.gcNativeWindowHandle);
                 // PressMouse();
                 // ReleaseMouse(); // Just to give focus to the window
-			}
-			else
-			{
-				// set gemcraft window focus
-				SetForegroundWindow(gemcraftHandle);
+            }
+            else
+            {
+                // set gemcraft window focus
+                SetForegroundWindow(gemcraftHandle);
 
-				// grab window size
-				GetClientRect(gemcraftHandle, out clientRect);
+                // grab window size
+                GetClientRect(gemcraftHandle, out clientRect);
 
-				double width = clientRect.Width;
-				double height = clientRect.Height;
-				double ratio = NativeScreenWidth / NativeScreenHeight; // 1088x612//1.7777
-				double newHeight = width / ratio;
-				double newWidth = height * ratio;
+                double width = clientRect.Width;
+                double height = clientRect.Height;
+                double ratio = NativeScreenWidth / NativeScreenHeight; // 1088x612//1.7777
+                double newHeight = width / ratio;
+                double newWidth = height * ratio;
 
-				// Please modify if there is a better way.
+                // Please modify if there is a better way.
                 // Max: Is native aspect ratio forced at all resolutions?
-				if (newHeight <= height)
-				{
-					resolutionRatio = width / NativeScreenWidth;
-				}
-				else if (newWidth <= width)
-				{
-					resolutionRatio = height / NativeScreenHeight;
-				}
+                if (newHeight <= height)
+                {
+                    resolutionRatio = width / NativeScreenWidth;
+                }
+                else if (newWidth <= width)
+                {
+                    resolutionRatio = height / NativeScreenHeight;
+                }
 
-				/*
-				MessageBox.Show("newheight="+newheight.ToString("0.#####")+
-				 " newwidth="+newwidth.ToString("0.#####")+
-				 " height="+height.ToString("0.#####")+
-				 " width="+width.ToString("0.#####")+
-				 " ratio="+ratio.ToString("0.#####")+
-				 " resolutionRatio="+resolutionRatio.ToString("0.#####"));
-				 return;
-				*/
-			}
+                /*
+                MessageBox.Show("newheight="+newheight.ToString("0.#####")+
+                 " newwidth="+newwidth.ToString("0.#####")+
+                 " height="+height.ToString("0.#####")+
+                 " width="+width.ToString("0.#####")+
+                 " ratio="+ratio.ToString("0.#####")+
+                 " resolutionRatio="+resolutionRatio.ToString("0.#####"));
+                 return;
+                */
+            }
 
-			CancelCombine = false;
-			if (Settings.Default.HidePanels)
-			{
-				this.PressKey(KeyDot, NativeMethods.scancode_dot); // hide info box
-			}
+            CancelCombine = false;
+            if (Settings.Default.HidePanels)
+            {
+                this.PressKey(KeyDot, NativeMethods.scancode_dot); // hide info box
+            }
 
             mSteps--; // Visually 1-based, but internally 0-based
 
@@ -200,29 +200,29 @@
             }
 
             if (Settings.Default.HidePanels)
-			{
-				this.PressKey(KeyDot, NativeMethods.scancode_dot); // show info box
-			}
-		}
-		#endregion
+            {
+                this.PressKey(KeyDot, NativeMethods.scancode_dot); // show info box
+            }
+        }
+        #endregion
 
-		#region Private Methods
-		private static Point GetSlotPos(int s)
-		{
-			int row = s / 3;
-			int column = s % 3;
-			return new Point(column, row);
-		}
+        #region Private Methods
+        private static Point GetSlotPos(int s)
+        {
+            int row = s / 3;
+            int column = s % 3;
+            return new Point(column, row);
+        }
 
-		private Point GetSlotCursorPoint(int slot)
-		{
-			if (slot == -1)
-			{
-				return new Point(this.gcNativeClientPointStart.X - (int)(-0.5 * SlotSize * resolutionRatio), this.gcNativeClientPointStart.Y - (int)(12.8 * SlotSize * resolutionRatio));
-			}
+        private Point GetSlotCursorPoint(int slot)
+        {
+            if (slot == -1)
+            {
+                return new Point(this.gcNativeClientPointStart.X - (int)(-0.5 * SlotSize * resolutionRatio), this.gcNativeClientPointStart.Y - (int)(12.8 * SlotSize * resolutionRatio));
+            }
 
-			var cursorDestination = GetSlotPos(slot);
-			var scaledPoint = new Point(
+            var cursorDestination = GetSlotPos(slot);
+            var scaledPoint = new Point(
                 this.gcNativeClientPointStart.X - (int)(cursorDestination.X * SlotSize * resolutionRatio),
                 this.gcNativeClientPointStart.Y - (int)(cursorDestination.Y * SlotSize * resolutionRatio));
 
@@ -230,7 +230,7 @@
         }
 
         private void PressKey(ushort keyCode, byte scancode)
-		{
+        {
             IntPtr code = new IntPtr(1 + (((int)scancode) << 16));
             NativeMethods.PostMessage(this.gcNativeWindowHandle, NativeMethods.WmKeyDown, new IntPtr(keyCode), code);
             code += (int)1 << 30;

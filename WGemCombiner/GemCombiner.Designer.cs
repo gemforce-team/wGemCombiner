@@ -1,33 +1,33 @@
 ﻿namespace WGemCombiner
 {
-	partial class GemCombiner
-	{
-		/// <summary>
-		/// Required designer variable.
-		/// </summary>
-		private System.ComponentModel.IContainer components = null;
+    partial class GemCombiner
+    {
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
 
-		/// <summary>
-		/// Clean up any resources being used.
-		/// </summary>
-		/// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-		protected override void Dispose(bool disposing)
-		{
-			if (disposing && (components != null))
-			{
-				components.Dispose();
-			}
-			base.Dispose(disposing);
-		}
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
 
-		#region Windows Form Designer generated code
+        #region Windows Form Designer generated code
 
-		/// <summary>
-		/// Required method for Designer support - do not modify
-		/// the contents of this method with the code editor.
-		/// </summary>
-		private void InitializeComponent()
-		{
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GemCombiner));
             this.schemeLabel = new System.Windows.Forms.Label();
             this.parseRecipeParButton = new System.Windows.Forms.Button();
@@ -191,7 +191,7 @@
             // 
             // combineComboBox
             // 
-            this.combineComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.combineComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
             | System.Windows.Forms.AnchorStyles.Left)));
             this.combineComboBox.DropDownHeight = 242;
             this.combineComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
@@ -208,7 +208,7 @@
             // 
             // colorComboBox
             // 
-            this.colorComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.colorComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
             | System.Windows.Forms.AnchorStyles.Left)));
             this.colorComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.colorComboBox.Font = new System.Drawing.Font("Consolas", 9.75F);
@@ -233,7 +233,7 @@
             // 
             // resultLabel
             // 
-            this.resultLabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            this.resultLabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.resultLabel.Font = new System.Drawing.Font("Consolas", 9F);
             this.resultLabel.ImeMode = System.Windows.Forms.ImeMode.NoControl;
@@ -247,8 +247,8 @@
             // recipeInputRichTextBox
             // 
             this.recipeInputRichTextBox.AcceptsTab = true;
-            this.recipeInputRichTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.recipeInputRichTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.recipeInputRichTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.recipeInputRichTextBox.Location = new System.Drawing.Point(12, 86);
@@ -303,7 +303,7 @@
             // 
             // instructionsTextBox
             // 
-            this.instructionsTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.instructionsTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.instructionsTextBox.BackColor = System.Drawing.SystemColors.Window;
             this.instructionsTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -356,7 +356,7 @@
             // 
             // combineProgressBar
             // 
-            this.combineProgressBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            this.combineProgressBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.combineProgressBar.BackColor = System.Drawing.SystemColors.Window;
             this.combineProgressBar.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -417,33 +417,33 @@
             this.ResumeLayout(false);
             this.PerformLayout();
 
-		}
+        }
 
-		#endregion
+        #endregion
 
-		private System.Windows.Forms.Label schemeLabel;
-		private System.Windows.Forms.Button parseRecipeParButton;
-		private System.Windows.Forms.Label instructionsLabel;
-		private System.Windows.Forms.Button combineButton;
-		private System.Windows.Forms.Label delayLabel;
-		private System.Windows.Forms.NumericUpDown delayNumeric;
-		private System.Windows.Forms.Label stepLabel;
-		private System.Windows.Forms.NumericUpDown stepNumeric;
-		private System.Windows.Forms.Button helpButton;
-		private System.Windows.Forms.Button exitButton;
-		private System.Windows.Forms.Button optionsButton;
-		private System.Windows.Forms.ComboBox combineComboBox;
-		private System.Windows.Forms.ComboBox colorComboBox;
-		private System.Windows.Forms.Label gemLocationsLabel;
-		private System.Windows.Forms.Label resultLabel;
-		private System.Windows.Forms.RichTextBox recipeInputRichTextBox;
-		private System.Windows.Forms.ListBox baseGemsListBox;
-		private WGemCombiner.TextProgressBar combineProgressBar;
-		private System.Windows.Forms.NumericUpDown slotLimitUpDown;
-		private System.Windows.Forms.Label slotLimitLabel;
-		private System.Windows.Forms.RichTextBox instructionsTextBox;
-		private System.Windows.Forms.Button testAllButton;
-		private System.Windows.Forms.Button parseRecipeEqsButton;
-		private System.Windows.Forms.Label label1;
-	}
+        private System.Windows.Forms.Label schemeLabel;
+        private System.Windows.Forms.Button parseRecipeParButton;
+        private System.Windows.Forms.Label instructionsLabel;
+        private System.Windows.Forms.Button combineButton;
+        private System.Windows.Forms.Label delayLabel;
+        private System.Windows.Forms.NumericUpDown delayNumeric;
+        private System.Windows.Forms.Label stepLabel;
+        private System.Windows.Forms.NumericUpDown stepNumeric;
+        private System.Windows.Forms.Button helpButton;
+        private System.Windows.Forms.Button exitButton;
+        private System.Windows.Forms.Button optionsButton;
+        private System.Windows.Forms.ComboBox combineComboBox;
+        private System.Windows.Forms.ComboBox colorComboBox;
+        private System.Windows.Forms.Label gemLocationsLabel;
+        private System.Windows.Forms.Label resultLabel;
+        private System.Windows.Forms.RichTextBox recipeInputRichTextBox;
+        private System.Windows.Forms.ListBox baseGemsListBox;
+        private WGemCombiner.TextProgressBar combineProgressBar;
+        private System.Windows.Forms.NumericUpDown slotLimitUpDown;
+        private System.Windows.Forms.Label slotLimitLabel;
+        private System.Windows.Forms.RichTextBox instructionsTextBox;
+        private System.Windows.Forms.Button testAllButton;
+        private System.Windows.Forms.Button parseRecipeEqsButton;
+        private System.Windows.Forms.Label label1;
+    }
 }

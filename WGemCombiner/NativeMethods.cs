@@ -1,15 +1,15 @@
 ﻿namespace WGemCombiner
 {
-	using System;
-	using System.Drawing;
-	using System.Runtime.InteropServices;
-	using System.Windows.Forms;
+    using System;
+    using System.Drawing;
+    using System.Runtime.InteropServices;
+    using System.Windows.Forms;
 
-	internal static class NativeMethods
-	{
-		#region Public Constants
-		public const int WmSetRedraw = 0xB;
-		public const int WmNclButtonDown = 0xA1;
+    internal static class NativeMethods
+    {
+        #region Public Constants
+        public const int WmSetRedraw = 0xB;
+        public const int WmNclButtonDown = 0xA1;
         public const int WmMouseMove = 0x0200;
         public const int WmLButtonDown = 0x0201;
         public const int WmLButtonUp = 0x0202;
@@ -33,7 +33,7 @@
 
         #region External Methods
         [DllImport("user32.dll", CharSet = CharSet.Unicode)]
-		public static extern IntPtr FindWindow(string lpClassName, string lpWindowName); // find gemcraft window
+        public static extern IntPtr FindWindow(string lpClassName, string lpWindowName); // find gemcraft window
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Portability", "CA1901:PInvokeDeclarationsShouldBePortable", MessageId = "0", Justification = "Known Microsoft Bug")]
         [DllImport("user32.dll")]
@@ -44,38 +44,38 @@
         public static extern bool ScreenToClient(IntPtr hWnd, ref Point p);
 
         [DllImport("user32.dll")]
-		public static extern short GetAsyncKeyState(Keys vKey);
+        public static extern short GetAsyncKeyState(Keys vKey);
 
-		[DllImport("user32.dll")]
-		[return: MarshalAs(UnmanagedType.Bool)]
-		public static extern bool GetClientRect(IntPtr hWnd, out Rectangle lpRect); // grab the demensions of the window
+        [DllImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool GetClientRect(IntPtr hWnd, out Rectangle lpRect); // grab the demensions of the window
 
         [return: MarshalAs(UnmanagedType.Bool)]
         [DllImport("user32.dll", SetLastError = true)]
         public static extern bool PostMessage(IntPtr hWnd, uint Msg, IntPtr wParam, IntPtr lParam);
 
         // [DllImport("user32.dll")]
-		// public static extern void keybd_event(byte bVk, byte bScan, uint dwFlags, UIntPtr dwExtraInfo);
-		[DllImport("user32.dll")]
-		public static extern uint MapVirtualKey(uint uCode, uint uMapType);
+        // public static extern void keybd_event(byte bVk, byte bScan, uint dwFlags, UIntPtr dwExtraInfo);
+        [DllImport("user32.dll")]
+        public static extern uint MapVirtualKey(uint uCode, uint uMapType);
 
-		// [DllImport("user32.dll")]
-		// public static extern void mouse_event(uint dwFlags, uint dx, uint dy, uint cButtons, UIntPtr dwExtraInfo);
-		[DllImport("user32.dll")]
-		[return: MarshalAs(UnmanagedType.Bool)]
-		public static extern bool ReleaseCapture();
+        // [DllImport("user32.dll")]
+        // public static extern void mouse_event(uint dwFlags, uint dx, uint dy, uint cButtons, UIntPtr dwExtraInfo);
+        [DllImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool ReleaseCapture();
 
         // [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
         // public static extern bool SendNotifyMessage(IntPtr hWnd, uint Msg, UIntPtr wParam, IntPtr lParam);
         [DllImport("user32.dll")]
-		public static extern IntPtr SendMessage(IntPtr hWnd, int Msg, IntPtr wParam, IntPtr lParam);
+        public static extern IntPtr SendMessage(IntPtr hWnd, int Msg, IntPtr wParam, IntPtr lParam);
 
-		[DllImport("user32.dll")]
-		[return: MarshalAs(UnmanagedType.Bool)]
-		public static extern bool SetForegroundWindow(IntPtr hWnd); // set focus to the window
+        [DllImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool SetForegroundWindow(IntPtr hWnd); // set focus to the window
 
-		[DllImport("uxtheme.dll", CharSet = CharSet.Unicode)]
-		public static extern int SetWindowTheme(IntPtr hWnd, string appname, string idlist);
+        [DllImport("uxtheme.dll", CharSet = CharSet.Unicode)]
+        public static extern int SetWindowTheme(IntPtr hWnd, string appname, string idlist);
         #endregion
     }
 }
