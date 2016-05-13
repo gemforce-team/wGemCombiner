@@ -20,7 +20,7 @@
         private const double NativeScreenHeight = 612; // 1088 x 612 says spy++, 600 flash version
         private const double NativeScreenWidth = 1088;
         private const int SlotSize = 28;
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2006:UseSafeHandleToEncapsulateNativeResources", Justification = "Window handles are unmanaged singltons")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2006:UseSafeHandleToEncapsulateNativeResources", Justification = "Window handles are unmanaged singletons")]
         private IntPtr gcNativeWindowHandle = IntPtr.Zero;
         private Point gcNativeClientPointStart = Point.Empty;
         #endregion
@@ -73,7 +73,7 @@
             // Verify that Gemcraft is a running process.
             if (gemcraftHandle == IntPtr.Zero)
             {
-                // Gemcraft Steam verison not running, defaulting back to flash version
+                // Gemcraft Steam version not running, defaulting back to flash version
                 // SetForegroundWindow(this.gcNativeWindowHandle);
                 // PressMouse();
                 // ReleaseMouse(); // Just to give focus to the window
@@ -130,7 +130,7 @@
              *    Instead, I'm using a "high performance counter" for accurate microsecond timing; in C# this is the
              *  Stopwatch class. I send out 20ms worth of commands beyond than the time-math indicates, then sleep.
              *  Upon waking, I calculate how many instructions should have been sent out while we were sleeping,
-             *  and send out the appropriate number. The count will always be a fixed/consistant number ahead.
+             *  and send out the appropriate number. The count will always be a fixed/consistent number ahead.
              *    This makes sure GemCraft has plenty of instructions to be working on; intra-instruction delays are irrelevant
              *  with this method, we only care about overfilling the message queue which happens when 600+ instructions
              *  are sent in advance. Ideally, we want to keep the message queue at around 50 messages for maximum speed.

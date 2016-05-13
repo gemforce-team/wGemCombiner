@@ -194,7 +194,7 @@
             // the combining while the focus is still on the DelayNumeric control will insert a '9' into the field
             // and create a race condition that might leave the combining to go very slow.
             // Cancelling the "hotkey waiting mode" forces the user to press the 'combine' button, moving keyboard focus
-            // away from the DelayNumeric field whe he/she is ready.
+            // away from the DelayNumeric field when he/she is ready.
             this.asyncWaiting = false;
             this.GuessEta();
         }
@@ -286,7 +286,7 @@
             // Abort "hotkey waiting mode" when SlotLimitUpDown's value changes.  Pressing '9' to start
             // the combining while the focus is still here will insert a '9' into the field
             // Cancelling the "hotkey waiting mode" forces the user to press the 'combine' button, moving keyboard focus
-            // away from this field whe he/she is ready.
+            // away from this field when he/she is ready.
             this.asyncWaiting = false;
             Combiner.SlotLimit = (int)this.slotLimitUpDown.Value;
         }
@@ -299,7 +299,7 @@
             // Abort "hotkey waiting mode" when StepNumeric's value changes.  Pressing '9' to start
             // the combining while the focus is still here will insert a '9' into the field
             // Cancelling the "hotkey waiting mode" forces the user to press the 'combine' button, moving keyboard focus
-            // away from this field whe he/she is ready.
+            // away from this field when he/she is ready.
             this.asyncWaiting = false;
             this.GuessEta();
         }
