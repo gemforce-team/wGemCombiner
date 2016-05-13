@@ -408,7 +408,6 @@
             this.Name = "GemCombiner";
             this.Text = "Gem Combiner .12a";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.GemCombiner_FormClosing);
-            this.Load += new System.EventHandler(this.GemCombiner_Load);
             this.Shown += new System.EventHandler(this.GemCombiner_Shown);
             this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.GemCombiner_MouseDown);
             ((System.ComponentModel.ISupportInitialize)(this.delayNumeric)).EndInit();

@@ -563,7 +563,6 @@
             SettingsHandler.ChangeFormSize(this);
             SettingsHandler.ApplySkin(this);
         }
-        #endregion
 
         private void GemCombiner_Shown(object sender, EventArgs e)
         {
@@ -573,9 +572,6 @@
                 Settings.Default.FirstTimeOpen = false;
             }
         }
-
-        private void GemCombiner_Load(object sender, EventArgs e)
-        {
-        }
+        #endregion
     }
 }
