@@ -7,21 +7,22 @@
 	using Properties;
 	using static NativeMethods;
 
-	internal static class CombinePerformer
+	internal class CombinePerformer
 	{
-		#region Private Constants
-		private const string GemcraftClassName = "ApolloRuntimeContentWindow";
+        #region Fields
+        private static double resolutionRatio = 1;
+        #endregion
+
+        #region Private Constants
+        private const string GemcraftClassName = "ApolloRuntimeContentWindow";
 		private const string GemcraftWindowName = "GemCraft Chasing Shadows";
 		private const uint KeyEventFKeyUp = 0x2;
 		private const double NativeScreenHeight = 612; // 1088 x 612 says spy++, 600 flash version
 		private const double NativeScreenWidth = 1088;
 		private const int SlotSize = 28;
-		#endregion
-
-		#region Fields
-		private static Point cursorStart;
-
-		private static double resolutionRatio = 1;
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2006:UseSafeHandleToEncapsulateNativeResources", Justification = "Window handles are unmanaged singltons")]
+        private IntPtr gcNativeWindowHandle = IntPtr.Zero;
+        private Point gcNativeClientPointStart = Point.Empty;
 		#endregion
 
 		#region Public Events
@@ -35,33 +36,40 @@
 
 		public static InstructionCollection Instructions { get; set; }
 
-		public static int SleepTime { get; set; } = 33;
+		public static int SleepTime { get; set; } = 0;
 		#endregion
 
 		#region Public Methods
-		public static void PerformCombine(int mSteps)
+		public void PerformCombine(int mSteps)
 		{
 			if (!Enabled)
 			{
 				return;
 			}
 
-			const byte KeyD = 0x44;
-			// const byte KeyG = 0x47;
-			const byte KeyU = 0x55;
-			const byte KeyDot = 0xBE; // hide info box
+            const ushort KeyD = 'D'; // = 0x44;
+            const ushort KeyG = 'G'; // = 0x47;
+            const ushort KeyU = 'U'; // = 0x55;
+            const ushort KeyDot = 0xBE; // hide info box
 
 			Rectangle clientRect;
 			resolutionRatio = 1; // set the default ratio back to 1
 
 			IntPtr gemcraftHandle = FindWindow(GemcraftClassName, GemcraftWindowName);
 
+            this.gcNativeClientPointStart = Cursor.Position;
+            this.gcNativeWindowHandle = WindowFromPoint(this.gcNativeClientPointStart);
+            ScreenToClient(this.gcNativeWindowHandle, ref this.gcNativeClientPointStart);
+            // System.Diagnostics.Debug.WriteLine("Window Handle: {0:X8} Client Rect: ({1},{2})", this.gcNativeWindowHandle, this.gcNativeClientPointStart.X, this.gcNativeClientPointStart.Y);
+            // return;
+
 			// Verify that Gemcraft is a running process.
 			if (gemcraftHandle == IntPtr.Zero)
 			{
-				// Gemcraft Steam verison not running, defaulting back to flash version
-				PressMouse();
-				ReleaseMouse(); // Just to give focus to the window
+                // Gemcraft Steam verison not running, defaulting back to flash version
+                // SetForegroundWindow(this.gcNativeWindowHandle);
+                // PressMouse();
+                // ReleaseMouse(); // Just to give focus to the window
 			}
 			else
 			{
@@ -78,6 +86,7 @@
 				double newWidth = height * ratio;
 
 				// Please modify if there is a better way.
+                // Max: Is native aspect ratio forced at all resolutions?
 				if (newHeight <= height)
 				{
 					resolutionRatio = width / NativeScreenWidth;
@@ -99,10 +108,9 @@
 			}
 
 			CancelCombine = false;
-			cursorStart = Cursor.Position;
 			if (Settings.Default.HidePanels)
 			{
-				PressKey(KeyDot); // hide info box
+				this.PressKey(KeyDot, NativeMethods.scancode_dot); // hide info box
 			}
 
 			mSteps--; // Visually 1-based, but internally 0-based
@@ -113,22 +121,26 @@
 				switch (instruction.Action)
 				{
 					case ActionType.Duplicate:
-						MoveCursorToSlot(instruction.From);
-						PressKey(KeyD);
+						this.MoveMouse(this.GetSlotCursorPoint(instruction.From), false);
+Thread.Sleep(20);
+						this.PressKey(KeyD, NativeMethods.scancode_D);
 						break;
 					case ActionType.Upgrade:
-						MoveCursorToSlot(instruction.From);
-						PressKey(KeyU);
+						this.MoveMouse(this.GetSlotCursorPoint(instruction.From), false);
+Thread.Sleep(20);
+						this.PressKey(KeyU, NativeMethods.scancode_U);
 						break;
 					case ActionType.Combine:
-						// Do NOT use the G key here. At least in the Steam version, combining gems without a sufficient delay will fail with the key, where the mouse moves appear to be buffered and will succeed.
-						MoveCursorToSlot(-1);
-						PressMouse();
-						ReleaseMouse();
-						MoveCursorToSlot(instruction.From);
-						PressMouse();
-						MoveCursorToSlot(instruction.To);
-						ReleaseMouse();
+                        // Do NOT use the G key here. At least in the Steam version, combining gems without a sufficient delay will fail with the key, where the mouse moves appear to be buffered and will succeed.
+                        // GetSlotCursorPoint(-1);
+                        // PressMouse();
+                        // ReleaseMouse();
+                        Point destCursorPoint = this.GetSlotCursorPoint(instruction.To);
+
+                        this.PressKey(KeyG, NativeMethods.scancode_G);
+                        this.PressMouse(this.GetSlotCursorPoint(instruction.From));
+                        // this.MoveMouse(destCursorPoint, true);
+						this.ReleaseMouse(destCursorPoint, true);
 						break;
 				}
 
@@ -141,7 +153,7 @@
 
 			if (Settings.Default.HidePanels)
 			{
-				PressKey(KeyDot); // show info box
+				this.PressKey(KeyDot, NativeMethods.scancode_dot); // show info box
 			}
 		}
 		#endregion
@@ -154,41 +166,65 @@
 			return new Point(column, row);
 		}
 
-		private static void MoveCursorToSlot(int slot)
+		private Point GetSlotCursorPoint(int slot)
 		{
 			if (slot == -1)
 			{
-				Cursor.Position = new Point(cursorStart.X - (int)(-0.5 * SlotSize * resolutionRatio), cursorStart.Y - (int)(12.8 * SlotSize * resolutionRatio));
-				return;
+				return new Point(this.gcNativeClientPointStart.X - (int)(-0.5 * SlotSize * resolutionRatio), this.gcNativeClientPointStart.Y - (int)(12.8 * SlotSize * resolutionRatio));
 			}
 
 			var cursorDestination = GetSlotPos(slot);
 			var scaledPoint = new Point(
-				cursorStart.X - (int)(cursorDestination.X * SlotSize * resolutionRatio),
-				cursorStart.Y - (int)(cursorDestination.Y * SlotSize * resolutionRatio));
-			Cursor.Position = scaledPoint;
+                this.gcNativeClientPointStart.X - (int)(cursorDestination.X * SlotSize * resolutionRatio),
+                this.gcNativeClientPointStart.Y - (int)(cursorDestination.Y * SlotSize * resolutionRatio));
 			if (Settings.Default.ExtremeLag)
 			{
 				Thread.Sleep(SleepTime / 2);
 			}
-		}
 
-		private static void PressKey(byte keyCode)
+            return scaledPoint;
+        }
+
+        private void PressKey(ushort keyCode, byte scancode)
 		{
-			if (Settings.Default.IEFix)
-			{
-				PressMouse();
-				ReleaseMouse();
-			}
+            IntPtr code = new IntPtr(1 + (((int)scancode) << 16));
+            NativeMethods.SendMessage(this.gcNativeWindowHandle, NativeMethods.WmKeyDown, new IntPtr(keyCode), code);
+            code += (int)1 << 30;
+            NativeMethods.SendMessage(this.gcNativeWindowHandle, NativeMethods.WmKeyUp, new IntPtr(keyCode), code);
+        }
 
-			keybd_event(keyCode, 0, 0, UIntPtr.Zero);
-			Thread.Sleep(3);
-			keybd_event(keyCode, 0, KeyEventFKeyUp, UIntPtr.Zero);
-		}
+        // private void PressMouse() => mouse_event(2, 0, 0, 0, UIntPtr.Zero);
+        private void PressMouse(Point p)
+        {
+            IntPtr xy = new IntPtr((short)p.X + ((int)((short)p.Y) << 16));
+            System.Diagnostics.Debug.WriteLine("Dn: {0:X8} Rect: ({1},{2}) [{3}]", this.gcNativeWindowHandle, p.X, p.Y, xy);
+            // NativeMethods.PostMessage(this.gcNativeWindowHandle, NativeMethods.WmLButtonDown, new IntPtr(1), xy);
+            NativeMethods.SendMessage(this.gcNativeWindowHandle, NativeMethods.WmLButtonDown, new IntPtr(1), xy);
+        }
 
-		private static void PressMouse() => mouse_event(2, 0, 0, 0, UIntPtr.Zero);
+        private void ReleaseMouse(Point p, bool wait)
+        {
+            IntPtr xy = new IntPtr((short)p.X + ((int)((short)p.Y) << 16));
+            System.Diagnostics.Debug.WriteLine("Up: {0:X8} Rect: ({1},{2}) [{3}]", this.gcNativeWindowHandle, p.X, p.Y, xy);
+            if (!wait)
+            {
+                // NativeMethods.PostMessage(this.gcNativeWindowHandle, NativeMethods.WmLButtonUp, IntPtr.Zero, xy);
+                NativeMethods.SendMessage(this.gcNativeWindowHandle, NativeMethods.WmLButtonUp, IntPtr.Zero, xy);
+            }
+            else
+            {
+                NativeMethods.SendMessage(this.gcNativeWindowHandle, NativeMethods.WmLButtonUp, IntPtr.Zero, xy);
+            }
+        }
 
-		private static void ReleaseMouse() => mouse_event(4, 0, 0, 0, UIntPtr.Zero);
-		#endregion
-	}
+        private void MoveMouse(Point p, bool drag)
+        {
+            IntPtr xy = new IntPtr((short)p.X + ((int)((short)p.Y) << 16));
+            System.Diagnostics.Debug.WriteLine("Mv: {0:X8} Rect: ({1},{2}) [{3}]", this.gcNativeWindowHandle, p.X, p.Y, xy);
+            // NativeMethods.PostMessage(this.gcNativeWindowHandle, NativeMethods.WmMouseMove, drag ? new IntPtr(1) : IntPtr.Zero, xy);
+            NativeMethods.SendMessage(this.gcNativeWindowHandle, NativeMethods.WmMouseMove, drag ? new IntPtr(1) : IntPtr.Zero, xy);
+        }
+
+        #endregion
+    }
 }

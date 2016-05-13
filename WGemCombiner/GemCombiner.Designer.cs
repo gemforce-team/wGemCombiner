@@ -130,7 +130,7 @@
             0,
             0});
 			this.delayNumeric.Minimum = new decimal(new int[] {
-            10,
+            5,
             0,
             0,
             0});
@@ -138,7 +138,7 @@
 			this.delayNumeric.Size = new System.Drawing.Size(46, 20);
 			this.delayNumeric.TabIndex = 26;
 			this.delayNumeric.Value = new decimal(new int[] {
-            50,
+            5,
             0,
             0,
             0});
