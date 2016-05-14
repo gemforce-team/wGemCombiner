@@ -271,6 +271,8 @@
         //    return sb.ToString();
         //}
 
+        #endregion
+
         #region IDisposable Support
         private bool disposedValue = false; // To detect redundant calls
 
@@ -297,8 +299,6 @@
                 this.disposedValue = true;
             }
         }
-
-        #endregion
 
         #endregion
     }
