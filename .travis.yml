@@ -1,4 +1,4 @@
 language: csharp
-solution: solution-name.sln
+solution: WGemCombiner.sln
 script:
-	- xbuild /p:win32icon=Resources/graphics/GCIcon.ico /p:Configuration=Release
+    - xbuild /p:win32icon=Resources/graphics/GCIcon.ico /p:Configuration=Release
