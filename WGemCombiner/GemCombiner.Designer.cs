@@ -409,7 +409,7 @@
             this.MaximizeBox = false;
             this.MinimumSize = new System.Drawing.Size(392, 392);
             this.Name = "GemCombiner";
-            this.Text = "Gem Combiner .12a";
+            this.Text = "Gem Combiner 1.1.90";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.GemCombiner_FormClosing);
             this.Shown += new System.EventHandler(this.GemCombiner_Shown);
             this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.GemCombiner_MouseDown);
