@@ -129,6 +129,7 @@
             this.delayNumeric.Size = new System.Drawing.Size(46, 20);
             this.delayNumeric.TabIndex = 26;
             this.delayNumeric.ValueChanged += new System.EventHandler(this.DelayNumeric_ValueChanged);
+            this.delayNumeric.Validating += new System.ComponentModel.CancelEventHandler(this.NumericUpDown_Validating);
             // 
             // stepLabel
             // 
@@ -154,6 +155,7 @@
             this.stepNumeric.Size = new System.Drawing.Size(64, 20);
             this.stepNumeric.TabIndex = 26;
             this.stepNumeric.ValueChanged += new System.EventHandler(this.StepNumeric_ValueChanged);
+            this.stepNumeric.Validating += new System.ComponentModel.CancelEventHandler(this.NumericUpDown_Validating);
             // 
             // helpButton
             // 
@@ -290,6 +292,7 @@
             0,
             0});
             this.slotLimitNumeric.ValueChanged += new System.EventHandler(this.SlotLimitNumeric_ValueChanged);
+            this.slotLimitNumeric.Validating += new System.ComponentModel.CancelEventHandler(this.NumericUpDown_Validating);
             // 
             // slotLimitLabel
             // 

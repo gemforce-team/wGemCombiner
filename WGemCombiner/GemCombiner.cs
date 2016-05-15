@@ -195,24 +195,9 @@
             }
         }
 
-        private void DelayNumeric_ValueChanged(object sender, EventArgs e)
-        {
-            Settings.Default.Delay = (int)this.delayNumeric.Value;
-            this.GuessEta();
-        }
-
         private void ExitButton_Click(object sender, EventArgs e)
         {
             this.Close();
-        }
-
-        private void GemCombiner_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            CombinePerformer.Enabled = false;
-            Settings.Default.Save();
-            CombinePerformer.StepComplete -= this.CombinePerformer_StepComplete;
-            SettingsHandler.BordersChanged -= this.SettingsHandler_BordersChanged;
-            SettingsHandler.SkinChanged -= this.SettingsHandler_SkinChanged;
         }
 
         private void GemCombiner_MouseDown(object sender, MouseEventArgs e)
@@ -283,9 +268,10 @@
             }
         }
 
-        private void SlotLimitNumeric_ValueChanged(object sender, EventArgs e)
+        private void DelayNumeric_ValueChanged(object sender, EventArgs e)
         {
-            Combiner.SlotLimit = (int)this.slotLimitNumeric.Value;
+            Settings.Default.Delay = (int)this.delayNumeric.Value;
+            this.GuessEta();
         }
 
         private void StepNumeric_ValueChanged(object sender, EventArgs e)
@@ -294,6 +280,22 @@
             this.stepNumeric.Font = new Font(this.stepNumeric.Font, style);
             this.stepLabel.Font = new Font(this.stepNumeric.Font, style);
             this.GuessEta();
+        }
+
+        private void SlotLimitNumeric_ValueChanged(object sender, EventArgs e)
+        {
+            Combiner.SlotLimit = (int)this.slotLimitNumeric.Value;
+        }
+
+        private void NumericUpDown_Validating(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            // Don't let the box be empty
+            var numUpDown = (NumericUpDown)sender;
+            if (string.IsNullOrEmpty(numUpDown.Text))
+            {
+                numUpDown.Value = numUpDown.Minimum;
+                numUpDown.Text = numUpDown.Minimum.ToString(CultureInfo.CurrentCulture);
+            }
         }
 
         private void TestAll_Click(object sender, EventArgs e)
@@ -316,6 +318,16 @@
 
             MessageBox.Show("Testing complete!", "Done", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
+
+        private void GemCombiner_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            CombinePerformer.Enabled = false;
+            Settings.Default.Save();
+            CombinePerformer.StepComplete -= this.CombinePerformer_StepComplete;
+            SettingsHandler.BordersChanged -= this.SettingsHandler_BordersChanged;
+            SettingsHandler.SkinChanged -= this.SettingsHandler_SkinChanged;
+        }
+
         #endregion
 
         #region Private Static Methods
@@ -565,5 +577,6 @@
             }
         }
         #endregion
+
     }
 }

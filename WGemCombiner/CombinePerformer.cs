@@ -16,7 +16,6 @@
         #region Private Constants
         private const string GemcraftClassName = "ApolloRuntimeContentWindow";
         private const string GemcraftWindowName = "GemCraft Chasing Shadows";
-        private const uint KeyEventFKeyUp = 0x2;
         private const double NativeScreenHeight = 612; // 1088 x 612 says spy++, 600 flash version
         private const double NativeScreenWidth = 1088;
         private const int SlotSize = 28;
