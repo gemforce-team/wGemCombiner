@@ -404,7 +404,7 @@
             this.DoubleBuffered = true;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(384, 392);
+            this.MinimumSize = new System.Drawing.Size(392, 392);
             this.Name = "GemCombiner";
             this.Text = "Gem Combiner .12a";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.GemCombiner_FormClosing);
