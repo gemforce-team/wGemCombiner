@@ -46,7 +46,7 @@
             this.resultLabel = new System.Windows.Forms.Label();
             this.recipeInputRichTextBox = new System.Windows.Forms.RichTextBox();
             this.baseGemsListBox = new System.Windows.Forms.ListBox();
-            this.slotLimitUpDown = new System.Windows.Forms.NumericUpDown();
+            this.slotLimitNumeric = new System.Windows.Forms.NumericUpDown();
             this.slotLimitLabel = new System.Windows.Forms.Label();
             this.instructionsTextBox = new System.Windows.Forms.RichTextBox();
             this.testAllButton = new System.Windows.Forms.Button();
@@ -55,7 +55,7 @@
             this.combineProgressBar = new WGemCombiner.TextProgressBar();
             ((System.ComponentModel.ISupportInitialize)(this.delayNumeric)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.stepNumeric)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.slotLimitUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.slotLimitNumeric)).BeginInit();
             this.SuspendLayout();
             // 
             // schemeLabel
@@ -191,7 +191,7 @@
             // 
             // combineComboBox
             // 
-            this.combineComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            this.combineComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
             this.combineComboBox.DropDownHeight = 242;
             this.combineComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
@@ -208,7 +208,7 @@
             // 
             // colorComboBox
             // 
-            this.colorComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            this.colorComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
             this.colorComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.colorComboBox.Font = new System.Drawing.Font("Consolas", 9.75F);
@@ -233,7 +233,7 @@
             // 
             // resultLabel
             // 
-            this.resultLabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
+            this.resultLabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.resultLabel.Font = new System.Drawing.Font("Consolas", 9F);
             this.resultLabel.ImeMode = System.Windows.Forms.ImeMode.NoControl;
@@ -247,8 +247,8 @@
             // recipeInputRichTextBox
             // 
             this.recipeInputRichTextBox.AcceptsTab = true;
-            this.recipeInputRichTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
+            this.recipeInputRichTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.recipeInputRichTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.recipeInputRichTextBox.Location = new System.Drawing.Point(12, 86);
@@ -266,30 +266,30 @@
             this.baseGemsListBox.Size = new System.Drawing.Size(149, 43);
             this.baseGemsListBox.TabIndex = 42;
             // 
-            // slotLimitUpDown
+            // slotLimitNumeric
             // 
-            this.slotLimitUpDown.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.slotLimitUpDown.Location = new System.Drawing.Point(149, 341);
-            this.slotLimitUpDown.Margin = new System.Windows.Forms.Padding(6, 3, 6, 3);
-            this.slotLimitUpDown.Maximum = new decimal(new int[] {
+            this.slotLimitNumeric.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.slotLimitNumeric.Location = new System.Drawing.Point(149, 341);
+            this.slotLimitNumeric.Margin = new System.Windows.Forms.Padding(6, 3, 6, 3);
+            this.slotLimitNumeric.Maximum = new decimal(new int[] {
             36,
             0,
             0,
             0});
-            this.slotLimitUpDown.Minimum = new decimal(new int[] {
+            this.slotLimitNumeric.Minimum = new decimal(new int[] {
             5,
             0,
             0,
             0});
-            this.slotLimitUpDown.Name = "slotLimitUpDown";
-            this.slotLimitUpDown.Size = new System.Drawing.Size(45, 20);
-            this.slotLimitUpDown.TabIndex = 45;
-            this.slotLimitUpDown.Value = new decimal(new int[] {
+            this.slotLimitNumeric.Name = "slotLimitNumeric";
+            this.slotLimitNumeric.Size = new System.Drawing.Size(45, 20);
+            this.slotLimitNumeric.TabIndex = 45;
+            this.slotLimitNumeric.Value = new decimal(new int[] {
             36,
             0,
             0,
             0});
-            this.slotLimitUpDown.ValueChanged += new System.EventHandler(this.SlotLimitUpDown_ValueChanged);
+            this.slotLimitNumeric.ValueChanged += new System.EventHandler(this.SlotLimitNumeric_ValueChanged);
             // 
             // slotLimitLabel
             // 
@@ -303,7 +303,7 @@
             // 
             // instructionsTextBox
             // 
-            this.instructionsTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            this.instructionsTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.instructionsTextBox.BackColor = System.Drawing.SystemColors.Window;
             this.instructionsTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -356,7 +356,7 @@
             // 
             // combineProgressBar
             // 
-            this.combineProgressBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
+            this.combineProgressBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.combineProgressBar.BackColor = System.Drawing.SystemColors.Window;
             this.combineProgressBar.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -380,7 +380,7 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.parseRecipeEqsButton);
             this.Controls.Add(this.testAllButton);
-            this.Controls.Add(this.slotLimitUpDown);
+            this.Controls.Add(this.slotLimitNumeric);
             this.Controls.Add(this.slotLimitLabel);
             this.Controls.Add(this.combineProgressBar);
             this.Controls.Add(this.baseGemsListBox);
@@ -412,7 +412,7 @@
             this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.GemCombiner_MouseDown);
             ((System.ComponentModel.ISupportInitialize)(this.delayNumeric)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.stepNumeric)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.slotLimitUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.slotLimitNumeric)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -438,7 +438,7 @@
         private System.Windows.Forms.RichTextBox recipeInputRichTextBox;
         private System.Windows.Forms.ListBox baseGemsListBox;
         private WGemCombiner.TextProgressBar combineProgressBar;
-        private System.Windows.Forms.NumericUpDown slotLimitUpDown;
+        private System.Windows.Forms.NumericUpDown slotLimitNumeric;
         private System.Windows.Forms.Label slotLimitLabel;
         private System.Windows.Forms.RichTextBox instructionsTextBox;
         private System.Windows.Forms.Button testAllButton;

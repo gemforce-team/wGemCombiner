@@ -134,7 +134,7 @@
                 Thread.Sleep(10);
 
                 // [HR] Cancel before starting or if form is closing
-                if (GetAsyncKeyState(Keys.Escape) != 0 || !CombinePerformer.Enabled || this.asyncWaiting == false)
+                if (GetAsyncKeyState(Keys.Escape) != 0 || !CombinePerformer.Enabled)
                 {
                     this.combineButton.Text = "Combine";
                     this.asyncWaiting = false;
@@ -145,6 +145,14 @@
 
             // User pressed hotkey
             this.asyncWaiting = false;
+            if (this.recipeInputRichTextBox.Focused || this.delayNumeric.Focused || this.stepNumeric.Focused || this.slotLimitNumeric.Focused)
+            {
+                // If the user pressed the hotkey with an input element focused (s)he clearly didn't want the combine to start.
+                // Instead of going further just reset the button and return.
+                this.combineButton.Text = "Combine";
+                return;
+            }
+
             CombinePerformer.SleepTime = (int)this.delayNumeric.Value;
             this.stopwatch.Reset();
             this.stopwatch.Start();
@@ -190,12 +198,6 @@
         private void DelayNumeric_ValueChanged(object sender, EventArgs e)
         {
             Settings.Default.Delay = (int)this.delayNumeric.Value;
-            // Abort "hotkey waiting mode" when DelayNumeric's value changes.  Pressing '9' to start
-            // the combining while the focus is still on the DelayNumeric control will insert a '9' into the field
-            // and create a race condition that might leave the combining to go very slow.
-            // Cancelling the "hotkey waiting mode" forces the user to press the 'combine' button, moving keyboard focus
-            // away from the DelayNumeric field when he/she is ready.
-            this.asyncWaiting = false;
             this.GuessEta();
         }
 
@@ -281,14 +283,9 @@
             }
         }
 
-        private void SlotLimitUpDown_ValueChanged(object sender, EventArgs e)
+        private void SlotLimitNumeric_ValueChanged(object sender, EventArgs e)
         {
-            // Abort "hotkey waiting mode" when SlotLimitUpDown's value changes.  Pressing '9' to start
-            // the combining while the focus is still here will insert a '9' into the field
-            // Cancelling the "hotkey waiting mode" forces the user to press the 'combine' button, moving keyboard focus
-            // away from this field when he/she is ready.
-            this.asyncWaiting = false;
-            Combiner.SlotLimit = (int)this.slotLimitUpDown.Value;
+            Combiner.SlotLimit = (int)this.slotLimitNumeric.Value;
         }
 
         private void StepNumeric_ValueChanged(object sender, EventArgs e)
@@ -296,11 +293,6 @@
             var style = this.stepNumeric.Value == 1 ? FontStyle.Regular : FontStyle.Bold;
             this.stepNumeric.Font = new Font(this.stepNumeric.Font, style);
             this.stepLabel.Font = new Font(this.stepNumeric.Font, style);
-            // Abort "hotkey waiting mode" when StepNumeric's value changes.  Pressing '9' to start
-            // the combining while the focus is still here will insert a '9' into the field
-            // Cancelling the "hotkey waiting mode" forces the user to press the 'combine' button, moving keyboard focus
-            // away from this field when he/she is ready.
-            this.asyncWaiting = false;
             this.GuessEta();
         }
 
