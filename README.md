@@ -9,11 +9,20 @@ In-game gem combiner bot for [Gemcraft 2: Chasing Shadows](http://gameinabottle.
 Head to the [Release page] (https://github.com/gemforce-team/wGemCombiner/releases) to download the last version of the program.  
 WGemCombiner depends on .NET framework >= 4.5, included on all the newer versions of Windows.
 
-#### Supported systems:
+#### Supported operative systems:
 
 * Windows: from Vista to 10 (sorry XP users, complain with Microsoft's .NET versions)
-* Others: compiles with mono 4.2+ but neither mono-runtime nor wine can still run it correctly
+* Others: wine can run it, but it cannot send keyboard/mouse events correctly
 
+#### Supported Gemcraft versions:
+
+* Browser: all major browsers supported, zoom level MUST be 100%:
+    * Firefox: Disable (Flash protected mode)[https://support.mozilla.org/en-US/kb/adobe-flash-protected-mode-firefox]
+      for a large speed boost, best of all tested browsers
+    * Chrome: Extensive sandboxing of the Flash player makes wGC very slow here, but it works
+    * IE/Edge: Works
+* Standalone Flash player: a pain to set up, but running the browser version here makes wGC much faster, zoom level MUST be 100%
+* Steam: Supported at all resolutions
 
 ### How To:
 
@@ -40,13 +49,7 @@ A video of the combiner in action could help immensely for bugs related to inter
 
 ### Credits:
 
-wGemCombiner contributors (alphabetic order):
-
-* AG and Steam user '12345ieee'
-* AG and Steam user 'CooLTanG'
-* AG user 'Hellrage'
-* FB user 'RobinHood70'
-* Steam user 'SuuperW' aka AG user 'Suuper'
+For a list of contributors see: [LICENSE.txt](LICENSE.txt):
 
 Original author:
 
@@ -54,7 +57,7 @@ Original author:
 
 Current maintainer:
 
-* FB user 'RobinHood70'
+* AG and Steam user '12345ieee'
 
 If this project helped you and you wish to help by contributing, please contact us, leaving a
 [new issue](https://github.com/gemforce-team/wGemCombiner/issues/new) or opening a new pull request.
@@ -62,4 +65,3 @@ You can also help by donating some money for our time:
 [![PayPayl donate button](https://img.shields.io/badge/paypal-donate-yellow.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=LY6RG34S5UCTW "Donate to this project using Paypal")
 
 Gemcraft 2: Chasing Shadows was developed by [gameinabottle](http://gameinabottle.com/)
-
