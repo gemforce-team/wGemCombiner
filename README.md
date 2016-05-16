@@ -17,7 +17,7 @@ WGemCombiner depends on .NET framework >= 4.5, included on all the newer version
 #### Supported Gemcraft versions:
 
 * Browser: all major browsers supported, zoom level MUST be 100%:
-    * Firefox: Disable (Flash protected mode)[https://support.mozilla.org/en-US/kb/adobe-flash-protected-mode-firefox]
+    * Firefox: Disable [Flash protected mode](https://support.mozilla.org/en-US/kb/adobe-flash-protected-mode-firefox)
       for a large speed boost, best of all tested browsers
     * Chrome: Extensive sandboxing of the Flash player makes wGC very slow here, but it works
     * IE/Edge: Works
