@@ -55,7 +55,7 @@
             this.chooseSkinLabel.Location = new System.Drawing.Point(22, 9);
             this.chooseSkinLabel.Name = "chooseSkinLabel";
             this.chooseSkinLabel.Size = new System.Drawing.Size(82, 13);
-            this.chooseSkinLabel.TabIndex = 2;
+            this.chooseSkinLabel.TabIndex = 0;
             this.chooseSkinLabel.Text = "Choose Skin:";
             // 
             // recommendedLabel
@@ -77,7 +77,7 @@
             this.closeButton.Margin = new System.Windows.Forms.Padding(3, 9, 3, 3);
             this.closeButton.Name = "closeButton";
             this.closeButton.Size = new System.Drawing.Size(44, 23);
-            this.closeButton.TabIndex = 1;
+            this.closeButton.TabIndex = 11;
             this.closeButton.Text = "Close";
             this.closeButton.UseVisualStyleBackColor = true;
             this.closeButton.Click += new System.EventHandler(this.CloseButton_Click);
@@ -88,7 +88,7 @@
             this.alwaysOnTopCheckBox.Location = new System.Drawing.Point(12, 110);
             this.alwaysOnTopCheckBox.Name = "alwaysOnTopCheckBox";
             this.alwaysOnTopCheckBox.Size = new System.Drawing.Size(98, 17);
-            this.alwaysOnTopCheckBox.TabIndex = 7;
+            this.alwaysOnTopCheckBox.TabIndex = 6;
             this.alwaysOnTopCheckBox.Text = "Always On Top";
             this.alwaysOnTopCheckBox.UseVisualStyleBackColor = true;
             this.alwaysOnTopCheckBox.CheckedChanged += new System.EventHandler(this.AlwaysOnTopCheckBox_CheckedChanged);
@@ -99,7 +99,7 @@
             this.bordersCheckBox.Location = new System.Drawing.Point(12, 67);
             this.bordersCheckBox.Name = "bordersCheckBox";
             this.bordersCheckBox.Size = new System.Drawing.Size(104, 17);
-            this.bordersCheckBox.TabIndex = 6;
+            this.bordersCheckBox.TabIndex = 3;
             this.bordersCheckBox.Text = "Window Borders";
             this.bordersCheckBox.UseVisualStyleBackColor = true;
             this.bordersCheckBox.CheckedChanged += new System.EventHandler(this.BordersCheckBox_CheckedChanged);
@@ -113,7 +113,7 @@
             this.hotkeyTextBox.MaxLength = 1;
             this.hotkeyTextBox.Name = "hotkeyTextBox";
             this.hotkeyTextBox.Size = new System.Drawing.Size(129, 20);
-            this.hotkeyTextBox.TabIndex = 11;
+            this.hotkeyTextBox.TabIndex = 10;
             this.hotkeyTextBox.Text = "9";
             this.hotkeyTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.hotkeyTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.HotkeyTextBox_KeyDown);
@@ -126,7 +126,7 @@
             this.hotkeyLabel.Location = new System.Drawing.Point(12, 252);
             this.hotkeyLabel.Name = "hotkeyLabel";
             this.hotkeyLabel.Size = new System.Drawing.Size(121, 13);
-            this.hotkeyLabel.TabIndex = 10;
+            this.hotkeyLabel.TabIndex = 9;
             this.hotkeyLabel.Text = "Hotkey To Activate:";
             // 
             // hidePanelsCheckBox
@@ -136,7 +136,7 @@
             this.hidePanelsCheckBox.Location = new System.Drawing.Point(152, 54);
             this.hidePanelsCheckBox.Name = "hidePanelsCheckBox";
             this.hidePanelsCheckBox.Size = new System.Drawing.Size(111, 43);
-            this.hidePanelsCheckBox.TabIndex = 8;
+            this.hidePanelsCheckBox.TabIndex = 4;
             this.hidePanelsCheckBox.Text = "Automatically hide\r\ninfo panels\r\nbefore combining";
             this.hidePanelsCheckBox.UseVisualStyleBackColor = true;
             this.hidePanelsCheckBox.CheckedChanged += new System.EventHandler(this.HidePanelsCheckBox_CheckedChanged);
@@ -150,7 +150,7 @@
             this.winFormsSkinButton.Location = new System.Drawing.Point(22, 25);
             this.winFormsSkinButton.Name = "winFormsSkinButton";
             this.winFormsSkinButton.Size = new System.Drawing.Size(115, 23);
-            this.winFormsSkinButton.TabIndex = 3;
+            this.winFormsSkinButton.TabIndex = 1;
             this.winFormsSkinButton.TabStop = true;
             this.winFormsSkinButton.Tag = "NoSkin";
             this.winFormsSkinButton.Text = "Windows Forms";
@@ -169,7 +169,7 @@
             this.hellrageSkinButton.Location = new System.Drawing.Point(143, 25);
             this.hellrageSkinButton.Name = "hellrageSkinButton";
             this.hellrageSkinButton.Size = new System.Drawing.Size(115, 23);
-            this.hellrageSkinButton.TabIndex = 4;
+            this.hellrageSkinButton.TabIndex = 2;
             this.hellrageSkinButton.TabStop = true;
             this.hellrageSkinButton.Tag = "NoSkin";
             this.hellrageSkinButton.Text = "Hellrage\'s";
@@ -184,7 +184,7 @@
             this.autoCombineCheckBox.Location = new System.Drawing.Point(152, 103);
             this.autoCombineCheckBox.Name = "autoCombineCheckBox";
             this.autoCombineCheckBox.Size = new System.Drawing.Size(115, 30);
-            this.autoCombineCheckBox.TabIndex = 9;
+            this.autoCombineCheckBox.TabIndex = 7;
             this.autoCombineCheckBox.Text = "Automatically enter\r\ncombine mode";
             this.autoCombineCheckBox.UseVisualStyleBackColor = true;
             this.autoCombineCheckBox.CheckedChanged += new System.EventHandler(this.AutoCombineCheckBox_CheckedChanged);
@@ -201,7 +201,7 @@
             this.namingBufferedGroupBox.Location = new System.Drawing.Point(12, 175);
             this.namingBufferedGroupBox.Name = "namingBufferedGroupBox";
             this.namingBufferedGroupBox.Size = new System.Drawing.Size(255, 68);
-            this.namingBufferedGroupBox.TabIndex = 13;
+            this.namingBufferedGroupBox.TabIndex = 8;
             this.namingBufferedGroupBox.TabStop = false;
             this.namingBufferedGroupBox.Text = "Naming Convention";
             // 

@@ -77,7 +77,7 @@
             this.parseRecipeParButton.Location = new System.Drawing.Point(12, 204);
             this.parseRecipeParButton.Name = "parseRecipeParButton";
             this.parseRecipeParButton.Size = new System.Drawing.Size(90, 22);
-            this.parseRecipeParButton.TabIndex = 2;
+            this.parseRecipeParButton.TabIndex = 5;
             this.parseRecipeParButton.Text = "Parenthesis";
             this.parseRecipeParButton.Click += new System.EventHandler(this.ParseRecipeButton_Click);
             // 
@@ -90,7 +90,7 @@
             this.instructionsLabel.Name = "instructionsLabel";
             this.instructionsLabel.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
             this.instructionsLabel.Size = new System.Drawing.Size(67, 13);
-            this.instructionsLabel.TabIndex = 22;
+            this.instructionsLabel.TabIndex = 16;
             this.instructionsLabel.Text = "Instructions:";
             // 
             // combineButton
@@ -100,7 +100,7 @@
             this.combineButton.Location = new System.Drawing.Point(12, 367);
             this.combineButton.Name = "combineButton";
             this.combineButton.Size = new System.Drawing.Size(103, 23);
-            this.combineButton.TabIndex = 23;
+            this.combineButton.TabIndex = 14;
             this.combineButton.Text = "Combine";
             this.combineButton.Click += new System.EventHandler(this.CombineButton_Click);
             // 
@@ -111,7 +111,7 @@
             this.delayLabel.Location = new System.Drawing.Point(12, 325);
             this.delayLabel.Name = "delayLabel";
             this.delayLabel.Size = new System.Drawing.Size(37, 13);
-            this.delayLabel.TabIndex = 25;
+            this.delayLabel.TabIndex = 8;
             this.delayLabel.Text = "Delay:";
             // 
             // delayNumeric
@@ -127,7 +127,7 @@
             0});
             this.delayNumeric.Name = "delayNumeric";
             this.delayNumeric.Size = new System.Drawing.Size(46, 20);
-            this.delayNumeric.TabIndex = 26;
+            this.delayNumeric.TabIndex = 9;
             this.delayNumeric.ValueChanged += new System.EventHandler(this.DelayNumeric_ValueChanged);
             this.delayNumeric.Validating += new System.ComponentModel.CancelEventHandler(this.NumericUpDown_Validating);
             // 
@@ -138,7 +138,7 @@
             this.stepLabel.Location = new System.Drawing.Point(70, 325);
             this.stepLabel.Name = "stepLabel";
             this.stepLabel.Size = new System.Drawing.Size(67, 13);
-            this.stepLabel.TabIndex = 25;
+            this.stepLabel.TabIndex = 10;
             this.stepLabel.Text = "Start at step:";
             // 
             // stepNumeric
@@ -153,7 +153,7 @@
             0});
             this.stepNumeric.Name = "stepNumeric";
             this.stepNumeric.Size = new System.Drawing.Size(64, 20);
-            this.stepNumeric.TabIndex = 26;
+            this.stepNumeric.TabIndex = 11;
             this.stepNumeric.ValueChanged += new System.EventHandler(this.StepNumeric_ValueChanged);
             this.stepNumeric.Validating += new System.ComponentModel.CancelEventHandler(this.NumericUpDown_Validating);
             // 
@@ -165,7 +165,7 @@
             this.helpButton.Location = new System.Drawing.Point(288, 338);
             this.helpButton.Name = "helpButton";
             this.helpButton.Size = new System.Drawing.Size(68, 23);
-            this.helpButton.TabIndex = 28;
+            this.helpButton.TabIndex = 22;
             this.helpButton.Text = "Help";
             this.helpButton.Click += new System.EventHandler(this.HelpButton_Click);
             // 
@@ -176,7 +176,7 @@
             this.exitButton.Location = new System.Drawing.Point(288, 367);
             this.exitButton.Name = "exitButton";
             this.exitButton.Size = new System.Drawing.Size(68, 23);
-            this.exitButton.TabIndex = 31;
+            this.exitButton.TabIndex = 23;
             this.exitButton.Text = "Exit";
             this.exitButton.Click += new System.EventHandler(this.ExitButton_Click);
             // 
@@ -187,7 +187,7 @@
             this.optionsButton.Location = new System.Drawing.Point(207, 338);
             this.optionsButton.Name = "optionsButton";
             this.optionsButton.Size = new System.Drawing.Size(75, 23);
-            this.optionsButton.TabIndex = 32;
+            this.optionsButton.TabIndex = 20;
             this.optionsButton.Text = "Options";
             this.optionsButton.Click += new System.EventHandler(this.OptionsButton_Click);
             // 
@@ -205,7 +205,7 @@
             this.combineComboBox.Name = "combineComboBox";
             this.combineComboBox.Size = new System.Drawing.Size(186, 23);
             this.combineComboBox.Sorted = true;
-            this.combineComboBox.TabIndex = 33;
+            this.combineComboBox.TabIndex = 2;
             this.combineComboBox.SelectedIndexChanged += new System.EventHandler(this.CombineComboBox_SelectedIndexChanged);
             // 
             // colorComboBox
@@ -218,7 +218,7 @@
             this.colorComboBox.Name = "colorComboBox";
             this.colorComboBox.Size = new System.Drawing.Size(186, 23);
             this.colorComboBox.Sorted = true;
-            this.colorComboBox.TabIndex = 34;
+            this.colorComboBox.TabIndex = 1;
             this.colorComboBox.SelectedIndexChanged += new System.EventHandler(this.ColorComboBox_SelectedIndexChanged);
             // 
             // gemLocationsLabel
@@ -230,7 +230,7 @@
             this.gemLocationsLabel.Name = "gemLocationsLabel";
             this.gemLocationsLabel.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
             this.gemLocationsLabel.Size = new System.Drawing.Size(84, 13);
-            this.gemLocationsLabel.TabIndex = 36;
+            this.gemLocationsLabel.TabIndex = 18;
             this.gemLocationsLabel.Text = "Gem Locations:";
             // 
             // resultLabel
@@ -243,7 +243,7 @@
             this.resultLabel.Margin = new System.Windows.Forms.Padding(3);
             this.resultLabel.Name = "resultLabel";
             this.resultLabel.Size = new System.Drawing.Size(189, 87);
-            this.resultLabel.TabIndex = 39;
+            this.resultLabel.TabIndex = 7;
             this.resultLabel.Text = "Result Here\r\n|\r\n|\r\n|\r\n|\r\n|";
             // 
             // recipeInputRichTextBox
@@ -256,7 +256,7 @@
             this.recipeInputRichTextBox.Location = new System.Drawing.Point(12, 86);
             this.recipeInputRichTextBox.Name = "recipeInputRichTextBox";
             this.recipeInputRichTextBox.Size = new System.Drawing.Size(186, 98);
-            this.recipeInputRichTextBox.TabIndex = 40;
+            this.recipeInputRichTextBox.TabIndex = 3;
             this.recipeInputRichTextBox.Text = "";
             // 
             // baseGemsListBox
@@ -266,7 +266,7 @@
             this.baseGemsListBox.Location = new System.Drawing.Point(207, 289);
             this.baseGemsListBox.Name = "baseGemsListBox";
             this.baseGemsListBox.Size = new System.Drawing.Size(149, 43);
-            this.baseGemsListBox.TabIndex = 42;
+            this.baseGemsListBox.TabIndex = 19;
             // 
             // slotLimitNumeric
             // 
@@ -285,7 +285,7 @@
             0});
             this.slotLimitNumeric.Name = "slotLimitNumeric";
             this.slotLimitNumeric.Size = new System.Drawing.Size(45, 20);
-            this.slotLimitNumeric.TabIndex = 45;
+            this.slotLimitNumeric.TabIndex = 13;
             this.slotLimitNumeric.Value = new decimal(new int[] {
             36,
             0,
@@ -301,7 +301,7 @@
             this.slotLimitLabel.Location = new System.Drawing.Point(146, 325);
             this.slotLimitLabel.Name = "slotLimitLabel";
             this.slotLimitLabel.Size = new System.Drawing.Size(48, 13);
-            this.slotLimitLabel.TabIndex = 44;
+            this.slotLimitLabel.TabIndex = 12;
             this.slotLimitLabel.Text = "Slot limit:";
             // 
             // instructionsTextBox
@@ -316,7 +316,7 @@
             this.instructionsTextBox.ReadOnly = true;
             this.instructionsTextBox.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
             this.instructionsTextBox.Size = new System.Drawing.Size(149, 236);
-            this.instructionsTextBox.TabIndex = 46;
+            this.instructionsTextBox.TabIndex = 17;
             this.instructionsTextBox.Text = "";
             // 
             // testAllButton
@@ -327,7 +327,7 @@
             this.testAllButton.Location = new System.Drawing.Point(304, 2);
             this.testAllButton.Name = "testAllButton";
             this.testAllButton.Size = new System.Drawing.Size(52, 23);
-            this.testAllButton.TabIndex = 47;
+            this.testAllButton.TabIndex = 15;
             this.testAllButton.Text = "Test All";
             this.testAllButton.UseVisualStyleBackColor = true;
             this.testAllButton.Click += new System.EventHandler(this.TestAll_Click);
@@ -341,7 +341,7 @@
             this.parseRecipeEqsButton.Location = new System.Drawing.Point(108, 204);
             this.parseRecipeEqsButton.Name = "parseRecipeEqsButton";
             this.parseRecipeEqsButton.Size = new System.Drawing.Size(90, 22);
-            this.parseRecipeEqsButton.TabIndex = 48;
+            this.parseRecipeEqsButton.TabIndex = 6;
             this.parseRecipeEqsButton.Tag = "true";
             this.parseRecipeEqsButton.Text = "Equations";
             this.parseRecipeEqsButton.Click += new System.EventHandler(this.ParseRecipeButton_Click);
@@ -354,7 +354,7 @@
             this.label1.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(118, 13);
-            this.label1.TabIndex = 49;
+            this.label1.TabIndex = 4;
             this.label1.Text = "Parse recipe and show:";
             // 
             // combineProgressBar
@@ -369,7 +369,7 @@
             this.combineProgressBar.Size = new System.Drawing.Size(161, 23);
             this.combineProgressBar.Step = 1;
             this.combineProgressBar.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
-            this.combineProgressBar.TabIndex = 43;
+            this.combineProgressBar.TabIndex = 21;
             this.combineProgressBar.Text = null;
             this.combineProgressBar.TextColor = System.Drawing.SystemColors.ControlText;
             this.combineProgressBar.Value = 1;
