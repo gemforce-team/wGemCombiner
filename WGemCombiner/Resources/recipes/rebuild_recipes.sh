@@ -20,7 +20,7 @@ results_folder=$1
 # Mgcomb exact
 ./compress_multifile.sh mgcomb-exact.txt  $(grep -rl table_mgcexact  "${results_folder}/managem-combine/" | sort)
 # Mgcomb
-./compress_multifile.sh mgcomb.txt        $(grep -rl table_mgc6      "${results_folder}/managem-combine/" | sort)
+./compress_multifile.sh mgcomb.txt        $(grep -rlE table_mgc6\|table_mgcomb "${results_folder}/managem-combine/" | sort)
 # Mgcomb leech
 :
 
@@ -32,7 +32,7 @@ results_folder=$1
 # Kgcomb exact
 ./compress_multifile.sh kgcomb-exact.txt  $(grep -rl table_kgcexact  "${results_folder}/killgem-combine/" | sort)
 # Kgcomb
-./compress_multifile.sh kgcomb.txt        $(grep -rl table_kgc6      "${results_folder}/killgem-combine/" | sort)
+./compress_multifile.sh kgcomb.txt        $(grep -rlE table_kgc6\|table_kgcomb "${results_folder}/killgem-combine/" | sort)
 # Kgcomb bbound
 :
 
