@@ -6,7 +6,7 @@ In-game gem combiner bot for [Gemcraft 2: Chasing Shadows](http://gameinabottle.
 
 ### Get WGemCombiner:
 
-Head to the [Release page] (https://github.com/gemforce-team/wGemCombiner/releases) to download the last version of the program.  
+Head to the [Release page](https://github.com/gemforce-team/wGemCombiner/releases) to download the last version of the program.  
 WGemCombiner depends on .NET framework >= 4.5, included on all the newer versions of Windows.
 
 #### Supported operative systems:
