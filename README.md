@@ -12,7 +12,7 @@ WGemCombiner depends on .NET framework >= 4.5, included on all the newer version
 #### Supported operative systems:
 
 * Windows: from Vista to 10 (sorry XP users, complain with Microsoft's .NET versions)
-* Others: wine can run it, but it cannot send keyboard/mouse events correctly
+* Others: wine can run it, but it might not send keyboard/mouse events correctly
 
 #### Supported Gemcraft versions:
 
