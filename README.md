@@ -9,10 +9,10 @@ In-game gem combiner bot for [Gemcraft 2: Chasing Shadows](http://gameinabottle.
 Head to the [Release page](https://github.com/gemforce-team/wGemCombiner/releases) to download the last version of the program.  
 WGemCombiner depends on .NET framework >= 4.5, included on all the newer versions of Windows.
 
-#### Supported operative systems:
+#### Supported operating systems:
 
-* Windows: from Vista to 10 (sorry XP users, complain with Microsoft's .NET versions)
-* Others: wine can run it, but it might not send keyboard/mouse events correctly
+* Windows: from Vista to 10 (sorry XP users, complain to Microsoft about .NET versions)
+* Others: wine can run it, but it may not send keyboard/mouse events correctly
 
 #### Supported Gemcraft versions:
 
@@ -34,8 +34,8 @@ There is an extensive help inside the program.
 ### Administrator rights issue:
 
 The program works by sending keystrokes to the Gemcraft window.  
-In some systems this need **administrator rights**.
-If the program is not working try to run it as Administrator and check if that was the problem.
+In some systems this needs **administrator rights**.
+If the program is not working, try to run it as Administrator and check if that was the problem.
 
 
 ### Report bugs:
@@ -62,6 +62,6 @@ Current maintainer:
 If this project helped you and you wish to help by contributing, please contact us, leaving a
 [new issue](https://github.com/gemforce-team/wGemCombiner/issues/new) or opening a new pull request.
 You can also help by donating some money for our time:  
-[![PayPayl donate button](https://img.shields.io/badge/paypal-donate-yellow.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=LY6RG34S5UCTW "Donate to this project using Paypal")
+[![PayPal donate button](https://img.shields.io/badge/paypal-donate-yellow.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=LY6RG34S5UCTW "Donate to this project using Paypal")
 
 Gemcraft 2: Chasing Shadows was developed by [gameinabottle](http://gameinabottle.com/)
